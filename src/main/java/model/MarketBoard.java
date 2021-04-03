@@ -1,5 +1,7 @@
 package model;
 
+//manca costruttore!!!!
+
 public class MarketBoard {
     private Marble[][] board;
     private Marble slideMarble;
@@ -80,21 +82,21 @@ public class MarketBoard {
                 switch (board[selection[1]][i].getColore()) {
                     case white:
                         break;
-
                     case red:
                         risorseOttenute[i].setTypeResource(TypeOfResource.faith);
-
+                        break;
                     case purple:
                         risorseOttenute[i].setTypeResource(TypeOfResource.servants);
-
+                        break;
                     case grey:
                         risorseOttenute[i].setTypeResource(TypeOfResource.stones);
-
+                        break;
                     case blue:
                         risorseOttenute[i].setTypeResource(TypeOfResource.shields);
-
+                        break;
                     case yellow:
                         risorseOttenute[i].setTypeResource(TypeOfResource.coins);
+                        break;
                 }
             }
 
