@@ -1,8 +1,10 @@
 package model;
 
+import java.awt.*;
+
 public class DevelopmentCard extends  Card {
 
-    Color color;
+    private Color color;
     /**
      * cost di tipo vettore, conterrà per ogni indice la quantità di quella risorsa richiesta dalla carta
      * coins -> spazio 0
@@ -10,14 +12,14 @@ public class DevelopmentCard extends  Card {
      * shields -> spazio 2
      * stones -> spazio 3
      */
-    int[] cost;
-    int level;
-    int[] productionCost;
+    private int[] cost;
+    private int level;
+    private int[] productionCost;
     /**
      * stessa cosa di cost, l'ultimo spazio indica la fede
      * faith -> spazio 4
      */
-    int[] product;
+    private int[] product;
 
     public Color getColor() {
         return color;
