@@ -60,7 +60,7 @@ public class DepotLevel {
          */
 
         if(ToR == this.resourceType) {
-            if ((this.quantity - q) > 0) { this.quantity = this.quantity - q;
+            if ((this.quantity - q) >= 0) { this.quantity = this.quantity - q;
             return true; }
             else { System.out.println("Sorry, you don't have enough" + ToR + "!");
             return false; }
