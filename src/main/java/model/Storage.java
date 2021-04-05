@@ -20,27 +20,24 @@ public class Storage {
             levels[index2].setMaxQuantity(temp); }
     }
 
-    public void add() {
-        /*
-        ...
-         */
+    public boolean add(TypeofResource ToR, int q, int index) {
+        return levels[index].increaseQuantity(ToR, q);
     }
 
-    public void remove() {
-        /*
-        ...
-         */
+    public boolean remove(TypeofResource ToR, int q, int index) {
+        return levels[index].decreaseQuantity(ToR, q);
     }
 
-    public void getLevel() {
-        /*
-        ...
-         */
+    public model.TypeOfResource getType(int index) {
+        return levels[index].getResourceType();
     }
 
-    public void getStorage() {
-        /*
-        ...
-         */
+    public int getLevel(int index) {
+        return levels[index].getMaxQuantity();
     }
+
+    public int getStorage(int index) {
+        return levels[index].getQuantity();
+    }
+
 }

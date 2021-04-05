@@ -2,18 +2,16 @@ package model;
 
 public class DepotLevel {
 
-    private TypeOfResource resourceType;
+    private model.TypeOfResource resourceType;
     private int quantity;
     private int maxQuantity;
 
 
-    public TypeOfResource getResourceType() {
-        return resourceType;
-    }
+    public model.TypeOfResource getResourceType() {
+        /*aggiungere che se quantity = 0 ritorna NULL*/
+        return resourceType; }
 
-    public int getQuantity() {
-        return quantity;
-    }
+    public int getQuantity() { return quantity; }
 
     public int getMaxQuantity() {
         return maxQuantity;
@@ -34,7 +32,7 @@ public class DepotLevel {
         Se si prova ad aggiungere una risorsa di un tipo non consentito o se si eccede nella quantità viene mostrato il messaggio d'errore corrispondente e si restituisce false
          */
 
-        if(ToR.equals(this.resourceType)) {
+        if(ToR == this.resourceType) {
             if((this.quantity+q) <= this.maxQuantity) { this.quantity = this.quantity + q;
                 return true; }
             else { System.out.println("Sorry, you can only store" + (this.maxQuantity - this.quantity) + "more" + ToR + "in this depot!");
@@ -57,12 +55,11 @@ public class DepotLevel {
 
         /*
         Controlla che ToR corrisponda al tipo di risorsa del deposito e la quantità sia maggiore di quanto si vuole decrementare il numero di risorse
-
         Se queste condizioni sono rispettate, la quantità viene decrementata di q e viene restituito true
         altrimenti viene mostrato il messaggio di errore corrispondente e viene restituito false
          */
 
-        if(ToR.equals(this.resourceType)) {
+        if(ToR == this.resourceType) {
             if ((this.quantity - q) > 0) { this.quantity = this.quantity - q;
             return true; }
             else { System.out.println("Sorry, you don't have enough" + ToR + "!");
