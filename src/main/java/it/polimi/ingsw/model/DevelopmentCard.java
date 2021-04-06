@@ -1,6 +1,4 @@
-package model;
-
-import java.awt.*;
+package it.polimi.ingsw.model;
 
 public class DevelopmentCard extends  Card {
 

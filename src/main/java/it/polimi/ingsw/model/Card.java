@@ -1,8 +1,9 @@
-package model;
+package it.polimi.ingsw.model;
 
 public abstract class Card {
     private int pv;
     private int id;
+
 
     public int getId() {
         return id;

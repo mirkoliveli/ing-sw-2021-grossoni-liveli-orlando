@@ -1,8 +1,8 @@
-package model;
+package it.polimi.ingsw.model;
 
 public class Storage {
 
-    private model.DepotLevel[] levels;
+    private it.polimi.ingsw.model.DepotLevel[] levels;
     private int temp = 0;
 
     public void swapLevels(int index1, int index2) {
@@ -20,15 +20,15 @@ public class Storage {
             levels[index2].setMaxQuantity(temp); }
     }
 
-    public boolean add(model.TypeOfResource ToR, int q, int index) {
+    public boolean add(it.polimi.ingsw.model.TypeOfResource ToR, int q, int index) {
         return levels[index].increaseQuantity(ToR, q);
     }
 
-    public boolean remove(model.TypeOfResource ToR, int q, int index) {
+    public boolean remove(it.polimi.ingsw.model.TypeOfResource ToR, int q, int index) {
         return levels[index].decreaseQuantity(ToR, q);
     }
 
-    public model.TypeOfResource getType(int index) {
+    public it.polimi.ingsw.model.TypeOfResource getType(int index) {
         return levels[index].getResourceType();
     }
 

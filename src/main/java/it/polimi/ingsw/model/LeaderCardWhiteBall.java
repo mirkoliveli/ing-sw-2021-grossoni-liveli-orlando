@@ -1,4 +1,4 @@
-package model;
+package it.polimi.ingsw.model;
 
 public class LeaderCardWhiteBall extends LeaderCard{
     private Resource typeOfResource;

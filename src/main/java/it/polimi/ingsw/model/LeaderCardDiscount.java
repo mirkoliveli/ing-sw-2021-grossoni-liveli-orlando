@@ -1,4 +1,4 @@
-package model;
+package it.polimi.ingsw.model;
 
 public class LeaderCardDiscount extends LeaderCard{
 
