@@ -4,7 +4,7 @@ public class FaithTrack {
 
     private int faithMarker;
     private PopesFavorCard[] popesFavorCards;
-    private int lastPosition;
+    private int totalpoints;
     //mettere costrutture U.U
 
 
@@ -17,11 +17,16 @@ public class FaithTrack {
         return popesFavorCards;
     }
 
-    public int increasePosition(){
+    public void increasePosition(){
         this.faithMarker++;
     }
 
-    public int increasePosition(int faithPoints){
+    /**
+     * overload prob inutile?
+     * @param faithPoints
+     * @return
+     */
+    public void increasePosition(int faithPoints){
         for(int i=0; (i<faithPoints)||(this.faithMarker<24); i++){
             this.increasePosition();
         }
@@ -62,23 +67,49 @@ public class FaithTrack {
     public int updateScore(){
         switch (faithMarker){
             case 24: return 20;
-            break;
+
             case 21: return 16;
-            break;
+
             case 18: return 12;
-            break;
+
             case 15: return 9;
-            break;
+
             case 12: return 6;
-            break;
+
             case 9: return 4;
-            break;
+
             case 6: return 2;
-            break;
+
             case 3: return 1;
-            break;
+
             default: return -1;
         }
     }
+
+    public void Movement(int move){
+        int popespace;
+        int temp_pv=0;
+        for(int i=0; (i < move)&&(faithMarker<24); i++){
+            temp_pv=0;
+            this.increasePosition();
+            popespace=this.checkPopeSpace();
+            if(popespace!=0){
+                //attiva pope's favor, controllando prima se non è già stata attivata
+            }
+
+            temp_pv=this.updateScore();
+
+            if(temp_pv>0){
+                this.totalpoints=temp_pv;
+            }
+
+
+        }
+
+
+
+    }
+
+
 
 }

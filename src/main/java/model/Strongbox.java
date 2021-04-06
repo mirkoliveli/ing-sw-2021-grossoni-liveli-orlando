@@ -38,7 +38,7 @@ public class Strongbox {
      * @return
      */
     public boolean canBuy(int[] cost){
-        return ((cost[0]<=contents[0])&&(cost[1]<=contents[1])&&(cost[2]<=contents[2])&&(cost[3]<=contents[3]))
+        return ((cost[0]<=contents[0])&&(cost[1]<=contents[1])&&(cost[2]<=contents[2])&&(cost[3]<=contents[3]));
     }
 
     /**
@@ -63,10 +63,10 @@ public class Strongbox {
      * @param gain
      */
     public void store(int[] gain){
-        this.contents[0]=this.contents[0]-gain[0];
-        this.contents[1]=this.contents[1]-gain[1];
-        this.contents[2]=this.contents[2]-gain[2];
-        this.contents[3]=this.contents[3]-gain[3];
+        this.contents[0]=this.contents[0]+gain[0];
+        this.contents[1]=this.contents[1]+gain[1];
+        this.contents[2]=this.contents[2]+gain[2];
+        this.contents[3]=this.contents[3]+gain[3];
     }
 
 

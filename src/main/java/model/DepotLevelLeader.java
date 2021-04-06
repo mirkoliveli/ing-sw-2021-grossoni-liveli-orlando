@@ -1,6 +1,6 @@
 package model;
 
-public class DepotLevelLeader extends model.DepotLevel {
+public class DepotLevelLeader extends DepotLevel {
 
     private final model.TypeOfResource resourceTypeLeader;
 
@@ -16,7 +16,7 @@ public class DepotLevelLeader extends model.DepotLevel {
         return resourceTypeLeader;
     }
 
-    public boolean increaseQuantity(TypeofResource ToR, int q) {
+    public boolean increaseQuantity(TypeOfResource ToR, int q) {
 
         /*
         Overriding di increaseQuantity di DepotLevel, da cui differisce perché:
@@ -25,27 +25,33 @@ public class DepotLevelLeader extends model.DepotLevel {
         - se quantity = 0 non viene cambiato il tipo di risorsa contenuto, essendo un attributo finale
          */
 
-        if(ToR == this.resourceTypeLeader) {
+        if (ToR == this.resourceTypeLeader) {
             this.quantity = this.quantity + q;
-            return true; }
-
-        else { System.out.println("Sorry, you cannot store" + ToR + "in this depot!");
-            return false; }
+            return true;
+        } else {
+            System.out.println("Sorry, you cannot store" + ToR + "in this depot!");
+            return false;
+        }
     }
 
-    public boolean decreaseQuantity(TypeofResource ToR, int q) {
+    public boolean decreaseQuantity(TypeOfResource ToR, int q) {
 
         /*
         Overriding di decreaseQuantity di DepotLevel, usa resourceTypeLeader al posto di resourceType
          */
 
-        if(ToR == this.resourceTypeLeader) {
-            if ((this.quantity - q) >= 0) { this.quantity = this.quantity - q;
-                return true; }
-            else { System.out.println("Sorry, you don't have enough" + ToR + "!");
-                return false; }
+        if (ToR == this.resourceTypeLeader) {
+            if ((this.quantity - q) >= 0) {
+                this.quantity = this.quantity - q;
+                return true;
+            } else {
+                System.out.println("Sorry, you don't have enough" + ToR + "!");
+                return false;
+            }
+        } else {
+            System.out.println("Sorry, this depot does not contain" + ToR + "!");
+            return false;
         }
-        else { System.out.println("Sorry, this depot does not contain" + ToR + "!");
-            return false; }
 
+    }
 }
