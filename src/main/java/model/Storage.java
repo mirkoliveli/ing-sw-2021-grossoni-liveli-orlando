@@ -20,11 +20,11 @@ public class Storage {
             levels[index2].setMaxQuantity(temp); }
     }
 
-    public boolean add(TypeOfResource ToR, int q, int index) {
+    public boolean add(model.TypeOfResource ToR, int q, int index) {
         return levels[index].increaseQuantity(ToR, q);
     }
 
-    public boolean remove(TypeOfResource ToR, int q, int index) {
+    public boolean remove(model.TypeOfResource ToR, int q, int index) {
         return levels[index].decreaseQuantity(ToR, q);
     }
 
