@@ -17,13 +17,13 @@ public class DepotLevel {
         return maxQuantity;
     }
 
-    public void setResourceType(TypeofResource ToR) { this.resourceType = ToR; }
+    public void setResourceType(model.TypeOfResource ToR) { this.resourceType = ToR; }
 
     public void setMaxQuantity(int q) {
         this.maxQuantity = q;
     }
 
-    public boolean increaseQuantity(TypeofResource ToR, int q) {
+    public boolean increaseQuantity(model.TypeOfResource ToR, int q) {
 
         /*
         Controlla che ToR corrisponda al tipo di risorsa del deposito e la quantità da aggiungere non ecceda le dimensioni massime consentite
@@ -51,7 +51,7 @@ public class DepotLevel {
         }
     }
 
-    public boolean decreaseQuantity(TypeofResource ToR, int q) {
+    public boolean decreaseQuantity(model.TypeOfResource ToR, int q) {
 
         /*
         Controlla che ToR corrisponda al tipo di risorsa del deposito e la quantità sia maggiore di quanto si vuole decrementare il numero di risorse
