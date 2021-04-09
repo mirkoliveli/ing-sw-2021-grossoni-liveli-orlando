@@ -4,7 +4,7 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
 
 
 
-    private final TypeOfResource resourceTypeLeader; //stai creando un enum dentro una classe. fixa qui
+    private final it.polimi.ingsw.model.TypeOfResource resourceTypeLeader; //stai creando un enum dentro una classe. fixa qui
 
     public DepotLevelLeader() {
         resourceTypeLeader = null;
@@ -32,7 +32,7 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
         - se quantity = 0 non viene cambiato il tipo di risorsa contenuto, essendo un attributo finale
          */
 
-        if (ToR == this.resourceTypeLeader) {
+        if (ToR == this.getResourceType()) {
             if ((this.getQuantity() + q) <= 2) {
                 this.setQuantity(this.getQuantity() + q);
                 return true;
@@ -53,7 +53,7 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
         Overriding di decreaseQuantity di DepotLevel, usa resourceTypeLeader al posto di resourceType
          */
 
-        if (ToR == this.resourceTypeLeader) {
+        if (ToR == this.getResourceType()) {
             if ((this.getQuantity() - q) >= 0) {
                 this.setQuantity(this.getQuantity() - q) ;
                 return true;

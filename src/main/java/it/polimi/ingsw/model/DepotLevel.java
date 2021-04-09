@@ -40,22 +40,22 @@ public class DepotLevel {
         Se si prova ad aggiungere una risorsa di un tipo non consentito o se si eccede nella quantità viene mostrato il messaggio d'errore corrispondente e si restituisce false
          */
 
-        if (ToR == this.resourceType) {
-            if ((this.quantity + q) <= this.maxQuantity) {
-                this.quantity = this.quantity + q;
+        if (ToR == this.getResourceType()) {
+            if ((this.getQuantity() + q) <= this.getMaxQuantity()) {
+                this.setQuantity(this.getQuantity() + q);
                 return true;
             } else {
-                System.out.println("Sorry, you can only store" + (this.maxQuantity - this.quantity) + "more" + ToR + "in this depot!");
+                System.out.println("Sorry, you can only store" + (this.getMaxQuantity() - this.getQuantity()) + "more" + ToR + "in this depot!");
                 return false;
             }
         } else {
-            if (this.quantity == 0) {
+            if (this.getQuantity() == 0) {
                 this.setResourceType(ToR);
-                if ((this.quantity + q) <= this.maxQuantity) {
-                    this.quantity = this.quantity + q;
+                if ((this.getQuantity() + q) <= this.getMaxQuantity()) {
+                    this.setQuantity(this.getQuantity() - q);
                     return true;
                 } else {
-                    System.out.println("Sorry, you can only store" + (this.maxQuantity - this.quantity) + "more" + ToR + "in this depot!");
+                    System.out.println("Sorry, you can only store" + (this.getMaxQuantity() - this.getQuantity()) + "more" + ToR + "in this depot!");
                     return false;
                 }
             } else {
@@ -73,9 +73,9 @@ public class DepotLevel {
         altrimenti viene mostrato il messaggio di errore corrispondente e viene restituito false
          */
 
-        if (ToR == this.resourceType) {
-            if ((this.quantity - q) >= 0) {
-                this.quantity = this.quantity - q;
+        if (ToR == this.getResourceType()) {
+            if ((this.getQuantity() - q) >= 0) {
+                this.setQuantity(this.getQuantity() - q);
                 return true;
             } else {
                 System.out.println("Sorry, you don't have enough" + ToR + "!");
