@@ -6,9 +6,14 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
 
     private final it.polimi.ingsw.model.TypeOfResource resourceTypeLeader; //stai creando un enum dentro una classe. fixa qui
 
-    public DepotLevelLeader() {
+    /*public DepotLevelLeader() {
         resourceTypeLeader = null;
+    } */
+
+    public DepotLevelLeader(it.polimi.ingsw.model.TypeOfResource resourceType) {
+        this.resourceTypeLeader=resourceType;
     }
+
 
     public int getMaxQuantity() {
         return 2;
@@ -26,10 +31,10 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
     public boolean increaseQuantity(it.polimi.ingsw.model.TypeOfResource ToR, int q) {
 
         /*
-        Overriding di increaseQuantity di DepotLevel, da cui differisce perché:
-        - viene utilizzato resourceTypeLeader al posto di resourceType
-        - viene controllato che non si ecceda 2, valore fisso del deposito dei leader
-        - se quantity = 0 non viene cambiato il tipo di risorsa contenuto, essendo un attributo finale
+        Overriding of increaseQuantity from DepotLevel, with the following differences:
+        - it uses resourceTypeLeader instead of resourceType
+        - it guarantees that quantity doesn't exceed 2, which is the maximum value of leader depots
+        - if quantity = 0 it doesn't set a new resource type, as resourceTypeLeader is final
          */
 
         if (ToR == this.getResourceType()) {
@@ -37,11 +42,11 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
                 this.setQuantity(this.getQuantity() + q);
                 return true;
             } else {
-                System.out.println("Sorry, you can only store" + (2 - this.getQuantity()) + "more" + ToR + "in this depot!");
+                System.out.println("Sorry, you can only store " + (2 - this.getQuantity()) + " more " + ToR + " in this depot!");
                 return false;
             }
         } else {
-            System.out.println("Sorry, you cannot store" + ToR + "in this depot!");
+            System.out.println("Sorry, you cannot store " + ToR + " in this depot!");
             return false;
         }
     }
@@ -50,7 +55,7 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
     public boolean decreaseQuantity(it.polimi.ingsw.model.TypeOfResource ToR, int q) {
 
         /*
-        Overriding di decreaseQuantity di DepotLevel, usa resourceTypeLeader al posto di resourceType
+        Overriding of decreaseQuantity from DepotLevel, using resourceTypeLeader instead of resourceType
          */
 
         if (ToR == this.getResourceType()) {
@@ -58,11 +63,11 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
                 this.setQuantity(this.getQuantity() - q) ;
                 return true;
             } else {
-                System.out.println("Sorry, you don't have enough" + ToR + "!");
+                System.out.println("Sorry, you don't have enough " + ToR + "!");
                 return false;
             }
         } else {
-            System.out.println("Sorry, this depot does not contain" + ToR + "!");
+            System.out.println("Sorry, this depot does not contain " + ToR + "!");
             return false;
         }
 

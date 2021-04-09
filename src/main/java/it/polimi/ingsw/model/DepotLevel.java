@@ -19,8 +19,8 @@ public class DepotLevel {
     }
 
     public it.polimi.ingsw.model.TypeOfResource getResourceType() {
-        /*aggiungere che se quantity = 0 ritorna NULL*/
-        return resourceType;
+        if (this.getQuantity()==0) {return null;}
+        else { return resourceType; }
     }
 
 
@@ -48,10 +48,11 @@ public class DepotLevel {
     public boolean increaseQuantity(it.polimi.ingsw.model.TypeOfResource ToR, int q) {
 
         /*
-        Controlla che ToR corrisponda al tipo di risorsa del deposito e la quantità da aggiungere non ecceda le dimensioni massime consentite
-        Se queste condizioni sono rispettate, la quantità viene incrementata di q
-        Se ToR non corrisponde al tipo di risorsa del deposito ma la quantità vale 0, il tipo di risorsa del deposito diventa ToR e si controlla se la quantità da aggiungere non eccede le dimensioni massime consentite
-        Se si prova ad aggiungere una risorsa di un tipo non consentito o se si eccede nella quantità viene mostrato il messaggio d'errore corrispondente e si restituisce false
+
+        This methods adds q resources of the TypeOfResource ToR
+        It guarantees that ToR corresponds to the depot's resource type and quantity+q is less than or equal to maxQuantity before doing so
+        If ToR doesn't correspond to the depot's resource type and quantity = 0, it sets a new resourceType
+        If the increase ends well the method returns true, otherwise it prints an error message and returns false
          */
 
         if (ToR == this.getResourceType()) {
@@ -59,7 +60,7 @@ public class DepotLevel {
                 this.setQuantity(this.getQuantity() + q);
                 return true;
             } else {
-                System.out.println("Sorry, you can only store" + (this.getMaxQuantity() - this.getQuantity()) + "more" + ToR + "in this depot!");
+                System.out.println("Sorry, you can only store " + (this.getMaxQuantity() - this.getQuantity()) + " more " + ToR + " in this depot!");
                 return false;
             }
         } else {
@@ -69,11 +70,11 @@ public class DepotLevel {
                     this.setQuantity(this.getQuantity() - q);
                     return true;
                 } else {
-                    System.out.println("Sorry, you can only store" + (this.getMaxQuantity() - this.getQuantity()) + "more" + ToR + "in this depot!");
+                    System.out.println("Sorry, you can only store " + (this.getMaxQuantity() - this.getQuantity()) + " more " + ToR + " in this depot!");
                     return false;
                 }
             } else {
-                System.out.println("Sorry, you cannot store" + ToR + "in this depot!");
+                System.out.println("Sorry, you cannot store " + ToR + " in this depot!");
                 return false;
             }
         }
@@ -82,9 +83,9 @@ public class DepotLevel {
     public boolean decreaseQuantity(it.polimi.ingsw.model.TypeOfResource ToR, int q) {
 
         /*
-        Controlla che ToR corrisponda al tipo di risorsa del deposito e la quantità sia maggiore di quanto si vuole decrementare il numero di risorse
-        Se queste condizioni sono rispettate, la quantità viene decrementata di q e viene restituito true
-        altrimenti viene mostrato il messaggio di errore corrispondente e viene restituito false
+        This methods removes q resources of the TypeOfResource ToR
+        It guarantees that ToR corresponds to the depot's resource type and quantity is greater than q before doing so
+        If the decrease ends well the method returns true, otherwise it prints an error message and returns false
          */
 
         if (ToR == this.getResourceType()) {
@@ -92,11 +93,11 @@ public class DepotLevel {
                 this.setQuantity(this.getQuantity() - q);
                 return true;
             } else {
-                System.out.println("Sorry, you don't have enough" + ToR + "!");
+                System.out.println("Sorry, you don't have enough " + ToR + "!");
                 return false;
             }
         } else {
-            System.out.println("Sorry, this depot does not contain" + ToR + "!");
+            System.out.println("Sorry, this depot does not contain " + ToR + "!");
             return false;
         }
 
