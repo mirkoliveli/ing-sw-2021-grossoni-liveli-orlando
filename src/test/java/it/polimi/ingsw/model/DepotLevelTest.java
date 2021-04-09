@@ -1,28 +1,14 @@
-package test.java.it.polimi.ingsw.model;
+package it.polimi.ingsw.model;
 
-import static it.polimi.ingsw.model.TypeOfResource.coins;
 import org.junit.Test;
 
+import static it.polimi.ingsw.model.TypeOfResource.coins;
 import static it.polimi.ingsw.model.TypeOfResource.shields;
 import static org.junit.Assert.*;
 
-public class DepotLevel {
+public class DepotLevelTest {
 
-    private it.polimi.ingsw.model.TypeOfResource resourceType;
-    private int quantity;
-    private int maxQuantity;
 
-    public DepotLevel() {
-        resourceType=null;
-        quantity=0;
-        maxQuantity=0;
-    }
-
-    public DepotLevel(it.polimi.ingsw.model.TypeOfResource resourceType, int quantity, int maxQuantity) {
-        this.resourceType=resourceType;
-        this.quantity=quantity;
-        this.maxQuantity=maxQuantity;
-    }
 
     @org.junit.Before
     public void setUp() throws Exception {

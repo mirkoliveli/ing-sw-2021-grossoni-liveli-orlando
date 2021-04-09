@@ -6,10 +6,24 @@ public class DepotLevel {
     private int quantity;
     private int maxQuantity;
 
+    public DepotLevel() {
+        resourceType=null;
+        quantity=0;
+        maxQuantity=0;
+    }
+
+    public DepotLevel(it.polimi.ingsw.model.TypeOfResource resourceType, int quantity, int maxQuantity) {
+        this.resourceType=resourceType;
+        this.quantity=quantity;
+        this.maxQuantity=maxQuantity;
+    }
+
     public it.polimi.ingsw.model.TypeOfResource getResourceType() {
         /*aggiungere che se quantity = 0 ritorna NULL*/
         return resourceType;
     }
+
+
 
     public void setResourceType(it.polimi.ingsw.model.TypeOfResource ToR) {
         this.resourceType = ToR;
