@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+//classe completamente da progettare
+
+
+
 public class LeaderDeck {
     private LeaderCard[] deck;
 

@@ -6,6 +6,13 @@ import static org.junit.Assert.*;
 
 public class StrongboxTest {
 
+    //NOTA BENE
+    //per come è stato progettato getSpecific gli id delle risorse partono da 1 e non da 0, mentre il loro posto nel vettore
+    //contents è da 0 a 3. questo significa che getSpecific necessita un input da 1 a 4 per restituire le posizioni del vettore
+    // da 0 a 3, attennzione a non usarlo in maniera scorretta sennò si riceve un OutOfBound errror
+
+
+
 
     //test per il costruttore
     //usato principalmente per provare funzionalità dei tests

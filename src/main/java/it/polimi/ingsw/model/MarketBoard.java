@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+
+//Classe da riguardare completamente, mancano metodi e quelli presenti sono totalmente incompleti
+
+
 //manca costruttore!!!!
 
 public class MarketBoard {
@@ -102,6 +106,8 @@ public class MarketBoard {
 
 
         }
+
+
     return risorseOttenute;
     }
 

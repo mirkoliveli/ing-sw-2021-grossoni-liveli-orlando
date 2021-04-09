@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+
+//completamente da progettare
+
 /**
  * forse va rivisto tutto
  */

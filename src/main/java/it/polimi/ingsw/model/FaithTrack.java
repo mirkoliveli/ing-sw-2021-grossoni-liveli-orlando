@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+//manca interazione con giocatori per il rapporto in vaticano
+//manca un conteggio pv per le carte favore papale
+
 public class FaithTrack {
 
     private int faithMarker;
