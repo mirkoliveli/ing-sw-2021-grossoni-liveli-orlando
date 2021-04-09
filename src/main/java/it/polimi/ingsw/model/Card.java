@@ -5,6 +5,27 @@ public abstract class Card {
     private int id;
 
 
+    /**
+     * costruttore base
+     */
+    public Card(){
+        id=0;
+        pv=0;
+    }
+//----------------------------------------------------------------------------------------------------------------------
+    /**
+     * costruttori per testing e settaggi
+     * @return
+     */
+    public Card(int victorypt, int code){
+        pv=victorypt;
+        id=code;
+    }
+    public Card(int victorypt){
+        pv=victorypt;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
     public int getId() {
         return id;
     }

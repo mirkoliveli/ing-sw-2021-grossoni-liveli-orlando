@@ -12,6 +12,19 @@ public class Strongbox {
 
     public Strongbox(){
         this.contents= new int[4];
+        this.contents[0]=0;
+        this.contents[1]=0;
+        this.contents[2]=0;
+        this.contents[3]=0;
+    }
+
+    //costruttore SOLO PER TESTING DO NOT USE
+    public Strongbox(int coins, int servants, int shields, int stones){
+        this.contents= new int[4];
+        this.contents[0]=coins;
+        this.contents[1]=servants;
+        this.contents[2]=shields;
+        this.contents[3]=stones;
     }
 
     /**
@@ -45,15 +58,16 @@ public class Strongbox {
      * funzione che permette di pagare
      * @param cost
      */
-    public void remove(int[] cost){
+    public boolean remove(int[] cost){
         if(canBuy(cost)){
             this.contents[0]=this.contents[0]-cost[0];
             this.contents[1]=this.contents[1]-cost[1];
             this.contents[2]=this.contents[2]-cost[2];
             this.contents[3]=this.contents[3]-cost[3];
+            return true;
         }
         else {
-            //ritorna errore?
+            return false;
         }
 
     }

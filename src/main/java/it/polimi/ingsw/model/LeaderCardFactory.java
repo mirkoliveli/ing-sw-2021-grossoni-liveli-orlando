@@ -25,7 +25,7 @@ public class LeaderCardFactory extends LeaderCard {
      *
      */
     public Resource chooseType(){
-        Resource choice;
+        Resource choice=null;
         //...
         return choice;
     }

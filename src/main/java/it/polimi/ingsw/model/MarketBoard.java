@@ -20,8 +20,8 @@ public class MarketBoard {
      *
      */
     private Marble setBoard() {
-        Marble[][] temp;
-        Marble side;
+        Marble[][] temp=null;
+        Marble side=null;
         //...
         this.board = temp;
         return side;
@@ -72,7 +72,7 @@ public class MarketBoard {
      * possibile necessità di rivisionare il metodo per gestire più velocemente (senza step di vettore intermedio) le risorse che vanno assegnate
      */
     public Resource[] ConvertionToResource(int[] selection) {
-        Resource[] risorseOttenute;
+        Resource[] risorseOttenute=null;
 
         //se selection[0]==0 allora vogliamo convertire una riga
         if (selection[0] == 0) {
@@ -111,10 +111,10 @@ public class MarketBoard {
      * overload di ConvertionToResource nel caso si abbia il potere di una carta leader
      * possibile necessità di rivisionare il metodo per gestire più velocemente (senza step di vettore intermedio) le risorse che vanno assegnate
      */
-    public Resource[] ConvertionToResource(int[] selection, Resource power) {
+   /* public Resource[] ConvertionToResource(int[] selection, Resource power) {
 
 
-    }
+    }*/
 
     /**
      * cambia lo stato della MarketBoard in base alla selezione di riga o colonna fatta.

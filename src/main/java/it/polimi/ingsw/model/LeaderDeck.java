@@ -20,5 +20,7 @@ public class LeaderDeck {
      * decidere SIA implementazione SIA cosa ritorna, dato che comunica sia con game che con player
      *
      */
-    public LeaderCard pickFour(){}
+
+    /* non mi builda sennò
+    public LeaderCard pickFour(){}*/
 }

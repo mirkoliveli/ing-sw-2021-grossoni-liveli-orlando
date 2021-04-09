@@ -3,19 +3,37 @@ package it.polimi.ingsw.model;
 public class FaithTrack {
 
     private int faithMarker;
-    private PopesFavorCard[] popesFavorCards;
+    private PopesFavorCard first;
+    private PopesFavorCard second;
+    private PopesFavorCard third;
     private int totalpoints;
-    //mettere costrutture U.U
 
+
+    public FaithTrack(){
+        faithMarker=0;
+        first = new PopesFavorCard(2);
+        second = new PopesFavorCard(3);
+        third = new PopesFavorCard(4);
+        totalpoints = 0;
+    }
+
+    /**
+     * costruttore per velocizzare tests
+     * @param initialstate
+     */
+    public FaithTrack(int initialstate){
+        faithMarker=initialstate;
+        first = new PopesFavorCard(2);
+        second = new PopesFavorCard(3);
+        third = new PopesFavorCard(4);
+        totalpoints = 0;
+    }
 
     public int getFaithMarker() {
         return faithMarker;
     }
 
-    //prob useless
-    public PopesFavorCard[] getPopesFavorCards() {
-        return popesFavorCards;
-    }
+
 
     public void increasePosition(){
         this.faithMarker++;
@@ -111,5 +129,91 @@ public class FaithTrack {
     }
 
 
+    public int getTotalpoints(){
+        return this.totalpoints;
+    }
+
+
+    public void activatePopeSpace(int zone){
+        switch (zone){
+            case 1: if(this.checkZone(zone)){
+                    this.first.flip();
+                    }
+                    else{
+                    this.first.discard();
+                    }
+                    break;
+            case 2: if(this.checkZone(zone)){
+                    this.second.flip();
+                    }
+                    else{
+                    this.second.discard();
+                    }
+                    break;
+            case 3: if(this.checkZone(zone)){
+                    this.third.flip();
+                    }
+                    else{
+                    this.third.discard();
+                    }
+                    break;
+
+            }
+    }
+
+    public PopesFavorCard getFirst() {
+        return first;
+    }
+    public PopesFavorCard getSecond() {
+        return second;
+    }
+    public PopesFavorCard getThird() {
+        return third;
+    }
+
+    //----------------------------------------------------------------------------------------------------------------------
+    /**
+     * util per debug
+     */
+    public void printstate(){
+        System.out.println("faithmarker: " + this.getFaithMarker());
+        if(this.first.isDiscarded()){
+            System.out.println("primo scarato!");
+        }
+        else{
+            System.out.println("primo NON scarato!");
+        }
+        if(this.second.isDiscarded()){
+            System.out.println("secondo scarato!");
+        }
+        else{
+            System.out.println("secondo NON scarato!");
+        }
+        if(this.third.isDiscarded()){
+            System.out.println("terzo scarato!");
+        }
+        else{
+            System.out.println("terzo NON scarato!");
+        }
+
+        if(this.first.isObtained()){
+            System.out.println("primo ottenuto!");
+        }
+        else{
+            System.out.println("primo NON ottenuto!");
+        }
+        if(this.second.isObtained()){
+            System.out.println("secondo ottenuto!");
+        }
+        else{
+            System.out.println("secondo NON ottenuto!");
+        }
+        if(this.third.isObtained()){
+            System.out.println("terzo ottenuto!");
+        }
+        else{
+            System.out.println("terzo NON ottenuto!");
+        }
+    }
 
 }

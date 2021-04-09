@@ -6,6 +6,10 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
 
     private final TypeOfResource resourceTypeLeader; //stai creando un enum dentro una classe. fixa qui
 
+    public DepotLevelLeader() {
+        resourceTypeLeader = null;
+    }
+
     public int getMaxQuantity() {
         return 2;
     }
@@ -13,6 +17,7 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
     public void setMaxQuantity(int q) { // cosa vuol dire che non fa nulla? scopo?
         /* Non fa nulla */
     }
+
 
     public it.polimi.ingsw.model.TypeOfResource getResourceType() {
         return resourceTypeLeader;
