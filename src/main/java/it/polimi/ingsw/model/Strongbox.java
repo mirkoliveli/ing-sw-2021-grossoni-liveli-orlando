@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model;
 
+
+//classe teoricamente completa, forse necessità di aggiungere eccezioni per il metodo remove.
+
+
+
 public class Strongbox {
     /**
      * contents di tipo vettore, conterrà per ogni indice indica la quantità di quel tipo di risorsa contenuta attualmente nella strongbox
@@ -9,6 +14,10 @@ public class Strongbox {
      * stones -> spazio 3
      */
     private int[] contents;
+
+    /**
+     * costruttore da utilizzare a inizio partita, setta il contenuto a zero
+     */
 
     public Strongbox(){
         this.contents= new int[4];
@@ -47,6 +56,7 @@ public class Strongbox {
 
     /**
      * verifica se è possibile comprare una determinata carta o avviare una produzione dato il costo in ingresso
+     * ritorna true se si hanno abbastanza risorse, false altrimenti
      * @param cost
      * @return
      */
@@ -55,7 +65,8 @@ public class Strongbox {
     }
 
     /**
-     * funzione che permette di pagare
+     * funzione che permette di pagare, necessita un parametro "costo" (int[4]) in ingresso
+     * ritorna false se non è stato possibile pagare
      * @param cost
      */
     public boolean remove(int[] cost){
@@ -73,7 +84,7 @@ public class Strongbox {
     }
 
     /**
-     * permette di posizionare risorse nello strongbox
+     * permette di posizionare risorse nello strongbox, necessita un parametro (int[4]) in ingresso
      * @param gain
      */
     public void store(int[] gain){
@@ -83,12 +94,7 @@ public class Strongbox {
         this.contents[3]=this.contents[3]+gain[3];
     }
 
-
-
-
-
-
-
+//----------------------------------------------------------------------------------------------------------------------
 
 //utils che non dovrebbero servire per il gioco
 

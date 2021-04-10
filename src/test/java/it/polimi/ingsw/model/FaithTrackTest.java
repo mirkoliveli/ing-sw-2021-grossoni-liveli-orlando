@@ -64,12 +64,12 @@ public class FaithTrackTest {
 
     }
 
-        //testa activatePopeSpace
-        //activateSpacePope è incaricato di, ricevuta la zona da testare, di scartare o girare la carta favore papale
-        //activatePopeSpace utilizza al suo interno checkZone e i metodi flip e discard di PopesFavorCard
-        //venogono verificati 6 casi in totale in cui viene controllato lo stato dei due boolean di PopesFavor
-        //ci sono casi in cui la carta andrà scartata, quindi discarded sarà TRUE, obtained sarà FALSE
-        //ci sono casi in cui la carta andrà flippata, quindi discarded sarà FALSE, obtained sarà TRUE
+    //testa activatePopeSpace
+    //activateSpacePope è incaricato di, ricevuta la zona da testare, di scartare o girare la carta favore papale
+    //activatePopeSpace utilizza al suo interno checkZone e i metodi flip e discard di PopesFavorCard
+    //venogono verificati 6 casi in totale in cui viene controllato lo stato dei due boolean di PopesFavor
+    //ci sono casi in cui la carta andrà scartata, quindi discarded sarà TRUE, obtained sarà FALSE
+    //ci sono casi in cui la carta andrà flippata, quindi discarded sarà FALSE, obtained sarà TRUE
 
     @Test
     public void flip_discardPopeCardTest(){
@@ -132,6 +132,26 @@ public class FaithTrackTest {
         System.out.println("fine test flip//discard");
     }
 
+    @Test
+    public void completePath(){
+        FaithTrack test=new FaithTrack();
+        test.Movement(5);
+        test.Movement(7);
+        test.Movement(8);
+        test.Movement(4);
+        assertEquals(24, test.getFaithMarker());
+        assertEquals(20, test.getTotalpoints());
+        assertEquals(9, test.getPopepoints());
+        assertTrue(test.getFirst().isObtained());
+        assertTrue(test.getSecond().isObtained());
+        assertTrue(test.getThird().isObtained());
+        assertFalse(test.getFirst().isDiscarded());
+        assertFalse(test.getSecond().isDiscarded());
+        assertFalse(test.getThird().isDiscarded());
+        assertEquals(29, test.TotalVictoryPointsFaithTrack());
 
+
+
+    }
 
 }

@@ -10,6 +10,7 @@ public class FaithTrack {
     private PopesFavorCard second;
     private PopesFavorCard third;
     private int totalpoints;
+    private int popepoints;
 
 
     public FaithTrack(){
@@ -18,6 +19,7 @@ public class FaithTrack {
         second = new PopesFavorCard(3);
         third = new PopesFavorCard(4);
         totalpoints = 0;
+        popepoints = 0;
     }
 
     /**
@@ -30,17 +32,20 @@ public class FaithTrack {
         second = new PopesFavorCard(3);
         third = new PopesFavorCard(4);
         totalpoints = 0;
+        popepoints = 0;
     }
 
     public int getFaithMarker() {
         return faithMarker;
     }
 
-
+    public int getPopepoints(){ return popepoints;}
 
     public void increasePosition(){
         this.faithMarker++;
     }
+
+    public int TotalVictoryPointsFaithTrack(){ return (this.getPopepoints()+this.getTotalpoints());}
 
     /**
      * overload prob inutile?
@@ -115,7 +120,7 @@ public class FaithTrack {
             this.increasePosition();
             popespace=this.checkPopeSpace();
             if(popespace!=0){
-                //attiva pope's favor, controllando prima se non è già stata attivata
+                this.activatePopeSpace(popespace);
             }
 
             temp_pv=this.updateScore();
@@ -141,6 +146,7 @@ public class FaithTrack {
         switch (zone){
             case 1: if(this.checkZone(zone)){
                     this.first.flip();
+                    this.popepoints += 2;
                     }
                     else{
                     this.first.discard();
@@ -148,6 +154,7 @@ public class FaithTrack {
                     break;
             case 2: if(this.checkZone(zone)){
                     this.second.flip();
+                    this.popepoints += 3;
                     }
                     else{
                     this.second.discard();
@@ -155,6 +162,7 @@ public class FaithTrack {
                     break;
             case 3: if(this.checkZone(zone)){
                     this.third.flip();
+                    this.popepoints += 4;
                     }
                     else{
                     this.third.discard();
