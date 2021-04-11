@@ -1,0 +1,36 @@
+{
+  "name": "model",
+  "version": "1.0.0",
+  "dependencies": {
+
+
+    "Card57" : {
+      "id" : 57,
+      "pv" : 5,
+      "typeOfResource" :  "servats",
+      "Color1Required" : "yellow",
+      "Color2Required" : "blue"
+    },
+    "Card58" : {
+      "id" : 58,
+      "pv" : 5,
+      "typeOfResource" :  "shields",
+      "Color1Required" : "yellow",
+      "Color2Required" : "purple"
+    },
+    "Card59" : {
+      "id" : 59,
+      "pv" : 5,
+      "typeOfResource" :  "stones",
+      "Color1Required" : "blue",
+      "Color2Required" : "yellow"
+    },
+    "Card60" : {
+      "id" : 60,
+      "pv" : 5,
+      "typeOfResource" :  "coins",
+      "Color1Required" : "purple",
+      "Color2Required" : "green"
+    }
+  }
+}
