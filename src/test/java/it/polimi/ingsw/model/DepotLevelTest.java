@@ -40,7 +40,7 @@ public class DepotLevelTest {
 
     @org.junit.Test
     public void increaseQuantity() {
-        it.polimi.ingsw.model.DepotLevel testing = new it.polimi.ingsw.model.DepotLevel(coins, 1, 3);
+        DepotLevel testing = new DepotLevel(coins, 1, 3);
         testing.increaseQuantity(coins,2);
         assertEquals(3, testing.getQuantity());
         assertFalse(testing.increaseQuantity(coins, 1));
@@ -52,7 +52,7 @@ public class DepotLevelTest {
 
     @org.junit.Test
     public void decreaseQuantity() {
-        it.polimi.ingsw.model.DepotLevel testing = new it.polimi.ingsw.model.DepotLevel(coins, 1, 3);
+        DepotLevel testing = new DepotLevel(coins, 1, 3);
         testing.decreaseQuantity(coins, 1);
         assertEquals(null, testing.getResourceType());
         assertFalse(testing.decreaseQuantity(coins, 1));

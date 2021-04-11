@@ -7,7 +7,7 @@
     "Card57" : {
       "id" : 57,
       "pv" : 5,
-      "typeOfResource" :  "servats",
+      "typeOfResource" :  "servants",
       "Color1Required" : "yellow",
       "Color2Required" : "blue"
     },

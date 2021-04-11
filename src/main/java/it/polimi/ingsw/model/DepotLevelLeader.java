@@ -1,16 +1,16 @@
 package it.polimi.ingsw.model;
 
-public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
+public class DepotLevelLeader extends DepotLevel {
 
 
 
-    private final it.polimi.ingsw.model.TypeOfResource resourceTypeLeader; //stai creando un enum dentro una classe. fixa qui
+    private final TypeOfResource resourceTypeLeader; //stai creando un enum dentro una classe. fixa qui
 
     /*public DepotLevelLeader() {
         resourceTypeLeader = null;
     } */
 
-    public DepotLevelLeader(it.polimi.ingsw.model.TypeOfResource resourceType) {
+    public DepotLevelLeader(TypeOfResource resourceType) {
         this.resourceTypeLeader=resourceType;
     }
 
@@ -24,11 +24,11 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
     }
 
 
-    public it.polimi.ingsw.model.TypeOfResource getResourceType() {
+    public TypeOfResource getResourceType() {
         return resourceTypeLeader;
     }
 
-    public boolean increaseQuantity(it.polimi.ingsw.model.TypeOfResource ToR, int q) {
+    public boolean increaseQuantity(TypeOfResource ToR, int q) {
 
         /*
         Overriding of increaseQuantity from DepotLevel, with the following differences:
@@ -52,7 +52,7 @@ public class DepotLevelLeader extends it.polimi.ingsw.model.DepotLevel {
     }
 
 
-    public boolean decreaseQuantity(it.polimi.ingsw.model.TypeOfResource ToR, int q) {
+    public boolean decreaseQuantity(TypeOfResource ToR, int q) {
 
         /*
         Overriding of decreaseQuantity from DepotLevel, using resourceTypeLeader instead of resourceType

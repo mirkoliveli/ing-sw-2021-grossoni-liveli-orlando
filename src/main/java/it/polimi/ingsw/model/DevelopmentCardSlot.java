@@ -46,7 +46,7 @@ public class DevelopmentCardSlot {
         //contorllo che il livello della carta da piazzare sia superiore al livello della carta già presente
         if (get_top() != null && CardToPlace.getLevel() <= this.get_top().getLevel()) {
             System.out.println("Operation not allowed!");
-        } e                                                                                                                                                                                                                                                               lse {
+        } else {
             while (vectorSlot[i] != null && i < 3) {
                 i++;
             }

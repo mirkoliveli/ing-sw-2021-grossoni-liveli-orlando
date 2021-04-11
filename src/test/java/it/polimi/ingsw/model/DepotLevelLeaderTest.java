@@ -22,7 +22,7 @@ public class DepotLevelLeaderTest {
 
     @Test
     public void increaseQuantity() {
-        it.polimi.ingsw.model.DepotLevelLeader testing = new it.polimi.ingsw.model.DepotLevelLeader(coins);
+        DepotLevelLeader testing = new DepotLevelLeader(coins);
         assertEquals(coins,testing.getResourceType());
         testing.increaseQuantity(coins, 2);
         assertEquals(2, testing.getQuantity());
@@ -32,7 +32,7 @@ public class DepotLevelLeaderTest {
 
     @Test
     public void decreaseQuantity() {
-        it.polimi.ingsw.model.DepotLevelLeader testing = new it.polimi.ingsw.model.DepotLevelLeader(coins);
+        DepotLevelLeader testing = new DepotLevelLeader(coins);
         testing.increaseQuantity(coins, 2);
         testing.decreaseQuantity(coins, 1);
         assertEquals(1, testing.getQuantity());

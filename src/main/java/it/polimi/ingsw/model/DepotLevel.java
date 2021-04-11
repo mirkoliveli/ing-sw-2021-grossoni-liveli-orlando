@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 public class DepotLevel {
 
-    private it.polimi.ingsw.model.TypeOfResource resourceType;
+    private TypeOfResource resourceType;
     private int quantity;
     private int maxQuantity;
 
@@ -12,20 +12,20 @@ public class DepotLevel {
         maxQuantity=0;
     }
 
-    public DepotLevel(it.polimi.ingsw.model.TypeOfResource resourceType, int quantity, int maxQuantity) {
+    public DepotLevel(TypeOfResource resourceType, int quantity, int maxQuantity) {
         this.resourceType=resourceType;
         this.quantity=quantity;
         this.maxQuantity=maxQuantity;
     }
 
-    public it.polimi.ingsw.model.TypeOfResource getResourceType() {
+    public TypeOfResource getResourceType() {
         if (this.getQuantity()==0) {return null;}
         else { return resourceType; }
     }
 
 
 
-    public void setResourceType(it.polimi.ingsw.model.TypeOfResource ToR) {
+    public void setResourceType(TypeOfResource ToR) {
         this.resourceType = ToR;
     }
 
@@ -45,7 +45,7 @@ public class DepotLevel {
         this.maxQuantity = q;
     }
 
-    public boolean increaseQuantity(it.polimi.ingsw.model.TypeOfResource ToR, int q) {
+    public boolean increaseQuantity(TypeOfResource ToR, int q) {
 
         /*
 
@@ -80,7 +80,7 @@ public class DepotLevel {
         }
     }
 
-    public boolean decreaseQuantity(it.polimi.ingsw.model.TypeOfResource ToR, int q) {
+    public boolean decreaseQuantity(TypeOfResource ToR, int q) {
 
         /*
         This methods removes q resources of the TypeOfResource ToR
