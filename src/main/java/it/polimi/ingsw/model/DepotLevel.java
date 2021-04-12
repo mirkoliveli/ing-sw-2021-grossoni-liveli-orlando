@@ -48,7 +48,6 @@ public class DepotLevel {
     public boolean increaseQuantity(TypeOfResource ToR, int q) {
 
         /*
-
         This methods adds q resources of the TypeOfResource ToR
         It guarantees that ToR corresponds to the depot's resource type and quantity+q is less than or equal to maxQuantity before doing so
         If ToR doesn't correspond to the depot's resource type and quantity = 0, it sets a new resourceType
@@ -67,7 +66,7 @@ public class DepotLevel {
             if (this.getQuantity() == 0) {
                 this.setResourceType(ToR);
                 if ((this.getQuantity() + q) <= this.getMaxQuantity()) {
-                    this.setQuantity(this.getQuantity() - q);
+                    this.setQuantity(this.getQuantity() + q);
                     return true;
                 } else {
                     System.out.println("Sorry, you can only store " + (this.getMaxQuantity() - this.getQuantity()) + " more " + ToR + " in this depot!");

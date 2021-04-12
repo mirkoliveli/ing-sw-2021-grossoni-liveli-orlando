@@ -3,58 +3,50 @@ package it.polimi.ingsw.model;
 import static it.polimi.ingsw.model.TypeOfResource.coins;
 
 public class Storage {
-    private DepotLevel[] levels;
-    private int temp = 0;
+
+    private DepotLevel level1 = new DepotLevel();
+    private DepotLevel level2 = new DepotLevel();
+    private DepotLevel level3 = new DepotLevel();
+
 
     public Storage() {
-        DepotLevel[] levels = new DepotLevel[3];
-        levels[0] = new DepotLevel(null, 0, 1);
-        levels[1] = new DepotLevel(null, 0, 2);
-        levels[2] = new DepotLevel(null, 0, 3);
+        this.level1.setMaxQuantity(1);
+        this.level2.setMaxQuantity(2);
+        this.level3.setMaxQuantity(3);
     }
 
     public boolean swapLevels(int index1, int index2) {
 
-        /*
-        Nel caso in cui la quantità di un livello ecceda la quantità massima dell'altro viene mostrato un messaggio di errore
-        Altrimenti per scambiare il contenuto di due DepotLevel è sufficiente invertire i rispettivi valori di maxQuantity
-         */
+        int temp;
+        TypeOfResource temp_resource;
 
-
-        if ( levels[index1].getQuantity() > levels[index2].getMaxQuantity() || levels[index2].getQuantity() > levels[index1].getMaxQuantity() ) {
+        if ( getLevel(index1).getQuantity() > getLevel(index2).getMaxQuantity() || getLevel(index2).getQuantity() > getLevel(index1).getMaxQuantity() ) {
             System.out.println("Sorry, you cannot swap these depots!");
             return false; }
         else {
-            temp = levels[index1].getMaxQuantity();
-            levels[index1].setMaxQuantity(levels[index2].getMaxQuantity());
-            levels[index2].setMaxQuantity(temp);
+            temp_resource = getLevel(index1).getResourceType();
+            getLevel(index1).setResourceType(getLevel(index2).getResourceType());
+            getLevel(index2).setResourceType(temp_resource);
+            temp = getLevel(index1).getQuantity();
+            getLevel(index1).setQuantity(getLevel(index2).getQuantity());
+            getLevel(index2).setQuantity(temp);
             return true; }
     }
 
-    public boolean add(TypeOfResource ToR, int q, int index) {
-        return levels[index].increaseQuantity(ToR, q);
-    }
 
-    public boolean remove(TypeOfResource ToR, int q, int index) {
-        return levels[index].decreaseQuantity(ToR, q);
-    }
-
-    public TypeOfResource getType(int index) {
-        return levels[index].getResourceType();
-    }
-
-    public int getLevel(int index) {
-        return levels[index].getMaxQuantity();
-    }
-
-    public int getStorage(int index) {
-        return levels[index].getQuantity();
+    public DepotLevel getLevel(int index) {
+        switch (index){
+            case 1: return level1;
+            case 2: return level2;
+            case 3: return level3;
+            default: return null;
+        }
     }
 
     public boolean checkDifferentTypes() {
         /* Returns true if all the depots store different types of resources */
 
-        if ((getType(0) != getType (1)) && (getType(0) != getType(2)) && (getType(1) != getType(2))) {
+        if ((level1.getResourceType() != level2.getResourceType()) && (level1.getResourceType() != level3.getResourceType()) && (level2.getResourceType() != level3.getResourceType())) {
             return true; }
         else { return false; }
     }

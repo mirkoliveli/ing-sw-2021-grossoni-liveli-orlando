@@ -13,57 +13,27 @@ public class StorageTest {
     }
 
     @Test
-    public void swapLevels() {
-
-        /* ancora da correggere l'errore: causa NullPointerException */
-
+    public void testStorageMethods() {
         Storage testing = new Storage();
-        assertEquals(1, testing.getLevel(0));
-        assertEquals(2, testing.getLevel(1));
-        assertEquals(3, testing.getLevel(2));
-        /* testing add */
-        testing.add(coins, 1, 0);
-        testing.add(shields, 1, 1);
-        testing.add(stones, 3, 2);
-        assertFalse(testing.add(coins, 1, 1));
-        assertFalse(testing.add(coins, 1, 0));
-        assertEquals(coins, testing.getType(0));
-        assertEquals(shields, testing.getType(1));
-        assertEquals(stones, testing.getType(2));
-        assertEquals(1, testing.getStorage(0));
-        assertEquals(1, testing.getStorage(1));
-        assertEquals(3, testing.getStorage(2));
-        /* testing checkDifferentTypes */
+        assertEquals(1, testing.getLevel(1).getMaxQuantity());
+        assertEquals(2, testing.getLevel(2).getMaxQuantity());
+        assertEquals(3, testing.getLevel(3).getMaxQuantity());
+        testing.getLevel(1).increaseQuantity(coins, 1);
+        testing.getLevel(2).increaseQuantity(shields, 1);
+        testing.getLevel(3).increaseQuantity(stones, 3);
+        assertFalse(testing.getLevel(1).increaseQuantity(coins, 1));
+        assertFalse(testing.getLevel(2).increaseQuantity(coins, 1));
+        assertEquals(coins, testing.getLevel(1).getResourceType());
+        assertEquals(shields, testing.getLevel(2).getResourceType());
+        assertEquals(stones, testing.getLevel(3).getResourceType());
+        assertEquals(1, testing.getLevel(1).getQuantity());
+        assertEquals(1, testing.getLevel(2).getQuantity());
+        assertEquals(3, testing.getLevel(3).getQuantity());
         assertTrue(testing.checkDifferentTypes());
-        /* testing remove */
-        testing.remove(stones, 1, 2);
-        assertFalse(testing.remove(coins, 2, 0));
-        assertFalse(testing.remove(coins, 1, 1));
-        assertEquals(2, testing.getStorage(2));
-        /* testing swapLevels */
-        assertTrue(testing.swapLevels(1, 2));
-        assertEquals(3, testing.getLevel(1));
-        assertEquals(2, testing.getLevel(2));
-        assertFalse(testing.swapLevels(0, 2));
+        assertFalse(testing.swapLevels(1, 3));
+        testing.swapLevels(1, 2);
+        assertEquals(shields, testing.getLevel(1).getResourceType());
+        assertEquals(coins, testing.getLevel(2).getResourceType());
     }
 
-    @Test
-    public void add() {
-    }
-
-    @Test
-    public void remove() {
-    }
-
-    @Test
-    public void getType() {
-    }
-
-    @Test
-    public void getLevel() {
-    }
-
-    @Test
-    public void getStorage() {
-    }
 }
