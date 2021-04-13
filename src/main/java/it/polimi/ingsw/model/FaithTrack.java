@@ -182,6 +182,23 @@ public class FaithTrack {
         return third;
     }
 
+
+    //serve a prevedere se con la prossima azione (viene passato il movimento totale come parametro) viene attivata
+    //qualche zona papale, viene usato un parametro vettore nel remoto caso vengano attivate più zone con un solo movimento
+    //questo
+
+
+    public boolean[] predict(int move){
+        boolean[] PopesZonesActivated = new boolean[3];
+        int futurePosition=this.getFaithMarker() + move;
+        if ((futurePosition>=8) && (!this.getFirst().isObtained()) && (this.getFirst().isDiscarded())) PopesZonesActivated[0]=true;
+        if ((futurePosition>=16) && (!this.getSecond().isObtained()) && (this.getSecond().isDiscarded())) PopesZonesActivated[1]=true;
+        if((futurePosition>=24) && (!this.getFirst().isObtained()) && (this.getSecond().isDiscarded())) PopesZonesActivated[2]=true;
+        return PopesZonesActivated;
+    }
+
+
+
     //----------------------------------------------------------------------------------------------------------------------
     /**
      * util per debug

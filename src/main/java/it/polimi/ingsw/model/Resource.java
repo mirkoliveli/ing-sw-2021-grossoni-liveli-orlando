@@ -7,6 +7,11 @@ public class Resource {
     private int id;
     private TypeOfResource typeResource;
 
+    public Resource(){
+        id=0;
+        typeResource=TypeOfResource.faith;
+    }
+
 
     public int getId() {
         return id;
