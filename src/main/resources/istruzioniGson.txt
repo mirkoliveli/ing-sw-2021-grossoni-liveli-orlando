@@ -1,0 +1,129 @@
+come creare un file JSON leggibile con GSON:
+
+1) un singolo oggetto va messo tra {}
+   ogni attributo dell'oggetto andrà scritto come: "nome_attributo" : valore,
+   la virgola separa da altri attributi, non va messa dopo l'ultimo attributo
+   il valore di una stringa va messo tra ""
+   ecco un esempio di un oggetto scritto con standard JSON
+
+   {
+   "attributo1_Stringa" : "questo è il primo attributo",
+   "attributo2_int" : 42,
+   "attributo3_boolean" : true
+   }
+
+   un file contentente anche solo quello scritto qua sopra è sufficiente per esplicitare l'oggetto
+
+2) per generare un file JSON contenente più oggetti occorre creare un array
+   per creare un array va messa la partesi [] con all'interno i vari oggetti.
+   dentro le [] scrivo gli oggetti come spiegato in 1), separando con virgole i diversi oggetti
+   ovviamente gli oggetti devono essere dello stesso tipo per poter essere letti correttamente
+   ecco un esempio di array di oggetti in JSON
+
+   [
+     {
+         "attributo1_Stringa" : "questo è il primo attributo del primo oggetto",
+         "attributo2_int" : 42,
+         "attributo3_boolean" : true
+     },
+     {
+         "attributo1_Stringa" : "questo è il primo attributo del secondo oggetto",
+         "attributo2_int" : 420,
+         "attributo3_boolean" : false
+     }
+   ]
+
+   questo esempio contiene due oggetti
+
+3) se una classe contiene oggetti di un'altra questo non è un problema
+   al posto di avere l'attributo : valore avremo il nome dell'attributo, seguito da {}
+   le graffe conterranno l'oggetto dell'altra classe
+   ecco un esempio che utilizza una classe "persona" che contiene due stringhe "nome" e "cognome"
+
+   {
+   "attributo1_Stringa" : "questo è il primo attributo",
+   "attributo2_int_età" : 30,
+   "persona" :{
+                "nome" : "riccardo",
+                "cognome" : "grossoni"
+              }
+   }
+
+   in maniera simile possiamo dare valori ad un attributo di tipo vettore
+   ecco un esempio con un oggetto che contiene un vettore int di 4 elementi
+
+   {
+      "attributo1_Stringa" : "questo è il primo attributo",
+      "attributo2_vettoreDiInt" : [1,2,3,4]
+      "attributo3_boolean" : true
+   }
+
+4) vediamo ora come utilizzare GSON
+   come prima cosa vanno importate le classi necessarie
+   avremo bisogno in totale di 4 "importi" (nota che intellij ti permette di aggiungerli direttamente premendo alt+enter)
+
+   import java.io.BufferedReader;
+   import java.io.FileNotFoundException;
+   import java.io.FileReader;
+   import com.google.gson.Gson;
+
+   fatto questo passiamo al succo
+   come prima cosa va dichiarato un oggetto Gson, che servirà da tramite per convertire il JSON in oggetto
+   servirà anche qualcosa per leggere il file
+   con queste semplici istruzioni abbiamo tutto il necessario per scrivere l'oggetto
+
+    Gson gson= new Gson();
+    BufferedReader  buffer=null;
+    try{
+          buffer=new BufferedReader(new FileReader("src/main/resources/Prova.json"));
+       }catch (FileNotFoundException e){
+                                        System.out.println("File non trovato");
+                                       }
+
+    notare che dobbiamo mettere per forza il try-catch, dato che BufferedReader ritorna una eccezione se non trova il file
+    quello meso nel catch è solo per ricordare cosa succede riceviamo una eccezione, può essere sostituito con quel che si vuole
+    dentro la parentesi di file reader va messo il path del file.
+
+    infine per scrivere nell'oggetto attraverso il JSON devo usare
+
+    nome_classe nome_oggetto= gson.fromJson(buffer, nome_classe.class);
+
+    trovi un esempio di questo procedimento in DevelopmentCardTest @jsonTest
+
+5)  vediamo ora come importare un array di oggetti da JSON ad oggetti java
+    se li copiamo in un array il procedimento è molto semplice
+    dovremo creare al posto di un oggetto un array di oggetti (basta utilizzare nome_classe[] nome_oggetti =...)
+    dovremo mettere gson.fromJson(buffer, nome_classe[].class); dopo l'uguale
+    quindi vediamo tutto di seguito
+
+        Gson gson= new Gson();
+        BufferedReader  buffer=null;
+        try{
+              buffer=new BufferedReader(new FileReader("src/main/resources/Prova.json"));
+           }catch (FileNotFoundException e){
+                                            System.out.println("File non trovato");
+                                           }
+        nome_classe[] nome_oggetti = gson.fromJson(buffer, nome_classe[].class);
+
+    se vogliamo scrivere in una lista o arrayList la situazione si complica (leggermente, 2/3 righe di codice in più)
+    per questo lascio questo video che spiega bene sia la scrittura in array sia in arrayList/liste
+    https://www.youtube.com/watch?v=ZZddxpxGQPE&list=PLpUMhvC6l7AOy4UEORSutzFus98n-Es_l&index=3ù
+
+    NOTE VARIE:
+
+    con Gson è altrettanto facile scrivere ogetti su files, ma per inutilità (per ora) ho preferito non spiegare come fare
+    nel link riportato più sotto c'è comunque un esempio su come scrivere su file
+    ovviamente ci sono molti altri tricks utilizzabili con gson, questo serve solo a dare una infarinatura
+    è bene ricordarsi di chiudere lo stream del BufferedReader
+    è possibile utilizzare la classe Scanner al posto della classe BufferedReader, varia solo la preferenza
+    lascio altro link per una spiegazione più "tecnica" sul funzionamento di Gson
+
+    https://www.tutorialspoint.com/gson/gson_first_application.htm
+
+    in questo tutorial utilissa GsonBuilder come classe, per ora non ho capito la differenza, ma funziona in tutti e due i modi
+    è importante non sbagliare il path del file.
+    Gson utilizza il costruttore di default per associare gli oggetti, non è possibile quindi utilizzare oggetti mezzi completi
+    il mapping di enumerazioni è automatico, e vanno gestite come stringhe normali, sarà poi Gson ad assegnarle correttamente come tali
+
+    NOTA IMPORTANTE: ai fini di ordine e facilità di ritrovamento mettiamo tutti i file JSON nella cartella "resources"
+                     questo permetterà di avere sempre lo stesso path e di trovare ed accedere velocemente ai files.

@@ -11,7 +11,11 @@ package it.polimi.ingsw.model;
 //2 gialle
 //1 rossa
 
-
+/**
+ * the class cointains 2 attributes
+ * board is a matrix that contains all the marbles that are available during the "Taking resources from the market" action
+ * @author Riccardo Grossoni
+ */
 
 public class MarketBoard {
     private Marble[][] board;
@@ -20,6 +24,12 @@ public class MarketBoard {
     // setuppa marketBoard in un modo deterministico, sarà poi "shuffle" incaricato a mescolare la griglia
     // questo aiuta per la creazione di tests
 
+    /**
+     * constructor, each ball is put in a deterministic order, you have to use the method shuffle (maybe in a future version it will be included
+     * inside the constructor)
+     * it's needed for deterministic testing
+     * @author Riccardo Grossoni
+     */
     public MarketBoard(){
         this.board= new Marble[3][4];
         this.board[0][0]= new Marble(MarbleColor.purple);
@@ -67,6 +77,21 @@ public class MarketBoard {
     //pallina rossa     da 7.5% diventa 8.2%
     //pallina colorata  da 15%  diventa 16.7%
 
+    /**
+     * this method is needed to perform a random shuffle on the board
+     * it uses the .math class to perform the generation of a random position for each iteration of the cycle
+     * it implements a version of the Fisher-Yates shuffle adapted for shuffling a matrix
+     * the probabilities are slightly modified compared to the basic physical game, all changes are reported here:
+     * the probability of a specific ball being in a specific place is unchanged, but the probability of a specific ball
+     * being outside (as the SlideMarble) is changed
+     * the % of a white ball being outside at the start of the game is 25% instead of 30%
+     * the % of a red ball being outside at the start of the game is 8.2% instead of 7.5%
+     * the % of a resource-colored ball being outside at the start of the game is 16.7% instead of 15%
+     * this is due to the fact that at the start of the random generation an already determined ball is outside the game
+     * as a slideMarble, then after shuffling the board a new ball is chosen, but that influences slightly the odds of a
+     * specific ball being outside.
+     * @author Riccardo Grossoni
+     */
     public void shuffle(){
         Marble temp=null;
 
@@ -112,6 +137,15 @@ public class MarketBoard {
     //numero di stones
     //numero di punti fede (1 o 0) in ogni caso
     //è possibile inserire un overload della classe per gestire anche i poteri dei leader
+
+
+    /**
+     * this is the "beta" of a return function which gives an array with the resources gained from the selection
+     * @param switcher is needed to select if it's being searched a row (true) or a column (false)
+     * @param line is needed to select the specific row/column
+     * @return returns an array of the Resource type, it's length is determined inside the method, could be 3 or 4.
+     * @author Riccardo Grossoni
+     */
 
     public Resource[] ConvertionToResource(boolean switcher, int line) {
 
@@ -174,6 +208,15 @@ public class MarketBoard {
     return risorseOttenute;
     }
 
+    /**
+     * this is a beta of a return function which gives back an int array which is 5 units long;
+     * it cointains the numbers of each resource in the selected row/column (in the standard coins->servants->shields->stones->faith order)
+     * the benefits is that the length of the array is pre-determined as 5.
+     * @param switcher is needed to select if it's being searched a row (true) or a column (false)
+     * @param line is needed to select the specific row/column
+     * @return an array of length 5
+     * @author Riccardo Grossoni
+     */
     public int[] ConversionToArray(boolean switcher, int line){
         int[] risorseOttenute=new int[5];
         int temp;
@@ -229,8 +272,11 @@ public class MarketBoard {
     }
 
     /**
-     * cambia lo stato della MarketBoard in base alla selezione di riga o colonna fatta.
-     * non viene aggiornato nella visualizzazione, gestire dopo questa parte
+     * method used to change the board after a selection is done
+     * it doesn't update the view, so a new call to the method used to view the state is needed
+     *@param switcher is needed to select if it's being searched a row (true) or a column (false)
+     *@param line is needed to select the specific row/column
+     * @author Riccardo Grossoni
      */
     public void ChangeBoard(boolean switcher, int line){
         Marble temporaneo=null;
@@ -255,6 +301,11 @@ public class MarketBoard {
     //metodo per stampare la board
     //formatta già le righe così da avere una sorta di indicazione corretta
 
+    /**
+     * method that prints the state of the board
+     * it already allines the board, so it's easier to visualize
+     * @author Riccardo Grossoni
+     */
     public void printBoard(){
         for( int i=0; i<3; i++){
             for (int j=0; j<4; j++){
@@ -273,6 +324,12 @@ public class MarketBoard {
         }
         System.out.println(this.slideMarble.getColore());
     }
+
+    /**
+     * method used to print the resource gained from the action
+     * @param switcher is needed to select if it's being searched a row (true) or a column (false)
+     * @param line is needed to select the specific row/column
+     */
 
     public void printGivenResources(boolean switcher, int line){
        Resource[] temp=ConvertionToResource(switcher, line);

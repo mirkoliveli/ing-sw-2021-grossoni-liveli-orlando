@@ -13,6 +13,12 @@ public class FaithTrack {
     private int popepoints;
 
 
+    /**
+     * constructor that should be used for the game
+     * sets the marker at 0, sets the points used as tracking at 0, generates the PopesFavorCards
+     * @author Riccardo Grossoni
+     */
+
     public FaithTrack(){
         faithMarker=0;
         first = new PopesFavorCard(2);
@@ -23,8 +29,9 @@ public class FaithTrack {
     }
 
     /**
-     * costruttore per velocizzare tests
-     * @param initialstate
+     * constructor used for testing
+     * @param initialstate the position of the marker at the start could not be 0
+     * @author Riccardo Grossoni
      */
     public FaithTrack(int initialstate){
         faithMarker=initialstate;
@@ -41,17 +48,23 @@ public class FaithTrack {
 
     public int getPopepoints(){ return popepoints;}
 
+    /**
+     * method used as QoL to make more simple understanding what it does inside other methods
+     */
     public void increasePosition(){
         this.faithMarker++;
     }
 
+    /**
+     * method used to calculate the total points gained from the faith track
+     * @return an int which represents the total points gained (from the PopesFavorCards and from the points on the grid)
+     * @author Riccardo Grossoni
+     */
     public int TotalVictoryPointsFaithTrack(){ return (this.getPopepoints()+this.getTotalpoints());}
 
-    /**
-     * overload prob inutile?
-     * @param faithPoints
-     * @return
-     */
+
+
+
     public void increasePosition(int faithPoints){
         for(int i=0; (i<faithPoints)||(this.faithMarker<24); i++){
             this.increasePosition();
@@ -61,8 +74,10 @@ public class FaithTrack {
     }
 
     /**
-     * ritorna quale popespace è stato superato, 0 nel caso di nessuno
-     * @return
+     * method used inside the movement and the predict method
+     * checks if a popeSpace is being crossed returns the position of the popeSpace or 0 if none is being crossed
+     * @return returns the position of the popeSpace or 0 if none is being crossed
+     * @author Riccardo Grossoni
      */
     public int checkPopeSpace(){
         if(this.faithMarker==8) return 1;

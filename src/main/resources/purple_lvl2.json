@@ -1,0 +1,37 @@
+[{
+  "id" :18,
+  "pv": 5,
+  "color": "purple",
+  "cost": [0,4,0,0],
+  "level": 2,
+  "productionCost": [1,0,0,0],
+  "product": [0,0,0,0,2]
+
+},{
+  "id" :22,
+  "pv": 6,
+  "color": "purple",
+  "cost": [2,3,0,0],
+  "level": 2,
+  "productionCost": [1,1,0,0],
+  "product": [0,0,3,0,0]
+
+},{
+  "id" :26,
+  "pv": 7,
+  "color": "purple",
+  "cost": [0,5,0,0],
+  "level": 2,
+  "productionCost": [0,0,0,2],
+  "product": [2,0,0,0,2]
+
+},{
+  "id" :30,
+  "pv": 8,
+  "color": "purple",
+  "cost": [0,3,3,0],
+  "level": 2,
+  "productionCost": [0,0,0,1],
+  "product": [0,2,0,0,1]
+
+}]
