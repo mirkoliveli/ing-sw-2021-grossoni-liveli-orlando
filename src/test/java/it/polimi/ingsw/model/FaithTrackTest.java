@@ -154,4 +154,15 @@ public class FaithTrackTest {
 
     }
 
+    @Test
+    public void CoolPrintTest() {
+        FaithTrack test=new FaithTrack();
+        test.CoolPrint();
+        test.Movement(8);
+        test.CoolPrint();
+        test.Movement(4);
+        test.CoolPrint();
+        test.Movement(20);
+        test.CoolPrint();
+    }
 }

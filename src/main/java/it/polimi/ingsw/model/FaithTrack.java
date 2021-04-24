@@ -87,9 +87,10 @@ public class FaithTrack {
     }
 
     /**
-     * controlla se dobbiamo scartare o girare la carta favore papale
-     * @param index
-     * @return
+     * method used to check if we can "activate" or we have to discard the Pope Card after a vatican report is activated
+     * @param index specifies what "pope zone" is being checked
+     * @return returns true if the markers meets the requirements for unlocking the Pope's favor card, false if it doesn't
+     * @author Riccardo Grossoni
      */
     public boolean checkZone(int index){
         switch (index){
@@ -102,8 +103,9 @@ public class FaithTrack {
 
 
     /**
-     * funzione che controlla se il marker ha appena superato una casella che fornisce punti vittoria aggiuntivi
-     * @return
+     * method that returns the actual victory points reached while the marker is moving
+     * @return total points gained from advancing in the faith track
+     * @author Riccardo Grossoni
      */
     public int updateScore(){
         switch (faithMarker){
@@ -126,6 +128,13 @@ public class FaithTrack {
             default: return -1;
         }
     }
+
+    /**
+     * method used to perform the movement after gaining faith points.
+     * at the moment it only "activate" the Pope card of the player performing the movement, so it needs to be updated
+     * @param move specifies how much the faithmarker needs to advance
+     * @author Riccardo Grossoni
+     */
 
     public void Movement(int move){
         int popespace;
@@ -156,7 +165,12 @@ public class FaithTrack {
         return this.totalpoints;
     }
 
-
+    /**
+     * method used to activate the zone (or discard the card). it doensn't check if the zone is already activated, as it
+     * should be done before invoking this method
+     * @param zone specifies which of the three zones is being activated
+     * @author Riccardo Grossoni
+     */
     public void activatePopeSpace(int zone){
         switch (zone){
             case 1: if(this.checkZone(zone)){
@@ -202,13 +216,21 @@ public class FaithTrack {
     //qualche zona papale, viene usato un parametro vettore nel remoto caso vengano attivate più zone con un solo movimento
     //questo
 
-
+    /**
+     * method used to "predict" before making the movement, if a vatican report is being activated with this move. it also checks if
+     * it was already active.
+     * at the moment it verifies if even two or three zones are being activated at once, which is impossible in the normal game
+     * but if an extention to the game is made this section is already covered
+     * @param move specifies the move the marker is going to make
+     * @return a boolean vector of length 3, where true in any of the spaces means that this zone is being activated
+     * @author Riccardo Grossoni
+     */
     public boolean[] predict(int move){
         boolean[] PopesZonesActivated = new boolean[3];
         int futurePosition=this.getFaithMarker() + move;
-        if ((futurePosition>=8) && (!this.getFirst().isObtained()) && (this.getFirst().isDiscarded())) PopesZonesActivated[0]=true;
-        if ((futurePosition>=16) && (!this.getSecond().isObtained()) && (this.getSecond().isDiscarded())) PopesZonesActivated[1]=true;
-        if((futurePosition>=24) && (!this.getFirst().isObtained()) && (this.getSecond().isDiscarded())) PopesZonesActivated[2]=true;
+        if ((futurePosition>=8) && (!this.getFirst().isObtained()) && (!this.getFirst().isDiscarded())) PopesZonesActivated[0]=true;
+        if ((futurePosition>=16) && (!this.getSecond().isObtained()) && (!this.getSecond().isDiscarded())) PopesZonesActivated[1]=true;
+        if((futurePosition>=24) && (!this.getFirst().isObtained()) && (!this.getSecond().isDiscarded())) PopesZonesActivated[2]=true;
         return PopesZonesActivated;
     }
 
@@ -216,7 +238,7 @@ public class FaithTrack {
 
     //----------------------------------------------------------------------------------------------------------------------
     /**
-     * util per debug
+     * util for debug, prints a state of the track
      */
     public void printstate(){
         System.out.println("faithmarker: " + this.getFaithMarker());
@@ -258,5 +280,22 @@ public class FaithTrack {
             System.out.println("terzo NON ottenuto!");
         }
     }
+
+    public void CoolPrint(){
+        int tempPosition=this.getFaithMarker();
+        int pos=0;
+        while(pos<tempPosition){
+            System.out.print("  ");
+            pos++;
+        }
+        System.out.print("M\n");
+        System.out.println("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _");
+        System.out.println("                P               P               P");
+    }
+
+
+
+
+
 
 }
