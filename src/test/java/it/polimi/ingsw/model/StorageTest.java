@@ -46,7 +46,7 @@ public class StorageTest {
         assertEquals(0, Tester.IncreaseResources(prova));
         prova[0]=2;
         assertEquals(1, Tester.IncreaseResources(prova));
-        assertEquals(3, Tester.getLevel(3).getMaxQuantity());
+        assertEquals(3, Tester.getLevel(3).getQuantity());
     }
 
 

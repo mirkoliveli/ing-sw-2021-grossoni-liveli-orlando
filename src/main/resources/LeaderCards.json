@@ -1,0 +1,30 @@
+[
+  {
+    "id" : 49,
+    "pv" : 2,
+    "played" : false,
+    "discarded" : false,
+    "isPlayable" : false,
+    "power" : "servants",
+    "color1DiscountCard" : "yellow",
+    "color2DiscountCard" : "green",
+    "StorageCardCost" : null,
+    "color1WhiteBallCard" : null,
+    "color2WhiteBallCard" : null,
+    "colorProductionCard" : null
+  },
+  {
+    "id" : 50,
+    "pv" : 2,
+    "played" : false,
+    "discarded" : false,
+    "isPlayable" : false,
+    "power" : "shields",
+    "color1DiscountCard" : "blue",
+    "color2DiscountCard" : "purple",
+    "StorageCardCost" : null,
+    "color1WhiteBallCard" : null,
+    "color2WhiteBallCard" : null,
+    "colorProductionCard" : null
+  }
+]

@@ -131,6 +131,7 @@ public class Storage {
             return discarded;
 
     }
+
     /**
      * method that returns a Level if the resource of that type is already stored somewhere, null if it's not present.
      * @param resource resource seeked

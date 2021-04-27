@@ -1,10 +1,18 @@
 package it.polimi.ingsw.model;
 
-public abstract class LeaderCard extends Card{
+public class LeaderCard extends Card{
 
 private boolean played;
 private boolean discarded;
 private boolean isPlayable;
+private TypeOfResource power;
+private Color color1DiscountCard;
+private Color color2DiscountCard;
+private TypeOfResource StorageCardCost;
+private Color color1WhiteBallCard; //questa è quella che ne richiede 2
+private Color color2WhiteBallCard; //questa è quella che ne richiede 1
+private Color colorProductionCard;
+
 
     public boolean checkAvailability() {
         return isPlayable;
@@ -22,6 +30,7 @@ private boolean isPlayable;
         this.discarded=true;
     }
 
-
-
+    public TypeOfResource getPower() {
+        return power;
+    }
 }
