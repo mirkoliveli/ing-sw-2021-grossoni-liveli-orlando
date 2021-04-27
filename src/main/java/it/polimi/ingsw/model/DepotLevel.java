@@ -12,6 +12,12 @@ public class DepotLevel {
         maxQuantity=0;
     }
 
+    public DepotLevel(int max) {
+        resourceType=null;
+        quantity=0;
+        maxQuantity=max;
+    }
+
     public DepotLevel(TypeOfResource resourceType, int quantity, int maxQuantity) {
         this.resourceType=resourceType;
         this.quantity=quantity;
@@ -101,4 +107,9 @@ public class DepotLevel {
         }
 
     }
+
+
+
+
+
 }

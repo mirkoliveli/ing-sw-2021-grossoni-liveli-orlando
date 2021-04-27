@@ -36,4 +36,19 @@ public class StorageTest {
         assertEquals(coins, testing.getLevel(2).getResourceType());
     }
 
+
+    @Test
+    public void AddResourcesIfLevelIsPresent(){
+        Storage Tester=new Storage();
+        Tester.getLevel(3).setQuantity(1);
+        Tester.getLevel(3).setResourceType(TypeOfResource.coins);
+        int[] prova={1,0,0,0};
+        assertEquals(0, Tester.IncreaseResources(prova));
+        prova[0]=2;
+        assertEquals(1, Tester.IncreaseResources(prova));
+        assertEquals(3, Tester.getLevel(3).getMaxQuantity());
+    }
+
+
+
 }

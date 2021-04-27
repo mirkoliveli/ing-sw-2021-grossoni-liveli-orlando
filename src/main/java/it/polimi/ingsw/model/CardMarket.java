@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+//manca cli che mostra solo carte acquistabili + possibili controlli su cosa è acquistabile e cosa no
+
 
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -119,7 +121,7 @@ public class CardMarket {
 
 
     /**
-     * method used in testing, mainly for the shuffling test
+     * method used while testing, mainly for the shuffling test
      * @author Riccardo Grossoni
      */
     public void PrintId(){
@@ -134,7 +136,6 @@ public class CardMarket {
             }
         }
     }
-
 
 
 }

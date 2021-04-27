@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import org.junit.Test;
 
+import java.sql.SQLOutput;
+
 import static it.polimi.ingsw.model.TypeOfResource.coins;
 import static it.polimi.ingsw.model.TypeOfResource.shields;
 import static org.junit.Assert.*;
@@ -59,4 +61,14 @@ public class DepotLevelTest {
         assertFalse(testing.decreaseQuantity(shields, 1));
         System.out.println("Fine test decreaseQuantity");
     }
+
+    @Test
+    public void TestGeneric(){
+        DepotLevel Testing =new DepotLevel();
+        System.out.println(Testing.getResourceType());
+        if(Testing.getResourceType()==TypeOfResource.coins);{}
+        System.out.println("qua");
+    }
+
+
 }

@@ -1,34 +1,30 @@
-{
-  "name": "model",
-  "version": "1.0.0",
-  "dependencies": {
-    "Card49" : {
+[
+    {
       "id" : 49,
       "pv" : 2,
       "typeOfResource" :  "servants",
       "firstColor" :  "yellow",
       "secondColor" : "green"
     },
-    "Card50" : {
+    {
       "id" : 50,
       "pv" : 2,
       "typeOfResource" :  "shields",
       "firstColor" :  "blue",
       "secondColor" : "purple"
     },
-    "Card51" : {
+    {
       "id" : 51,
       "pv" : 2,
       "typeOfResource" :  "stones",
       "firstColor" :  "blue",
       "secondColor" : "green"
     },
-    "Card52" : {
+    {
       "id" : 52,
       "pv" : 2,
       "typeOfResource" :  "coins",
       "firstColor" :  "yellow",
       "secondColor" : "purple"
     }
-  }
-}
+]
