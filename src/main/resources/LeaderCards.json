@@ -8,7 +8,7 @@
     "power" : "servants",
     "color1DiscountCard" : "yellow",
     "color2DiscountCard" : "green",
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : null
@@ -22,7 +22,7 @@
     "power" : "shields",
     "color1DiscountCard" : "blue",
     "color2DiscountCard" : "purple",
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : null
@@ -36,7 +36,7 @@
     "power" : "stones",
     "color1DiscountCard" : "blue",
     "color2DiscountCard" : "green",
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : null
@@ -50,7 +50,7 @@
     "power" : "coins",
     "color1DiscountCard" : "yellow",
     "color2DiscountCard" : "purple",
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : null
@@ -64,7 +64,7 @@
     "power" : "stones",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : "coins",
+    "storageCardCost" : "coins",
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : null
@@ -78,7 +78,7 @@
     "power" : "servants",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : "stones",
+    "storageCardCost" : "stones",
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : null
@@ -92,7 +92,7 @@
     "power" : "shields",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : "servants",
+    "storageCardCost" : "servants",
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : null
@@ -106,7 +106,7 @@
     "power" : "coins",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : "shields",
+    "storageCardCost" : "shields",
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : null
@@ -120,7 +120,7 @@
     "power" : "servants",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : "yellow",
     "color2WhiteBallCard" : "blue",
     "colorProductionCard" : null
@@ -134,7 +134,7 @@
     "power" : "shields",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : "green",
     "color2WhiteBallCard" : "purple",
     "colorProductionCard" : null
@@ -148,7 +148,7 @@
     "power" : "stones",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : "blue",
     "color2WhiteBallCard" : "yellow",
     "colorProductionCard" : null
@@ -162,7 +162,7 @@
     "power" : "coins",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : "purple",
     "color2WhiteBallCard" : "green",
     "colorProductionCard" : null
@@ -176,7 +176,7 @@
     "power" : "shields",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : "yellow"
@@ -190,7 +190,7 @@
     "power" : "servants",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : "blue"
@@ -204,7 +204,7 @@
     "power" : "stones",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : "purple"
@@ -218,7 +218,7 @@
     "power" : "coins",
     "color1DiscountCard" : null,
     "color2DiscountCard" : null,
-    "StorageCardCost" : null,
+    "storageCardCost" : null,
     "color1WhiteBallCard" : null,
     "color2WhiteBallCard" : null,
     "colorProductionCard" : "green"
