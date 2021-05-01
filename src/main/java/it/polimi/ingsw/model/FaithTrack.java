@@ -62,6 +62,8 @@ public class FaithTrack {
      */
     public int TotalVictoryPointsFaithTrack(){ return (this.getPopepoints()+this.getTotalpoints());}
 
+    public void increasePopePoints(int points) { this.popepoints = this.popepoints + points; }
+
 
 
 
@@ -136,6 +138,9 @@ public class FaithTrack {
      * @author Riccardo Grossoni
      */
 
+    // Ho aggiornato il metodo controllando che PopesFavorCard non sia già stata scartata prima di lanciare activatePopeSpace
+    // Com'era scritto prima era possibile ottenere la prima dopo averla scartata, durante il favore papale della seconda zona
+
     public void Movement(int move){
         int popespace;
         int temp_pv=0;
@@ -143,10 +148,15 @@ public class FaithTrack {
             temp_pv=0;
             this.increasePosition();
             popespace=this.checkPopeSpace();
-            if(popespace!=0){
-                this.activatePopeSpace(popespace);
+            if(popespace == 1 & !this.getFirst().isDiscarded()){
+                this.activatePopeSpace(1);
             }
-
+            if(popespace == 2 & !this.getSecond().isDiscarded()){
+                this.activatePopeSpace(2);
+            }
+            if(popespace == 3 & !this.getThird().isDiscarded()){
+                this.activatePopeSpace(3);
+            }
             temp_pv=this.updateScore();
 
             if(temp_pv>0){
@@ -166,7 +176,7 @@ public class FaithTrack {
     }
 
     /**
-     * method used to activate the zone (or discard the card). it doensn't check if the zone is already activated, as it
+     * method used to activate the zone (or discard the card). it doesn't check if the zone is already activated, as it
      * should be done before invoking this method
      * @param zone specifies which of the three zones is being activated
      * @author Riccardo Grossoni
@@ -238,27 +248,27 @@ public class FaithTrack {
 
     //----------------------------------------------------------------------------------------------------------------------
     /**
-     * util for debug, prints a state of the track
+     * useful for debug, prints a state of the track
      */
     public void printstate(){
         System.out.println("faithmarker: " + this.getFaithMarker());
         if(this.first.isDiscarded()){
-            System.out.println("primo scarato!");
+            System.out.println("primo scartato!");
         }
         else{
-            System.out.println("primo NON scarato!");
+            System.out.println("primo NON scartato!");
         }
         if(this.second.isDiscarded()){
-            System.out.println("secondo scarato!");
+            System.out.println("secondo scartato!");
         }
         else{
-            System.out.println("secondo NON scarato!");
+            System.out.println("secondo NON scartato!");
         }
         if(this.third.isDiscarded()){
-            System.out.println("terzo scarato!");
+            System.out.println("terzo scartato!");
         }
         else{
-            System.out.println("terzo NON scarato!");
+            System.out.println("terzo NON scartato!");
         }
 
         if(this.first.isObtained()){

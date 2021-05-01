@@ -12,20 +12,20 @@ public class SoloFaithTrack extends FaithTrack {
         return enemy;
     }
 
-    public int  moveEnemy(int move){
+
+    public void  moveEnemy(int move) {
         enemy+=move;
         if(enemy==25) enemy--;
 
-        if(this.enemy==8 || (this.enemy==9 && move==2)){
-            return 1;
+        if((this.enemy==8 || (this.enemy==9 && move==2)) & !this.getFirst().isDiscarded()) {
+            activatePopeSpace(1);
         }
-        else if((this.enemy==16) || (this.enemy==17 && move==2)) {
-            return 2;
+        else if(((this.enemy==16) || (this.enemy==17 && move==2)) & !this.getSecond().isDiscarded()) {
+            activatePopeSpace(2);
         }
-        else if (this.enemy==24){ return 3;}
-
-        else {return 0;}
-
+        else if (this.enemy==24 & !this.getThird().isDiscarded()) {
+            activatePopeSpace(3);
+        }
     }
 
 

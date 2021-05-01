@@ -74,7 +74,7 @@ public class Storage {
             if (resources[i] != 0) {
                 switch (i) {
                     case 0:
-                        DepotTemp = SeekerOfResource(TypeOfResource.coins);
+                        DepotTemp = seekerOfResource(TypeOfResource.coins);
                         if (DepotTemp != null) {
                             discarded += ResourceAdder(DepotTemp, resources[i]);
                         } else {
@@ -83,7 +83,7 @@ public class Storage {
                         break;
 
                     case 1:
-                        DepotTemp = SeekerOfResource(TypeOfResource.servants);
+                        DepotTemp = seekerOfResource(TypeOfResource.servants);
                         if (DepotTemp != null) {
                             discarded += ResourceAdder(DepotTemp, resources[i]);
                         } else {
@@ -92,7 +92,7 @@ public class Storage {
                         break;
 
                     case 2:
-                        DepotTemp = SeekerOfResource(TypeOfResource.shields);
+                        DepotTemp = seekerOfResource(TypeOfResource.shields);
                         if (DepotTemp != null) {
                             discarded += ResourceAdder(DepotTemp, resources[i]);
                         } else {
@@ -101,7 +101,7 @@ public class Storage {
                         break;
 
                     case 3:
-                        DepotTemp = SeekerOfResource(TypeOfResource.stones);
+                        DepotTemp = seekerOfResource(TypeOfResource.stones);
                         if (DepotTemp != null) {
                             discarded += ResourceAdder(DepotTemp, resources[i]);
                         } else {
@@ -137,7 +137,7 @@ public class Storage {
      * @param resource resource seeked
      * @return level where the resource is stored, null if it's not present in the storage
      */
-    public DepotLevel SeekerOfResource(TypeOfResource resource) {
+    public DepotLevel seekerOfResource(TypeOfResource resource) {
         if (level1.getResourceType() == resource) {
         return level1;
         }

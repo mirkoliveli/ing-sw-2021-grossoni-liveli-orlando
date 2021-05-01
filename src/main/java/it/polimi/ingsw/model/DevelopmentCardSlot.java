@@ -4,7 +4,7 @@ public class DevelopmentCardSlot {
 
     //Le carte sviluppo in ogni slot possono essere max 3
     //Viene quindi gestito come un array
-    //dove le carte vengono ovrapposte in base al loro livello
+    //dove le carte vengono sovrapposte in base al loro livello
     private final DevelopmentCard[] vectorSlot;
 
 
@@ -43,7 +43,7 @@ public class DevelopmentCardSlot {
 
     public void placeCard(DevelopmentCard CardToPlace) {
         int i = 0;
-        //contorllo che il livello della carta da piazzare sia superiore al livello della carta già presente
+        //controllo che il livello della carta da piazzare sia superiore al livello della carta già presente
         if (get_top() != null && CardToPlace.getLevel() <= this.get_top().getLevel()) {
             System.out.println("Operation not allowed!");
         } else {
