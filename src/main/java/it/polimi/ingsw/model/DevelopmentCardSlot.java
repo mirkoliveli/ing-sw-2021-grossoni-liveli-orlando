@@ -2,18 +2,27 @@ package it.polimi.ingsw.model;
 
 public class DevelopmentCardSlot {
 
-    //Le carte sviluppo in ogni slot possono essere max 3
-    //Viene quindi gestito come un array
-    //dove le carte vengono sovrapposte in base al loro livello
+    // In each slot, the max number of DevelopmentCard is 3
+    // The slot is managed as an array
+    // where the cards are overlapped based on their level
+
     private final DevelopmentCard[] vectorSlot;
+    private int slotPV;
+
+    public int getSlotPV() {
+        return slotPV;
+    }
+
+    public void setSlotPV(int slotPV) {
+        this.slotPV = slotPV;
+    }
 
 
     public DevelopmentCardSlot() {
         this.vectorSlot = new DevelopmentCard[3];
     }
 
-
-    //metodo che ritorna la lista dei colori apparsi nello slot
+    // Method that returns the list of colours appeared in the slot
     public Color[] get_colors() {
         Color[] ColorAppeared = new Color[3];
 
@@ -24,7 +33,8 @@ public class DevelopmentCardSlot {
         return ColorAppeared;
     }
 
-    //metodo che ritorna il colore della carta sviluppo di livello 2
+    // Method that returns the colour of the level 2 DevelopmentCard
+    // This method could be used to activate Leaders effect
     public Color get_secondLevelColor() {
         return vectorSlot[2].getColor();
     }
@@ -41,17 +51,40 @@ public class DevelopmentCardSlot {
         return vectorSlot[i];
     }
 
-    public void placeCard(DevelopmentCard CardToPlace) {
+    public boolean placeCard(DevelopmentCard CardToPlace) {
         int i = 0;
-        //controllo che il livello della carta da piazzare sia superiore al livello della carta già presente
-        if (get_top() != null && CardToPlace.getLevel() <= this.get_top().getLevel()) {
+
+        //if the slot is full or the level of the card to place is lower than the one of the card on the top
+        //it's been reported to the user and the method returns false
+
+        if (get_top() != null && (this.get_top().getLevel() == 3 || CardToPlace.getLevel() <= this.get_top().getLevel())) {
             System.out.println("Operation not allowed!");
+            if (this.get_top().getLevel() == 3) {
+                System.out.println("The slot is FULL!\nPlease select another one");
+            }
+            else {
+                System.out.println("The card on the top has a higher level.\nPlease select another slot");
+            }
+            return false;
+
         } else {
             while (vectorSlot[i] != null && i < 3) {
                 i++;
             }
             vectorSlot[i] = CardToPlace;
+            return true;
         }
+    }
+
+    // Method that set the slot's total amount of victory point
+    public void pvSlot (){
+        int totpv = getSlotPV();
+        int position = 0;
+        while (vectorSlot[position] != null){
+            totpv = totpv + vectorSlot[position].getPv();
+            position++;
+        }
+        setSlotPV(totpv);
     }
 
 }
