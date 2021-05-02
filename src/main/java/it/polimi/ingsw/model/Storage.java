@@ -184,6 +184,9 @@ public class Storage {
         return false;
     }
 
+
+
+    //interagisce con server e client
     public int UserChoiceForDepot(TypeOfResource resource, int quantity)throws NotAvalidLevel, DiscardAllResources {
         int discarded=0;
         boolean var=true;

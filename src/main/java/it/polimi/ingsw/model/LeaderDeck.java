@@ -33,7 +33,7 @@ public class LeaderDeck {
 
 
     /**
-     * serve ad inizio partita per mescolare le carte
+     * method used at the start of the game to shuffle the deck
      */
     public void shuffle (){
     int index;
@@ -51,10 +51,24 @@ public class LeaderDeck {
         return deck;
     }
 
+
     /**
-     * decidere SIA implementazione SIA cosa ritorna, dato che comunica sia con game che con player
-     *
+     * method used to get the 4 cards from where the Player needs to choose 2 (action managed in the controller)
+     * @param PlayerId id of the player, the method expects a valid value between 1 and 4
+     * @return a 4 LeaderCard array, which is a copy of the four cards in the deck.
+     * @author Riccardo Grossoni
      */
+
+
+    public LeaderCard[] getChoices(int PlayerId){
+        int counter=(PlayerId-1)*4;
+        LeaderCard[] choices=new LeaderCard[4];
+        for(int i=0; i<4; i++){
+            choices[i]=new LeaderCard(this.getCard(counter+i));
+        }
+
+        return choices;
+    }
 
     public void printId(int index){
         System.out.println(this.getCard(index).getId());

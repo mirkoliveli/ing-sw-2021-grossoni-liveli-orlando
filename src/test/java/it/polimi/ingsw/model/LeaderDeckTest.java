@@ -39,8 +39,28 @@ public class LeaderDeckTest {
         System.out.println("\n\nla carta test per swap:\n");
         swap.printCard();
 
-
     }
 
+
+    //test molto rudimentale, a causa della complessità dell'oggetto LeaderCard ho preferito controllare ad "occhio"
+    //se il metodo ritorna davvero le carte giuste, piuttosto che fare 200 assert diversi.
+    @Test
+    public void getChoicesTest(){
+        LeaderDeck tester=new LeaderDeck();
+        LeaderCard[] choice=tester.getChoices(2);
+        for(int i=0; i<4; i++) {
+            choice[i].printCard();
+            System.out.println();
+            System.out.println();
+        }
+        /*
+        //CODICE CHE CONTROLLA CHE GLI OGGETTI SONO DIVERSI (E NON DUE PUNTATORI ALLA STESSA CARTA)
+        //ho già controllato, "rimuovere" il commento se cambia il metodo e bisogna ricontrollare
+        System.out.println(choice[0].toString());
+        tester.getCard(4).printCard();
+        System.out.println();
+        System.out.println(tester.getCard(4).toString());
+        */
+    }
 
 }

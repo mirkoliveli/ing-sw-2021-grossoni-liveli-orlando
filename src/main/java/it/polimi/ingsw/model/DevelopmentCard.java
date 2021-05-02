@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.sql.SQLOutput;
+
 public class DevelopmentCard extends  Card {
 
     private Color color;
@@ -92,5 +94,17 @@ public class DevelopmentCard extends  Card {
         }
         this.product[4]=cloned.getProduct()[4];
     }
+
+
+    /**
+     * test method, prints the cost of a card
+     */
+    public void stampCost(){
+        for(int i: this.getCost()){
+            System.out.println(this.getCost()[i]);
+        }
+    }
+
+
 
 }

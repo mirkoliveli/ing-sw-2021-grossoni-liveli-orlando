@@ -6,15 +6,21 @@ import static org.junit.Assert.*;
 
 public class MarketBoardTest {
 
-
+    //testa sia ConversionToResource sia ConversionToArray
     @Test
     public void conversioni() {
         MarketBoard tester= new MarketBoard();
         tester.printBoard();
-        tester.printGivenResources(true, 0);
         System.out.println();
+        System.out.println("Risorse ottenute con conversionToResource:");
+        tester.printGivenResources(true, 0);
+        System.out.println("Risorse ottenute con ConversionToArray");
+        int[] temp=tester.ConversionToArray(true, 0);
+        for(int i=0; i<4;i++){
+            System.out.println(temp[i] + " risorsa "+(i+1));
+        }
+        System.out.println("\n");
         tester.printGivenResources(false, 0);
-
     }
 
     @Test
@@ -48,4 +54,8 @@ public class MarketBoardTest {
         MarketBoard tester= new MarketBoard();
         tester.printBoard();
     }
+
+
+
+
 }
