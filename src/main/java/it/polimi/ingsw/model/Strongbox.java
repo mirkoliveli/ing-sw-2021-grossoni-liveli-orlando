@@ -28,7 +28,7 @@ public class Strongbox {
     }
 
     //costruttore SOLO PER TESTING DO NOT USE
-    public Strongbox(int coins, int servants, int shields, int stones){
+    public Strongbox(int coins, int servants, int shields, int stones) {
         this.contents= new int[4];
         this.contents[0]=coins;
         this.contents[1]=servants;
