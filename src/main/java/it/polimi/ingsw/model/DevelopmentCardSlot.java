@@ -42,8 +42,10 @@ public class DevelopmentCardSlot {
     public DevelopmentCard get_top() {
 
         int i = 2;
-        //scorro le carte a partie dalla cima (presunta posizione 2)
-        //fin quando non trovo una carta. Ritorno la prima trovata
+
+        /* The method skims the cards starting from the top (supposed 2nd postion)
+            until it finds a card. Returns it
+         */
         while (vectorSlot[i] == null) {
             i--;
         }
