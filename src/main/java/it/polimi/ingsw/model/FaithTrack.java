@@ -9,7 +9,7 @@ public class FaithTrack {
     private PopesFavorCard first;
     private PopesFavorCard second;
     private PopesFavorCard third;
-    private int totalpoints;
+    private int onlyTrackPoints;
     private int popepoints;
 
 
@@ -24,7 +24,7 @@ public class FaithTrack {
         first = new PopesFavorCard(2);
         second = new PopesFavorCard(3);
         third = new PopesFavorCard(4);
-        totalpoints = 0;
+        onlyTrackPoints = 0;
         popepoints = 0;
     }
 
@@ -38,7 +38,7 @@ public class FaithTrack {
         first = new PopesFavorCard(2);
         second = new PopesFavorCard(3);
         third = new PopesFavorCard(4);
-        totalpoints = 0;
+        onlyTrackPoints = 0;
         popepoints = 0;
     }
 
@@ -60,7 +60,7 @@ public class FaithTrack {
      * @return an int which represents the total points gained (from the PopesFavorCards and from the points on the grid)
      * @author Riccardo Grossoni
      */
-    public int TotalVictoryPointsFaithTrack(){ return (this.getPopepoints()+this.getTotalpoints());}
+    public int TotalVictoryPointsFaithTrack(){ return (this.getPopepoints()+this.getOnlyTrackPoints());}
 
     public void increasePopePoints(int points) { this.popepoints = this.popepoints + points; }
 
@@ -160,7 +160,7 @@ public class FaithTrack {
             temp_pv=this.updateScore();
 
             if(temp_pv>0){
-                this.totalpoints=temp_pv;
+                this.onlyTrackPoints =temp_pv;
             }
 
 
@@ -171,8 +171,8 @@ public class FaithTrack {
     }
 
 
-    public int getTotalpoints(){
-        return this.totalpoints;
+    public int getOnlyTrackPoints(){
+        return this.onlyTrackPoints;
     }
 
     /**

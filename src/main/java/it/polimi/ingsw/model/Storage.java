@@ -150,6 +150,25 @@ public class Storage {
         return null;
     }
 
+    /*+
+     * Method that returns False if the Decrease operation isn't allowed, True the resource can be decreased
+     * @param int numdec, the amount to decrease
+     * @param TypeOfResource, the resource to decrease
+     */
+    public boolean ResourceDecreaser (int numdec, TypeOfResource resdec){
+        DepotLevel depotTemp = new DepotLevel();
+        depotTemp = seekerOfResource(resdec);
+        int numactual = 0;
+        numactual = depotTemp.getQuantity();
+        if (depotTemp == null || numdec > numactual){
+            return false;
+        }
+        else{
+            depotTemp.setQuantity(numactual-numdec);
+            return true;
+        }
+
+    }
 
     /**
      * method that, given the DepotLevel and the quantity of resources that need to be added,
