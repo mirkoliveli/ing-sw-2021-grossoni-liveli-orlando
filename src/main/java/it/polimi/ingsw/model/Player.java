@@ -10,6 +10,8 @@ public class Player {
     private LeaderCard leaderCard2;
     private int victoryPoints;
 
+
+
     public String getName() {
         return name;
     }
@@ -25,6 +27,16 @@ public class Player {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
+
+    public void setVictoryPoints(){
+        this.victoryPoints = board.getBoardVictoryPoints();
+    }
+
+
 
 
 }

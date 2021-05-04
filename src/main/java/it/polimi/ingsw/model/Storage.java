@@ -182,7 +182,7 @@ public class Storage {
         int temp=DepotTemp.getMaxQuantity()-DepotTemp.getQuantity();
         if(Resource>temp){
              discarded=Resource-temp;
-             DepotTemp.setQuantity(DepotTemp.Add());
+             DepotTemp.setQuantity(DepotTemp.getMaxQuantity());
         }
         else{
              DepotTemp.setQuantity(DepotTemp.getQuantity()+Resource);

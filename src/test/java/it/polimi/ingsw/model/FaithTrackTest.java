@@ -43,10 +43,10 @@ public class FaithTrackTest {
         //assicuriamoci che i movimenti si updateano correttamente,
         FaithTrack test=new FaithTrack();
         test.Movement(4);
-        assertEquals(1, test.getTotalpoints());
+        assertEquals(1, test.getOnlyTrackPoints());
         assertEquals(4, test.getFaithMarker());
         test.Movement(3);
-        assertEquals(2, test.getTotalpoints());
+        assertEquals(2, test.getOnlyTrackPoints());
         assertEquals(7, test.getFaithMarker());
 
 
@@ -54,7 +54,7 @@ public class FaithTrackTest {
         FaithTrack testendgame = new FaithTrack(20);
         testendgame.Movement(6);
         assertEquals(24, testendgame.getFaithMarker());
-        assertEquals(20, testendgame.getTotalpoints());
+        assertEquals(20, testendgame.getOnlyTrackPoints());
         System.out.println("fine test moviemento");
 
 
@@ -140,7 +140,7 @@ public class FaithTrackTest {
         test.Movement(8);
         test.Movement(4);
         assertEquals(24, test.getFaithMarker());
-        assertEquals(20, test.getTotalpoints());
+        assertEquals(20, test.getOnlyTrackPoints());
         assertEquals(9, test.getPopepoints());
         assertTrue(test.getFirst().isObtained());
         assertTrue(test.getSecond().isObtained());

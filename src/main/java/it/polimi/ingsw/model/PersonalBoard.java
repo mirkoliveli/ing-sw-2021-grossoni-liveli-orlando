@@ -13,6 +13,7 @@ public class PersonalBoard {
     private DevelopmentCardSlot developmentSlot3;
     private LeaderCard leader1;
     private LeaderCard leader2;
+    private int boardVictoryPoints;
 
     public PersonalBoard(int i) {
         this.idPlayer = i;
@@ -147,5 +148,16 @@ public class PersonalBoard {
         }
         return costs;
     }
+
+    public int getBoardVictoryPoints() {
+        return boardVictoryPoints;
+    }
+
+    public void setBoardVictoryPoints() {
+        int boardVictoryPoints;
+        boardVictoryPoints = developmentSlot1.getSlotPV() + developmentSlot2.getSlotPV() + developmentSlot3.getSlotPV() +faithTrack.TotalVictoryPointsFaithTrack();
+        this.boardVictoryPoints = boardVictoryPoints;
+    }
+
 
 }
