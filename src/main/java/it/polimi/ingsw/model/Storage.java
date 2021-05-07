@@ -1,10 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.exceptions.AlreadyInOtherLevel;
-import it.polimi.ingsw.model.exceptions.DiscardAllResources;
-import it.polimi.ingsw.model.exceptions.NotAvalidLevel;
-import it.polimi.ingsw.model.exceptions.TooManyResources;
-
+import it.polimi.ingsw.model.exceptions.*;
 
 
 public class Storage {
@@ -38,7 +34,11 @@ public class Storage {
             return true; }
     }
 
-
+    /**
+     *
+     * @param index 1/2/3 come livello
+     * @return livello richiesto
+     */
     public DepotLevel getLevel(int index) {
         switch (index){
             case 1: return level1;
@@ -155,7 +155,7 @@ public class Storage {
      * @param int numdec, the amount to decrease
      * @param TypeOfResource, the resource to decrease
      */
-    public boolean ResourceDecreaser (int numdec, TypeOfResource resdec){
+    public boolean ResourceDecreaser (int numdec, TypeOfResource resdec){ //ora inutile
         DepotLevel depotTemp = new DepotLevel();
         depotTemp = seekerOfResource(resdec);
         int numactual = 0;
@@ -170,6 +170,101 @@ public class Storage {
 
     }
 
+    /**
+     * returns an int[4] with the quantity of resources stored in the storage.
+     * @return
+     */
+    public int[] conversionToArray(){
+        int[] resources=new int[4];
+        for(int i=1; i<4; i++){
+            if(getLevel(i).getResourceType()!=null){
+            switch(getLevel(i).getResourceType()){
+                case coins:
+                    resources[0]+=getLevel(i).getQuantity();
+                    break;
+                case servants:
+                    resources[1]+=getLevel(i).getQuantity();
+                    break;
+                case shields:
+                    resources[2]+=getLevel(i).getQuantity();
+                    break;
+                case stones:
+                    resources[3]+=getLevel(i).getQuantity();
+                    break;
+                default:
+                    break;
+            }}
+        }
+        return resources;
+    }
+
+    /**
+     * given a cost this method checks if it can be paid with the resources stored in the storage.
+     * @param cost
+     * @return
+     */
+    public boolean canPay(int[] cost){
+        int[] resources=conversionToArray();
+        for(int i=0; i<4; i++){
+            if(resources[i]<cost[i]) return false;
+        }
+    return true;
+    }
+
+    /**
+     * method that checks if the cost can be paid (if not throws a NotEnoughResources exception), if it can be paid it
+     * pays the cost
+     * @param costo cost that is going to be paid
+     * @throws NotEnoughResources when the player cannot pay the cost given
+     */
+    public void ResourceDecreaser( int[] costo) throws NotEnoughResources {
+        if(canPay(costo)==false) throw new  NotEnoughResources();
+        DepotLevel temp;
+        for(int i=0; i<4; i++){
+
+            switch (i){
+                case 0:
+                    temp=seekerOfResource(TypeOfResource.coins);
+                    if(temp==null && costo[0]!=0) throw new NotEnoughResources();
+                    else if(temp==null && costo[0]==0) break;
+                    else if(costo[0]> temp.getQuantity()) throw new NotEnoughResources();
+                    else if(true){
+                        temp.setQuantity(temp.getQuantity()-costo[0]);
+                    }
+                    break;
+                case 1:
+                    temp=seekerOfResource(TypeOfResource.servants);
+                    if(temp==null && costo[1]!=0) throw new NotEnoughResources();
+                    else if(temp==null && costo[1]==0) break;
+                    else if(costo[1]> temp.getQuantity()) throw new NotEnoughResources();
+                    else if(true){
+                        temp.setQuantity(temp.getQuantity()-costo[1]);
+                    }
+                    break;
+                case 2:
+                    temp=seekerOfResource(TypeOfResource.shields);
+                    if(temp==null && costo[2]!=0) throw new NotEnoughResources();
+                    else if(temp==null && costo[2]==0) break;
+                    else if(costo[2]> temp.getQuantity()) throw new NotEnoughResources();
+                    else if(true){
+                        temp.setQuantity(temp.getQuantity()-costo[2]);
+                    }
+                    break;
+                case 3:
+                    temp=seekerOfResource(TypeOfResource.stones);
+                    if(temp==null && costo[3]!=0) throw new NotEnoughResources();
+                    else if(temp==null && costo[3]==0) break;
+                    else if(costo[3]> temp.getQuantity()) throw new NotEnoughResources();
+                    else if(true){
+                        temp.setQuantity(temp.getQuantity()-costo[3]);
+                    }
+                    break;
+            }
+        }
+    }
+
+    // null costo non zero, null costo zero, not null costo non zero e minore, not null costo non zero e maggiore
+    //
     /**
      * method that, given the DepotLevel and the quantity of resources that need to be added,
      * adds the resources to the Level and returns the quantity of resources discarded
@@ -190,6 +285,7 @@ public class Storage {
         return discarded;
     }
 
+
     public boolean EmptyDepot(){
         if(level1.getResourceType()==null){
             return true;
@@ -204,7 +300,6 @@ public class Storage {
     }
 
 
-
     //interagisce con server e client
     public int UserChoiceForDepot(TypeOfResource resource, int quantity)throws NotAvalidLevel, DiscardAllResources {
         int discarded=0;
@@ -215,7 +310,6 @@ public class Storage {
         temp.setQuantity(quantity);*/
         return discarded;
     }
-
 
 }
 

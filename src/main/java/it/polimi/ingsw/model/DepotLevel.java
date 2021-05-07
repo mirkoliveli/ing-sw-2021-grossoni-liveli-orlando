@@ -41,6 +41,7 @@ public class DepotLevel {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+        if(quantity==0) resourceType=null;
     }
 
     public int getMaxQuantity() {

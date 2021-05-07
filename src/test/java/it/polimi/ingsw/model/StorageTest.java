@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,6 +50,38 @@ public class StorageTest {
         assertEquals(3, Tester.getLevel(3).getQuantity());
     }
 
+
+
+    //breve controllo sul decreaser
+    @Test
+    public void DecreaserTest(){
+        Storage tester=new Storage();
+        tester.getLevel(1).setResourceType(coins);
+        tester.getLevel(1).setQuantity(1);
+        try {
+            tester.ResourceDecreaser(new int[]{2, 0, 0, 0});
+        }catch (NotEnoughResources e){
+            System.out.println("errore");
+            assertEquals(1, 0);//dato che NON00 devo entrare qua faccio fallire il test automaticamente nel caso succeda
+        }
+        System.out.print(tester.getLevel(1).getResourceType() + "" + tester.getLevel(1).getQuantity());
+    }
+
+
+    //controllo se la conversione funziona
+    @Test
+    public void ConversionToArrayTest() {
+        Storage tester = new Storage();
+        tester.getLevel(1).setResourceType(coins);
+        tester.getLevel(1).setQuantity(1);
+        tester.getLevel(2).setResourceType(shields);
+        tester.getLevel(2).setQuantity(1);
+        int[] resources= tester.conversionToArray();
+        for(int i=0; i<4;i++){
+            if(i%2==0) assertEquals(1, resources[i]);
+            else{ assertEquals(0, resources[i]);}
+        }
+    }
 
 
 }

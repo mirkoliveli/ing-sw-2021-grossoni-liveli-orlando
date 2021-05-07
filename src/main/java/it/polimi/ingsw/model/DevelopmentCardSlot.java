@@ -55,6 +55,9 @@ public class DevelopmentCardSlot {
         return vectorSlot[i];
     }
 
+
+
+
     public boolean placeCard(DevelopmentCard CardToPlace) {
         int i = 0;
 
@@ -75,7 +78,7 @@ public class DevelopmentCardSlot {
             while (vectorSlot[i] != null && i < 3) {
                 i++;
             }
-            vectorSlot[i] = CardToPlace;
+            vectorSlot[i] = new DevelopmentCard(CardToPlace);
             return true;
         }
     }
