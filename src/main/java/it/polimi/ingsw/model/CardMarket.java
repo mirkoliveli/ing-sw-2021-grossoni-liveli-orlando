@@ -5,6 +5,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.CardNotFoundException;
+import it.polimi.ingsw.model.exceptions.EndSoloGame;
 import it.polimi.ingsw.model.exceptions.IllegalCardException;
 
 import java.io.BufferedReader;
@@ -136,6 +137,7 @@ public class CardMarket {
                 counter++;
                 System.out.println("mazzo: " + (counter));
                 for (int stamp = 0; stamp < 4; stamp++) {
+                    if(this.matrixDevelopment[i][j][stamp]!=null)
                     System.out.println(this.matrixDevelopment[i][j][stamp].getId());
                 }
             }
@@ -213,6 +215,150 @@ public class CardMarket {
                     }
                 }
             }
+        }
+        throw new CardNotFoundException();
+    }
+
+
+//----------------------------------------------------------------------------------------------------------------------
+    //   METODI PER SINGLE PLAYER
+
+    /**
+     * method that is called to perform the action, it's just a selection for the real method, which is
+     * DeleteTwoCardsByColor. this method re-throws an Exception EndSoloGame that is thrown by the DeleteTwoCardsByColor method.
+     * @param ColoreToken color taken from the SoloActionToken
+     * @throws EndSoloGame Exception thrown by DeleteTwoCardsByColor, it's re-thrown to the controller.
+     */
+    public void SoloAction(Color ColoreToken) throws EndSoloGame{
+        int color=0;
+        switch (ColoreToken){
+            case green:
+                color=0;
+
+                break;
+            case purple:
+                color=1;
+                break;
+            case blue:
+                color=2;
+                break;
+            case yellow:
+                color=3;
+                break;
+        }
+        try {
+            this.DeleteTwoCardsByColor(color);
+        }catch(EndSoloGame e){
+            throw e;
+        }
+    }
+
+    /**
+     * METHOD  strictly used in the singlePlayer action made by the "bot" Lorenzo
+     * <br>
+     * given a color (that the controller can take from the token) as an int, the method deletes the first 2 cards available
+     * in a deck of that given color, it handles all the cases, and throws an EndSoloGame Exception if the EndGameScenario is reached
+     * if not the method just deletes the 2 cards and end.
+     * @param color color that the SoloActionToken returned
+     * @throws EndSoloGame in the scenario that an EndGameState is reached, an Exception for that is throwed
+     */
+
+    public void DeleteTwoCardsByColor(int color) throws EndSoloGame {
+        int carta=0;
+        int livello=0;
+        int deleted=0;
+
+        boolean EsciDaWhile=false;
+        while(!EsciDaWhile){
+
+            carta=this.NumberOfCardsInLevel(color, livello); //trova quante carte ci sono nel livello
+
+            //nessuna carta nel mazzo
+            if(carta==0) {
+                if(livello==2) throw new EndSoloGame();
+                else{ livello++;}
+            }
+            //almeno due carte nel mazzo, se entro qua devo uscire dal ciclo
+            else if(carta>=2){
+                if(deleted==0){
+                    this.Remove(this.matrixDevelopment[livello][color][4-carta]);
+                    this.Remove(this.matrixDevelopment[livello][color][5-carta]);
+                    deleted=2;
+                    if(this.NoMoreCardsInLevelThree(color)) throw new EndSoloGame();
+                }
+                else if(deleted==1){
+                    this.Remove(this.matrixDevelopment[livello][color][4-carta]);
+                    deleted++;
+                }
+                EsciDaWhile=true;
+            }
+            //solo una carta nel mazzo
+            else if(carta==1){
+                this.Remove(this.matrixDevelopment[livello][color][3]);
+                deleted++;
+                if(this.NoMoreCardsInLevelThree(color)) throw new EndSoloGame();
+                if(deleted!=2)livello++;
+                else EsciDaWhile=true;
+            }
+        }
+    }
+
+
+    /**
+     * method that returns the number of cards in a specified deck. the method will give a runtime error if the level or color is invalid
+     * @param color color of the deck
+     * @param level level of the deck (0-2)
+     * @return number of cards in the deck (0-4)
+     */
+    public int NumberOfCardsInLevel(int color, int level){
+        int posCarta=0;
+        boolean esci=false;
+        while(!esci){
+            if(posCarta<4 && this.matrixDevelopment[level][color][posCarta]==null){
+                posCarta++;
+            }
+            else if(this.matrixDevelopment[level][color][posCarta]!=null){
+                esci=true;
+
+            }
+            if(posCarta==4) esci=true;
+        }
+        return (4-posCarta);
+    }
+
+
+
+
+    /**
+     * very small method used for SinglePlayer for checking if the EndGameState is reached
+     * @param color color of the level 3 deck will be checked
+     * @return true if no more cards are present (EndGameState for singleP), false otherwise
+     */
+    public boolean NoMoreCardsInLevelThree(int color){
+        if(this.matrixDevelopment[2][color][3]==null) return true;
+        else return false;
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    // UTILS
+
+    /**
+     * method that returns a pointer to the card on top of the deck selected. the method EXPECTS a correct level and color,
+     * and also expects a not-empty deck. If the deck is empty the method throws an Exception, if the color or level is not valid
+     * there will be an error at runtime
+     * @param color color selected, given as int
+     * @param level level selected (0 to 2)
+     * @return pointer to the card selected
+     * @throws CardNotFoundException card not found
+     */
+    public DevelopmentCard findFirstCardOfDeck(int color, int level) throws CardNotFoundException {
+        int carta=0;
+        while(carta<3){
+            if(this.matrixDevelopment[level][color][carta]!=null){
+                return this.matrixDevelopment[level][color][carta];
+            }
+            carta++;
         }
         throw new CardNotFoundException();
     }

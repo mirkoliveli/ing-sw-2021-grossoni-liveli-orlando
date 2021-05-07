@@ -44,4 +44,20 @@ public class StackActionTokenTest {
         assertEquals(0, testing.getIndex());
         assertTrue(testing.zeroDiscarded());
     }
+
+    @Test
+    public void TestAbunch(){
+        StackActionToken prova=new StackActionToken();
+        prova.printStack();
+        System.out.println("\n");
+        ActionToken test=prova.playFirst();
+        System.out.println(test.getType());
+        test=prova.playFirst();
+        System.out.println(test.getType());
+    }
+
+
+
+
+
 }

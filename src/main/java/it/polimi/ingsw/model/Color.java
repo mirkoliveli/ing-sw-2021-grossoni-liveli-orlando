@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 public enum Color {
     green,
-    yellow,
+    purple,
     blue,
-    purple;
+    yellow,;
 }

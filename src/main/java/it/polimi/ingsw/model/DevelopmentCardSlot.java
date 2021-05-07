@@ -46,9 +46,11 @@ public class DevelopmentCardSlot {
         /* The method skims the cards starting from the top (supposed 2nd postion)
             until it finds a card. Returns it
          */
-        while (vectorSlot[i] == null) {
+        while (vectorSlot[i] == null && i>0) {
             i--;
         }
+
+        if (vectorSlot[0]==null) return null;
 
         return vectorSlot[i];
     }
@@ -87,6 +89,16 @@ public class DevelopmentCardSlot {
             position++;
         }
         setSlotPV(totpv);
+    }
+
+
+    /**
+     * method that returns the level of the top card, if the slot is empty returns zero.
+     * @return 0-1-2-3
+     */
+    public int levelOfTop(){
+        if(this.get_top()!=null) return this.get_top().getLevel();
+        else return 0;
     }
 
 }

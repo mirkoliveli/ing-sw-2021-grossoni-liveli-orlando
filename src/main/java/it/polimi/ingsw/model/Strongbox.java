@@ -8,9 +8,13 @@ package it.polimi.ingsw.model;
 public class Strongbox {
     /**
      * contents di tipo vettore, conterrà per ogni indice indica la quantità di quel tipo di risorsa contenuta attualmente nella strongbox
+     * <br><br>
      * coins -> spazio 0
+     * <br><br>
      * servants -> spazio 1
+     * <br><br>
      * shields -> spazio 2
+     * <br><br>
      * stones -> spazio 3
      */
     private int[] contents;
@@ -94,6 +98,14 @@ public class Strongbox {
         this.contents[3]=this.contents[3]+gain[3];
     }
 
+
+    public int[] CreateCopy(){
+        int[] copy= new int[4];
+        for(int i=0; i<4; i++){
+            copy[i]=this.getSpecific(i);
+        }
+        return copy;
+    }
 //----------------------------------------------------------------------------------------------------------------------
 
 //utils che non dovrebbero servire per il gioco

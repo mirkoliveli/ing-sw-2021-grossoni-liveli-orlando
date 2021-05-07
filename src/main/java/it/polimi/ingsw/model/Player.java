@@ -10,7 +10,20 @@ public class Player {
     private LeaderCard leaderCard2;
     private int victoryPoints;
 
+    public Player(String name, int id){
+        this.name=name;
+        this.setId(id);
+        this.inkwell=false;
+        this.leaderCard1=null;
+        this.leaderCard2=null;
+        this.victoryPoints=0;
+        this.board=new PersonalBoard(id);
 
+    }
+
+    public PersonalBoard getBoard() {
+        return board;
+    }
 
     public String getName() {
         return name;

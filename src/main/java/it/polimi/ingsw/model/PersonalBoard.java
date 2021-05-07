@@ -32,11 +32,16 @@ public class PersonalBoard {
      */
     public int[] getTotalResources() {
         int[] totResources = new int[4];
-        totResources = strongbox.getContents();
-        totResources[0] += storage.seekerOfResource(coins).getQuantity();
-        totResources[1] += storage.seekerOfResource(servants).getQuantity();
-        totResources[2] += storage.seekerOfResource(shields).getQuantity();
-        totResources[3] += storage.seekerOfResource(stones).getQuantity();
+        totResources = strongbox.CreateCopy();
+        DepotLevel temp=new DepotLevel();
+         temp=this.storage.seekerOfResource(coins);
+         if(temp!=null) totResources[0]+=temp.getQuantity();
+        temp=this.storage.seekerOfResource(servants);
+        if(temp!=null) totResources[1]+=temp.getQuantity();
+        temp=this.storage.seekerOfResource(shields);
+        if(temp!=null) totResources[2]+=temp.getQuantity();
+        temp=this.storage.seekerOfResource(stones);
+        if(temp!=null) totResources[3]+=temp.getQuantity();
         // VANNO AGGIUNTE QUELLE NELLE CARTE LEADER
         return totResources;
     }
@@ -49,6 +54,12 @@ public class PersonalBoard {
         return totCards;
     }
 
+    public DevelopmentCardSlot getSlot(int slot){
+        if(slot==1) return developmentSlot1;
+        if(slot==2) return developmentSlot2;
+        if(slot==3) return developmentSlot3;
+        return null;
+    }
 
     /**
      * This methods returns an array representing the full resource cost of a production action
@@ -159,5 +170,15 @@ public class PersonalBoard {
         this.boardVictoryPoints = boardVictoryPoints;
     }
 
+    public FaithTrack getFaithTrack() {
+        return faithTrack;
+    }
 
+    public Storage getStorage() {
+        return storage;
+    }
+
+    public Strongbox getStrongbox() {
+        return strongbox;
+    }
 }

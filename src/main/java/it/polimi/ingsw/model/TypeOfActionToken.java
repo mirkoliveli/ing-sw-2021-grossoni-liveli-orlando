@@ -2,9 +2,9 @@ package it.polimi.ingsw.model;
 
 public enum TypeOfActionToken {
     greenToken,
+    purpleToken,
     blueToken,
     yellowToken,
-    purpleToken,
     moveCrossAndShuffle,
     twoSpaceMovement;
 }

@@ -148,13 +148,13 @@ public class FaithTrack {
             temp_pv=0;
             this.increasePosition();
             popespace=this.checkPopeSpace();
-            if(popespace == 1 & !this.getFirst().isDiscarded()){
+            if(popespace == 1 && !this.getFirst().isDiscarded() && !this.getFirst().isObtained()){
                 this.activatePopeSpace(1);
             }
-            if(popespace == 2 & !this.getSecond().isDiscarded()){
+            if(popespace == 2 && !this.getSecond().isDiscarded() && !this.getSecond().isObtained()){
                 this.activatePopeSpace(2);
             }
-            if(popespace == 3 & !this.getThird().isDiscarded()){
+            if(popespace == 3 & !this.getThird().isDiscarded() && !this.getThird().isObtained()){
                 this.activatePopeSpace(3);
             }
             temp_pv=this.updateScore();
@@ -162,12 +162,7 @@ public class FaithTrack {
             if(temp_pv>0){
                 this.onlyTrackPoints =temp_pv;
             }
-
-
         }
-
-
-
     }
 
 
@@ -207,7 +202,6 @@ public class FaithTrack {
                     this.third.discard();
                     }
                     break;
-
             }
     }
 
@@ -244,7 +238,32 @@ public class FaithTrack {
         return PopesZonesActivated;
     }
 
+    public int MultiPlayerMovement(int move){
+        int popespace;
+        int temp_pv=0;
+        int activezone=0;
+        for(int i=0; (i < move)&&(faithMarker<24); i++){
+            temp_pv=0;
+            this.increasePosition();
+            popespace=this.checkPopeSpace();
+            if(popespace == 1 && !this.getFirst().isDiscarded() && !this.getFirst().isObtained()){
+                activezone=1;
+            }
+            if(popespace == 2 && !this.getSecond().isDiscarded() && !this.getSecond().isObtained()){
+                activezone=2;
+            }
+            if(popespace == 3 & !this.getThird().isDiscarded() && !this.getThird().isObtained()){
+                activezone=3;
+            }
+            temp_pv=this.updateScore();
 
+            if(temp_pv>0){
+                this.onlyTrackPoints =temp_pv;
+            }
+        }
+
+        return activezone;
+    }
 
     //----------------------------------------------------------------------------------------------------------------------
     /**
@@ -304,8 +323,12 @@ public class FaithTrack {
     }
 
 
-
-
+//----------------------------------------------------------------------------------------------------------------------
+    //singleplayer methods
+    public boolean DoIActivateTheZone(int zone){
+        if(this.getFaithMarker()<(zone*8)) return true;
+        else return false;
+    }
 
 
 }

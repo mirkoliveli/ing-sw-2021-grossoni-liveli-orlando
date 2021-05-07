@@ -28,6 +28,20 @@ public class SoloFaithTrack extends FaithTrack {
         }
     }
 
+    public int Action(int move){
+        enemy+=move;
+        if(enemy==25) enemy--;
 
+        if((this.enemy==8 || (this.enemy==9 && move==2))) {
+            return 1;
+        }
+        else if(((this.enemy==16) || (this.enemy==17 && move==2))) {
+            return 2;
+        }
+        else if (this.enemy==24) {
+            return 3;
+        }
+        return 0;
+    }
 
 }
