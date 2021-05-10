@@ -45,11 +45,29 @@ public class Player {
         return victoryPoints;
     }
 
-    public void setVictoryPoints(){
-        this.victoryPoints = board.getBoardVictoryPoints();
+    public void setVictoryPoints(int value){
+        this.victoryPoints = value;
     }
 
+    public LeaderCard getLeaderCard1() {
+        return leaderCard1;
+    }
 
+    public LeaderCard getLeaderCard2() {
+        return leaderCard2;
+    }
 
+    public void setPvTotal() {
+        int pvtemp = 0;
+        if (leaderCard1 != null){
+            if (leaderCard1.checkIfPlayed()) pvtemp += leaderCard1.getPv();
+    }
+        if (leaderCard2 != null){
+            if (leaderCard2.checkIfPlayed()) pvtemp += leaderCard2.getPv();
+        }
+        pvtemp+=getBoard().getBoardVictoryPoints();
+
+        this.setVictoryPoints(pvtemp);
+    }
 
 }

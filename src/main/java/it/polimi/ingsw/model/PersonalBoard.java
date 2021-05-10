@@ -27,6 +27,10 @@ public class PersonalBoard {
         this.leader2 = new LeaderCard();
     }
 
+
+
+
+
     /**
      This methods returns an array representing all the resources owned by a player in both his storage and his strongbox
      */
@@ -166,7 +170,13 @@ public class PersonalBoard {
 
     public void setBoardVictoryPoints() {
         int boardVictoryPoints;
-        boardVictoryPoints = developmentSlot1.getSlotPV() + developmentSlot2.getSlotPV() + developmentSlot3.getSlotPV() +faithTrack.TotalVictoryPointsFaithTrack();
+        int temp=countOfResources();
+        int pvFromResources=0;
+        while(temp>=5){
+            pvFromResources++;
+            temp=temp-5;
+        }
+        boardVictoryPoints =pvFromResources + developmentSlot1.getSlotPV() + developmentSlot2.getSlotPV() + developmentSlot3.getSlotPV() +faithTrack.TotalVictoryPointsFaithTrack();
         this.boardVictoryPoints = boardVictoryPoints;
     }
 
@@ -181,4 +191,29 @@ public class PersonalBoard {
     public Strongbox getStrongbox() {
         return strongbox;
     }
+
+    public int[][] DevelopMentSlotsStatus(){
+        int[][] status= new int[3][3];
+        DevelopmentCardSlot temp;
+        DevelopmentCard cardtemp;
+        for(int i=1; i<4; i++){
+            temp= getSlot(i);
+            for(int j=0; j<3; j++){
+                cardtemp=temp.getCard(j);
+                if(cardtemp!=null){
+                    status[i-1][j]=cardtemp.getId();
+                }
+                else{status[i-1][j]=0;}
+            }
+        }
+        return status;
+    }
+
+    public int countOfResources(){
+        int[] temp=this.getTotalResources();
+        int tot=temp[0] + temp[1] +temp[3] +temp[2];
+        return tot;
+    }
+
+
 }

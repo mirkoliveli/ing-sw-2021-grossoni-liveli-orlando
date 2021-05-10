@@ -104,5 +104,9 @@ public class DevelopmentCardSlot {
         else return 0;
     }
 
+    public DevelopmentCard getCard(int stacked) {
+        if (vectorSlot[stacked]!=null) return vectorSlot[stacked];
+        else return null;
+    }
 }
 

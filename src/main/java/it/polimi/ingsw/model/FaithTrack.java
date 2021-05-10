@@ -322,6 +322,14 @@ public class FaithTrack {
         System.out.println("                P               P               P");
     }
 
+    public boolean[] popeCardsStatus(){
+        boolean[] status=new boolean[3];
+        status[0]=this.getFirst().isObtained();
+        status[1]=this.getSecond().isObtained();
+        status[2]=this.getThird().isObtained();
+        return status;
+    }
+
 
 //----------------------------------------------------------------------------------------------------------------------
     //singleplayer methods

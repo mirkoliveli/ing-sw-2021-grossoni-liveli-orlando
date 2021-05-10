@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.utils.staticMethods;
 
 
 public class Storage {
@@ -8,14 +9,30 @@ public class Storage {
     private DepotLevel level1;
     private DepotLevel level2;
     private DepotLevel level3;
+    private DepotLevelLeader firstLeader=null;
+    private DepotLevelLeader secondLeader=null;
 
 
     public Storage() {
         this.level1=new DepotLevel(1);
         this.level2=new DepotLevel(2);
         this.level3=new DepotLevel(3);
+        this.firstLeader=null;
+        this.secondLeader=null;
     }
 
+    public void addLeader(TypeOfResource resource){
+        if(firstLeader==null) firstLeader=new DepotLevelLeader(resource);
+        else secondLeader=new DepotLevelLeader(resource);
+    }
+
+
+    /**
+     * method that swaps levels, return false if it can't be done, or true after the swap is done
+     * @param index1 1-2-3
+     * @param index2 1-2-3
+     * @return true if action done, false otherwise
+     */
     public boolean swapLevels(int index1, int index2) {
 
         int temp;
@@ -58,16 +75,134 @@ public class Storage {
 
     /**
      *
-     * @param resources resources gained:([0]-> number of coins, [1]-> number of servants, [2]-> number of shields, [3]-> number of stones)
+     * @param originalCost resources gained:([0]-> number of coins, [1]-> number of servants, [2]-> number of shields, [3]-> number of stones)
      * @throws TooManyResources
      * @throws AlreadyInOtherLevel
      * doesn't allow to change the layout of the resources on different levels, you either do it before or after the "gain of resources"
      */
-    public int IncreaseResources(int[] resources){
+    public int IncreaseResources(int[] originalCost){
         int discarded = 0;
         int temp = 0;
+        boolean[] NullLevel = {true, true, true, true}; //ogni slot indica se non esiste un deposito (tra quelli normali) di quel tipo di risorsa
+        int leaderHandler=0;
+        int[] resources= staticMethods.copyArray(originalCost);
 
-        boolean[] NullLevel = {true, true, true, true};
+        //prima aggiungo quello che posso ai depotLevelLeaders
+
+        if(firstLeader!=null){
+            switch(firstLeader.getResourceTypeLeader()){
+                case coins:
+                    if(resources[0]>0 && firstLeader.getQuantity()!=2){
+                        leaderHandler=2-firstLeader.getQuantity(); //ottengo 1 o 2
+                        if(leaderHandler>=resources[0]){
+                            firstLeader.setQuantity(firstLeader.getQuantity()+resources[0]);
+                            resources[0]=0;
+                        }
+                        else {
+                            firstLeader.setQuantity(2);
+                            resources[0]=resources[0]-leaderHandler;
+                        }
+                    }
+                    break;
+                case servants:
+                    if(resources[1]>0 && firstLeader.getQuantity()!=2){
+                        leaderHandler=2-firstLeader.getQuantity(); //ottengo 1 o 2
+                        if(leaderHandler>=resources[1]){
+                            firstLeader.setQuantity(firstLeader.getQuantity()+resources[1]);
+                            resources[1]=0;
+                        }
+                        else {
+                            firstLeader.setQuantity(2);
+                            resources[1]=resources[1]-leaderHandler;
+                        }
+                    }
+                    break;
+                case shields:
+                    if(resources[2]>0 && firstLeader.getQuantity()!=2){
+                        leaderHandler=2-firstLeader.getQuantity(); //ottengo 1 o 2
+                        if(leaderHandler>=resources[2]){
+                            firstLeader.setQuantity(firstLeader.getQuantity()+resources[2]);
+                            resources[2]=0;
+                        }
+                        else {
+                            firstLeader.setQuantity(2);
+                            resources[2]=resources[2]-leaderHandler;
+                        }
+                    }
+                    break;
+                case stones:
+                    if(resources[3]>0 && firstLeader.getQuantity()!=2){
+                        leaderHandler=2-firstLeader.getQuantity(); //ottengo 1 o 2
+                        if(leaderHandler>=resources[3]){
+                            firstLeader.setQuantity(firstLeader.getQuantity()+resources[3]);
+                            resources[3]=0;
+                        }
+                        else {
+                            firstLeader.setQuantity(2);
+                            resources[3]=resources[3]-leaderHandler;
+                        }
+                    }
+                    break;
+            }
+            if(secondLeader!=null){
+                switch(secondLeader.getResourceTypeLeader()){
+                    case coins:
+                        if(resources[0]>0 && secondLeader.getQuantity()!=2){
+                            leaderHandler=2-secondLeader.getQuantity(); //ottengo 1 o 2
+                            if(leaderHandler>=resources[0]){
+                                secondLeader.setQuantity(secondLeader.getQuantity()+resources[0]);
+                                resources[0]=0;
+                            }
+                            else {
+                                secondLeader.setQuantity(2);
+                                resources[0]=resources[0]-leaderHandler;
+                            }
+                        }
+                        break;
+                    case servants:
+                        if(resources[1]>0 && secondLeader.getQuantity()!=2){
+                            leaderHandler=2-secondLeader.getQuantity(); //ottengo 1 o 2
+                            if(leaderHandler>=resources[1]){
+                                secondLeader.setQuantity(secondLeader.getQuantity()+resources[1]);
+                                resources[1]=0;
+                            }
+                            else {
+                                secondLeader.setQuantity(2);
+                                resources[1]=resources[1]-leaderHandler;
+                            }
+                        }
+                        break;
+                    case shields:
+                        if(resources[2]>0 && secondLeader.getQuantity()!=2){
+                            leaderHandler=2-secondLeader.getQuantity(); //ottengo 1 o 2
+                            if(leaderHandler>=resources[2]){
+                                secondLeader.setQuantity(secondLeader.getQuantity()+resources[2]);
+                                resources[2]=0;
+                            }
+                            else {
+                                secondLeader.setQuantity(2);
+                                resources[2]=resources[2]-leaderHandler;
+                            }
+                        }
+                        break;
+                    case stones:
+                        if(resources[3]>0 && secondLeader.getQuantity()!=2){
+                            leaderHandler=2-secondLeader.getQuantity(); //ottengo 1 o 2
+                            if(leaderHandler>=resources[3]){
+                                secondLeader.setQuantity(secondLeader.getQuantity()+resources[3]);
+                                resources[3]=0;
+                            }
+                            else {
+                                secondLeader.setQuantity(2);
+                                resources[3]=resources[3]-leaderHandler;
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+
+        //ora aggiungo tutto quello che posso ai livelli con già risorse al loro interno
 
         DepotLevel DepotTemp = new DepotLevel();
         for (int i = 0; i < 4; i++) {
@@ -111,6 +246,9 @@ public class Storage {
                 }
             }
         }
+
+        //per finire aggiungo quello che rimane ai livelli vuoti(se ce ne sono)
+
         for (int j = 0; j < 4; j++) {
             if (!NullLevel[j] && EmptyDepot()) {
                 boolean repeat=false;
@@ -176,6 +314,43 @@ public class Storage {
      */
     public int[] conversionToArray(){
         int[] resources=new int[4];
+        //conto risorse nei depot dei leaders (se ci sono)
+        if(firstLeader!=null){
+            switch(getFirstLeader().getResourceTypeLeader()){
+                case coins:
+                    resources[0]+=firstLeader.getQuantity();
+                    break;
+                case servants:
+                    resources[1]+=firstLeader.getQuantity();
+                    break;
+                case shields:
+                    resources[2]+=firstLeader.getQuantity();
+                    break;
+                case stones:
+                    resources[3]+=firstLeader.getQuantity();
+                    break;
+                default:
+                    break;
+            }
+            if(secondLeader!=null){
+                switch(getSecondLeader().getResourceTypeLeader()){
+                    case coins:
+                        resources[0]+=secondLeader.getQuantity();
+                        break;
+                    case servants:
+                        resources[1]+=secondLeader.getQuantity();
+                        break;
+                    case shields:
+                        resources[2]+=secondLeader.getQuantity();
+                        break;
+                    case stones:
+                        resources[3]+=secondLeader.getQuantity();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         for(int i=1; i<4; i++){
             if(getLevel(i).getResourceType()!=null){
             switch(getLevel(i).getResourceType()){
@@ -214,14 +389,36 @@ public class Storage {
     /**
      * method that checks if the cost can be paid (if not throws a NotEnoughResources exception), if it can be paid it
      * pays the cost
-     * @param costo cost that is going to be paid
+     * @param cost cost that is going to be paid
      * @throws NotEnoughResources when the player cannot pay the cost given
      */
-    public void ResourceDecreaser( int[] costo) throws NotEnoughResources {
-        if(canPay(costo)==false) throw new  NotEnoughResources();
+    //DA FINIRE
+    public void ResourceDecreaser( int[] cost) throws NotEnoughResources {
+        if(!canPay(cost)) throw new  NotEnoughResources();
+        int[] costo=staticMethods.copyArray(cost);
+
+        if(firstLeader!=null){
+            switch(firstLeader.getResourceTypeLeader()){
+                case coins:
+                    if(costo[0]>0 && firstLeader.getQuantity()>0){
+                        //togli risorse dal leader
+                    }
+                    break;
+                case servants:
+
+                    break;
+                case shields:
+
+                    break;
+                case stones:
+
+                    break;
+            }
+        }
+
+        //tolgo dai livelli
         DepotLevel temp;
         for(int i=0; i<4; i++){
-
             switch (i){
                 case 0:
                     temp=seekerOfResource(TypeOfResource.coins);
@@ -261,10 +458,12 @@ public class Storage {
                     break;
             }
         }
+
+        //aggiungi metodo che rimette risorse nei depositi leader
     }
 
-    // null costo non zero, null costo zero, not null costo non zero e minore, not null costo non zero e maggiore
-    //
+
+
     /**
      * method that, given the DepotLevel and the quantity of resources that need to be added,
      * adds the resources to the Level and returns the quantity of resources discarded
@@ -311,5 +510,68 @@ public class Storage {
         return discarded;
     }
 
+    public int[][] storageStatus(){
+        int[][] status=new int[5][2];
+        for(int i=1; i<4; i++) {
+            DepotLevel temp = getLevel(i);
+            if(temp.getResourceType()!=null){
+                switch(temp.getResourceType()){
+                    case coins:
+                        status[i-1][0]=1;
+                        break;
+                    case servants:
+                        status[i-1][0]=2;
+                        break;
+                    case shields:
+                        status[i-1][0]=3;
+                        break;
+                    case stones:
+                        status[i-1][0]=4;
+                        break;
+                }
+                status[i-1][1]=temp.getQuantity();
+            }
+            else{
+                status[i-1][0]=0;
+                status[i-1][1]=0;
+            }
+        }
+        if(firstLeader!=null){
+            status[3][0]=staticMethods.TypeOfResourceToInt(firstLeader.getResourceTypeLeader())+1;
+            status[3][1]=firstLeader.getQuantity();
+        }
+        else{
+            status[3][0]=-1;
+            status[3][1]=0;
+        }
+        if(secondLeader!=null){
+            status[4][0]=staticMethods.TypeOfResourceToInt(secondLeader.getResourceTypeLeader())+1;
+            status[4][1]=secondLeader.getQuantity();
+        }
+        else{
+            status[4][0]=-1;
+            status[4][1]=0;
+        }
+       return status;
+    }
+
+
+
+
+    public DepotLevelLeader getFirstLeader() {
+        return firstLeader;
+    }
+
+    public void setFirstLeader(DepotLevelLeader firstLeader) {
+        this.firstLeader = firstLeader;
+    }
+
+    public DepotLevelLeader getSecondLeader() {
+        return secondLeader;
+    }
+
+    public void setSecondLeader(DepotLevelLeader secondLeader) {
+        this.secondLeader = secondLeader;
+    }
 }
 

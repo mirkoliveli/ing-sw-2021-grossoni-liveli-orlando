@@ -102,7 +102,7 @@ public class Strongbox {
     public int[] CreateCopy(){
         int[] copy= new int[4];
         for(int i=0; i<4; i++){
-            copy[i]=this.getSpecific(i);
+            copy[i]=this.getSpecific(i+1);
         }
         return copy;
     }

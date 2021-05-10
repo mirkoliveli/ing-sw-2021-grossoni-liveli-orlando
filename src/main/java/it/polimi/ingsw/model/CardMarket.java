@@ -363,4 +363,27 @@ public class CardMarket {
         throw new CardNotFoundException();
     }
 
+
+    /**
+     * method that creates a matrix containing the id of the cards visible (and that can be bought) by the players
+     * @return id's of the cards available;
+     */
+    public int[][] cardMarketStatus(){
+        int[][] visibleMarket=new int[3][4];
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                int card=0;
+                while(matrixDevelopment[i][j][card]==null && card<4){
+                    card++;
+                }
+                if(card<4){
+                    visibleMarket[i][j]=matrixDevelopment[i][j][card].getId();
+                }
+                else{visibleMarket[i][j]=0;}
+            }
+        }
+        return visibleMarket;
+    }
+
+
 }

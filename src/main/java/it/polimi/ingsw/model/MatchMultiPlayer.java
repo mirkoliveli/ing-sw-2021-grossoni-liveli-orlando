@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.PlayerUpdate;
 import it.polimi.ingsw.model.exceptions.CardNotFoundException;
 import it.polimi.ingsw.model.exceptions.GameIsEnding;
 
@@ -96,6 +97,39 @@ public class MatchMultiPlayer {
     }
 
 
+    /**
+     * this method creates an object that is an update to the status of a player, with all the info useful to recreate the
+     * player in a game or to represent the player in another player's view
+     * @param id id of the player
+     * @return PlayerUpdate object
+     */
+    public PlayerUpdate UpdatePlayerStatus(int id){
+        int realid=id-1;
+        PlayerUpdate playerStats=new PlayerUpdate(players.get(realid).getName(), id);
+        //setting faithTrack
+        playerStats.setFaithTrackProgress(players.get(realid).getBoard().getFaithTrack().getFaithMarker());
+        playerStats.setPopesFavorCards(players.get(realid).getBoard().getFaithTrack().popeCardsStatus());
+        //setting leaders
+        if(players.get(realid).getLeaderCard1()!=null){
+            playerStats.setFirstLeader(players.get(realid).getLeaderCard1().getId());
+            playerStats.setFirstLeaderIsPlayed(players.get(realid).getLeaderCard1().checkIfPlayed());
+        }
+        if(players.get(realid).getLeaderCard2()!=null) {
+            playerStats.setFirstLeader(players.get(realid).getLeaderCard2().getId());
+            playerStats.setSecondLeaderIsPlayed(players.get(realid).getLeaderCard2().checkIfPlayed());
+        }
+        //setting StrongBox
+        playerStats.setStrongBox(players.get(realid).getBoard().getStrongbox().CreateCopy());
+        //set storage
+        playerStats.setStorage(players.get(realid).getBoard().getStorage().storageStatus());
+        //set developmentSlots
+        playerStats.setDevelopMentSlots(players.get(realid).getBoard().DevelopMentSlotsStatus());
+
+        //set pv
+        playerStats.setPv(players.get(realid).getVictoryPoints());
+
+        return playerStats;
+    }
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -132,4 +166,10 @@ public class MatchMultiPlayer {
     public void setLeaderDeck(LeaderDeck leaderDeck) {
         this.leaderDeck = leaderDeck;
     }
+
+
+
+
+
+
 }

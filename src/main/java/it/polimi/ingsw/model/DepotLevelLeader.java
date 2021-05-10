@@ -1,28 +1,38 @@
 package it.polimi.ingsw.model;
 
-public class DepotLevelLeader extends DepotLevel {
+public class DepotLevelLeader extends DepotLevel{
 
+    private TypeOfResource resourceTypeLeader;
 
-
-    private final TypeOfResource resourceTypeLeader; //stai creando un enum dentro una classe. fixa qui
-
-    /*public DepotLevelLeader() {
-        resourceTypeLeader = null;
-    } */
 
     public DepotLevelLeader(TypeOfResource resourceType) {
         this.resourceTypeLeader=resourceType;
+        setMaxQuantity(2);
+        setQuantity(0);
+        setResourceType(resourceType);
     }
 
+    @Override
+    public void setQuantity(int quantity) {
+        super.setQuantity(quantity);
+        setResourceType(resourceTypeLeader);
+    }
 
     public int getMaxQuantity() {
         return 2;
     }
 
-    public void setMaxQuantity(int q) { // cosa vuol dire che non fa nulla? scopo?
-        /* Non fa nulla */
+    public void setMaxQuantity(int q) {
+        /* override */
     }
 
+    public TypeOfResource getResourceTypeLeader() {
+        return resourceTypeLeader;
+    }
+
+    public void setResourceTypeLeader(TypeOfResource resourceTypeLeader) {
+        this.resourceTypeLeader = resourceTypeLeader;
+    }
 
     public TypeOfResource getResourceType() {
         return resourceTypeLeader;

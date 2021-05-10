@@ -46,8 +46,12 @@ public class StorageTest {
         int[] prova={1,0,0,0};
         assertEquals(0, Tester.IncreaseResources(prova));
         prova[0]=2;
-        assertEquals(1, Tester.IncreaseResources(prova));
-        assertEquals(3, Tester.getLevel(3).getQuantity());
+        assertEquals(1, Tester.IncreaseResources(prova)); //c'è una risorsa scartata
+        assertEquals(3, Tester.getLevel(3).getQuantity()); //lo slot è pieno
+        Tester.addLeader(coins);
+        assertEquals(0, Tester.IncreaseResources(prova));
+        System.out.println(Tester.getFirstLeader().getQuantity());
+
     }
 
 
