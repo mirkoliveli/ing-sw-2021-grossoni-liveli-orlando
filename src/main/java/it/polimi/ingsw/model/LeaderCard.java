@@ -77,6 +77,8 @@ public class LeaderCard extends Card {
         return power;
     }
 
+
+
     public void setPower(TypeOfResource power) {
         this.power = power;
     }

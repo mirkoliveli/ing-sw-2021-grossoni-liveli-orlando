@@ -25,6 +25,7 @@ public class PersonalBoard {
         this.developmentSlot3 = new DevelopmentCardSlot();
         this.leader1 = new LeaderCard();
         this.leader2 = new LeaderCard();
+        this.boardVictoryPoints = 0;
     }
 
 
@@ -61,6 +62,8 @@ public class PersonalBoard {
         if (slot == 3) return developmentSlot3;
         return null;
     }
+
+    public int getId() { return this.idPlayer; }
 
     /**
      * This methods returns an array representing the full resource cost of a production action

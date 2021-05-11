@@ -1,11 +1,19 @@
 package it.polimi.ingsw;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.model.DevelopmentCard;
+import it.polimi.ingsw.model.LeaderDeck;
 import it.polimi.ingsw.networking.Client;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class ClientMain {
+
+
 
     public static void main(String[] args) throws IOException {
         Scanner scn = new Scanner(System.in);

@@ -55,7 +55,7 @@ public class FaithTrackTest {
         testendgame.Movement(6);
         assertEquals(24, testendgame.getFaithMarker());
         assertEquals(20, testendgame.getOnlyTrackPoints());
-        System.out.println("fine test moviemento");
+        System.out.println("fine test movimento");
 
 
         //manca test per verificare che si attivi il Vatican report
