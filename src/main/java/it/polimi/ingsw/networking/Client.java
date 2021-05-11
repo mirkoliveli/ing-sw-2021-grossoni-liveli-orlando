@@ -44,6 +44,7 @@ public class Client {
         }
         System.out.println("Client: closing...");
         socket.close();
+        System.out.println("Closed!");
     }
 
     public void LoginRequest(Socket socket) throws IOException {
@@ -80,9 +81,9 @@ public class Client {
                 break;
         }
         out.println(userInput);
-        System.out.println("Answering: " + in.readLine());
-        out.close();
+        System.out.println("Answer from server: " + in.readLine());
         in.close();
+        out.close();
         stdIn.close();
         setLoggedInGame(true);
     }
