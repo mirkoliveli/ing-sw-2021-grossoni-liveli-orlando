@@ -8,21 +8,24 @@ public abstract class Card {
     /**
      * costruttore base
      */
-    public Card(){
-        id=0;
-        pv=0;
+    public Card() {
+        id = 0;
+        pv = 0;
     }
 //----------------------------------------------------------------------------------------------------------------------
+
     /**
      * costruttori per testing e settaggi
+     *
      * @return
      */
-    public Card(int victorypt, int code){
-        pv=victorypt;
-        id=code;
+    public Card(int victorypt, int code) {
+        pv = victorypt;
+        id = code;
     }
-    public Card(int victorypt){
-        pv=victorypt;
+
+    public Card(int victorypt) {
+        pv = victorypt;
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -30,12 +33,12 @@ public abstract class Card {
         return id;
     }
 
-    public int getPv() {
-        return pv;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPv() {
+        return pv;
     }
 
     public void setPv(int pv) {

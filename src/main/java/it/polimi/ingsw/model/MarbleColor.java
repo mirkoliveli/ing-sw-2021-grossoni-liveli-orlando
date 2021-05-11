@@ -6,5 +6,5 @@ public enum MarbleColor {
     red,
     purple,
     blue,
-    yellow;
+    yellow
 }

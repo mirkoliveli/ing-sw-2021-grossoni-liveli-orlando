@@ -7,28 +7,30 @@ public class DepotLevel {
     private int maxQuantity;
 
     public DepotLevel() {
-        resourceType=null;
-        quantity=0;
-        maxQuantity=0;
+        resourceType = null;
+        quantity = 0;
+        maxQuantity = 0;
     }
 
     public DepotLevel(int max) {
-        resourceType=null;
-        quantity=0;
-        maxQuantity=max;
+        resourceType = null;
+        quantity = 0;
+        maxQuantity = max;
     }
 
     public DepotLevel(TypeOfResource resourceType, int quantity, int maxQuantity) {
-        this.resourceType=resourceType;
-        this.quantity=quantity;
-        this.maxQuantity=maxQuantity;
+        this.resourceType = resourceType;
+        this.quantity = quantity;
+        this.maxQuantity = maxQuantity;
     }
 
     public TypeOfResource getResourceType() {
-        if (this.getQuantity()==0) {return null;}
-        else { return resourceType; }
+        if (this.getQuantity() == 0) {
+            return null;
+        } else {
+            return resourceType;
+        }
     }
-
 
 
     public void setResourceType(TypeOfResource ToR) {
@@ -41,7 +43,7 @@ public class DepotLevel {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-        if(quantity==0) resourceType=null;
+        if (quantity == 0) resourceType = null;
     }
 
     public int getMaxQuantity() {
@@ -108,9 +110,6 @@ public class DepotLevel {
         }
 
     }
-
-
-
 
 
 }

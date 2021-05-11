@@ -5,5 +5,5 @@ public enum TypeOfResource {
     servants,
     shields,
     stones,
-    faith;
+    faith
 }

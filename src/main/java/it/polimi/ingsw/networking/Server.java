@@ -1,12 +1,11 @@
 package it.polimi.ingsw.networking;
 //import it.polimi.ingsw.message.*;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Server {
 
@@ -25,14 +24,12 @@ public class Server {
 //    }
 
 
-
 //    public static int turno;
 //    public static int getTurno() {
 //        return turno;
 //    }    public static void setTurno(int turno) {
 //        this.turno = turno;
 //    }
-
 
 
     public Server(int PORT) throws IOException {
@@ -63,7 +60,6 @@ public class Server {
         }
         serverSocket.close();
     }
-
 
 
 }

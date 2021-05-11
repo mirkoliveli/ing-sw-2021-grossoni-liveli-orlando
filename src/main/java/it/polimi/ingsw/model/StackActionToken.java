@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +8,7 @@ import static it.polimi.ingsw.model.TypeOfActionToken.*;
 
 public class StackActionToken {
 
-    private ActionToken[] stack;
+    private final ActionToken[] stack;
     private int index;
 
     /**
@@ -28,7 +29,9 @@ public class StackActionToken {
         stackList.toArray(stack);
     }
 
-    public int getIndex() { return index; }
+    public int getIndex() {
+        return index;
+    }
 
     /**
      * @return the first token of the stack
@@ -54,7 +57,7 @@ public class StackActionToken {
      */
     public void resetStack() {
         index = 0;
-        for (int i=0; i<7; i++) {
+        for (int i = 0; i < 7; i++) {
             stack[i].reshuffle();
         }
         List<ActionToken> stackList = Arrays.asList(stack);
@@ -63,19 +66,17 @@ public class StackActionToken {
     }
 
 
-
-
     // METODO UTILIZZATO SOLO PER TESTARE LO SHUFFLER NEL TEST DEL COSTRUTTORE
     // STAMPA IL TIPO DI OGNI TOKEN DELLO STACK IN FILA
     public void printStack() {
-        for (int i=0; i<7; i++) {
+        for (int i = 0; i < 7; i++) {
             System.out.println(stack[i].getType());
         }
     }
 
     // METODO UTILIZZATO SOLO PER TESTARE RESETSTACK, RESTITUISCE TRUE SE NESSUN TOKEN E' STATO SCARTATO
     public boolean zeroDiscarded() {
-        for (int i=0; i<7; i++) {
+        for (int i = 0; i < 7; i++) {
             if (stack[i].isDiscarded()) {
                 return false;
             }

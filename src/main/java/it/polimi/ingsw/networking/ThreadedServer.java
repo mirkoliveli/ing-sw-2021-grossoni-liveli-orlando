@@ -2,7 +2,6 @@ package it.polimi.ingsw.networking;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
 
 public class ThreadedServer extends Thread {
 
@@ -40,7 +39,7 @@ public class ThreadedServer extends Thread {
                 String str = inFromClient.readLine();
 
                 if ((str == null) || str.equalsIgnoreCase("QUIT")) {
-                    System.out.println("Closing " + clientSocket + "!");
+                    System.out.println("Closing " + clientSocket);
                     break;
                 }
 
@@ -61,6 +60,7 @@ public class ThreadedServer extends Thread {
             clientSocket.close();
             outToTheClient.close();
             inFromClient.close();
+            System.out.println("CLOSED!");
         } catch (IOException e) {
             System.out.println("ESPLOSO! KABOOM\n");
         }

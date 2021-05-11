@@ -6,5 +6,5 @@ public enum TypeOfActionToken {
     blueToken,
     yellowToken,
     moveCrossAndShuffle,
-    twoSpaceMovement;
+    twoSpaceMovement
 }

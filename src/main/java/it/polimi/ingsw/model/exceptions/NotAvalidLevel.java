@@ -1,4 +1,4 @@
 package it.polimi.ingsw.model.exceptions;
 
-public class NotAvalidLevel extends Exception{
+public class NotAvalidLevel extends Exception {
 }

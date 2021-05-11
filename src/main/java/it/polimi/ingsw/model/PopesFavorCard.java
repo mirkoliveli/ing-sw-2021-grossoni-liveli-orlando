@@ -7,20 +7,21 @@ public class PopesFavorCard extends Card {
     /**
      * costruttore che setta a zero sia id sia pv
      */
-    public PopesFavorCard(){
+    public PopesFavorCard() {
         super();
-        isDiscarded=false;
-        isObtained=false;
+        isDiscarded = false;
+        isObtained = false;
     }
 
     /**
      * costruttore che setta a zero id ma setta a parametro 'value' i pv
+     *
      * @param value
      */
-    public PopesFavorCard(int value){
+    public PopesFavorCard(int value) {
         super(value);
-        isDiscarded=false;
-        isObtained=false;
+        isDiscarded = false;
+        isObtained = false;
     }
 
     public boolean isDiscarded() {
@@ -35,21 +36,20 @@ public class PopesFavorCard extends Card {
     /**
      * mettere eccezione per vedere se non è già stata ottenuta
      */
-    public void discard(){
-        this.isDiscarded=true;
+    public void discard() {
+        this.isDiscarded = true;
     }
 
     /**
      * mettere eccezione per vedere se non è già stata scartata
      */
-    public void flip(){
-        this.isObtained=true;
+    public void flip() {
+        this.isObtained = true;
     }
 
 
 //----------------------------------------------------------------------------------------------------------------------
 //testing metods
-
 
 
 }

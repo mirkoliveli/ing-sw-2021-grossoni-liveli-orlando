@@ -4,15 +4,15 @@ import static it.polimi.ingsw.model.TypeOfResource.*;
 
 public class PersonalBoard {
 
-    private int idPlayer;
-    private FaithTrack faithTrack;
-    private Strongbox strongbox;
-    private Storage storage;
-    private DevelopmentCardSlot developmentSlot1;
-    private DevelopmentCardSlot developmentSlot2;
-    private DevelopmentCardSlot developmentSlot3;
-    private LeaderCard leader1;
-    private LeaderCard leader2;
+    private final int idPlayer;
+    private final FaithTrack faithTrack;
+    private final Strongbox strongbox;
+    private final Storage storage;
+    private final DevelopmentCardSlot developmentSlot1;
+    private final DevelopmentCardSlot developmentSlot2;
+    private final DevelopmentCardSlot developmentSlot3;
+    private final LeaderCard leader1;
+    private final LeaderCard leader2;
     private int boardVictoryPoints;
 
     public PersonalBoard(int i) {
@@ -28,24 +28,21 @@ public class PersonalBoard {
     }
 
 
-
-
-
     /**
-     This methods returns an array representing all the resources owned by a player in both his storage and his strongbox
+     * This methods returns an array representing all the resources owned by a player in both his storage and his strongbox
      */
     public int[] getTotalResources() {
         int[] totResources = new int[4];
         totResources = strongbox.CreateCopy();
-        DepotLevel temp=new DepotLevel();
-         temp=this.storage.seekerOfResource(coins);
-         if(temp!=null) totResources[0]+=temp.getQuantity();
-        temp=this.storage.seekerOfResource(servants);
-        if(temp!=null) totResources[1]+=temp.getQuantity();
-        temp=this.storage.seekerOfResource(shields);
-        if(temp!=null) totResources[2]+=temp.getQuantity();
-        temp=this.storage.seekerOfResource(stones);
-        if(temp!=null) totResources[3]+=temp.getQuantity();
+        DepotLevel temp = new DepotLevel();
+        temp = this.storage.seekerOfResource(coins);
+        if (temp != null) totResources[0] += temp.getQuantity();
+        temp = this.storage.seekerOfResource(servants);
+        if (temp != null) totResources[1] += temp.getQuantity();
+        temp = this.storage.seekerOfResource(shields);
+        if (temp != null) totResources[2] += temp.getQuantity();
+        temp = this.storage.seekerOfResource(stones);
+        if (temp != null) totResources[3] += temp.getQuantity();
         // VANNO AGGIUNTE QUELLE NELLE CARTE LEADER
         return totResources;
     }
@@ -58,10 +55,10 @@ public class PersonalBoard {
         return totCards;
     }
 
-    public DevelopmentCardSlot getSlot(int slot){
-        if(slot==1) return developmentSlot1;
-        if(slot==2) return developmentSlot2;
-        if(slot==3) return developmentSlot3;
+    public DevelopmentCardSlot getSlot(int slot) {
+        if (slot == 1) return developmentSlot1;
+        if (slot == 2) return developmentSlot2;
+        if (slot == 3) return developmentSlot3;
         return null;
     }
 
@@ -76,22 +73,22 @@ public class PersonalBoard {
         int i;
 
         if (productions[0]) {
-                for (i=0; i<4; i++) {
-                    costs[i] = costs[i] + developmentSlot1.get_top().getCost()[i];
-                }
+            for (i = 0; i < 4; i++) {
+                costs[i] = costs[i] + developmentSlot1.get_top().getCost()[i];
+            }
         }
         if (productions[1]) {
-            for (i=0; i<4; i++) {
+            for (i = 0; i < 4; i++) {
                 costs[i] = costs[i] + developmentSlot2.get_top().getCost()[i];
             }
         }
         if (productions[2]) {
-            for (i=0; i<4; i++) {
+            for (i = 0; i < 4; i++) {
                 costs[i] = costs[i] + developmentSlot3.get_top().getCost()[i];
             }
         }
         if (productions[3]) {
-            switch(leader1.getPower()) {
+            switch (leader1.getPower()) {
                 case coins:
                     costs[0]++;
                     break;
@@ -107,7 +104,7 @@ public class PersonalBoard {
             }
         }
         if (productions[4]) {
-            switch(leader2.getPower()) {
+            switch (leader2.getPower()) {
                 case coins:
                     costs[0]++;
                     break;
@@ -133,7 +130,7 @@ public class PersonalBoard {
      */
     public int[] getCosts(boolean[] productions, TypeOfResource type1, TypeOfResource type2) {
         int[] costs = this.getCosts(productions);
-        switch(type1) {
+        switch (type1) {
             case coins:
                 costs[0]++;
                 break;
@@ -147,7 +144,7 @@ public class PersonalBoard {
                 costs[3]++;
                 break;
         }
-        switch(type2) {
+        switch (type2) {
             case coins:
                 costs[0]++;
                 break;
@@ -170,13 +167,13 @@ public class PersonalBoard {
 
     public void setBoardVictoryPoints() {
         int boardVictoryPoints;
-        int temp=countOfResources();
-        int pvFromResources=0;
-        while(temp>=5){
+        int temp = countOfResources();
+        int pvFromResources = 0;
+        while (temp >= 5) {
             pvFromResources++;
-            temp=temp-5;
+            temp = temp - 5;
         }
-        boardVictoryPoints =pvFromResources + developmentSlot1.getSlotPV() + developmentSlot2.getSlotPV() + developmentSlot3.getSlotPV() +faithTrack.TotalVictoryPointsFaithTrack();
+        boardVictoryPoints = pvFromResources + developmentSlot1.getSlotPV() + developmentSlot2.getSlotPV() + developmentSlot3.getSlotPV() + faithTrack.TotalVictoryPointsFaithTrack();
         this.boardVictoryPoints = boardVictoryPoints;
     }
 
@@ -192,26 +189,27 @@ public class PersonalBoard {
         return strongbox;
     }
 
-    public int[][] DevelopMentSlotsStatus(){
-        int[][] status= new int[3][3];
+    public int[][] DevelopMentSlotsStatus() {
+        int[][] status = new int[3][3];
         DevelopmentCardSlot temp;
         DevelopmentCard cardtemp;
-        for(int i=1; i<4; i++){
-            temp= getSlot(i);
-            for(int j=0; j<3; j++){
-                cardtemp=temp.getCard(j);
-                if(cardtemp!=null){
-                    status[i-1][j]=cardtemp.getId();
+        for (int i = 1; i < 4; i++) {
+            temp = getSlot(i);
+            for (int j = 0; j < 3; j++) {
+                cardtemp = temp.getCard(j);
+                if (cardtemp != null) {
+                    status[i - 1][j] = cardtemp.getId();
+                } else {
+                    status[i - 1][j] = 0;
                 }
-                else{status[i-1][j]=0;}
             }
         }
         return status;
     }
 
-    public int countOfResources(){
-        int[] temp=this.getTotalResources();
-        int tot=temp[0] + temp[1] +temp[3] +temp[2];
+    public int countOfResources() {
+        int[] temp = this.getTotalResources();
+        int tot = temp[0] + temp[1] + temp[3] + temp[2];
         return tot;
     }
 

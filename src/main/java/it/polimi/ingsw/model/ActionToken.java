@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 public class ActionToken {
 
     private boolean isDiscarded;
-    private TypeOfActionToken type;
+    private final TypeOfActionToken type;
 
 
     public ActionToken(TypeOfActionToken t) {
@@ -11,15 +11,20 @@ public class ActionToken {
         this.type = t;
     }
 
-    public void discard(){
+    public void discard() {
         this.isDiscarded = true;
     }
-    public void reshuffle(){
+
+    public void reshuffle() {
         this.isDiscarded = false;
     }
+
     public boolean isDiscarded() {
         return isDiscarded;
     }
-    public TypeOfActionToken getType() { return type; }
+
+    public TypeOfActionToken getType() {
+        return type;
+    }
 
 }

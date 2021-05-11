@@ -9,10 +9,10 @@ public class MarketsUpdate {
 
     //se un mazzo di carte è vuoto l'id presente sarà zero
 
-    public MarketsUpdate(){
-        cardMarket=new int[3][4];
-        marketBoard=new MarbleColor[3][4];
-        slideMarble=null;
+    public MarketsUpdate() {
+        cardMarket = new int[3][4];
+        marketBoard = new MarbleColor[3][4];
+        slideMarble = null;
     }
 
     //getters e setters

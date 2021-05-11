@@ -17,28 +17,29 @@ import java.io.IOException;
  * class that defines the cardMarket section
  */
 public class CardMarket {
-    private DevelopmentCard[][][] matrixDevelopment;
+    private final DevelopmentCard[][][] matrixDevelopment;
 
     /**
      * constructor for the class,
      * it uses gson and 12 files for the creation of the matrix of cards.
      * Explanation on how the matrix is populated is explained in the "populate" method.
+     *
      * @author riccardo grossoni
      */
-    public CardMarket(){
-        this.matrixDevelopment=new DevelopmentCard[3][4][4];
-        this.populate(0,0,"src/main/resources/green_lvl1.json");
-        this.populate(0,1,"src/main/resources/purple_lvl1.json");
-        this.populate(0,2,"src/main/resources/blue_lvl1.json");
-        this.populate(0,3,"src/main/resources/yellow_lvl1.json");
-        this.populate(1,0,"src/main/resources/green_lvl2.json");
-        this.populate(1,1,"src/main/resources/purple_lvl2.json");
-        this.populate(1,2,"src/main/resources/blue_lvl2.json");
-        this.populate(1,3,"src/main/resources/yellow_lvl2.json");
-        this.populate(2,0,"src/main/resources/green_lvl3.json");
-        this.populate(2,1,"src/main/resources/purple_lvl3.json");
-        this.populate(2,2,"src/main/resources/blue_lvl3.json");
-        this.populate(2,3,"src/main/resources/yellow_lvl3.json");
+    public CardMarket() {
+        this.matrixDevelopment = new DevelopmentCard[3][4][4];
+        this.populate(0, 0, "src/main/resources/green_lvl1.json");
+        this.populate(0, 1, "src/main/resources/purple_lvl1.json");
+        this.populate(0, 2, "src/main/resources/blue_lvl1.json");
+        this.populate(0, 3, "src/main/resources/yellow_lvl1.json");
+        this.populate(1, 0, "src/main/resources/green_lvl2.json");
+        this.populate(1, 1, "src/main/resources/purple_lvl2.json");
+        this.populate(1, 2, "src/main/resources/blue_lvl2.json");
+        this.populate(1, 3, "src/main/resources/yellow_lvl2.json");
+        this.populate(2, 0, "src/main/resources/green_lvl3.json");
+        this.populate(2, 1, "src/main/resources/purple_lvl3.json");
+        this.populate(2, 2, "src/main/resources/blue_lvl3.json");
+        this.populate(2, 3, "src/main/resources/yellow_lvl3.json");
     }
 
     public DevelopmentCard[][][] getMatrixDevelopment() {
@@ -52,36 +53,41 @@ public class CardMarket {
      * as a parameter via the level and color param.
      * <br><br>
      * the path is given as a string.
-     * @param lvl is needed to find the right "row"
-     * @param color is needed to find the right "column"
+     *
+     * @param lvl    is needed to find the right "row"
+     * @param color  is needed to find the right "column"
      * @param Source is the path of the JSON file that contains the 4 cards needed
      * @author Riccardo Grossoni
      */
-    public void populate(int lvl, int color, String Source){
-        Gson gson= new Gson();
-        BufferedReader buffer=null;
-        try{
-            buffer=new BufferedReader(new FileReader(Source));
-        }catch (FileNotFoundException e){
+    public void populate(int lvl, int color, String Source) {
+        Gson gson = new Gson();
+        BufferedReader buffer = null;
+        try {
+            buffer = new BufferedReader(new FileReader(Source));
+        } catch (FileNotFoundException e) {
             System.out.println("File non trovato");
         }
-        this.matrixDevelopment[lvl][color]= gson.fromJson(buffer, DevelopmentCard[].class);
-        try{ buffer.close();
-        }catch(IOException e ){ System.out.println("error");}
+        this.matrixDevelopment[lvl][color] = gson.fromJson(buffer, DevelopmentCard[].class);
+        try {
+            buffer.close();
+        } catch (IOException e) {
+            System.out.println("error");
+        }
     }
 
     /**
      * method used to shuffle all the decks, it uses the same shuffling algorithm as the MarketBoard class (Fisher-Yates shuffle)
+     *
      * @author Riccardo Grossoni
      */
-    public void shuffle(){
+    public void shuffle() {
         int index;
-        DevelopmentCard temp=new DevelopmentCard();
-        for (int i=0; i<3; i++){
-            for(int j=0; j<4; j++){
-                for(int swap=3; swap>0; swap--){
-                    index=(int)Math.floor(Math.random()* (swap+1));
-                    temp=new DevelopmentCard(this.matrixDevelopment[i][j][swap]);
+        DevelopmentCard temp = new DevelopmentCard();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                for (int swap = 3; swap > 0; swap--) {
+                    index = (int) Math.floor(Math.random() * (swap + 1));
+                    temp = new DevelopmentCard(this.matrixDevelopment[i][j][swap]);
                     this.matrixDevelopment[i][j][swap].setAll(this.matrixDevelopment[i][j][index]);
                     this.matrixDevelopment[i][j][index].setAll(temp);
                 }
@@ -92,15 +98,16 @@ public class CardMarket {
 
     /**
      * method that given a card id it removes the card from the market (usually after being bought)
+     *
      * @param id is the id of the card being removed
      * @author Riccardo Grossoni
      */
 
-    public void Remove(int id){
-        for (int i=0; i<3; i++) {
+    public void Remove(int id) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 for (int card = 0; card < 4; card++) {
-                    if ((this.matrixDevelopment[i][j][card]!=null)&&(this.matrixDevelopment[i][j][card].getId()==id)) {
+                    if ((this.matrixDevelopment[i][j][card] != null) && (this.matrixDevelopment[i][j][card].getId() == id)) {
                         this.matrixDevelopment[i][j][card] = null;
                     }
                 }
@@ -110,6 +117,7 @@ public class CardMarket {
 
     /**
      * overload of the method Remove, in this method it has to be passed as a parameter the card being removed itself
+     *
      * @param removeThis is the card being removed
      * @author Riccardo Grossoni
      */
@@ -117,7 +125,7 @@ public class CardMarket {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 for (int card = 0; card < 4; card++) {
-                    if ((this.matrixDevelopment[i][j][card]!=null)&&(this.matrixDevelopment[i][j][card].getId()==removeThis.getId())) {
+                    if ((this.matrixDevelopment[i][j][card] != null) && (this.matrixDevelopment[i][j][card].getId() == removeThis.getId())) {
                         this.matrixDevelopment[i][j][card] = null;
                     }
                 }
@@ -128,17 +136,18 @@ public class CardMarket {
 
     /**
      * method used while testing, mainly for the shuffling test
+     *
      * @author Riccardo Grossoni
      */
-    public void PrintId(){
-    int counter=0;
-        for (int i=0; i<3; i++) {
+    public void PrintId() {
+        int counter = 0;
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 counter++;
                 System.out.println("mazzo: " + (counter));
                 for (int stamp = 0; stamp < 4; stamp++) {
-                    if(this.matrixDevelopment[i][j][stamp]!=null)
-                    System.out.println(this.matrixDevelopment[i][j][stamp].getId());
+                    if (this.matrixDevelopment[i][j][stamp] != null)
+                        System.out.println(this.matrixDevelopment[i][j][stamp].getId());
                 }
             }
         }
@@ -146,6 +155,7 @@ public class CardMarket {
 
     /**
      * method that returns a card present in the Market, if the card it's not present throws an exception
+     *
      * @param id Id of the card searched
      * @return card Found
      * @throws CardNotFoundException card not found, throws Exception
@@ -153,8 +163,8 @@ public class CardMarket {
      */
 
 
-    public DevelopmentCard getCardById(int id) throws CardNotFoundException{
-        for (int i=0; i<3; i++) {
+    public DevelopmentCard getCardById(int id) throws CardNotFoundException {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 for (int card = 0; card < 4; card++) {
                     if ((this.matrixDevelopment[i][j][card] != null) && (this.matrixDevelopment[i][j][card].getId() == id)) {
@@ -170,20 +180,21 @@ public class CardMarket {
     /**
      * method that returns A copy of the cost of the card (identified by the Id). If the card is not present the method
      * returns null.
+     *
      * @param id id of the card searched
      * @return cost of the card searched
      * @author Riccardo Grossoni
      */
-    public int[] getCost(int id){
-        int[] copyCost=new int[4];
+    public int[] getCost(int id) {
+        int[] copyCost = new int[4];
         DevelopmentCard temp;
-        try{
-          temp=this.getCardById(id);
-        }catch (CardNotFoundException e){
+        try {
+            temp = this.getCardById(id);
+        } catch (CardNotFoundException e) {
             return null;            //volendo si può cambiare facendo lanciare a sua volta una eccezione
         }
-        for(int i: temp.getCost()){
-            copyCost[i]=temp.getCost()[i];
+        for (int i : temp.getCost()) {
+            copyCost[i] = temp.getCost()[i];
         }
         return copyCost;
     }
@@ -192,24 +203,26 @@ public class CardMarket {
      * method the composes the body of the buy a card action. This method returns the bought card, and removes it from the market.
      * it throws a "CardNotFoundException" if the id of the card is not existent in the market, and throws an "IllegalCardException" if
      * the card cannot be bought.
+     *
      * @param id id of the card that is going to be bought
      * @return The bought card
      * @throws CardNotFoundException used when trying to buy a card not present in the market
-     * @throws IllegalCardException used when trying to buy a card not on top of its respective deck
+     * @throws IllegalCardException  used when trying to buy a card not on top of its respective deck
      */
     public DevelopmentCard BuyCard(int id) throws CardNotFoundException, IllegalCardException {
-        int temp=0;
-        for (int i=0; i<3; i++) {
+        int temp = 0;
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 for (int card = 0; card < 4; card++) {
-                    if ((this.matrixDevelopment[i][j][card] != null) && (this.matrixDevelopment[i][j][card].getId() == id)){    //check if the card can be bought
-                        temp=card-1;
-                        while(temp>=0){
-                            if(this.matrixDevelopment[i][j][temp]!=null){
-                                throw new IllegalCardException();}
-                                temp--;
+                    if ((this.matrixDevelopment[i][j][card] != null) && (this.matrixDevelopment[i][j][card].getId() == id)) {    //check if the card can be bought
+                        temp = card - 1;
+                        while (temp >= 0) {
+                            if (this.matrixDevelopment[i][j][temp] != null) {
+                                throw new IllegalCardException();
+                            }
+                            temp--;
                         }
-                        DevelopmentCard Copy=new DevelopmentCard(this.matrixDevelopment[i][j][card]); //non può essere null, è dentro un if che controlla proprio quello:/
+                        DevelopmentCard Copy = new DevelopmentCard(this.matrixDevelopment[i][j][card]); //non può essere null, è dentro un if che controlla proprio quello:/
                         this.Remove(this.matrixDevelopment[i][j][card]);
                         return Copy;
                     }
@@ -226,29 +239,30 @@ public class CardMarket {
     /**
      * method that is called to perform the action, it's just a selection for the real method, which is
      * DeleteTwoCardsByColor. this method re-throws an Exception EndSoloGame that is thrown by the DeleteTwoCardsByColor method.
+     *
      * @param ColoreToken color taken from the SoloActionToken
      * @throws EndSoloGame Exception thrown by DeleteTwoCardsByColor, it's re-thrown to the controller.
      */
-    public void SoloAction(Color ColoreToken) throws EndSoloGame{
-        int color=0;
-        switch (ColoreToken){
+    public void SoloAction(Color ColoreToken) throws EndSoloGame {
+        int color = 0;
+        switch (ColoreToken) {
             case green:
-                color=0;
+                color = 0;
 
                 break;
             case purple:
-                color=1;
+                color = 1;
                 break;
             case blue:
-                color=2;
+                color = 2;
                 break;
             case yellow:
-                color=3;
+                color = 3;
                 break;
         }
         try {
             this.DeleteTwoCardsByColor(color);
-        }catch(EndSoloGame e){
+        } catch (EndSoloGame e) {
             throw e;
         }
     }
@@ -259,46 +273,48 @@ public class CardMarket {
      * given a color (that the controller can take from the token) as an int, the method deletes the first 2 cards available
      * in a deck of that given color, it handles all the cases, and throws an EndSoloGame Exception if the EndGameScenario is reached
      * if not the method just deletes the 2 cards and end.
+     *
      * @param color color that the SoloActionToken returned
      * @throws EndSoloGame in the scenario that an EndGameState is reached, an Exception for that is throwed
      */
 
     public void DeleteTwoCardsByColor(int color) throws EndSoloGame {
-        int carta=0;
-        int livello=0;
-        int deleted=0;
+        int carta = 0;
+        int livello = 0;
+        int deleted = 0;
 
-        boolean EsciDaWhile=false;
-        while(!EsciDaWhile){
+        boolean EsciDaWhile = false;
+        while (!EsciDaWhile) {
 
-            carta=this.NumberOfCardsInLevel(color, livello); //trova quante carte ci sono nel livello
+            carta = this.NumberOfCardsInLevel(color, livello); //trova quante carte ci sono nel livello
 
             //nessuna carta nel mazzo
-            if(carta==0) {
-                if(livello==2) throw new EndSoloGame();
-                else{ livello++;}
+            if (carta == 0) {
+                if (livello == 2) throw new EndSoloGame();
+                else {
+                    livello++;
+                }
             }
             //almeno due carte nel mazzo, se entro qua devo uscire dal ciclo
-            else if(carta>=2){
-                if(deleted==0){
-                    this.Remove(this.matrixDevelopment[livello][color][4-carta]);
-                    this.Remove(this.matrixDevelopment[livello][color][5-carta]);
-                    deleted=2;
-                    if(this.NoMoreCardsInLevelThree(color)) throw new EndSoloGame();
-                }
-                else if(deleted==1){
-                    this.Remove(this.matrixDevelopment[livello][color][4-carta]);
+            else if (carta >= 2) {
+                if (deleted == 0) {
+                    this.Remove(this.matrixDevelopment[livello][color][4 - carta]);
+                    this.Remove(this.matrixDevelopment[livello][color][5 - carta]);
+                    deleted = 2;
+                    if (this.NoMoreCardsInLevelThree(color)) throw new EndSoloGame();
+                } else if (deleted == 1) {
+                    this.Remove(this.matrixDevelopment[livello][color][4 - carta]);
                     deleted++;
                 }
-                EsciDaWhile=true;
+                EsciDaWhile = true;
             }
             //solo una carta nel mazzo
-            else if(carta==1){
+            else if (carta == 1) {
                 this.Remove(this.matrixDevelopment[livello][color][3]);
                 deleted++;
-                if(this.NoMoreCardsInLevelThree(color)) throw new EndSoloGame();
-                if(deleted!=2)livello++;
-                else EsciDaWhile=true;
+                if (this.NoMoreCardsInLevelThree(color)) throw new EndSoloGame();
+                if (deleted != 2) livello++;
+                else EsciDaWhile = true;
             }
         }
     }
@@ -306,37 +322,35 @@ public class CardMarket {
 
     /**
      * method that returns the number of cards in a specified deck. the method will give a runtime error if the level or color is invalid
+     *
      * @param color color of the deck
      * @param level level of the deck (0-2)
      * @return number of cards in the deck (0-4)
      */
-    public int NumberOfCardsInLevel(int color, int level){
-        int posCarta=0;
-        boolean esci=false;
-        while(!esci){
-            if(posCarta<4 && this.matrixDevelopment[level][color][posCarta]==null){
+    public int NumberOfCardsInLevel(int color, int level) {
+        int posCarta = 0;
+        boolean esci = false;
+        while (!esci) {
+            if (posCarta < 4 && this.matrixDevelopment[level][color][posCarta] == null) {
                 posCarta++;
-            }
-            else if(this.matrixDevelopment[level][color][posCarta]!=null){
-                esci=true;
+            } else if (this.matrixDevelopment[level][color][posCarta] != null) {
+                esci = true;
 
             }
-            if(posCarta==4) esci=true;
+            if (posCarta == 4) esci = true;
         }
-        return (4-posCarta);
+        return (4 - posCarta);
     }
-
-
 
 
     /**
      * very small method used for SinglePlayer for checking if the EndGameState is reached
+     *
      * @param color color of the level 3 deck will be checked
      * @return true if no more cards are present (EndGameState for singleP), false otherwise
      */
-    public boolean NoMoreCardsInLevelThree(int color){
-        if(this.matrixDevelopment[2][color][3]==null) return true;
-        else return false;
+    public boolean NoMoreCardsInLevelThree(int color) {
+        return this.matrixDevelopment[2][color][3] == null;
     }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -347,15 +361,16 @@ public class CardMarket {
      * method that returns a pointer to the card on top of the deck selected. the method EXPECTS a correct level and color,
      * and also expects a not-empty deck. If the deck is empty the method throws an Exception, if the color or level is not valid
      * there will be an error at runtime
+     *
      * @param color color selected, given as int
      * @param level level selected (0 to 2)
      * @return pointer to the card selected
      * @throws CardNotFoundException card not found
      */
     public DevelopmentCard findFirstCardOfDeck(int color, int level) throws CardNotFoundException {
-        int carta=0;
-        while(carta<3){
-            if(this.matrixDevelopment[level][color][carta]!=null){
+        int carta = 0;
+        while (carta < 3) {
+            if (this.matrixDevelopment[level][color][carta] != null) {
                 return this.matrixDevelopment[level][color][carta];
             }
             carta++;
@@ -366,20 +381,22 @@ public class CardMarket {
 
     /**
      * method that creates a matrix containing the id of the cards visible (and that can be bought) by the players
+     *
      * @return id's of the cards available;
      */
-    public int[][] cardMarketStatus(){
-        int[][] visibleMarket=new int[3][4];
-        for(int i=0; i<3; i++){
-            for(int j=0; j<4; j++){
-                int card=0;
-                while(matrixDevelopment[i][j][card]==null && card<4){
+    public int[][] cardMarketStatus() {
+        int[][] visibleMarket = new int[3][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                int card = 0;
+                while (matrixDevelopment[i][j][card] == null && card < 4) {
                     card++;
                 }
-                if(card<4){
-                    visibleMarket[i][j]=matrixDevelopment[i][j][card].getId();
+                if (card < 4) {
+                    visibleMarket[i][j] = matrixDevelopment[i][j][card].getId();
+                } else {
+                    visibleMarket[i][j] = 0;
                 }
-                else{visibleMarket[i][j]=0;}
             }
         }
         return visibleMarket;

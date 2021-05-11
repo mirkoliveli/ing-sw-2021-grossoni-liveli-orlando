@@ -66,7 +66,7 @@ public class Client {
         String userInput;
         System.out.println("TYPE:\n[0] Create new game\n[1] Enter into existing game\n[2] Quit game");
         userInput = stdIn.readLine();
-        switch (userInput){
+        switch (userInput) {
             case "0":
                 //0 invia messaggio per creare una nuova partita
                 break;

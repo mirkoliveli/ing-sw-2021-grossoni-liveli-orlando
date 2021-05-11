@@ -9,17 +9,16 @@ public class DevelopmentCardSlot {
     private final DevelopmentCard[] vectorSlot;
     private int slotPV;
 
+    public DevelopmentCardSlot() {
+        this.vectorSlot = new DevelopmentCard[3];
+    }
+
     public int getSlotPV() {
         return slotPV;
     }
 
     public void setSlotPV(int slotPV) {
         this.slotPV = slotPV;
-    }
-
-
-    public DevelopmentCardSlot() {
-        this.vectorSlot = new DevelopmentCard[3];
     }
 
     // Method that returns the list of colours appeared in the slot
@@ -46,16 +45,14 @@ public class DevelopmentCardSlot {
         /* The method skims the cards starting from the top (supposed 2nd postion)
             until it finds a card. Returns it
          */
-        while (vectorSlot[i] == null && i>0) {
+        while (vectorSlot[i] == null && i > 0) {
             i--;
         }
 
-        if (vectorSlot[0]==null) return null;
+        if (vectorSlot[0] == null) return null;
 
         return vectorSlot[i];
     }
-
-
 
 
     public boolean placeCard(DevelopmentCard CardToPlace) {
@@ -68,8 +65,7 @@ public class DevelopmentCardSlot {
             System.out.println("Operation not allowed!");
             if (this.get_top().getLevel() == 3) {
                 System.out.println("The slot is FULL!\nPlease select another one");
-            }
-            else {
+            } else {
                 System.out.println("The card on the top has a higher level.\nPlease select another slot");
             }
             return false;
@@ -84,10 +80,10 @@ public class DevelopmentCardSlot {
     }
 
     // Method that set the slot's total amount of victory point
-    public void pvSlot (){
+    public void pvSlot() {
         int totpv = getSlotPV();
         int position = 0;
-        while (vectorSlot[position] != null){
+        while (vectorSlot[position] != null) {
             totpv = totpv + vectorSlot[position].getPv();
             position++;
         }
@@ -97,15 +93,16 @@ public class DevelopmentCardSlot {
 
     /**
      * method that returns the level of the top card, if the slot is empty returns zero.
+     *
      * @return 0-1-2-3
      */
-    public int levelOfTop(){
-        if(this.get_top()!=null) return this.get_top().getLevel();
+    public int levelOfTop() {
+        if (this.get_top() != null) return this.get_top().getLevel();
         else return 0;
     }
 
     public DevelopmentCard getCard(int stacked) {
-        if (vectorSlot[stacked]!=null) return vectorSlot[stacked];
+        if (vectorSlot[stacked] != null) return vectorSlot[stacked];
         else return null;
     }
 }

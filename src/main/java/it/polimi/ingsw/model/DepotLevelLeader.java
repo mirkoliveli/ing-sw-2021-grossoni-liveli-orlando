@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model;
 
-public class DepotLevelLeader extends DepotLevel{
+public class DepotLevelLeader extends DepotLevel {
 
     private TypeOfResource resourceTypeLeader;
 
 
     public DepotLevelLeader(TypeOfResource resourceType) {
-        this.resourceTypeLeader=resourceType;
+        this.resourceTypeLeader = resourceType;
         setMaxQuantity(2);
         setQuantity(0);
         setResourceType(resourceType);
@@ -70,7 +70,7 @@ public class DepotLevelLeader extends DepotLevel{
 
         if (ToR == this.getResourceType()) {
             if ((this.getQuantity() - q) >= 0) {
-                this.setQuantity(this.getQuantity() - q) ;
+                this.setQuantity(this.getQuantity() - q);
                 return true;
             } else {
                 System.out.println("Sorry, you don't have enough " + ToR + "!");
