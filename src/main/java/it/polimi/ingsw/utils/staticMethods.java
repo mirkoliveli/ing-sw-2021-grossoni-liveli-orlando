@@ -40,6 +40,7 @@ public class staticMethods {
             temp[i] = match.UpdatePlayerStatus(i + 1);
         }
         gameState.setPlayersStatus(temp);
+
         gson.toJson(gameState, writer);
         writer.close();
 

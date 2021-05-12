@@ -1,1 +1,229 @@
-{"playersStatus":[{"name":"riccardo","id":1,"pv":0,"faithTrackProgress":0,"popesFavorCards":[false,false,false],"strongBox":[0,0,0,0],"storage":[[0,0],[0,0],[0,0],[-1,0],[-1,0]],"developMentSlots":[[0,0,0],[0,0,0],[0,0,0]],"firstLeader":0,"secondLeader":0,"firstLeaderIsPlayed":false,"secondLeaderIsPlayed":false}],"marketsStatus":{"cardMarket":[[1,2,3,4],[17,18,19,20],[33,34,35,36]],"marketBoard":[["purple","grey","yellow","white"],["blue","purple","white","yellow"],["grey","white","red","blue"]],"slideMarble":"white"},"IsgameEnding":false,"nextPlayer":0}
+{
+  "playersStatus": [
+    {
+      "name": "riccardo",
+      "id": 1,
+      "pv": 0,
+      "faithTrackProgress": 0,
+      "popesFavorCards": [
+        false,
+        false,
+        false
+      ],
+      "strongBox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "storage": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          0
+        ]
+      ],
+      "developMentSlots": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "firstLeader": 0,
+      "secondLeader": 0,
+      "firstLeaderIsPlayed": false,
+      "secondLeaderIsPlayed": false
+    },
+    {
+      "name": "mirko",
+      "id": 2,
+      "pv": 0,
+      "faithTrackProgress": 0,
+      "popesFavorCards": [
+        false,
+        false,
+        false
+      ],
+      "strongBox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "storage": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          0
+        ]
+      ],
+      "developMentSlots": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "firstLeader": 0,
+      "secondLeader": 0,
+      "firstLeaderIsPlayed": false,
+      "secondLeaderIsPlayed": false
+    },
+    {
+      "name": "andrea",
+      "id": 3,
+      "pv": 0,
+      "faithTrackProgress": 0,
+      "popesFavorCards": [
+        false,
+        false,
+        false
+      ],
+      "strongBox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "storage": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          0
+        ]
+      ],
+      "developMentSlots": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "firstLeader": 0,
+      "secondLeader": 0,
+      "firstLeaderIsPlayed": false,
+      "secondLeaderIsPlayed": false
+    }
+  ],
+  "marketsStatus": {
+    "cardMarket": [
+      [
+        1,
+        2,
+        3,
+        4
+      ],
+      [
+        17,
+        18,
+        19,
+        20
+      ],
+      [
+        33,
+        34,
+        35,
+        36
+      ]
+    ],
+    "marketBoard": [
+      [
+        "purple",
+        "grey",
+        "yellow",
+        "white"
+      ],
+      [
+        "blue",
+        "purple",
+        "white",
+        "yellow"
+      ],
+      [
+        "grey",
+        "white",
+        "red",
+        "blue"
+      ]
+    ],
+    "slideMarble": "white"
+  },
+  "IsgameEnding": false,
+  "nextPlayer": 0
+}

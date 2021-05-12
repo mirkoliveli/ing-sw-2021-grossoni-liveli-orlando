@@ -15,14 +15,15 @@ public class staticMethodsTest {
     public void gameStatus() {
         MatchMultiPlayer match=new MatchMultiPlayer();
         match.AddPlayer(new Player("riccardo", 1));
-
+        match.AddPlayer(new Player("mirko", 2));
+        match.AddPlayer(new Player("andrea", 3));
         try {
             staticMethods.GameStatus(match, "src/main/resources/matchFromTestGameStatus.json");
         }catch(IOException e){
             System.out.println("error");
         }
 
-
+        
 
     }
 }
