@@ -41,7 +41,7 @@ public class ThreadedServer extends Thread {
         }
 
 
-        BufferedReader inFromClient = null;
+        /*BufferedReader inFromClient = null;
         PrintWriter outToTheClient = null;
         while (true) {
 
@@ -83,7 +83,7 @@ public class ThreadedServer extends Thread {
             System.out.println("CLOSED!");
         } catch (IOException e) {
             System.out.println("ESPLOSO! KABOOM\n");
-        }
+        }*/
     }
 
     public void StarterManager(String in) {
