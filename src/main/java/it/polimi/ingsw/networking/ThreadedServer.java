@@ -138,8 +138,8 @@ public class ThreadedServer extends Thread {
         idPlayer=match.getPlayers().size(); //give the id to the player
         GameState.setTotalPlayersNumber(answerFromClient.getNumberOfPlayersToWait()); //creates lobby
 
-            //System.out.println(match.getPlayers().size());
-            //System.out.println(match.getPlayers().get(0).getName());
+            System.out.println("è entrato il giocatore " + idPlayer);
+            System.out.println("il suo nickname è: " + match.getPlayers().get(match.getPlayers().size()-1).getName());
 
         }catch(IOException e){
             System.out.println("error");}
@@ -186,8 +186,9 @@ public class ThreadedServer extends Thread {
                 System.out.println("error");
         }
 
-        System.out.println(match.getPlayers().get(match.getPlayers().size()-1).getName());
-        System.out.println(match.getPlayers().size());
+        System.out.println("è entrato il giocatore " + idPlayer);
+        System.out.println("il suo nickname è: " + match.getPlayers().get(match.getPlayers().size()-1).getName());
+
 
         StagesQueue.setSomeoneLoggingIn(false);
             //potrebbe mancare qualcosa

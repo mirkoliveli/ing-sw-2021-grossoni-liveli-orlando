@@ -81,6 +81,7 @@ public class Server {
                         System.out.println("error with waiting time between connections!");
                     }
                 }
+
             }while (GameState.getJoinedPlayers()!=GameState.getTotalPlayersNumber());
 
 
