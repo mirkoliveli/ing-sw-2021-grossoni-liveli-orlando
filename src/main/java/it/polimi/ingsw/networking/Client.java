@@ -100,10 +100,12 @@ public class Client {
 
         //joino come giocatore non 1
         else{
+
             System.out.println("\nBenvenuto, questa lobby al momento ha: " + loginMessage.getNumOfPlayersInRoom() + " quindi tu sarai il giocatore numero " + loginMessage.getNumOfPlayersInRoom()+1);
             System.out.println("per favore entra un nickname con cui vorrai giocare: ");
             Scanner input=new Scanner(System.in);
             String name=input.nextLine();
+            name=input.nextLine();
             System.out.println("nota che se il nome inserito non è valido ti verrà assegnato il nome " + loginMessage.getNumOfPlayersInRoom()+1 +" giocatore automaticamente");
             if(name.equals(""))name="giocatore" + loginMessage.getNumOfPlayersInRoom()+1;
             Message message=new Message(name);
