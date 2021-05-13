@@ -14,6 +14,7 @@ public class MatchMultiPlayerTest {
     @Test
     public void addpgTest(){
         MatchMultiPlayer match=new MatchMultiPlayer();
+        assertEquals(0, match.getPlayers().size());
         Player pg= new Player("pg", 0);
         match.AddPlayer(pg);
         System.out.println(match.getPlayers().get(0).toString());
@@ -21,6 +22,7 @@ public class MatchMultiPlayerTest {
         System.out.println(match.getPlayers().size());
 
     }
+
 
 
     @Test

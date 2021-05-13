@@ -1,8 +1,10 @@
 package it.polimi.ingsw.utils;
 
 import it.polimi.ingsw.controller.MarketsUpdate;
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.MatchMultiPlayer;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Strongbox;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,5 +27,19 @@ public class staticMethodsTest {
 
         
 
+    }
+
+    @Test
+    public void objToJson() {
+        Strongbox testRandom=new Strongbox();
+        System.out.println(staticMethods.objToJson(testRandom));
+    }
+
+
+    @Test
+    public void utilsTest(){
+        String carl="carl";
+        Message mess=new Message(carl + 8);
+        System.out.println(mess.getMessage());
     }
 }

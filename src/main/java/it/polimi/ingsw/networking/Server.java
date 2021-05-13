@@ -1,9 +1,12 @@
 package it.polimi.ingsw.networking;
 //import it.polimi.ingsw.message.*;
 
-import java.io.BufferedReader;
+import it.polimi.ingsw.ServerMain;
+import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.controller.StagesQueue;
+import it.polimi.ingsw.model.MatchMultiPlayer;
+
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -36,26 +39,53 @@ public class Server {
         this.serverSocket = new ServerSocket(PORT);
     }
 
-    public void execute() throws IOException {
 
+
+
+    public void execute() throws IOException {
+        MatchMultiPlayer match=new MatchMultiPlayer();
         System.out.println("Server: started ");
         System.out.println("Server Socket: " + serverSocket);
 
         Socket clientSocket = null;
-        BufferedReader in_fromClient = null;
-        PrintWriter out_toClient = null;
-        int idPlayer = 0;
 
+
+
+
+        //si connette il primo giocatore
+        clientSocket = serverSocket.accept();
+        System.out.println("Connection accepted: " + clientSocket);
+        new ThreadedServer(clientSocket).run(match);
+        GameState.setJoinedPlayers(1);
+
+        while(!ServerMain.isLobbyCreated){
+            try{
+                Thread.sleep(5000);
+            }catch (InterruptedException e){
+                System.out.println("error with waiting time after first connection");
+            }
+        }
+        System.out.println("STARTING LOBBY");
 
         try {
-            while (true) {
+            do{
                 //Accetta la prima connessione in coda e le dedica un thread
                 clientSocket = serverSocket.accept();
                 System.out.println("Connection accepted: " + clientSocket);
-                new ThreadedServer(clientSocket, idPlayer).run();
-            }
+                StagesQueue.setSomeoneLoggingIn(true);
+                new ThreadedServer(clientSocket).run(match);
+                while(StagesQueue.isSomeoneLoggingIn()){
+                    try{
+                        Thread.sleep(5000);
+                    }catch (InterruptedException e){
+                        System.out.println("error with waiting time between connections!");
+                    }
+                }
+            }while (GameState.getJoinedPlayers()!=GameState.getTotalPlayersNumber());
+
+
         } catch (IOException e) {
-            System.err.println("Accept failed");
+            System.err.println("queue failed");
             System.exit(1);
         }
         serverSocket.close();

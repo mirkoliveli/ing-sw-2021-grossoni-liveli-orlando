@@ -23,6 +23,11 @@ public class MatchMultiPlayer {
         players.add(player);
     }
 
+    public void AddPlayer(String name){
+        Player player=new Player(name, getPlayers().size()+1);
+        players.add(player);
+    }
+
     public void MoveInFaithTrack(int move, int id) throws GameIsEnding {
         int zone = 0;
         zone = players.get(id - 1).getBoard().getFaithTrack().MultiPlayerMovement(move); //esegue movimento, modifica score

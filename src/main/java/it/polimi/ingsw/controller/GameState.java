@@ -18,6 +18,8 @@ public class GameState {
     private static int totalPlayersNumber; //determines how many players will be in the room
     private static int idOfPlayerInTurn; //tracker for the player taking the action
     private static int winnerId; //tracker for the winner of the game
+    private static int joinedPlayers;
+
 
     public GameState(){
         loginPhase=true;
@@ -30,10 +32,16 @@ public class GameState {
         totalPlayersNumber=0;
         idOfPlayerInTurn=0;
         winnerId=0;
+        joinedPlayers=0;
     }
 
 
     //------------------------------------------------------------------------------------------------------------------
+
+
+    public synchronized static void increaseJoinedPlayers(){
+        joinedPlayers++;
+    }
 
 
     public static int getIdOfPlayerInTurn() {
@@ -147,7 +155,11 @@ public class GameState {
         gameEndedPhase=false;
     }
 
+    public static int getJoinedPlayers() {
+        return joinedPlayers;
+    }
 
-
-
+    public static void setJoinedPlayers(int joinedPlayers) {
+        GameState.joinedPlayers = joinedPlayers;
+    }
 }

@@ -44,7 +44,11 @@ public class staticMethods {
         gson.toJson(gameState, writer);
         writer.close();
 
+    }
 
+    public static String objToJson(Object convertible){
+        Gson gson=new Gson();
+        return gson.toJson(convertible);
     }
 
     /**
