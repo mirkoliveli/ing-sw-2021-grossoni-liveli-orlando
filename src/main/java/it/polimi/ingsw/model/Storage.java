@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.exceptions.*;
-import it.polimi.ingsw.utils.staticMethods;
+import it.polimi.ingsw.utils.StaticMethods;
 
 
 public class Storage {
@@ -86,7 +86,7 @@ public class Storage {
         int temp = 0;
         boolean[] NullLevel = {true, true, true, true}; //ogni slot indica se non esiste un deposito (tra quelli normali) di quel tipo di risorsa
         int leaderHandler = 0;
-        int[] resources = staticMethods.copyArray(originalCost);
+        int[] resources = StaticMethods.copyArray(originalCost);
 
         //prima aggiungo quello che posso ai depotLevelLeaders
 
@@ -390,7 +390,7 @@ public class Storage {
     //DA FINIRE
     public void ResourceDecreaser(int[] cost) throws NotEnoughResources {
         if (!canPay(cost)) throw new NotEnoughResources();
-        int[] costo = staticMethods.copyArray(cost);
+        int[] costo = StaticMethods.copyArray(cost);
 
         if (firstLeader != null) {
             switch (firstLeader.getResourceTypeLeader()) {
@@ -527,14 +527,14 @@ public class Storage {
             }
         }
         if (firstLeader != null) {
-            status[3][0] = staticMethods.TypeOfResourceToInt(firstLeader.getResourceTypeLeader()) + 1;
+            status[3][0] = StaticMethods.TypeOfResourceToInt(firstLeader.getResourceTypeLeader()) + 1;
             status[3][1] = firstLeader.getQuantity();
         } else {
             status[3][0] = -1;
             status[3][1] = 0;
         }
         if (secondLeader != null) {
-            status[4][0] = staticMethods.TypeOfResourceToInt(secondLeader.getResourceTypeLeader()) + 1;
+            status[4][0] = StaticMethods.TypeOfResourceToInt(secondLeader.getResourceTypeLeader()) + 1;
             status[4][1] = secondLeader.getQuantity();
         } else {
             status[4][0] = -1;

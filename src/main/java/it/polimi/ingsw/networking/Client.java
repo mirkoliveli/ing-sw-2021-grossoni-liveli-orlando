@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.messages.FirstLoginMessage;
 import it.polimi.ingsw.messages.LoginMessage;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.*;
 import java.net.Socket;
@@ -104,12 +105,13 @@ public class Client {
             System.out.println("\nBenvenuto, questa lobby al momento ha: " + loginMessage.getNumOfPlayersInRoom() + " quindi tu sarai il giocatore numero " + loginMessage.getNumOfPlayersInRoom()+1);
             System.out.println("per favore entra un nickname con cui vorrai giocare: ");
             Scanner input=new Scanner(System.in);
-            String name=input.nextLine();
+            String name;
             name=input.nextLine();
             System.out.println("nota che se il nome inserito non è valido ti verrà assegnato il nome " + loginMessage.getNumOfPlayersInRoom()+1 +" giocatore automaticamente");
             if(name.equals(""))name="giocatore" + loginMessage.getNumOfPlayersInRoom()+1;
             Message message=new Message(name);
-            out.println(message.getMessage());
+
+            out.println(StaticMethods.objToJson(message));
         }
 
         System.out.println();

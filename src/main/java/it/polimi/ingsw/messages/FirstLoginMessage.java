@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.utils.staticMethods;
+import it.polimi.ingsw.utils.StaticMethods;
 
 public class FirstLoginMessage {
     private String name;
@@ -14,7 +14,7 @@ public class FirstLoginMessage {
 
     public String CreateMessage(){
         String returner;
-        returner= staticMethods.objToJson(this);
+        returner= StaticMethods.objToJson(this);
         return returner;
     }
 

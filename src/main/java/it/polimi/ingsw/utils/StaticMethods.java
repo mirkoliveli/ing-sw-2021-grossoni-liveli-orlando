@@ -11,7 +11,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class staticMethods {
+public class StaticMethods {
 
     public static int[] copyArray(int[] original) {
         int[] copy = new int[original.length];
