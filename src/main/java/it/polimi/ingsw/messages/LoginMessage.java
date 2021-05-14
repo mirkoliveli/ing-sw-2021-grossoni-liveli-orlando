@@ -2,6 +2,9 @@ package it.polimi.ingsw.messages;
 
 import com.google.gson.Gson;
 
+/**
+ * message sent by the server to the client, contains the number of logged players and if the logging in has been successful
+ */
 public class LoginMessage {
     private boolean successfulLogin;
     private int numOfPlayersInRoom;

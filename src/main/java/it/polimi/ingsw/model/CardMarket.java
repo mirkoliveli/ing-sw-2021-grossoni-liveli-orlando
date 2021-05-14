@@ -76,7 +76,7 @@ public class CardMarket {
     }
 
     /**
-     * method used to shuffle all the decks, it uses the same shuffling algorithm as the MarketBoard class (Fisher-Yates shuffle)
+     * method used to shuffle all the decks, it uses the same shuffling algorithm as the MarketBoard class
      *
      * @author Riccardo Grossoni
      */

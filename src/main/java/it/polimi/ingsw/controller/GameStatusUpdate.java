@@ -1,5 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.utils.StaticMethods;
+
+/**
+ * class that creates an object that represents the game.
+ * <br>
+ * the method "gameStatus" in staticMethods can be used to create a JSON file copy of an object of this class.
+ */
 public class GameStatusUpdate {
     private PlayerUpdate[] playersStatus;
     private MarketsUpdate marketsStatus;
@@ -56,4 +63,15 @@ public class GameStatusUpdate {
     public void setPlayer(PlayerUpdate player) {
         this.playersStatus[player.getId() - 1] = player;
     }
+
+    /**
+     * creates a copy of the object as a Json String.
+     * @return Json string representing the object
+     */
+    public String getJsonString(){
+       return StaticMethods.objToJson(this);
+    }
+
+
+
 }

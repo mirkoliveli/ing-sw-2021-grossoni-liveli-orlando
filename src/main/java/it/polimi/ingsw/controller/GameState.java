@@ -21,25 +21,25 @@ public class GameState {
     private static int joinedPlayers;
 
 
-    public GameState(){
-        loginPhase=true;
-        gettingStartedPhase=false;
-        turnPhase=false;
-        lastTurnPhase=false;
-        gameEndedPhase=false;
+    public GameState() {
+        loginPhase = true;
+        gettingStartedPhase = false;
+        turnPhase = false;
+        lastTurnPhase = false;
+        gameEndedPhase = false;
 
-        startingPlayer=0;
-        totalPlayersNumber=0;
-        idOfPlayerInTurn=0;
-        winnerId=0;
-        joinedPlayers=0;
+        startingPlayer = 0;
+        totalPlayersNumber = 0;
+        idOfPlayerInTurn = 0;
+        winnerId = 0;
+        joinedPlayers = 0;
     }
 
 
     //------------------------------------------------------------------------------------------------------------------
 
 
-    public synchronized static void increaseJoinedPlayers(){
+    public synchronized static void increaseJoinedPlayers() {
         joinedPlayers++;
     }
 
@@ -96,63 +96,63 @@ public class GameState {
         GameState.idOfPlayerInTurn = idOfPlayerInTurn;
     }
 
-    public static void setPhase(int idPhase){
-        switch (idPhase){
+    public static void setPhase(int idPhase) {
+        switch (idPhase) {
             case 0:
                 setAllFalse();
-                loginPhase=true;
+                loginPhase = true;
                 break;
             case 1:
                 setAllFalse();
-                gettingStartedPhase=true;
+                gettingStartedPhase = true;
                 break;
             case 2:
                 setAllFalse();
-                turnPhase=true;
+                turnPhase = true;
                 break;
             case 3:
                 setAllFalse();
-                lastTurnPhase=true;
+                lastTurnPhase = true;
                 break;
             case 4:
                 setAllFalse();
-                gameEndedPhase=true;
+                gameEndedPhase = true;
                 break;
         }
     }
 
     //overload
-    public static void setPhase(GamePhase phase){
-        switch (phase){
+    public static void setPhase(GamePhase phase) {
+        switch (phase) {
             case LOGIN:
                 setAllFalse();
-                loginPhase=true;
+                loginPhase = true;
                 break;
             case GETTING_STARTED:
                 setAllFalse();
-                gettingStartedPhase=true;
+                gettingStartedPhase = true;
                 break;
             case TURN:
                 setAllFalse();
-                turnPhase=true;
+                turnPhase = true;
                 break;
             case LAST_TURN:
                 setAllFalse();
-                lastTurnPhase=true;
+                lastTurnPhase = true;
                 break;
             case GAME_ENDED:
                 setAllFalse();
-                gameEndedPhase=true;
+                gameEndedPhase = true;
                 break;
         }
     }
 
-    private static void setAllFalse(){
-        loginPhase=false;
-        gettingStartedPhase=false;
-        turnPhase=false;
-        lastTurnPhase=false;
-        gameEndedPhase=false;
+    private static void setAllFalse() {
+        loginPhase = false;
+        gettingStartedPhase = false;
+        turnPhase = false;
+        lastTurnPhase = false;
+        gameEndedPhase = false;
     }
 
     public static int getJoinedPlayers() {

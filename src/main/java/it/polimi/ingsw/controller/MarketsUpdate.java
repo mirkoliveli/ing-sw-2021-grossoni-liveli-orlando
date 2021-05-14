@@ -2,6 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.MarbleColor;
 
+/**
+ * creates an object that represents the status of the markets of the game.
+ */
 public class MarketsUpdate {
     private int[][] cardMarket; //invia l'id solo le 12 carte che il giocatore può acquistare
     private MarbleColor[][] marketBoard; //invia la disposizione delle dodici palline

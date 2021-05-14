@@ -38,6 +38,11 @@ public class DepotLevelLeader extends DepotLevel {
         return resourceTypeLeader;
     }
 
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    //LEGACY METHODS
+
     public boolean increaseQuantity(TypeOfResource ToR, int q) {
 
         /*

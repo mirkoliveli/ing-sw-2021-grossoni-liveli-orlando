@@ -9,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * message containing an object GameStatusUpdate
+ */
 public class GameStatusMessage extends Message {
 
 
@@ -16,6 +19,7 @@ public class GameStatusMessage extends Message {
         super(messaggio);
     }
 
+    //loads the message from a JSON file
     public void createMessage(String Source){
         Gson gson = new Gson();
         BufferedReader buffer = null;

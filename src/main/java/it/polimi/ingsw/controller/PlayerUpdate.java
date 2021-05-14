@@ -1,5 +1,9 @@
 package it.polimi.ingsw.controller;
 
+
+/**
+ * creates an object that represents the status of a player
+ */
 public class PlayerUpdate {
     private String name;
     private int id;
@@ -18,23 +22,23 @@ public class PlayerUpdate {
     //tutto quello che riguarda carte avrà 0 come id se non è presente la carta
 
     public PlayerUpdate(String nome, int id) {
-        name=nome;
-        this.id=id;
-        pv=0;
-        faithTrackProgress=0;
-        popesFavorCards=new boolean[3];
-        strongBox=new int[4];
+        name = nome;
+        this.id = id;
+        pv = 0;
+        faithTrackProgress = 0;
+        popesFavorCards = new boolean[3];
+        strongBox = new int[4];
 
         //OCCHIO A QUESTO, 0 fino a 2 sono i Depot normali, 3 e 4 sono i depotLeader! hanno valore zero
         //quando il giocarore non li ha
-        storage=new int[5][2];
+        storage = new int[5][2];
 
 
-        developMentSlots=new int[3][3];
-        firstLeader=0;
-        secondLeader=0;
-        firstLeaderIsPlayed=false;
-        secondLeaderIsPlayed=false;
+        developMentSlots = new int[3][3];
+        firstLeader = 0;
+        secondLeader = 0;
+        firstLeaderIsPlayed = false;
+        secondLeaderIsPlayed = false;
     }
 
 

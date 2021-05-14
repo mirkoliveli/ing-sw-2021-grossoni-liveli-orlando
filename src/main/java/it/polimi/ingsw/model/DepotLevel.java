@@ -54,8 +54,12 @@ public class DepotLevel {
         this.maxQuantity = q;
     }
 
-    public boolean increaseQuantity(TypeOfResource ToR, int q) {
 
+//----------------------------------------------------------------------------------------------------------------------
+
+    //LEGACY METHODS
+
+    public boolean increaseQuantity(TypeOfResource ToR, int q) {
         /*
         This methods adds q resources of the TypeOfResource ToR
         It guarantees that ToR corresponds to the depot's resource type and quantity+q is less than or equal to maxQuantity before doing so

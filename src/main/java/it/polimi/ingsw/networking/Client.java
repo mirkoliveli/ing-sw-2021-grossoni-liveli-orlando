@@ -107,7 +107,7 @@ public class Client {
             Scanner input=new Scanner(System.in);
             String name;
             name=input.nextLine();
-            System.out.println("nota che se il nome inserito non è valido ti verrà assegnato il nome " + loginMessage.getNumOfPlayersInRoom()+1 +" giocatore automaticamente");
+            System.out.println("nota che se il nome inserito non è valido ti verrà assegnato il nome " + (loginMessage.getNumOfPlayersInRoom()+1) +" giocatore automaticamente");
             if(name.equals(""))name="giocatore" + loginMessage.getNumOfPlayersInRoom()+1;
             Message message=new Message(name);
 

@@ -6,16 +6,41 @@ public class DevelopmentCard extends Card {
     /**
      * cost and production cost are int vectors, each space represents a quantity for a specific type of resource, the resources
      * are represented in alphabetical order:
+     * <br><br>
      * coins -> space 0
+     * <br><br>
      * servants -> space 1
+     * <br><br>
      * shields -> space 2
+     * <br><br>
      * stones -> space 3
      */
     private int[] cost;
     private int level;
+    /**
+     * cost and production cost are int vectors, each space represents a quantity for a specific type of resource, the resources
+     * are represented in alphabetical order:
+     * <br><br>
+     * coins -> space 0
+     * <br><br>
+     * servants -> space 1
+     * <br><br>
+     * shields -> space 2
+     * <br><br>
+     * stones -> space 3
+     */
     private int[] productionCost;
     /**
-     * for product a 5th space is included, which represents the amount of faith points gained
+     * product is an int vector of length 5, each space represents a resource
+     ** <br><br>
+     * coins -> space 0
+     * <br><br>
+     * servants -> space 1
+     * <br><br>
+     * shields -> space 2
+     * <br><br>
+     * stones -> space 3
+     * <br><br>
      * faith -> space 4
      */
     private int[] product;
@@ -31,7 +56,6 @@ public class DevelopmentCard extends Card {
      * @param cloned the DevelopmentCard that is going to be cloned is needed as a parameter
      * @author Riccardo Grossoni
      */
-
     public DevelopmentCard(DevelopmentCard cloned) {
         this.setId(cloned.getId());
         this.setPv(cloned.getPv());

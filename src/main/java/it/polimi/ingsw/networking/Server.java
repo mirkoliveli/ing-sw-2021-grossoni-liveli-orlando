@@ -55,11 +55,12 @@ public class Server {
         //si connette il primo giocatore
         clientSocket = serverSocket.accept();
         System.out.println("Connection accepted: " + clientSocket);
-        new ThreadedServer(clientSocket).run(match);
+        new ThreadedServer(clientSocket, match).start();
         GameState.setJoinedPlayers(1);
 
         while(!ServerMain.isLobbyCreated){
             try{
+
                 Thread.sleep(5000);
             }catch (InterruptedException e){
                 System.out.println("error with waiting time after first connection");
@@ -73,7 +74,7 @@ public class Server {
                 clientSocket = serverSocket.accept();
                 System.out.println("Connection accepted: " + clientSocket);
                 StagesQueue.setSomeoneLoggingIn(true);
-                new ThreadedServer(clientSocket).run(match);
+                new ThreadedServer(clientSocket, match).start();
                 while(StagesQueue.isSomeoneLoggingIn()){
                     try{
                         Thread.sleep(5000);

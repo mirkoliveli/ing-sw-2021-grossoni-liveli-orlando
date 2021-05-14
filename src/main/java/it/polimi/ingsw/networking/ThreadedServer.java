@@ -15,20 +15,21 @@ import java.net.Socket;
 
 public class ThreadedServer extends Thread {
 
-
+    private MatchMultiPlayer match;
     protected Socket clientSocket;
     protected int idPlayer;
 
-    public ThreadedServer(Socket clientSocket) {
+    public ThreadedServer(Socket clientSocket, MatchMultiPlayer match) {
         this.clientSocket = clientSocket;
         this.idPlayer = 0;
+        this.match=match;
     }
 
     public int getIdPlayer() {
         return idPlayer;
     }
 
-    public void run(MatchMultiPlayer match) {
+    public void run() {
 
         if(match.getPlayers().size()==0){
             //lobbysetup
@@ -39,6 +40,7 @@ public class ThreadedServer extends Thread {
         else{
             standardLogin(match);
         }
+
 
 
         /*BufferedReader inFromClient = null;
@@ -177,7 +179,7 @@ public class ThreadedServer extends Thread {
             if (answerFromClient.getMessage() != null) {
                 match.AddPlayer(answerFromClient.getMessage());
             } else {
-                match.AddPlayer("giocatore" + match.getPlayers().size()+1); //assegna in automatico il nome giocatoreN al giocatore in questione
+                match.AddPlayer("giocatore" + (match.getPlayers().size()+1)); //assegna in automatico il nome giocatoreN al giocatore in questione
             }
             idPlayer = match.getPlayers().size(); //give the id to the player
             GameState.increaseJoinedPlayers(); //increase the number of players in the lobby

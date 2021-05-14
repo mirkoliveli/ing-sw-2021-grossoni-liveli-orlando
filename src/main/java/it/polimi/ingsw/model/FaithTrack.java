@@ -53,7 +53,7 @@ public class FaithTrack {
     }
 
     /**
-     * method used as QoL to make more simple understanding what it does inside other methods
+     * method used as QoL to make more simple to understands what it does inside other methods
      */
     public void increasePosition() {
         this.faithMarker++;
@@ -73,13 +73,14 @@ public class FaithTrack {
         this.popepoints = this.popepoints + points;
     }
 
-
+    /**
+     * override that isn't used anymore.
+     * @param faithPoints
+     */
     public void increasePosition(int faithPoints) {
         for (int i = 0; (i < faithPoints) || (this.faithMarker < 24); i++) {
             this.increasePosition();
         }
-
-
     }
 
     /**
@@ -347,6 +348,13 @@ public class FaithTrack {
         System.out.println("                P               P               P");
     }
 
+
+    /**
+     * method that is used to update the status inside a PlayerUpdate
+     * <br><br>
+     * note that the method does NOT signal a difference between discarded and not reached zones, the only difference that is reported is if the card has been acquired or not.
+     * @return a boolean array stating which popeCards have been activated
+     */
     public boolean[] popeCardsStatus() {
         boolean[] status = new boolean[3];
         status[0] = this.getFirst().isObtained();

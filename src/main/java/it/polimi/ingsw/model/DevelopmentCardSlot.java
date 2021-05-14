@@ -38,6 +38,11 @@ public class DevelopmentCardSlot {
         return vectorSlot[2].getColor();
     }
 
+
+    /**
+     * method that returns the "active" card on the slot, returns null if the slot is empty
+     * @return null if slot is empty, the card otherwise
+     */
     public DevelopmentCard get_top() {
 
         int i = 2;
@@ -54,7 +59,11 @@ public class DevelopmentCardSlot {
         return vectorSlot[i];
     }
 
-
+    /**
+     * method that places the card on the slot, returns true if the operation is done correctly, false otherwise
+     * @param CardToPlace card "acquired"
+     * @return true if operation is done successfully, false otherwise
+     */
     public boolean placeCard(DevelopmentCard CardToPlace) {
         int i = 0;
 
@@ -79,6 +88,9 @@ public class DevelopmentCardSlot {
         }
     }
 
+    /**
+     * method that updates the victory points of the slot
+     */
     // Method that set the slot's total amount of victory point
     public void pvSlot() {
         int totpv = getSlotPV();
@@ -93,7 +105,6 @@ public class DevelopmentCardSlot {
 
     /**
      * method that returns the level of the top card, if the slot is empty returns zero.
-     *
      * @return 0-1-2-3
      */
     public int levelOfTop() {
