@@ -56,7 +56,7 @@ public class Server {
         clientSocket = serverSocket.accept();
         System.out.println("Connection accepted: " + clientSocket);
         new ThreadedServer(clientSocket, match).start();
-        GameState.setJoinedPlayers(1);
+
 
         while(!ServerMain.isLobbyCreated){
             try{
@@ -66,6 +66,7 @@ public class Server {
                 System.out.println("error with waiting time after first connection");
             }
         }
+        GameState.setJoinedPlayers(1);
         System.out.println("STARTING LOBBY");
 
         try {
