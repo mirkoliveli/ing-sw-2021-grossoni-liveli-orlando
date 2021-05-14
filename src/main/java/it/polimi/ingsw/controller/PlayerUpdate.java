@@ -118,9 +118,7 @@ public class PlayerUpdate {
         return secondLeader;
     }
 
-    public void setSecondLeader(int secondLeder) {
-        this.secondLeader = secondLeder;
-    }
+    public void setSecondLeader(int secondLeader) { this.secondLeader = secondLeader; }
 
     public boolean isFirstLeaderPlayed() {
         return firstLeaderIsPlayed;
