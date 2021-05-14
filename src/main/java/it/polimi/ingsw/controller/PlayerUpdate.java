@@ -30,10 +30,8 @@ public class PlayerUpdate {
         strongBox = new int[4];
 
         //OCCHIO A QUESTO, 0 fino a 2 sono i Depot normali, 3 e 4 sono i depotLeader! hanno valore zero
-        //quando il giocarore non li ha
+        //quando il giocatore non li ha
         storage = new int[5][2];
-
-
         developMentSlots = new int[3][3];
         firstLeader = 0;
         secondLeader = 0;
@@ -124,7 +122,7 @@ public class PlayerUpdate {
         this.secondLeader = secondLeder;
     }
 
-    public boolean isFirstLeaderIsPlayed() {
+    public boolean isFirstLeaderPlayed() {
         return firstLeaderIsPlayed;
     }
 
@@ -132,11 +130,26 @@ public class PlayerUpdate {
         this.firstLeaderIsPlayed = firstLeaderIsPlayed;
     }
 
-    public boolean isSecondLeaderIsPlayed() {
+    public boolean isSecondLeaderPlayed() {
         return secondLeaderIsPlayed;
     }
 
-    public void setSecondLeaderIsPlayed(boolean secondLeaderIsPlayed) {
-        this.secondLeaderIsPlayed = secondLeaderIsPlayed;
+    public void setSecondLeaderIsPlayed(boolean secondLeaderIsPlayed) { this.secondLeaderIsPlayed = secondLeaderIsPlayed; }
+
+    /**
+     * @return the id of the cards that can be activated for the production action
+     */
+    public int[] getActivatableCards() {
+        int[] cards = new int[3];
+        for (int i=0; i<3; i++) {
+            for (int j=2; j>=0; j--) {
+                if (developMentSlots[i][j] != 0) {
+                    cards[i] = developMentSlots[i][j];
+                    break;
+                }
+            }
+        }
+        return cards;
     }
+
 }

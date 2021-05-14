@@ -58,6 +58,7 @@ public class MarketBoard {
         return board;
     }
 
+
     //metodo che mescola la griglia
     //parte mescolando ogni riga
     //poi mescola ogni colonna

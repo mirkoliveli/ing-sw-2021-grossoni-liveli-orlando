@@ -20,7 +20,7 @@ public class GameStatusMessage extends Message {
     }
 
     //loads the message from a JSON file
-    public void createMessage(String Source){
+    public void createMessage(String Source) {
         Gson gson = new Gson();
         BufferedReader buffer = null;
         try {
@@ -35,14 +35,7 @@ public class GameStatusMessage extends Message {
         } catch (IOException e) {
             System.out.println("error");
         }
-
-
-
-
-
     }
-
-
 
 
 }
