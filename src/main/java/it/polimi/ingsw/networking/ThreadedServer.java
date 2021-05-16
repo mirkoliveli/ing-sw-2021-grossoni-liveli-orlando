@@ -18,11 +18,21 @@ public class ThreadedServer extends Thread {
     private MatchMultiPlayer match;
     protected Socket clientSocket;
     protected int idPlayer;
+    private OutputStreamWriter streamToClient;
+    private BufferedWriter bufferToClient;
+    private InputStreamReader inputFromClient;
 
-    public ThreadedServer(Socket clientSocket, MatchMultiPlayer match) {
+    public ThreadedServer(Socket clientSocket, MatchMultiPlayer match) throws IOException {
         this.clientSocket = clientSocket;
         this.idPlayer = 0;
         this.match=match;
+        try {
+             streamToClient = new OutputStreamWriter(this.clientSocket.getOutputStream());
+             bufferToClient = new BufferedWriter(streamToClient);
+             inputFromClient = new InputStreamReader(this.clientSocket.getInputStream());
+        }catch (IOException e){
+            throw e;
+        }
     }
 
     public int getIdPlayer() {
@@ -31,61 +41,44 @@ public class ThreadedServer extends Thread {
 
     public void run() {
 
+        //login section
+
         if(match.getPlayers().size()==0){
             //lobbysetup
-            firstLogin(match);
+            try {
+                firstLogin(match);
+            }catch (IOException e){
+                System.out.println("error while setting up the lobby, please restart server");
+                System.exit(1);
+            }
             GameState.setStartingPlayer(this.idPlayer);
             ServerMain.setIsLobbyCreated(true);
         }
+
         else{
-            standardLogin(match);
-        }
-
-
-
-        /*BufferedReader inFromClient = null;
-        PrintWriter outToTheClient = null;
-        while (true) {
-
-            //METORO CHE CONTROLLA SE È IL TURNO DEL GIOCATORE
-//            CheckTurn();
-
             try {
-                // Per ricevere una stringa aprire un input stream reader
-                InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
-                inFromClient = new BufferedReader(isr);
+                standardLogin(match);
+            }catch (IOException e){
+                System.out.println("error while logging in");
+                this.interrupt();
 
-                OutputStreamWriter osw = new OutputStreamWriter(clientSocket.getOutputStream());
-                BufferedWriter bw = new BufferedWriter(osw);
-                outToTheClient = new PrintWriter(bw, true);
-                String str = inFromClient.readLine();
-
-                if ((str == null) || str.equalsIgnoreCase("QUIT")) {
-                    System.out.println("Closing " + clientSocket);
-                    break;
-                }
-
-                //-----------------TEST DELLA CONNESIONE -> REPLICA DEL TESTO RICEVUTO------------------------//
-                System.out.println("ANSWERING TO" + clientSocket.getInetAddress() + ":\n" + str);
-                outToTheClient.println(str);
-                StarterManager(str);
-                str = inFromClient.readLine();
-
-
-//                TurnToTheNext();
-
-            } catch (IOException e) {
-                return;
+                //fare qualcosa per problema disconnesione
             }
         }
-        try {
-            clientSocket.close();
-            outToTheClient.close();
-            inFromClient.close();
-            System.out.println("CLOSED!");
-        } catch (IOException e) {
-            System.out.println("ESPLOSO! KABOOM\n");
-        }*/
+
+        //end of login
+
+        waitingPlayersPhase();
+
+        //start of gettingStartedPhase
+
+
+        //messo per non killare subito il thread, così posso testare riconnessioni
+            try {
+                Thread.sleep(600000);
+            } catch (InterruptedException e) {
+                System.out.println("error while waiting");
+            }
     }
 
     public void StarterManager(String in) {
@@ -109,34 +102,28 @@ public class ThreadedServer extends Thread {
     /**
      * method that handles the first login of the game, that player needs to choose how large the lobby will be, and then decides what nickname they will have.
      * @param match given to handle the match data
+     * @throws IOException error with first login, process is terminated. restart server in case
      */
-    public void firstLogin(MatchMultiPlayer match){
+    public void firstLogin(MatchMultiPlayer match) throws IOException {
         Gson gson=new Gson();
         LoginMessage login=new LoginMessage(GameState.getJoinedPlayers(), true);
         String message= login.GenerateMessage().getMessage();
-        BufferedReader inFromClient = null;
-        PrintWriter messageToClient = null;
-        try{
 
-            OutputStreamWriter streamToClient = new OutputStreamWriter(clientSocket.getOutputStream());
-            BufferedWriter bufferToClient = new BufferedWriter(streamToClient);
-            messageToClient = new PrintWriter(bufferToClient, true);
-            messageToClient.println(message);
-        }catch(IOException e){
-            System.out.println("connection error with user " + clientSocket.getInetAddress());
-            System.exit(0);
-        }
+        //sends first message
+        messageToClient(message);
         //ricevo messaggio da user che contiene numero di giocatori totali e nome del giocatore.
         //se nome sbagliato setta in automatico a giocatore1 il nome
         try{
-        InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
-        inFromClient = new BufferedReader(isr);
-        String clientAnswer = inFromClient.readLine();
-        FirstLoginMessage answerFromClient=gson.fromJson(clientAnswer, FirstLoginMessage.class);
+
+        FirstLoginMessage answerFromClient=gson.fromJson(messageFromClient(), FirstLoginMessage.class);
+
         if(answerFromClient.getName()!=null){
             match.AddPlayer(answerFromClient.getName());
+            messageToClient("Connesione riuscita!");
         }
-        else{match.AddPlayer("giocatore1");}
+        else{match.AddPlayer("giocatore1");
+            messageToClient("Connesione riuscita!");}
+
         idPlayer=match.getPlayers().size(); //give the id to the player
         GameState.setTotalPlayersNumber(answerFromClient.getNumberOfPlayersToWait()); //creates lobby
 
@@ -144,48 +131,38 @@ public class ThreadedServer extends Thread {
             System.out.println("il suo nickname è: " + match.getPlayers().get(match.getPlayers().size()-1).getName());
 
         }catch(IOException e){
-            System.out.println("error");}
+            throw e;}
 
     }
 
     /**
      * handles the connection of player 2,3 and 4
-     * @param match
+     * @param match match currently being populated
+     * @throws IOException error while trying to log in a player, thread is killed
      */
-    public void standardLogin(MatchMultiPlayer match){
+    public void standardLogin(MatchMultiPlayer match) throws IOException {
         Gson gson=new Gson();
         LoginMessage login=new LoginMessage(GameState.getJoinedPlayers(), true);
         String message= login.GenerateMessage().getMessage();
-        BufferedReader inFromClient = null;
-        PrintWriter messageToClient = null;
         //sends an update to the client
-        try{
+        messageToClient(message);
 
-            OutputStreamWriter streamToClient = new OutputStreamWriter(clientSocket.getOutputStream());
-            BufferedWriter bufferToClient = new BufferedWriter(streamToClient);
-            messageToClient = new PrintWriter(bufferToClient, true);
-            messageToClient.println(message);
-        }catch(IOException e){
-            System.out.println("connection error with user " + clientSocket.getInetAddress());
-            System.exit(0);
-        }
 
         //receives the nickname and creates the player
         try {
-            InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
-            inFromClient = new BufferedReader(isr);
-            String clientAnswer = inFromClient.readLine();
-            Message answerFromClient = gson.fromJson(clientAnswer, Message.class); //messaggio contiene nome del giocatore
+            Message answerFromClient = gson.fromJson(messageFromClient(), Message.class); //messaggio contiene nome del giocatore
             if (answerFromClient.getMessage() != null) {
                 match.AddPlayer(answerFromClient.getMessage());
+                messageToClient("Connesione riuscita!");
             } else {
+                messageToClient("Connesione riuscita!");
                 match.AddPlayer("giocatore" + (match.getPlayers().size()+1)); //assegna in automatico il nome giocatoreN al giocatore in questione
             }
             idPlayer = match.getPlayers().size(); //give the id to the player
             GameState.increaseJoinedPlayers(); //increase the number of players in the lobby
         }catch(IOException e){
                 StagesQueue.setSomeoneLoggingIn(false);
-                System.out.println("error");
+                throw e;
         }
 
         System.out.println("è entrato il giocatore " + idPlayer);
@@ -197,21 +174,57 @@ public class ThreadedServer extends Thread {
     }
 
 
+    /**
+     * Sends a String message to the client.
+     * @param message message sent
+     */
+    public void messageToClient(String message){
+        PrintWriter messageToClient = null;
+        messageToClient = new PrintWriter(bufferToClient, true);
+        messageToClient.println(message);
 
-//
-//    public void CheckTurn() {
-//        while (Server.getTurno() != idPlayer) {
-//            try {
-//                Thread.sleep(10000);
-//            } catch (InterruptedException e) {
-//                System.out.println("Eh vabbè!1!");
-//            }
-//        }
-//    }
-//
-//    public void TurnToTheNext () {
-//        Server.setTurno(idPlayer+1);
-//    }
+    }
+
+    /**
+     * receives a String message from client and return the string
+     * @return String message from client
+     * @throws IOException if client disconnected or there's an error while receiving the message and IOEexceptions is thrown
+     */
+    public String messageFromClient() throws IOException {
+        BufferedReader inFromClient = null;
+        inFromClient = new BufferedReader(inputFromClient);
+        return inFromClient.readLine();
+    }
+
+    public void sleeping(int millseconds){
+        try{
+            Thread.sleep(millseconds);
+        }catch(InterruptedException e){
+            System.out.println("failiure while sleeping!");
+        }
+
+    }
+
+    public void waitingPlayersPhase(){
+        while(!GameState.isGettingStartedPhase()){
+            sleeping(1000);
+            messageToClient("waiting other players...");
+        }
+
+        sleeping(500);
+        messageToClient("next");
+
+        try{
+
+            System.out.println("giocatore "+ idPlayer + " is " + messageFromClient());
+
+        }catch(IOException e){
+            System.out.println("connection lost with client " + idPlayer);
+            sleeping(100000);
+        }
+    }
+
+
 }
 
 

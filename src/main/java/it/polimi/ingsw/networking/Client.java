@@ -16,6 +16,11 @@ public class Client {
     private final String ip;
     private final int port;
     private boolean loggedInGame = false;
+    private Socket connection =null;
+    private String nickname;
+    private InputStreamReader inputFromServer;
+    private OutputStreamWriter outputToServer;
+    private BufferedReader in = null;
 
     public Client(String ip, int port) {
         this.ip = ip;
@@ -45,24 +50,36 @@ public class Client {
             System.err.println("Don't know about host" + ip);
             System.exit(1);
         }
+        this.connection=socket;
+        this.inputFromServer= new InputStreamReader(connection.getInputStream());
+        this.outputToServer= new OutputStreamWriter(connection.getOutputStream());
+        this.in=new BufferedReader(inputFromServer);
 
-        while (!isLoggedInGame()) {
-            LoginRequest(socket);
+        try {
+            LoginRequest(connection);
+        }catch (IOException e){
+            loggedInGame=false;
+            System.out.println("connessione fallita, nuovo tentativo in corso...");
         }
-        System.out.println("Client: closing...");
-        socket.close();
-        System.out.println("Closed!");
+
+
     }
 
+    /**
+     * method that handles the login phase with the server
+     * @param socket socket needed to start the connection with the server
+     * @throws IOException if at any point an error occurs an IOE is thrown
+     */
     public void LoginRequest(Socket socket) throws IOException {
         //METODO PER RICHIEDERE LOGIN ALLA PARTITA
         Gson gson=new Gson();
         LoginMessage loginMessage=null;
+
         BufferedReader in = null;
         BufferedReader stdIn = null;
         PrintWriter out = null;
 
-        //Creo uno stream di input per prendere le stringhe da tastiera
+        //Creo uno stream dal server
         InputStreamReader inputFromServer = new InputStreamReader(socket.getInputStream());
         in = new BufferedReader(inputFromServer);
 
@@ -72,8 +89,9 @@ public class Client {
         out = new PrintWriter(bufferToServer, true);
 
         stdIn = new BufferedReader(new InputStreamReader(System.in));
-        String userInput;
 
+
+        //first message
         String messageFromServer=in.readLine();
         loginMessage=gson.fromJson(messageFromServer, LoginMessage.class);
 
@@ -93,7 +111,10 @@ public class Client {
             System.out.println("inserisci il tuo nickname desiderato prima di entrare in attesa dei giocatori: ");
             name=input.nextLine();
             System.out.println("nota che se il nome inserito non è valido ti verrà assegnato il nome giocatore1 automaticamente");
-            if(name.equals(""))name="giocatore1";
+            if(name.equals("")){
+                name="giocatore1";
+            }
+            this.nickname=name;
             FirstLoginMessage message=new FirstLoginMessage(name, value);
             out.println(message.CreateMessage());
 
@@ -102,19 +123,29 @@ public class Client {
         //joino come giocatore non 1
         else{
 
-            System.out.println("\nBenvenuto, questa lobby al momento ha: " + loginMessage.getNumOfPlayersInRoom() + " quindi tu sarai il giocatore numero " + loginMessage.getNumOfPlayersInRoom()+1);
+            System.out.println("\nBenvenuto, questa lobby al momento ha: " + loginMessage.getNumOfPlayersInRoom() + " quindi tu sarai il giocatore numero " + (loginMessage.getNumOfPlayersInRoom()+1));
             System.out.println("per favore entra un nickname con cui vorrai giocare: ");
             Scanner input=new Scanner(System.in);
             String name;
             name=input.nextLine();
             System.out.println("nota che se il nome inserito non è valido ti verrà assegnato il nome " + (loginMessage.getNumOfPlayersInRoom()+1) +" giocatore automaticamente");
             if(name.equals(""))name="giocatore" + loginMessage.getNumOfPlayersInRoom()+1;
+            this.nickname=name;
             Message message=new Message(name);
 
             out.println(StaticMethods.objToJson(message));
         }
 
         System.out.println();
+
+        try {
+            messageFromServer = in.readLine();
+        }catch (IOException e){
+            System.out.println("errore di connessione!");
+            throw e;
+        }
+
+        System.out.println(messageFromServer +"\n");
 
         //roba a random che va tolta
         while(true){
@@ -144,17 +175,53 @@ public class Client {
             }
             break;
         }
-
-
-        System.out.println("TYPE:\n[0] Create new game\n[1] Enter into existing game\n[2] Quit game");
-        userInput = stdIn.readLine();
-
-        out.println(userInput);
-        System.out.println("Answer from server: " + in.readLine());
-        in.close();
-        out.close();
-        stdIn.close();
         setLoggedInGame(true);
+        System.out.println("login successful!");
     }
+
+    public void waitingPhase() throws IOException {
+        String message;
+        do{
+            try {
+                message=messageFromServer();
+            }catch(IOException e){
+                System.out.println("connection lost!");
+                throw e;
+            }
+            if(!message.equals("next")) {
+                System.out.println(message);
+            }
+        }while (!message.equals("next"));
+
+        messageToServer("Still_Connected");
+
+    }
+
+    /**
+     * receives a message from the server (string)
+     * @return String message
+     * @throws IOException connection with server lost
+     */
+    public String messageFromServer() throws IOException {
+        try{
+            return in.readLine();
+        }catch(IOException e){
+            throw e;
+        }
+
+    }
+
+    /**
+     * sends a string message to the server
+     * @param message message sent
+     * @throws IOException connection with server lost
+     */
+    public void messageToServer(String message) {
+        PrintWriter out = null;
+        BufferedWriter bufferToServer = new BufferedWriter(outputToServer);
+        out = new PrintWriter(bufferToServer, true);
+        out.println(message);
+    }
+
 }
 

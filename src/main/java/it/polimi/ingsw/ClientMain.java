@@ -23,7 +23,16 @@ public class ClientMain {
         System.out.print("\nPlease type in port number: ");
         int portNumber = Integer.parseInt(scn.nextLine());
         Client client = new Client(ip, portNumber);
+
+        //login phase
+        while(!client.isLoggedInGame()){
         client.StartingConnection();
+        }
+
+        client.waitingPhase();
+
+        System.out.println("end_waiting");
+
     }
 
 }
