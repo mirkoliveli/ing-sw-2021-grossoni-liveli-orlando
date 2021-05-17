@@ -83,15 +83,15 @@ public class StaticMethods {
      */
     public static TypeOfResource IntToTypeOfResource(int idResource){
         switch (idResource) {
-            case 0:
-                return TypeOfResource.coins;
             case 1:
-                return TypeOfResource.servants;
+                return TypeOfResource.coins;
             case 2:
-                return TypeOfResource.shields;
+                return TypeOfResource.servants;
             case 3:
-                return TypeOfResource.stones;
+                return TypeOfResource.shields;
             case 4:
+                return TypeOfResource.stones;
+            case 5:
                 return TypeOfResource.faith;
         }
 

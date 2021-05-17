@@ -261,7 +261,7 @@ public class Client {
                     do {
                         resource= input.nextInt();
                     }while(resource>4 || resource<1);
-                    GettingStartedMessage messageTOServer=new GettingStartedMessage(id1, id2, 0);
+                    GettingStartedMessage messageTOServer=new GettingStartedMessage(id1, id2, 1);
                     messageTOServer.setResources(resource, -1);
                     messageToServer(messageTOServer.getMessageAsString());
                 }
@@ -278,7 +278,7 @@ public class Client {
                         resource2= input.nextInt();
                         if(resource2>4 || resource2<1) System.out.println("numero non valido, reinserisci:");
                     }while(resource2>4 || resource2<1);
-                    GettingStartedMessage messageTOServer=new GettingStartedMessage(id1, id2, 0);
+                    GettingStartedMessage messageTOServer=new GettingStartedMessage(id1, id2, 2);
                     messageTOServer.setResources(resource, resource2);
                     messageToServer(messageTOServer.getMessageAsString());
                 }
