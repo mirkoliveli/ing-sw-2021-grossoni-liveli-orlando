@@ -123,7 +123,7 @@ public class MatchMultiPlayer {
             playerStats.setFirstLeaderIsPlayed(players.get(realid).getLeaderCard1().checkIfPlayed());
         }
         if (players.get(realid).getLeaderCard2() != null) {
-            playerStats.setFirstLeader(players.get(realid).getLeaderCard2().getId());
+            playerStats.setSecondLeader(players.get(realid).getLeaderCard2().getId());
             playerStats.setSecondLeaderIsPlayed(players.get(realid).getLeaderCard2().checkIfPlayed());
         }
         //setting StrongBox

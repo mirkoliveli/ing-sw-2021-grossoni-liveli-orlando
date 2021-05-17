@@ -226,7 +226,7 @@ public class ThreadedServer extends Thread {
             GettingStartedMessage messageFromC = gson.fromJson(messageFromClient(), GettingStartedMessage.class);
             //set leaders
             match.getPlayers().get(idPlayer-1).setLeaderCard1(match.getLeaderDeck(), messageFromC.getCardID()[0]);
-            match.getPlayers().get(idPlayer-1).setLeaderCard1(match.getLeaderDeck(), messageFromC.getCardID()[1]);
+            match.getPlayers().get(idPlayer-1).setLeaderCard2(match.getLeaderDeck(), messageFromC.getCardID()[1]);
 
             //set additional resources and move faithtrack
             if(idPlayer>1){
