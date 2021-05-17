@@ -171,6 +171,8 @@ public class Client {
                 Thread.sleep(400);
                 System.out.print(".");
                 Thread.sleep(400);
+                System.out.println("\n");
+                Thread.sleep(400);
             }catch(InterruptedException e){
                 System.out.println("error");
             }

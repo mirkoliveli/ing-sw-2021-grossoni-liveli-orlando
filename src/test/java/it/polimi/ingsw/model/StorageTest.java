@@ -57,19 +57,19 @@ public class StorageTest {
 
 
     //breve controllo sul decreaser
-    @Test
-    public void DecreaserTest(){
-        Storage tester=new Storage();
-        tester.getLevel(1).setResourceType(coins);
-        tester.getLevel(1).setQuantity(1);
-        try {
-            tester.ResourceDecreaser(new int[]{2, 0, 0, 0});
-        }catch (NotEnoughResources e){
-            System.out.println("errore");
-            assertEquals(1, 0);//dato che NON00 devo entrare qua faccio fallire il test automaticamente nel caso succeda
-        }
-        System.out.print(tester.getLevel(1).getResourceType() + "" + tester.getLevel(1).getQuantity());
-    }
+//    @Test
+//    public void DecreaserTest(){
+//        Storage tester=new Storage();
+//        tester.getLevel(1).setResourceType(coins);
+//        tester.getLevel(1).setQuantity(1);
+//        try {
+//            tester.ResourceDecreaser(new int[]{2, 0, 0, 0});
+//        }catch (NotEnoughResources e){
+//            System.out.println("errore");
+//            assertEquals(1, 0);//dato che NON 00 devo entrare qua faccio fallire il test automaticamente nel caso succeda
+//        }
+//        System.out.print(tester.getLevel(1).getResourceType() + "" + tester.getLevel(1).getQuantity());
+//    }
 
 
     //controllo se la conversione funziona

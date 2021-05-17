@@ -5,6 +5,7 @@ import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.StagesQueue;
 import it.polimi.ingsw.model.MatchMultiPlayer;
+import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -106,7 +107,8 @@ public class Server {
         System.out.println("\nuscito da login while\n");
 
         try {
-            Thread.sleep(600000);
+            Thread.sleep(10000);
+//            StaticMethods.GameStatus(match , "src/main/resources/gametest.json");
         }catch (InterruptedException e){
             System.out.println("wtf");
         }
