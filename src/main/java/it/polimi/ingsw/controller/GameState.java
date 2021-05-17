@@ -48,16 +48,32 @@ public class GameState {
         return idOfPlayerInTurn;
     }
 
+    public static void setIdOfPlayerInTurn(int idOfPlayerInTurn) {
+        GameState.idOfPlayerInTurn = idOfPlayerInTurn;
+    }
+
     public static int getStartingPlayer() {
         return startingPlayer;
+    }
+
+    public static void setStartingPlayer(int startingPlayer) {
+        GameState.startingPlayer = startingPlayer;
     }
 
     public static int getTotalPlayersNumber() {
         return totalPlayersNumber;
     }
 
+    public static void setTotalPlayersNumber(int totalPlayersNumber) {
+        GameState.totalPlayersNumber = totalPlayersNumber;
+    }
+
     public static int getWinnerId() {
         return winnerId;
+    }
+
+    public static void setWinnerId(int winnerId) {
+        GameState.winnerId = winnerId;
     }
 
     public static boolean isLoginPhase() {
@@ -78,22 +94,6 @@ public class GameState {
 
     public static boolean isGameEndedPhase() {
         return gameEndedPhase;
-    }
-
-    public static void setStartingPlayer(int startingPlayer) {
-        GameState.startingPlayer = startingPlayer;
-    }
-
-    public static void setTotalPlayersNumber(int totalPlayersNumber) {
-        GameState.totalPlayersNumber = totalPlayersNumber;
-    }
-
-    public static void setWinnerId(int winnerId) {
-        GameState.winnerId = winnerId;
-    }
-
-    public static void setIdOfPlayerInTurn(int idOfPlayerInTurn) {
-        GameState.idOfPlayerInTurn = idOfPlayerInTurn;
     }
 
     public static void setPhase(int idPhase) {

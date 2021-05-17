@@ -2,7 +2,6 @@ package it.polimi.ingsw.messages;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameStatusUpdate;
-import it.polimi.ingsw.model.DevelopmentCard;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

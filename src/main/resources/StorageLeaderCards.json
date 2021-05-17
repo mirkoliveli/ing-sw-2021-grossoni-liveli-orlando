@@ -1,26 +1,26 @@
 [
-     {
-      "id" : 53,
-      "pv" : 3,
-      "typeOfResourceStored" :  "stones",
-      "resourceRequired" : "coins"
-    },
-    {
-      "id" : 54,
-      "pv" : 3,
-      "typeOfResourceStored" :  "servants",
-      "resourceRequired" : "stones"
-    },
-    {
-      "id" : 55,
-      "pv" : 3,
-      "typeOfResourceStored" :  "shields",
-      "resourceRequired" : "servants"
-    },
-    {
-      "id" : 56,
-      "pv" : 3,
-      "typeOfResourceStored" :  "coins",
-      "resourceRequired" : "shields"
-    }
+  {
+    "id": 53,
+    "pv": 3,
+    "typeOfResourceStored": "stones",
+    "resourceRequired": "coins"
+  },
+  {
+    "id": 54,
+    "pv": 3,
+    "typeOfResourceStored": "servants",
+    "resourceRequired": "stones"
+  },
+  {
+    "id": 55,
+    "pv": 3,
+    "typeOfResourceStored": "shields",
+    "resourceRequired": "servants"
+  },
+  {
+    "id": 56,
+    "pv": 3,
+    "typeOfResourceStored": "coins",
+    "resourceRequired": "shields"
+  }
 ]

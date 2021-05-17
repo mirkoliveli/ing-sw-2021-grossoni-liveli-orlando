@@ -12,31 +12,30 @@ public class staticMethodsTest {
 
     @Test
     public void gameStatus() {
-        MatchMultiPlayer match=new MatchMultiPlayer();
+        MatchMultiPlayer match = new MatchMultiPlayer();
         match.AddPlayer(new Player("riccardo", 1));
         match.AddPlayer(new Player("mirko", 2));
         match.AddPlayer(new Player("andrea", 3));
         try {
             StaticMethods.GameStatus(match, "src/main/resources/matchFromTestGameStatus.json");
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("error");
         }
 
-        
 
     }
 
     @Test
     public void objToJson() {
-        Strongbox testRandom=new Strongbox();
+        Strongbox testRandom = new Strongbox();
         System.out.println(StaticMethods.objToJson(testRandom));
     }
 
 
     @Test
-    public void utilsTest(){
-        String carl="carl";
-        Message mess=new Message(carl + 8);
+    public void utilsTest() {
+        String carl = "carl";
+        Message mess = new Message(carl + 8);
         System.out.println(mess.getMessage());
     }
 }

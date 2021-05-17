@@ -8,9 +8,18 @@ public enum MarbleColor {
     blue("\u001B[34m blue \u001B[0m"),
     yellow("\u001B[33myellow\u001B[0m");
 
-    private String escape;
-    MarbleColor (String escape) { this.escape = escape; }
-    public String getEscape() { return escape; }
+    private final String escape;
+
+    MarbleColor(String escape) {
+        this.escape = escape;
+    }
+
+    public String getEscape() {
+        return escape;
+    }
+
     @Override
-    public String toString() { return escape; }
+    public String toString() {
+        return escape;
+    }
 }

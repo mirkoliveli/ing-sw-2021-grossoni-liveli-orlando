@@ -41,6 +41,7 @@ public class DevelopmentCardSlot {
 
     /**
      * method that returns the "active" card on the slot, returns null if the slot is empty
+     *
      * @return null if slot is empty, the card otherwise
      */
     public DevelopmentCard get_top() {
@@ -61,6 +62,7 @@ public class DevelopmentCardSlot {
 
     /**
      * method that places the card on the slot, returns true if the operation is done correctly, false otherwise
+     *
      * @param CardToPlace card "acquired"
      * @return true if operation is done successfully, false otherwise
      */
@@ -105,6 +107,7 @@ public class DevelopmentCardSlot {
 
     /**
      * method that returns the level of the top card, if the slot is empty returns zero.
+     *
      * @return 0-1-2-3
      */
     public int levelOfTop() {

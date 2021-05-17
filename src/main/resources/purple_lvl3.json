@@ -1,37 +1,102 @@
-[{
-  "id" :34,
-  "pv": 9,
-  "color": "purple",
-  "cost": [0,6,0,0],
-  "level": 3,
-  "productionCost": [0,0,0,2],
-  "product": [3,0,0,0,2]
-
-},{
-  "id" :38,
-  "pv": 10,
-  "color": "purple",
-  "cost": [2,5,0,0],
-  "level": 3,
-  "productionCost": [0,0,1,1],
-  "product": [2,2,0,0,1]
-
-},{
-  "id" :42,
-  "pv": 11,
-  "color": "purple",
-  "cost": [0,7,0,0],
-  "level": 3,
-  "productionCost": [1,0,0,0],
-  "product": [0,0,0,1,3]
-
-},{
-  "id" :46,
-  "pv": 12,
-  "color": "purple",
-  "cost": [0,4,4,0],
-  "level": 3,
-  "productionCost": [1,0,0,0],
-  "product": [0,1,0,3,0]
-
-}]
+[
+  {
+    "id": 34,
+    "pv": 9,
+    "color": "purple",
+    "cost": [
+      0,
+      6,
+      0,
+      0
+    ],
+    "level": 3,
+    "productionCost": [
+      0,
+      0,
+      0,
+      2
+    ],
+    "product": [
+      3,
+      0,
+      0,
+      0,
+      2
+    ]
+  },
+  {
+    "id": 38,
+    "pv": 10,
+    "color": "purple",
+    "cost": [
+      2,
+      5,
+      0,
+      0
+    ],
+    "level": 3,
+    "productionCost": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "product": [
+      2,
+      2,
+      0,
+      0,
+      1
+    ]
+  },
+  {
+    "id": 42,
+    "pv": 11,
+    "color": "purple",
+    "cost": [
+      0,
+      7,
+      0,
+      0
+    ],
+    "level": 3,
+    "productionCost": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "product": [
+      0,
+      0,
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "id": 46,
+    "pv": 12,
+    "color": "purple",
+    "cost": [
+      0,
+      4,
+      4,
+      0
+    ],
+    "level": 3,
+    "productionCost": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "product": [
+      0,
+      1,
+      0,
+      3,
+      0
+    ]
+  }
+]

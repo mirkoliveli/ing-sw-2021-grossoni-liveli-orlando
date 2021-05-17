@@ -5,10 +5,10 @@ package it.polimi.ingsw.model;
 
 public class FaithTrack {
 
-    private int faithMarker;
     private final PopesFavorCard first;
     private final PopesFavorCard second;
     private final PopesFavorCard third;
+    private int faithMarker;
     private int onlyTrackPoints;
     private int popepoints;
 
@@ -75,6 +75,7 @@ public class FaithTrack {
 
     /**
      * override that isn't used anymore.
+     *
      * @param faithPoints
      */
     public void increasePosition(int faithPoints) {
@@ -353,6 +354,7 @@ public class FaithTrack {
      * method that is used to update the status inside a PlayerUpdate
      * <br><br>
      * note that the method does NOT signal a difference between discarded and not reached zones, the only difference that is reported is if the card has been acquired or not.
+     *
      * @return a boolean array stating which popeCards have been activated
      */
     public boolean[] popeCardsStatus() {

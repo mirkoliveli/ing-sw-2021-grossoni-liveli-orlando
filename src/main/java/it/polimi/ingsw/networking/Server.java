@@ -42,11 +42,9 @@ public class Server {
     }
 
 
-
-
     public void execute() throws IOException {
-        ArrayList<ThreadedServer> clients=new ArrayList<>(4);
-        MatchMultiPlayer match=new MatchMultiPlayer();
+        ArrayList<ThreadedServer> clients = new ArrayList<>(4);
+        MatchMultiPlayer match = new MatchMultiPlayer();
         System.out.println("Server: started ");
         System.out.println("Server Socket: " + serverSocket);
 
@@ -59,11 +57,11 @@ public class Server {
         clients.add(new ThreadedServer(clientSocket, match));
         clients.get(0).start();
 
-        while(!ServerMain.isLobbyCreated){
-            try{
+        while (!ServerMain.isLobbyCreated) {
+            try {
 
                 Thread.sleep(5000);
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 System.out.println("error with waiting time after first connection");
             }
         }
@@ -72,30 +70,32 @@ public class Server {
 
         //lobby
         try {
-            do{
+            do {
                 //Accetta la prima connessione in coda e le dedica un thread
                 clientSocket = serverSocket.accept();
                 System.out.println("Connection accepted: " + clientSocket);
                 StagesQueue.setSomeoneLoggingIn(true);
                 try {
                     clients.add(new ThreadedServer(clientSocket, match));
-                }catch(IOException e){
-                    System.out.println("problem logging in player " + (GameState.getJoinedPlayers()+1));
+                } catch (IOException e) {
+                    System.out.println("problem logging in player " + (GameState.getJoinedPlayers() + 1));
                     clients.remove(GameState.getJoinedPlayers());
                 }
-                int i=GameState.getJoinedPlayers();
+                int i = GameState.getJoinedPlayers();
                 clients.get(GameState.getJoinedPlayers()).start();
-                while(StagesQueue.isSomeoneLoggingIn()){
-                    try{
+                while (StagesQueue.isSomeoneLoggingIn()) {
+                    try {
                         Thread.sleep(5000);
-                    }catch (InterruptedException e){
+                    } catch (InterruptedException e) {
                         System.out.println("error with waiting time between connections!");
                     }
                 }
-                if(!clients.get(i).isAlive()){
+
+                if (!clients.get(i).isAlive()) {
+                    System.out.println("Removing player: " + i);
                     clients.remove(i);
                 }
-            }while (GameState.getJoinedPlayers()!=GameState.getTotalPlayersNumber());
+            } while (GameState.getJoinedPlayers() != GameState.getTotalPlayersNumber());
 
 
         } catch (IOException e) {
@@ -107,9 +107,9 @@ public class Server {
         System.out.println("\nuscito da login while\n");
 
         try {
-            Thread.sleep(10000);
-//            StaticMethods.GameStatus(match , "src/main/resources/gametest.json");
-        }catch (InterruptedException e){
+            Thread.sleep(30000);
+            StaticMethods.GameStatus(match, "src/main/resources/gametest.json");
+        } catch (InterruptedException e) {
             System.out.println("wtf");
         }
 

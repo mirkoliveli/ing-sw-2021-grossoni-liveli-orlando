@@ -23,8 +23,8 @@ public class MatchMultiPlayer {
         players.add(player);
     }
 
-    public void AddPlayer(String name){
-        Player player=new Player(name, getPlayers().size()+1);
+    public void AddPlayer(String name) {
+        Player player = new Player(name, getPlayers().size() + 1);
         players.add(player);
     }
 

@@ -2,8 +2,8 @@ package it.polimi.ingsw.model;
 
 public class ActionToken {
 
-    private boolean isDiscarded;
     private final TypeOfActionToken type;
+    private boolean isDiscarded;
 
 
     public ActionToken(TypeOfActionToken t) {

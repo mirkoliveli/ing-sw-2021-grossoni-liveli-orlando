@@ -1,38 +1,102 @@
-[{
-  "id" :4,
-  "pv": 1,
-  "color": "yellow",
-  "cost": [0,0,0,2],
-  "level": 1,
-  "productionCost": [0,1,0,0],
-  "product": [0,0,0,0,1]
-
-},{
-  "id" :8,
-  "pv": 2,
-  "color": "yellow",
-  "cost": [1,0,1,1],
-  "level": 1,
-  "productionCost": [0,0,1,0],
-  "product": [1,0,0,0,0]
-
-},{
-  "id" :12,
-  "pv": 3,
-  "color": "yellow",
-  "cost": [0,0,0,3],
-  "level": 1,
-  "productionCost": [0,0,2,0],
-  "product": [1,1,0,1,0]
-
-},
+[
   {
-    "id" :16,
+    "id": 4,
+    "pv": 1,
+    "color": "yellow",
+    "cost": [
+      0,
+      0,
+      0,
+      2
+    ],
+    "level": 1,
+    "productionCost": [
+      0,
+      1,
+      0,
+      0
+    ],
+    "product": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ]
+  },
+  {
+    "id": 8,
+    "pv": 2,
+    "color": "yellow",
+    "cost": [
+      1,
+      0,
+      1,
+      1
+    ],
+    "level": 1,
+    "productionCost": [
+      0,
+      0,
+      1,
+      0
+    ],
+    "product": [
+      1,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": 12,
+    "pv": 3,
+    "color": "yellow",
+    "cost": [
+      0,
+      0,
+      0,
+      3
+    ],
+    "level": 1,
+    "productionCost": [
+      0,
+      0,
+      2,
+      0
+    ],
+    "product": [
+      1,
+      1,
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "id": 16,
     "pv": 4,
     "color": "yellow",
-    "cost": [0,0,2,2],
+    "cost": [
+      0,
+      0,
+      2,
+      2
+    ],
     "level": 1,
-    "productionCost": [1,1,0,0],
-    "product": [0,0,2,0,1]
-
-  }]
+    "productionCost": [
+      1,
+      1,
+      0,
+      0
+    ],
+    "product": [
+      0,
+      0,
+      2,
+      0,
+      1
+    ]
+  }
+]

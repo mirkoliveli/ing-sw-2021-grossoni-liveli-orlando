@@ -32,7 +32,7 @@ public class DevelopmentCard extends Card {
     private int[] productionCost;
     /**
      * product is an int vector of length 5, each space represents a resource
-     ** <br><br>
+     * * <br><br>
      * coins -> space 0
      * <br><br>
      * servants -> space 1

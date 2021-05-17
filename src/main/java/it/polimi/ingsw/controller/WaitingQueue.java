@@ -22,19 +22,21 @@ public class WaitingQueue {
 
     /**
      * sets the tracker for this player to true
+     *
      * @param idPlayer
      */
-    public synchronized void PlayerFinished(int idPlayer){
-        queue[idPlayer-1]=true;
+    public synchronized void PlayerFinished(int idPlayer) {
+        queue[idPlayer - 1] = true;
     }
 
     /**
      * method that checks if all players have finished
+     *
      * @return true if all players finished false otherwise
      */
-    public synchronized boolean allFinished(){
+    public synchronized boolean allFinished() {
         for (int i = 0; i < nOfPlayers; i++) {
-            if(queue[i]=false) return false;
+            if (queue[i] = false) return false;
         }
         return true;
     }

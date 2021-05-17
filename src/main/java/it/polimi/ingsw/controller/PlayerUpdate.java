@@ -118,7 +118,9 @@ public class PlayerUpdate {
         return secondLeader;
     }
 
-    public void setSecondLeader(int secondLeader) { this.secondLeader = secondLeader; }
+    public void setSecondLeader(int secondLeader) {
+        this.secondLeader = secondLeader;
+    }
 
     public boolean isFirstLeaderPlayed() {
         return firstLeaderIsPlayed;
@@ -132,15 +134,17 @@ public class PlayerUpdate {
         return secondLeaderIsPlayed;
     }
 
-    public void setSecondLeaderIsPlayed(boolean secondLeaderIsPlayed) { this.secondLeaderIsPlayed = secondLeaderIsPlayed; }
+    public void setSecondLeaderIsPlayed(boolean secondLeaderIsPlayed) {
+        this.secondLeaderIsPlayed = secondLeaderIsPlayed;
+    }
 
     /**
      * @return the id of the cards that can be activated for the production action
      */
     public int[] getActivatableCards() {
         int[] cards = new int[3];
-        for (int i=0; i<3; i++) {
-            for (int j=2; j>=0; j--) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 2; j >= 0; j--) {
                 if (developMentSlots[i][j] != 0) {
                     cards[i] = developMentSlots[i][j];
                     break;

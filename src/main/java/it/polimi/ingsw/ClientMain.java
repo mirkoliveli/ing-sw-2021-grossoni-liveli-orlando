@@ -1,13 +1,7 @@
 package it.polimi.ingsw;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.model.DevelopmentCard;
-import it.polimi.ingsw.model.LeaderDeck;
 import it.polimi.ingsw.networking.Client;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -25,8 +19,8 @@ public class ClientMain {
         Client client = new Client(ip, portNumber);
 
         //login phase
-        while(!client.isLoggedInGame()){
-        client.StartingConnection();
+        while (!client.isLoggedInGame()) {
+            client.StartingConnection();
         }
 
         //waiting login of other players

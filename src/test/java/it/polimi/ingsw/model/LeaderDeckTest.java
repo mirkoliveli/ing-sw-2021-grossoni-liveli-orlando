@@ -2,20 +2,18 @@ package it.polimi.ingsw.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class LeaderDeckTest {
 
     @Test
-    public void TestConstructor(){
+    public void TestConstructor() {
 
-        LeaderDeck tester=new LeaderDeck();
+        LeaderDeck tester = new LeaderDeck();
         System.out.println(tester.getCard(15).getPower());
     }
 
     @Test
-    public void TestShuffle(){
-        LeaderDeck tester=new LeaderDeck();
+    public void TestShuffle() {
+        LeaderDeck tester = new LeaderDeck();
         System.out.println("id mazzo prima di mescolare");
         tester.printIds();
         tester.shuffle();
@@ -24,12 +22,10 @@ public class LeaderDeckTest {
     }
 
 
-
-
     @Test
-    public void NullToValueAndValueToNullTest(){
-        LeaderDeck tester=new LeaderDeck();
-        LeaderCard swap=new LeaderCard(tester.getCard(0));
+    public void NullToValueAndValueToNullTest() {
+        LeaderDeck tester = new LeaderDeck();
+        LeaderCard swap = new LeaderCard(tester.getCard(0));
         tester.getCard(0).printCard();
         System.out.println("\n\nla carta test per swap:\n");
         swap.printCard();
@@ -45,10 +41,10 @@ public class LeaderDeckTest {
     //test molto rudimentale, a causa della complessità dell'oggetto LeaderCard ho preferito controllare ad "occhio"
     //se il metodo ritorna davvero le carte giuste, piuttosto che fare 200 assert diversi.
     @Test
-    public void getChoicesTest(){
-        LeaderDeck tester=new LeaderDeck();
-        LeaderCard[] choice=tester.getChoices(2);
-        for(int i=0; i<4; i++) {
+    public void getChoicesTest() {
+        LeaderDeck tester = new LeaderDeck();
+        LeaderCard[] choice = tester.getChoices(2);
+        for (int i = 0; i < 4; i++) {
             choice[i].printCard();
             System.out.println();
             System.out.println();

@@ -1,27 +1,26 @@
 [
-    {
-      "id" : 61,
-      "pv" : 4,
-      "typeRequested" :  "shields",
-      "colorRequired" :  "yellow"
-    },
-    {
-      "id" : 62,
-      "pv" : 4,
-      "typeRequested" :  "servants",
-      "colorRequired" :  "blue"
-    },
-
-    {
-      "id" : 63,
-      "pv" : 4,
-      "typeRequested" :  "stones",
-      "colorRequired" :  "purple"
-    },
-   {
-      "id" : 64,
-      "pv" : 4,
-      "typeRequested" :  "coins",
-      "colorRequired" :  "green"
-    }
+  {
+    "id": 61,
+    "pv": 4,
+    "typeRequested": "shields",
+    "colorRequired": "yellow"
+  },
+  {
+    "id": 62,
+    "pv": 4,
+    "typeRequested": "servants",
+    "colorRequired": "blue"
+  },
+  {
+    "id": 63,
+    "pv": 4,
+    "typeRequested": "stones",
+    "colorRequired": "purple"
+  },
+  {
+    "id": 64,
+    "pv": 4,
+    "typeRequested": "coins",
+    "colorRequired": "green"
+  }
 ]

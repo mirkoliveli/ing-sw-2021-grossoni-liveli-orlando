@@ -2,10 +2,10 @@ package it.polimi.ingsw.model;
 
 public class Player {
 
-    private String name;
-    private int id;
     private final boolean inkwell;
     private final PersonalBoard board;
+    private String name;
+    private int id;
     private LeaderCard leaderCard1;
     private LeaderCard leaderCard2;
     private int victoryPoints;
@@ -70,12 +70,12 @@ public class Player {
         this.setVictoryPoints(pvtemp);
     }
 
-    public void setLeaderCard1(LeaderDeck deck, int id){
-        leaderCard1=new LeaderCard(deck.getCardById(id));
+    public void setLeaderCard1(LeaderDeck deck, int id) {
+        leaderCard1 = new LeaderCard(deck.getCardById(id));
     }
 
-    public void setLeaderCard2(LeaderDeck deck, int id){
-        leaderCard2=new LeaderCard(deck.getCardById(id));
+    public void setLeaderCard2(LeaderDeck deck, int id) {
+        leaderCard2 = new LeaderCard(deck.getCardById(id));
     }
 
 }

@@ -1,30 +1,30 @@
 [
-    {
-      "id" : 49,
-      "pv" : 2,
-      "typeOfResource" :  "servants",
-      "firstColor" :  "yellow",
-      "secondColor" : "green"
-    },
-    {
-      "id" : 50,
-      "pv" : 2,
-      "typeOfResource" :  "shields",
-      "firstColor" :  "blue",
-      "secondColor" : "purple"
-    },
-    {
-      "id" : 51,
-      "pv" : 2,
-      "typeOfResource" :  "stones",
-      "firstColor" :  "blue",
-      "secondColor" : "green"
-    },
-    {
-      "id" : 52,
-      "pv" : 2,
-      "typeOfResource" :  "coins",
-      "firstColor" :  "yellow",
-      "secondColor" : "purple"
-    }
+  {
+    "id": 49,
+    "pv": 2,
+    "typeOfResource": "servants",
+    "firstColor": "yellow",
+    "secondColor": "green"
+  },
+  {
+    "id": 50,
+    "pv": 2,
+    "typeOfResource": "shields",
+    "firstColor": "blue",
+    "secondColor": "purple"
+  },
+  {
+    "id": 51,
+    "pv": 2,
+    "typeOfResource": "stones",
+    "firstColor": "blue",
+    "secondColor": "green"
+  },
+  {
+    "id": 52,
+    "pv": 2,
+    "typeOfResource": "coins",
+    "firstColor": "yellow",
+    "secondColor": "purple"
+  }
 ]

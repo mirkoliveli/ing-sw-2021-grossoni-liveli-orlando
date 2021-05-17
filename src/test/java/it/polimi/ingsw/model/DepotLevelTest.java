@@ -2,14 +2,12 @@ package it.polimi.ingsw.model;
 
 import org.junit.Test;
 
-import java.sql.SQLOutput;
-
 import static it.polimi.ingsw.model.TypeOfResource.coins;
 import static it.polimi.ingsw.model.TypeOfResource.shields;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class DepotLevelTest {
-
 
 
     @org.junit.Before
@@ -43,7 +41,7 @@ public class DepotLevelTest {
     @org.junit.Test
     public void increaseQuantity() {
         DepotLevel testing = new DepotLevel(coins, 1, 3);
-        testing.increaseQuantity(coins,2);
+        testing.increaseQuantity(coins, 2);
         assertEquals(3, testing.getQuantity());
         assertFalse(testing.increaseQuantity(coins, 1));
         assertEquals(3, testing.getQuantity());
@@ -63,10 +61,12 @@ public class DepotLevelTest {
     }
 
     @Test
-    public void TestGeneric(){
-        DepotLevel Testing =new DepotLevel();
+    public void TestGeneric() {
+        DepotLevel Testing = new DepotLevel();
         System.out.println(Testing.getResourceType());
-        if(Testing.getResourceType()==TypeOfResource.coins);{}
+        if (Testing.getResourceType() == TypeOfResource.coins) ;
+        {
+        }
         System.out.println("qua");
     }
 

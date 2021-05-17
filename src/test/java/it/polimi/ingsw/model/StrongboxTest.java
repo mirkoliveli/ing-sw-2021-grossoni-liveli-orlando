@@ -12,13 +12,11 @@ public class StrongboxTest {
     // da 0 a 3, attennzione a non usarlo in maniera scorretta sennò si riceve un OutOfBound errror
 
 
-
-
     //test per il costruttore
     //usato principalmente per provare funzionalità dei tests
     @Test
-    public void costruttoretest(){
-        Strongbox inizializzazione= new Strongbox();
+    public void costruttoretest() {
+        Strongbox inizializzazione = new Strongbox();
         assertEquals(0, inizializzazione.getSpecific(1));
         assertEquals(0, inizializzazione.getSpecific(2));
         assertEquals(0, inizializzazione.getSpecific(3));
@@ -42,24 +40,24 @@ public class StrongboxTest {
     //e un caso in cui non è possibile comprare
     @Test
     public void canBuy() {
-        Strongbox testing= new Strongbox(3, 3, 3, 3);
+        Strongbox testing = new Strongbox(3, 3, 3, 3);
         assertEquals(3, testing.getSpecific(1));
         assertEquals(3, testing.getSpecific(2));
         assertEquals(3, testing.getSpecific(3));
         assertEquals(3, testing.getSpecific(4));
 
-        int[] costo=new int[4];
-        costo[0]=2;
-        costo[1]=2;
-        costo[2]=2;
-        costo[3]=2;
+        int[] costo = new int[4];
+        costo[0] = 2;
+        costo[1] = 2;
+        costo[2] = 2;
+        costo[3] = 2;
         //possibile comprare con questo costo
         assertTrue(testing.canBuy(costo));
 
-        costo[0]=4;
-        costo[1]=2;
-        costo[2]=2;
-        costo[3]=2;
+        costo[0] = 4;
+        costo[1] = 2;
+        costo[2] = 2;
+        costo[3] = 2;
         //non possibile comprare con questo costo (costo[0]>contents[0])
         assertFalse(testing.canBuy(costo));
         System.out.println("fine test canBuy");
@@ -71,17 +69,17 @@ public class StrongboxTest {
     //uno in cui non è possibile pagare
     @Test
     public void remove() {
-        Strongbox testing= new Strongbox(3, 3, 3, 3);
+        Strongbox testing = new Strongbox(3, 3, 3, 3);
         assertEquals(3, testing.getSpecific(1));
         assertEquals(3, testing.getSpecific(2));
         assertEquals(3, testing.getSpecific(3));
         assertEquals(3, testing.getSpecific(4));
 
-        int[] costo=new int[4];
-        costo[0]=2;
-        costo[1]=2;
-        costo[2]=2;
-        costo[3]=2;
+        int[] costo = new int[4];
+        costo[0] = 2;
+        costo[1] = 2;
+        costo[2] = 2;
+        costo[3] = 2;
         //qua è possibile pagare, deve rimanere una risorsa per tipo
         assertTrue(testing.remove(costo));
         assertEquals(1, testing.getSpecific(1));
@@ -89,10 +87,10 @@ public class StrongboxTest {
         assertEquals(1, testing.getSpecific(3));
         assertEquals(1, testing.getSpecific(4));
         testing.print();
-        costo[0]=0;
-        costo[1]=1;
-        costo[2]=1;
-        costo[3]=1;
+        costo[0] = 0;
+        costo[1] = 1;
+        costo[2] = 1;
+        costo[3] = 1;
         assertTrue(testing.remove(costo));
         testing.print();
         System.out.println("end of remove test");
@@ -104,16 +102,16 @@ public class StrongboxTest {
 
     @Test
     public void store() {
-        Strongbox testing= new Strongbox(3, 3, 3, 3);
+        Strongbox testing = new Strongbox(3, 3, 3, 3);
         assertEquals(3, testing.getSpecific(1));
         assertEquals(3, testing.getSpecific(2));
         assertEquals(3, testing.getSpecific(3));
         assertEquals(3, testing.getSpecific(4));
-        int[] costo=new int[4];
-        costo[0]=2;
-        costo[1]=2;
-        costo[2]=2;
-        costo[3]=2;
+        int[] costo = new int[4];
+        costo[0] = 2;
+        costo[1] = 2;
+        costo[2] = 2;
+        costo[3] = 2;
         testing.store(costo);
         assertEquals(5, testing.getSpecific(1));
         assertEquals(5, testing.getSpecific(2));

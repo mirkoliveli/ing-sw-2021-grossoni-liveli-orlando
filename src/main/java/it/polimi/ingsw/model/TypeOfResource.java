@@ -8,9 +8,18 @@ public enum TypeOfResource {
     faith("\u001B[31mfaith\u001B[0m");
 
 
-    private String escape;
-    TypeOfResource (String escape) { this.escape = escape; }
-    public String getEscape() { return escape; }
+    private final String escape;
+
+    TypeOfResource(String escape) {
+        this.escape = escape;
+    }
+
+    public String getEscape() {
+        return escape;
+    }
+
     @Override
-    public String toString() { return escape; }
+    public String toString() {
+        return escape;
+    }
 }

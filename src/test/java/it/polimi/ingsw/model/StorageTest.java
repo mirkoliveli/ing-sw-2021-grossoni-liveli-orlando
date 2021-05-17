@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,13 +38,13 @@ public class StorageTest {
 
 
     @Test
-    public void AddResourcesIfLevelIsPresent(){
-        Storage Tester=new Storage();
+    public void AddResourcesIfLevelIsPresent() {
+        Storage Tester = new Storage();
         Tester.getLevel(3).setQuantity(1);
         Tester.getLevel(3).setResourceType(TypeOfResource.coins);
-        int[] prova={1,0,0,0};
+        int[] prova = {1, 0, 0, 0};
         assertEquals(0, Tester.IncreaseResources(prova));
-        prova[0]=2;
+        prova[0] = 2;
         assertEquals(1, Tester.IncreaseResources(prova)); //c'è una risorsa scartata
         assertEquals(3, Tester.getLevel(3).getQuantity()); //lo slot è pieno
         Tester.addLeader(coins);
@@ -53,7 +52,6 @@ public class StorageTest {
         System.out.println(Tester.getFirstLeader().getQuantity());
 
     }
-
 
 
     //breve controllo sul decreaser
@@ -80,10 +78,12 @@ public class StorageTest {
         tester.getLevel(1).setQuantity(1);
         tester.getLevel(2).setResourceType(shields);
         tester.getLevel(2).setQuantity(1);
-        int[] resources= tester.conversionToArray();
-        for(int i=0; i<4;i++){
-            if(i%2==0) assertEquals(1, resources[i]);
-            else{ assertEquals(0, resources[i]);}
+        int[] resources = tester.conversionToArray();
+        for (int i = 0; i < 4; i++) {
+            if (i % 2 == 0) assertEquals(1, resources[i]);
+            else {
+                assertEquals(0, resources[i]);
+            }
         }
     }
 

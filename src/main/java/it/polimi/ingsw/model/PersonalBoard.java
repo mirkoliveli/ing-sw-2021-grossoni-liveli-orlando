@@ -63,7 +63,9 @@ public class PersonalBoard {
         return null;
     }
 
-    public int getId() { return this.idPlayer; }
+    public int getId() {
+        return this.idPlayer;
+    }
 
     /**
      * This methods returns an array representing the full resource cost of a production action

@@ -78,9 +78,9 @@ public class LeaderDeck {
         }
     }
 
-    public LeaderCard getCardById(int id){
-        for(int i=0; i<16; i++){
-            if(deck[i].getId()==id) return deck[i];
+    public LeaderCard getCardById(int id) {
+        for (int i = 0; i < 16; i++) {
+            if (deck[i].getId() == id) return deck[i];
         }
         return null;
     }

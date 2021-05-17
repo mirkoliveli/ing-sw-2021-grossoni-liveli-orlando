@@ -41,7 +41,7 @@ public class FaithTrackTest {
     public void movement() {
 
         //assicuriamoci che i movimenti si updateano correttamente,
-        FaithTrack test=new FaithTrack();
+        FaithTrack test = new FaithTrack();
         test.Movement(4);
         assertEquals(1, test.getOnlyTrackPoints());
         assertEquals(4, test.getFaithMarker());
@@ -72,7 +72,7 @@ public class FaithTrackTest {
     //ci sono casi in cui la carta andrà flippata, quindi discarded sarà FALSE, obtained sarà TRUE
 
     @Test
-    public void flip_discardPopeCardTest(){
+    public void flip_discardPopeCardTest() {
 
         //vericano che le tre zone vengono attivate e venga eseguita la giusta operazione
 
@@ -85,14 +85,14 @@ public class FaithTrackTest {
 
         //secondo caso, il marker è all'interno della seconda zona, e viene invocato il rapporto in vaticano in questa zona
         //la seconda carta "second" verrà quindi girata
-        testPopeZone=new FaithTrack(13);
+        testPopeZone = new FaithTrack(13);
         testPopeZone.activatePopeSpace(2);
         assertTrue(testPopeZone.getSecond().isObtained());
         assertFalse(testPopeZone.getSecond().isDiscarded());
 
         //terzo caso, il marker è all'interno della terza zona, e viene invocato il rapporto in vaticano in questa zona
         //la terza carta "third" verrà quindi girata
-        testPopeZone=new FaithTrack(22);
+        testPopeZone = new FaithTrack(22);
         testPopeZone.activatePopeSpace(3);
         assertTrue(testPopeZone.getThird().isObtained());
         assertFalse(testPopeZone.getThird().isDiscarded());
@@ -106,14 +106,14 @@ public class FaithTrackTest {
 
         //quinto caso, il marker si trova prima della seconda zona quando viene invocato il rapporto in vaticano
         //la seconda carta "second" andrà quindi scartata
-        testPopeZone=new FaithTrack(11);
+        testPopeZone = new FaithTrack(11);
         testPopeZone.activatePopeSpace(2);
         assertTrue(testPopeZone.getSecond().isDiscarded());
         assertFalse(testPopeZone.getSecond().isObtained());
 
         //sesto caso, il marker si trova prima della terza zona quando viene invocato il rapporto in vaticano
         //la terza carta "third" andrà quindi scartata
-        testPopeZone=new FaithTrack(14);
+        testPopeZone = new FaithTrack(14);
         testPopeZone.activatePopeSpace(3);
         assertTrue(testPopeZone.getThird().isDiscarded());
         assertFalse(testPopeZone.getThird().isObtained());
@@ -124,7 +124,7 @@ public class FaithTrackTest {
         //questo perchè in movement l'update dello stato viene fatto iterativamente, procedendo di una casella alla volta
         //quindi la chiamata in vaticano verrà eseguita solo quando il faithmarker si trova prima o al massimo sopra
         //testiamo comunque per completezza, e per verificare se una volta cambiato il codice rimanga comunque vero il test
-        testPopeZone=new FaithTrack(13);
+        testPopeZone = new FaithTrack(13);
         testPopeZone.activatePopeSpace(1);
         assertTrue(testPopeZone.getFirst().isObtained());
         assertFalse(testPopeZone.getFirst().isDiscarded());
@@ -133,8 +133,8 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void completePath(){
-        FaithTrack test=new FaithTrack();
+    public void completePath() {
+        FaithTrack test = new FaithTrack();
         test.Movement(5);
         test.Movement(7);
         test.Movement(8);
@@ -151,12 +151,11 @@ public class FaithTrackTest {
         assertEquals(29, test.TotalVictoryPointsFaithTrack());
 
 
-
     }
 
     @Test
     public void CoolPrintTest() {
-        FaithTrack test=new FaithTrack();
+        FaithTrack test = new FaithTrack();
         test.CoolPrint();
         test.Movement(8);
         test.CoolPrint();

@@ -66,12 +66,12 @@ public class GameStatusUpdate {
 
     /**
      * creates a copy of the object as a Json String.
+     *
      * @return Json string representing the object
      */
-    public String getJsonString(){
-       return StaticMethods.objToJson(this);
+    public String getJsonString() {
+        return StaticMethods.objToJson(this);
     }
-
 
 
 }

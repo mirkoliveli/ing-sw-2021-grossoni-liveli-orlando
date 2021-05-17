@@ -9,7 +9,6 @@ public class SoloFaithTrackTest {
     //tester per moveEnemy. moveEnemy muove la pedina del "computer"
 
 
-
     @Test
     public void moveEnemy() {
         SoloFaithTrack tester = new SoloFaithTrack();

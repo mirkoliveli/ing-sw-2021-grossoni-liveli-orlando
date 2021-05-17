@@ -2,10 +2,6 @@ package it.polimi.ingsw.model;
 
 import org.junit.Test;
 
-import static it.polimi.ingsw.model.TypeOfResource.coins;
-import static it.polimi.ingsw.model.TypeOfResource.shields;
-import static org.junit.Assert.*;
-
 public class DepotLevelLeaderTest {
 
     @Test

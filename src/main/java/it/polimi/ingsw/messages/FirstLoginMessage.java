@@ -6,18 +6,18 @@ import it.polimi.ingsw.utils.StaticMethods;
  * message sent by the first client when connecting, it's used to crate the lobby size
  */
 public class FirstLoginMessage {
-    private String name;
-    private int numberOfPlayersToWait;
+    private final String name;
+    private final int numberOfPlayersToWait;
 
 
-    public FirstLoginMessage(String name, int players){
-        this.name=name;
-        this.numberOfPlayersToWait=players;
+    public FirstLoginMessage(String name, int players) {
+        this.name = name;
+        this.numberOfPlayersToWait = players;
     }
 
-    public String CreateMessage(){
+    public String CreateMessage() {
         String returner;
-        returner= StaticMethods.objToJson(this);
+        returner = StaticMethods.objToJson(this);
         return returner;
     }
 

@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -46,18 +43,15 @@ public class StackActionTokenTest {
     }
 
     @Test
-    public void TestAbunch(){
-        StackActionToken prova=new StackActionToken();
+    public void TestAbunch() {
+        StackActionToken prova = new StackActionToken();
         prova.printStack();
         System.out.println("\n");
-        ActionToken test=prova.playFirst();
+        ActionToken test = prova.playFirst();
         System.out.println(test.getType());
-        test=prova.playFirst();
+        test = prova.playFirst();
         System.out.println(test.getType());
     }
-
-
-
 
 
 }
