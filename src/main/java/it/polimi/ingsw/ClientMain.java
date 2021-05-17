@@ -29,7 +29,11 @@ public class ClientMain {
         client.StartingConnection();
         }
 
+        //waiting login of other players
         client.waitingPhase();
+
+        //getting started phase.
+        client.GettingStartedPhaseSection();
 
         System.out.println("end_waiting");
 

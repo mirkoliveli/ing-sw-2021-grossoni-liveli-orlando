@@ -2,6 +2,7 @@ package it.polimi.ingsw.networking;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.messages.FirstLoginMessage;
+import it.polimi.ingsw.messages.GettingStartedMessage;
 import it.polimi.ingsw.messages.LoginMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.utils.StaticMethods;
@@ -179,6 +180,11 @@ public class Client {
         System.out.println("login successful!");
     }
 
+
+    /**
+     * method used when players need to wait other players before continuing to play, needs to be synced with the server
+     * @throws IOException
+     */
     public void waitingPhase() throws IOException {
         String message;
         do{
@@ -222,6 +228,80 @@ public class Client {
         out = new PrintWriter(bufferToServer, true);
         out.println(message);
     }
+
+
+    public void GettingStartedPhaseSection(){
+        Gson gson=new Gson();
+        System.out.println("\nè il momento di selezionare le carte leader!");
+        try {
+            String message = messageFromServer();
+            GettingStartedMessage messageFServer=gson.fromJson(message, GettingStartedMessage.class);
+            //da sostituire con metodo serio
+            System.out.println("le carte hanno gli id: " + messageFServer.getCardID()[0] + " " + messageFServer.getCardID()[1] + " " + messageFServer.getCardID()[2] + " " + messageFServer.getCardID()[3] + "\n");
+            Scanner input=new Scanner(System.in);
+            int id1=0;
+            int id2=0;
+            //scelta carte
+            do {
+                if(id1!=0 || id2!=0) System.out.println("ID non valido! reinserisci: \n");
+                input.reset();
+                id1 = input.nextInt();
+                id2 = input.nextInt();
+            }while  (id1==id2 ||
+                    (id1!=messageFServer.getCardID()[0] && id1!=messageFServer.getCardID()[1] && id1!=messageFServer.getCardID()[2] && id1!=messageFServer.getCardID()[3]) ||
+                    (id2!=messageFServer.getCardID()[0] && id2!=messageFServer.getCardID()[1] && id2!=messageFServer.getCardID()[2] && id2!=messageFServer.getCardID()[3]));
+            System.out.println("grazie per la selezione!");
+
+            //scelta risorse (se necessaria)
+            if(messageFServer.getPlayerPosition()!=1){
+                int resource;
+                int pos=messageFServer.getPlayerPosition();
+                if(pos!=4){
+                    System.out.println("essendo il " + pos + " giocatore hai diritto ad una risorsa a scelta tra le 4, inserisci il tipo di risorsa che vuoi inserendo da 1 a 4:"); //va pulito
+                    do {
+                        resource= input.nextInt();
+                    }while(resource>4 || resource<1);
+                    GettingStartedMessage messageTOServer=new GettingStartedMessage(id1, id2, 0);
+                    messageTOServer.setResources(resource, -1);
+                    messageToServer(messageTOServer.getMessageAsString());
+                }
+                else{
+                    int resource2;
+                    System.out.println("essendo il " + pos + " giocatore hai diritto a due risorse a scelta tra le 4, inserisci la prima digitando un numero da 1 a 4:"); //va pulito
+                    do {
+                        resource= input.nextInt();
+                        if(resource>4 || resource<1) System.out.println("numero non valido, reinserisci:");
+                    }while(resource>4 || resource<1);
+
+                    System.out.println("ora inserisci la seconda: "); //va pulito
+                    do {
+                        resource2= input.nextInt();
+                        if(resource2>4 || resource2<1) System.out.println("numero non valido, reinserisci:");
+                    }while(resource2>4 || resource2<1);
+                    GettingStartedMessage messageTOServer=new GettingStartedMessage(id1, id2, 0);
+                    messageTOServer.setResources(resource, resource2);
+                    messageToServer(messageTOServer.getMessageAsString());
+                }
+
+            }
+            //invio messaggio se non si scelgono risorse
+            else{
+                GettingStartedMessage messageTOServer=new GettingStartedMessage(id1, id2, 0);
+                messageToServer(messageTOServer.getMessageAsString());
+            }
+
+            System.out.println(messageFromServer());
+
+        }catch(IOException e){
+            System.out.println("purtroppo ti sei disconnesso!");
+            System.exit(1);
+        }
+
+        System.out.println("la partita sta per iniziare! verrai avvisato quando sarà il tuo turno");
+
+    }
+
+
 
 }
 

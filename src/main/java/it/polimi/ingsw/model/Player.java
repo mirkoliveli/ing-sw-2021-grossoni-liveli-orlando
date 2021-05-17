@@ -6,8 +6,8 @@ public class Player {
     private int id;
     private final boolean inkwell;
     private final PersonalBoard board;
-    private final LeaderCard leaderCard1;
-    private final LeaderCard leaderCard2;
+    private LeaderCard leaderCard1;
+    private LeaderCard leaderCard2;
     private int victoryPoints;
 
     public Player(String name, int id) {
@@ -68,6 +68,14 @@ public class Player {
         pvtemp += getBoard().getBoardVictoryPoints();
 
         this.setVictoryPoints(pvtemp);
+    }
+
+    public void setLeaderCard1(LeaderDeck deck, int id){
+        leaderCard1=new LeaderCard(deck.getCardById(id));
+    }
+
+    public void setLeaderCard2(LeaderDeck deck, int id){
+        leaderCard2=new LeaderCard(deck.getCardById(id));
     }
 
 }

@@ -58,8 +58,6 @@ public class LeaderDeck {
      * @return a 4 LeaderCard array, which is a copy of the four cards in the deck.
      * @author Riccardo Grossoni
      */
-
-
     public LeaderCard[] getChoices(int PlayerId) {
         int counter = (PlayerId - 1) * 4;
         LeaderCard[] choices = new LeaderCard[4];
@@ -79,5 +77,13 @@ public class LeaderDeck {
             this.printId(i);
         }
     }
+
+    public LeaderCard getCardById(int id){
+        for(int i=0; i<16; i++){
+            if(deck[i].getId()==id) return deck[i];
+        }
+        return null;
+    }
+
 
 }

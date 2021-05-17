@@ -5,10 +5,13 @@ import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.StagesQueue;
 import it.polimi.ingsw.messages.FirstLoginMessage;
+import it.polimi.ingsw.messages.GettingStartedMessage;
 import it.polimi.ingsw.messages.LoginMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.MatchMultiPlayer;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.exceptions.GameIsEnding;
+import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.*;
 import java.net.Socket;
@@ -72,6 +75,7 @@ public class ThreadedServer extends Thread {
 
         //start of gettingStartedPhase
 
+        this.GettingStartedPhaseManager();
 
         //messo per non killare subito il thread, così posso testare riconnessioni
             try {
@@ -81,23 +85,6 @@ public class ThreadedServer extends Thread {
             }
     }
 
-    public void StarterManager(String in) {
-        String[] splitted = in.split("%;%");
-        if (splitted.length > 0) {
-            switch (splitted[0]) {
-                case "0":
-                    //0 crea una nuova partita
-                    break;
-                case "1":
-
-                    //1 si unisce ad una partita preesistente
-                    break;
-                default:
-                    //caso default
-                    break;
-            }
-        }
-    }
 
     /**
      * method that handles the first login of the game, that player needs to choose how large the lobby will be, and then decides what nickname they will have.
@@ -223,6 +210,68 @@ public class ThreadedServer extends Thread {
             sleeping(100000);
         }
     }
+
+    /**
+     * method that manages the getting started phase, with the first message the client is informed about what he has to chose from, then
+     * he answers with the leader Id's selected and with the resources that he chose (if needed).
+     * <br>
+     * the server then executes the requests, in particular the resources are stored automatically in the largest depots,
+     * and for the fourth player the resources are stored also in the second if he chooses 2 different types of resources.
+     */
+    public void GettingStartedPhaseManager(){
+        Gson gson=new Gson();
+        messageToClient(new GettingStartedMessage(match, idPlayer).getMessageAsString());
+        try {
+            //get answer
+            GettingStartedMessage messageFromC = gson.fromJson(messageFromClient(), GettingStartedMessage.class);
+            //set leaders
+            match.getPlayers().get(idPlayer-1).setLeaderCard1(match.getLeaderDeck(), messageFromC.getCardID()[0]);
+            match.getPlayers().get(idPlayer-1).setLeaderCard1(match.getLeaderDeck(), messageFromC.getCardID()[1]);
+
+            //set additional resources and move faithtrack
+            if(idPlayer>1){
+                //secondo e terzo hanno diritto ad una sola risorsa di partenza
+                if(idPlayer!=4) {
+                    match.getPlayers().get(idPlayer - 1).getBoard().getStorage().getLevel(3).setResourceType(StaticMethods.IntToTypeOfResource(messageFromC.getResources()[0]));
+                    match.getPlayers().get(idPlayer - 1).getBoard().getStorage().getLevel(3).setQuantity(1);
+                    //solo il terzo e quarto giocatore avanza di una casella su faithtrack
+                    if (idPlayer == 3) {
+                        try {
+                            match.MoveInFaithTrack(1, idPlayer);
+                        } catch (GameIsEnding e) {
+                            System.out.println("IMPOSSIBLE!!!!");
+                        }
+                    }
+
+                }
+                //il quarto ha diritto a due risorse
+                else{
+                    int switcher=1;
+                    if(messageFromC.getResources()[0]==messageFromC.getResources()[1]) switcher=0;
+                    if(switcher==1){
+                        match.getPlayers().get(idPlayer - 1).getBoard().getStorage().getLevel(2).setResourceType(StaticMethods.IntToTypeOfResource(messageFromC.getResources()[0]));
+                        match.getPlayers().get(idPlayer - 1).getBoard().getStorage().getLevel(2).setQuantity(1);
+                    }
+                    match.getPlayers().get(idPlayer - 1).getBoard().getStorage().getLevel(3).setResourceType(StaticMethods.IntToTypeOfResource(messageFromC.getResources()[0]));
+                    match.getPlayers().get(idPlayer - 1).getBoard().getStorage().getLevel(3).setQuantity(1);
+                    try {
+                        match.MoveInFaithTrack(1, idPlayer);
+                    }catch (GameIsEnding e) {
+                        System.out.println("IMPOSSIBLE!!!!");
+                    }
+                }
+            }
+
+            //viene mandata la risposta al cliente
+            messageToClient("scelte registrate! attendi ora che finiscano anche gli altri giocatori!");
+
+        }catch(IOException e){
+            System.out.println("giocatore " + idPlayer + " si è disconnesso durante getting started phase");
+
+        }
+
+    }
+
 
 
 }

@@ -76,5 +76,26 @@ public class StaticMethods {
 
     }
 
+    /**
+     * method that convert the resourceID to the resource enum
+     * @param idResource id of resource, standard order from 0 to 4
+     * @return resource enum corresponding to the resource id
+     */
+    public static TypeOfResource IntToTypeOfResource(int idResource){
+        switch (idResource) {
+            case 0:
+                return TypeOfResource.coins;
+            case 1:
+                return TypeOfResource.servants;
+            case 2:
+                return TypeOfResource.shields;
+            case 3:
+                return TypeOfResource.stones;
+            case 4:
+                return TypeOfResource.faith;
+        }
+
+        return null;
+    }
 
 }
