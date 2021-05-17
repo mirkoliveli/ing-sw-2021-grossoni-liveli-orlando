@@ -6,7 +6,7 @@ package it.polimi.ingsw.controller;
  */
 public class StagesQueue {
     private static boolean SomeoneLoggingIn;
-
+    private static boolean SomeoneCrashed =false;
 
     public StagesQueue() {
         SomeoneLoggingIn = false;
@@ -14,6 +14,14 @@ public class StagesQueue {
 
     public static boolean isSomeoneLoggingIn() {
         return SomeoneLoggingIn;
+    }
+
+    public static void setSomeoneCrashed(boolean someoneCrashed) {
+        SomeoneCrashed = someoneCrashed;
+    }
+
+    public static boolean isSomeoneCrashed() {
+        return SomeoneCrashed;
     }
 
     public static void setSomeoneLoggingIn(boolean someoneLoggingIn) {

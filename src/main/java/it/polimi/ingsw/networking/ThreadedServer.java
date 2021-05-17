@@ -148,6 +148,7 @@ public class ThreadedServer extends Thread {
             idPlayer = match.getPlayers().size(); //give the id to the player
             GameState.increaseJoinedPlayers(); //increase the number of players in the lobby
         }catch(IOException e){
+                StagesQueue.setSomeoneCrashed(true);
                 StagesQueue.setSomeoneLoggingIn(false);
                 throw e;
         }
