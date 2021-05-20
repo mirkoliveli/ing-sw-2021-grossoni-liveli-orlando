@@ -46,6 +46,30 @@ public class StaticMethods {
 
     }
 
+    public static String GameStatusString(MatchMultiPlayer match, int player) {
+        Gson gson = new Gson();
+        GameStatusUpdate gameState = new GameStatusUpdate(match.getPlayers().size());
+
+        gameState.setNextPlayer(player);
+        //setup for the game markets
+        //marbleMarket
+        gameState.getMarketsStatus().setMarketBoard(match.getMarket().status());
+        gameState.getMarketsStatus().setSlideMarble(match.getMarket().getSlideMarble().getColore());
+        //cardMarket
+        gameState.getMarketsStatus().setCardMarket(match.getCardMarket().cardMarketStatus());
+
+        //setup for the Players
+        PlayerUpdate[] temp = new PlayerUpdate[match.getPlayers().size()];
+
+        for (int i = 0; i < match.getPlayers().size(); i++) {
+            temp[i] = match.UpdatePlayerStatus(i + 1);
+        }
+        gameState.setPlayersStatus(temp);
+
+        String result=gson.toJson(gameState);
+        return result;
+    }
+
     public static String objToJson(Object convertible) {
         Gson gson = new Gson();
         return gson.toJson(convertible);
@@ -98,5 +122,7 @@ public class StaticMethods {
 
         return null;
     }
+
+
 
 }

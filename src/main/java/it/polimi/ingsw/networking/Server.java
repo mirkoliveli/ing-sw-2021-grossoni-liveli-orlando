@@ -4,6 +4,7 @@ package it.polimi.ingsw.networking;
 import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.StagesQueue;
+import it.polimi.ingsw.controller.WaitingQueue;
 import it.polimi.ingsw.model.MatchMultiPlayer;
 import it.polimi.ingsw.utils.StaticMethods;
 
@@ -102,9 +103,22 @@ public class Server {
             System.err.println("queue failed");
             System.exit(1);
         }
-
+        new WaitingQueue(GameState.getTotalPlayersNumber());
         GameState.setPhase(1);
         System.out.println("\nuscito da login while\n");
+
+        while(WaitingQueue.allFinished()){
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                System.out.println("error with waiting during selection phase!");
+            }
+        }
+
+        GameState.setPhase(2);
+
+        //finisce la fase di login, inzio del game vero e proprio
+
 
         try {
             Thread.sleep(30000);

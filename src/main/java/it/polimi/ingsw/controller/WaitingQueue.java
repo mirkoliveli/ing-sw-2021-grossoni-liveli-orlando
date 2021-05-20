@@ -14,7 +14,7 @@ public class WaitingQueue {
     /**
      * resets the queue, all players have finished
      */
-    public void resetQueue() {
+    public static synchronized void resetQueue() {
         for (int i = 0; i < nOfPlayers; i++) {
             queue[i] = false;
         }
@@ -25,7 +25,7 @@ public class WaitingQueue {
      *
      * @param idPlayer
      */
-    public synchronized void PlayerFinished(int idPlayer) {
+    public static synchronized void PlayerFinished(int idPlayer) {
         queue[idPlayer - 1] = true;
     }
 
@@ -34,7 +34,7 @@ public class WaitingQueue {
      *
      * @return true if all players finished false otherwise
      */
-    public synchronized boolean allFinished() {
+    public static synchronized boolean allFinished() {
         for (int i = 0; i < nOfPlayers; i++) {
             if (queue[i] = false) return false;
         }

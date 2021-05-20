@@ -1,10 +1,8 @@
 package it.polimi.ingsw.networking;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.messages.FirstLoginMessage;
-import it.polimi.ingsw.messages.GettingStartedMessage;
-import it.polimi.ingsw.messages.LoginMessage;
-import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.cli.CommandLine;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.*;
@@ -245,6 +243,11 @@ public class Client {
             String message = messageFromServer();
             GettingStartedMessage messageFServer = gson.fromJson(message, GettingStartedMessage.class);
             //da sostituire con metodo serio
+            System.out.println("verranno ora stampate le carte tra cui scegliere in ordine");
+            CommandLine.printLeader(messageFServer.getCardID()[0]-49);
+            CommandLine.printLeader(messageFServer.getCardID()[1]-49);
+            CommandLine.printLeader(messageFServer.getCardID()[2]-49);
+            CommandLine.printLeader(messageFServer.getCardID()[3]-49);
             System.out.println("le carte hanno gli id: " + messageFServer.getCardID()[0] + " " + messageFServer.getCardID()[1] + " " + messageFServer.getCardID()[2] + " " + messageFServer.getCardID()[3] + "\n");
             Scanner input = new Scanner(System.in);
             int id1 = 0;
@@ -308,6 +311,47 @@ public class Client {
 
     }
 
+
+    public void waitingForGameToStart() throws IOException {
+        String message;
+        do {
+            try {
+                message = messageFromServer();
+            } catch (IOException e) {
+                System.out.println("connection lost!");
+                throw e;
+            }
+            if (message.charAt(0) != 'E' || message.charAt(0)!='Y') {
+                System.out.println(message);
+            }
+        } while (message.charAt(0) != 'E' || message.charAt(0)!='Y');
+
+        System.out.println(message);
+
+        messageToServer("Still_Connected");
+
+    }
+
+    public void GameStarted(){
+        String message="";
+        do {
+            try {
+                message = messageFromServer();
+            } catch (IOException e) {
+                System.out.println("connection lost!");
+            }
+            if (message.contains("action")) {
+                Gson gson = new Gson();
+                ActionMessage starter=gson.fromJson(message, ActionMessage.class);
+
+                //start turn
+
+            }
+            else{
+                System.out.println("some problems with the server");
+            }
+        } while (!message.equals("Someone finished"));
+    }
 
 }
 

@@ -3,10 +3,13 @@ package it.polimi.ingsw.cli;
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.controller.PlayerUpdate;
+import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.TypeOfAction;
 import it.polimi.ingsw.model.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderDeck;
 import it.polimi.ingsw.model.MarbleColor;
 import it.polimi.ingsw.model.TypeOfResource;
+import it.polimi.ingsw.networking.Client;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -318,13 +321,14 @@ public class CommandLine {
         int numberChosen = 2;
         boolean rowOrColumn = false; // vale 0 se viene scelta una riga, 1 se viene scelta una colonna
         boolean chosen = false;
-        System.out.println("Welcome to the marble market!\nThis is the current market tray:\n");
-        System.out.println(tray[0][0] + " | " + tray[0][1] + " | " + tray[0][2] + " | " + tray[0][3]);
-        System.out.println("---------------------------------");
-        System.out.println(tray[1][0] + " | " + tray[1][1] + " | " + tray[1][2] + " | " + tray[1][3]);
-        System.out.println("---------------------------------");
-        System.out.println(tray[2][0] + " | " + tray[2][1] + " | " + tray[2][2] + " | " + tray[2][3]);
-        System.out.println("\nSlide marble: " + slide);
+        marbleMarketStatus(tray, slide);
+       //System.out.println("Welcome to the marble market!\nThis is the current market tray:\n");
+       //System.out.println(tray[0][0] + " | " + tray[0][1] + " | " + tray[0][2] + " | " + tray[0][3]);
+       //System.out.println("---------------------------------");
+       //System.out.println(tray[1][0] + " | " + tray[1][1] + " | " + tray[1][2] + " | " + tray[1][3]);
+       //System.out.println("---------------------------------");
+       //System.out.println(tray[2][0] + " | " + tray[2][1] + " | " + tray[2][2] + " | " + tray[2][3]);
+       //System.out.println("\nSlide marble: " + slide);
         while (!chosen) {
             System.out.println("\nType '0' if you want to choose a row, '1' if you want to choose a column");
             userInput = scanner.nextLine();
@@ -727,6 +731,16 @@ public class CommandLine {
 
     }
 
+    public static void marbleMarketStatus(MarbleColor[][] tray, MarbleColor slide){
+        System.out.println("Welcome to the marble market!\nThis is the current market tray:\n");
+        System.out.println(tray[0][0] + " | " + tray[0][1] + " | " + tray[0][2] + " | " + tray[0][3]);
+        System.out.println("---------------------------------");
+        System.out.println(tray[1][0] + " | " + tray[1][1] + " | " + tray[1][2] + " | " + tray[1][3]);
+        System.out.println("---------------------------------");
+        System.out.println(tray[2][0] + " | " + tray[2][1] + " | " + tray[2][2] + " | " + tray[2][3]);
+        System.out.println("\nSlide marble: " + slide);
+    }
+
     public static void main(String[] args) {
 
         developmentCards = new DevelopmentCard[48];
@@ -766,6 +780,158 @@ public class CommandLine {
 
         // testing startingLeaders
         startingLeaders(49, 50, 51, 52);
+
+    }
+
+    /**
+     * overload for actual usage (implements connections)
+     * @param inputJson
+     * @param serverConnection
+     */
+    public static synchronized void turnMgmt(String inputJson, Client serverConnection) {
+        Gson gson = new Gson();
+        GameStatusUpdate status = gson.fromJson(inputJson, GameStatusUpdate.class);
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
+        int numberChosen = 3;
+        boolean actionChosen = false;
+        while (!actionChosen) {
+            System.out.println("\nIt's your turn! Choose an action:\n[0]: Take resources from the market\n[1]: Buy one development card\n[2]: Activate the production\nElse, you can (before or after your action):\n[3]: Swap resources between your depots\n[4]: Play or discard a leader card");
+            userInput = scanner.nextLine();
+            try {
+                numberChosen = Integer.parseInt(userInput);
+            } catch (NumberFormatException e) {
+                System.out.println("\u001B[31mYou have to type a number!\u001B[0m");
+            }
+            switch (numberChosen) {
+                case 0:
+                    actionChosen = true;
+                    //printMarbleMarket(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble());
+                    break;
+                case 1:
+                    try {
+                        actionChosen = printCardMarket(status.getMarketsStatus().getCardMarket());
+                    } catch (IOException e) {
+                        System.out.println("IOException");
+                    }
+                    break;
+                case 2:
+                    //actionChosen = production(status.getPlayersStatus()[status.getNextPlayer()-1]);
+                    break;
+                case 3:
+                    swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage(), serverConnection);
+                    break;
+                case 4:
+                    //playLeader(status.getPlayersStatus()[status.getNextPlayer()-1]);
+                    break;
+                default:
+                    System.out.println("\u001B[31mInvalid input!\u001B[0m");
+                    break;
+            }
+        }
+        actionChosen = false;
+        while (!actionChosen) {
+            System.out.println("You already performed your action! Now you can:\n[0]: Swap resources between your depots\n[1]: Play or discard a leader card\n[2]: End your turn");
+            userInput = scanner.nextLine();
+            try {
+                numberChosen = Integer.parseInt(userInput);
+            } catch (NumberFormatException e) {
+                System.out.println("\u001B[31mYou have to type a number!\u001B[0m");
+            }
+            switch (numberChosen) {
+                case 0:
+                    swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage());
+                    break;
+                case 1:
+                    playLeader(status.getPlayersStatus()[status.getNextPlayer()-1]);
+                    break;
+                case 2:
+                    actionChosen = true;
+                    break;
+                default:
+                    System.out.println("\u001B[31mInvalid input!\u001B[0m");
+                    break;
+            }
+        }
+
+    }
+
+    /**
+     * handles the request to swap levels made from the client. the action has no effect on the turn status so nothing is affected in
+     * either client and server
+     * @param storage status of your storage
+     * @param client handles all the connection with server stuff
+     */
+    public static synchronized void swapDepots(int[][] storage, Client client) {
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
+        boolean depotsSwapped = false;
+        boolean changedMyMind = false;
+        int j = 0;
+        int depot1 = 0;
+        int depot2 = 0;
+        System.out.println("You have chosen to swap resources! You have these resources available:");
+        for (int i = 0; i < 3; i++) {
+            j = i + 1;
+            System.out.println("Depot with capacity " + j + ": ");
+            switch (storage[i][0]) {
+                case 0:
+                    System.out.println(storage[i][1] + "x \u001B[33mcoins\u001B[0m");
+                    break;
+                case 1:
+                    System.out.println(storage[i][1] + "x \u001B[35mservants\u001B[0m");
+                    break;
+                case 2:
+                    System.out.println(storage[i][1] + "x \u001B[36mshields\u001B[0m");
+                    break;
+                case 3:
+                    System.out.println(storage[i][1] + "x \u001B[37mstones\u001B[0m");
+                    break;
+                default:
+                    break;
+            }
+        }
+        while (!depotsSwapped) {
+            System.out.println("\nIf you want to quit, type [0] two times\nChoose the first depot to swap! Number:");
+            userInput = scanner.nextLine();
+            try {
+                depot1 = Integer.parseInt(userInput);
+            } catch (NumberFormatException e) {
+            }
+            System.out.println("\nChoose the second depot to swap! Number:");
+            userInput = scanner.nextLine();
+            try {
+                depot2 = Integer.parseInt(userInput);
+            } catch (NumberFormatException e) {
+            }
+            if (depot1 == 0 && depot2 == 0) {
+                depotsSwapped = true;
+                changedMyMind =true;
+            } else if (depot1 < 1 || depot1 > 3 || depot2 < 1 || depot2 > 3) {
+                System.out.println("\n\u001B[31mWarning: you can only choose depots between 1 and 3!\u001B[0m");
+            } else if (depot1 == depot2) {
+                System.out.println("\n\u001B[31mWarning: you have to choose different depots!\u001B[0m");
+            } else {
+                System.out.println("\nOkay!");
+                //comunica al controller i depots da invertire
+                depotsSwapped = true;
+            }
+        }
+
+        if(!changedMyMind){
+            Gson gson= new Gson();
+            ActionMessage action= new ActionMessage(TypeOfAction.SWAP_DEPOTS);
+            action.SwapDepotsMessage(depot1, depot2);
+            client.messageToServer(gson.toJson(action));
+            try{
+            if(client.messageFromServer().equals("Operation successful")) System.out.println("Levels swapped successfully!");
+            else  {
+                System.out.println("Request cannot be completed, you cannot swap this levels!");
+            }
+            }catch(IOException e){
+                System.out.println("disconnected during turn phase");
+            }
+        }
 
     }
 

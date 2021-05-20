@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.ServerMain;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.StagesQueue;
+import it.polimi.ingsw.controller.WaitingQueue;
 import it.polimi.ingsw.messages.FirstLoginMessage;
 import it.polimi.ingsw.messages.GettingStartedMessage;
 import it.polimi.ingsw.messages.LoginMessage;
@@ -23,6 +24,7 @@ public class ThreadedServer extends Thread {
     private final OutputStreamWriter streamToClient;
     private final BufferedWriter bufferToClient;
     private final InputStreamReader inputFromClient;
+    private BufferedReader inFromClient;
 
     public ThreadedServer(Socket clientSocket, MatchMultiPlayer match) throws IOException {
         this.clientSocket = clientSocket;
@@ -32,6 +34,8 @@ public class ThreadedServer extends Thread {
             streamToClient = new OutputStreamWriter(this.clientSocket.getOutputStream());
             bufferToClient = new BufferedWriter(streamToClient);
             inputFromClient = new InputStreamReader(this.clientSocket.getInputStream());
+            inFromClient = new BufferedReader(inputFromClient);
+
         } catch (IOException e) {
             throw e;
         }
@@ -61,7 +65,7 @@ public class ThreadedServer extends Thread {
             } catch (IOException e) {
                 System.out.println("error while logging in player " + idPlayer);
                 return;
-//                this.interrupt();
+
 
                 //fare qualcosa per problema disconnesione
             }
@@ -74,6 +78,10 @@ public class ThreadedServer extends Thread {
         //start of gettingStartedPhase
 
         this.GettingStartedPhaseManager();
+
+        //waiting to start turns
+
+        settingUpGame();
 
         //messo per non killare subito il thread, così posso testare riconnessioni
         try {
@@ -183,8 +191,6 @@ public class ThreadedServer extends Thread {
      * @throws IOException if client disconnected or there's an error while receiving the message and IOEexceptions is thrown
      */
     public String messageFromClient() throws IOException {
-        BufferedReader inFromClient = null;
-        inFromClient = new BufferedReader(inputFromClient);
         return inFromClient.readLine();
     }
 
@@ -197,6 +203,9 @@ public class ThreadedServer extends Thread {
 
     }
 
+    /**
+     * handles the wait while other players are logging in.
+     */
     public void waitingPlayersPhase() {
         while (!GameState.isGettingStartedPhase()) {
             sleeping(1000);
@@ -274,7 +283,54 @@ public class ThreadedServer extends Thread {
             System.out.println("giocatore " + idPlayer + " si è disconnesso durante getting started phase");
 
         }
+        WaitingQueue.PlayerFinished(idPlayer);
+    }
 
+
+    /**
+     * handles the waiting time between the selection of leaders and additional starting resources, sends a message every second to the client
+     * while waiting for the game to start, after the game is started sends a message stating which player is starting. In case the message is sent to the starting player it's specified that
+     * he is starting his turn shortly. The messages sent by the server are meant to be used for printing as they are and for the view to identify which message need to be sent back as ack.
+     */
+    public void settingUpGame(){
+        while(!GameState.isTurnPhase()){
+            sleeping(1000);
+            messageToClient("The game Will start soon...");
+        }
+        if(idPlayer!=GameState.getIdOfPlayerInTurn())
+        messageToClient("Everything was set up correctly, the first player taking is turn is: " +match.getPlayers().get(GameState.getIdOfPlayerInTurn()-1).getName());
+        else{
+            messageToClient("You are the first player! the game will proceed and start your turn!");
+        }
+        try {
+            messageFromClient();
+        }catch(IOException e){
+            System.out.println("client " + idPlayer + " disconnected");
+        }
+    }
+
+    public BufferedReader getInFromClient() {
+        return inFromClient;
+    }
+
+    public MatchMultiPlayer getMatch() {
+        return match;
+    }
+
+    public BufferedWriter getBufferToClient() {
+        return bufferToClient;
+    }
+
+    public InputStreamReader getInputFromClient() {
+        return inputFromClient;
+    }
+
+    public OutputStreamWriter getStreamToClient() {
+        return streamToClient;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 
 

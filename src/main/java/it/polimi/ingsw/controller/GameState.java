@@ -30,7 +30,7 @@ public class GameState {
 
         startingPlayer = 0;
         totalPlayersNumber = 0;
-        idOfPlayerInTurn = 0;
+        idOfPlayerInTurn = 1;
         winnerId = 0;
         joinedPlayers = 0;
     }
@@ -44,11 +44,27 @@ public class GameState {
     }
 
 
-    public static int getIdOfPlayerInTurn() {
+    /**
+     * method that changes the player in turn
+     */
+    public synchronized static void changeTurn(){
+        if(idOfPlayerInTurn==totalPlayersNumber) idOfPlayerInTurn=1;
+        else{
+            int i=idOfPlayerInTurn+1;
+            idOfPlayerInTurn=i;
+        }
+    }
+
+
+    public synchronized static int getIdOfPlayerInTurn() {
         return idOfPlayerInTurn;
     }
 
-    public static void setIdOfPlayerInTurn(int idOfPlayerInTurn) {
+    /**
+     * deprecated method :)
+     * @param idOfPlayerInTurn
+     */
+    private static void setIdOfPlayerInTurn(int idOfPlayerInTurn) {
         GameState.idOfPlayerInTurn = idOfPlayerInTurn;
     }
 

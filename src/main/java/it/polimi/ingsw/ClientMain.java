@@ -29,6 +29,10 @@ public class ClientMain {
         //getting started phase.
         client.GettingStartedPhaseSection();
 
+        //waiting the start of the game
+
+        client.waitingForGameToStart();
+
         System.out.println("end_waiting");
 
     }
