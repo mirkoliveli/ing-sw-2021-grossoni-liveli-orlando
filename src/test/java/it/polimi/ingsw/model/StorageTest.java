@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,6 +87,69 @@ public class StorageTest {
                 assertEquals(0, resources[i]);
             }
         }
+    }
+
+
+    @Test
+    public void LeaderTests(){
+        Storage storage=new Storage();
+        storage.getLevel(1).setResourceType(coins);
+        storage.getLevel(1).setQuantity(1);
+        storage.getLevel(2).setResourceType(stones);
+        storage.getLevel(2).setQuantity(2);
+        storage.getLevel(3).setResourceType(shields);
+        storage.getLevel(3).setQuantity(3);
+
+        storage.addLeader(coins);
+        storage.getFirstLeader().setQuantity(1);
+        storage.addLeader(shields);
+
+        storage.transferToLeaderDepots();
+
+        assertEquals(2, storage.getFirstLeader().getQuantity());
+        assertEquals(2, storage.getSecondLeader().getQuantity());
+        assertEquals(1, storage.getLevel(3).getQuantity());
+        assertEquals(2, storage.getLevel(2).getQuantity());
+        assertEquals(0, storage.getLevel(1).getQuantity());
+        Gson gson=new Gson();
+        int[][] test=storage.storageStatus();
+        System.out.println(gson.toJson(test));
+        storage.getLevel(1).setResourceType(servants);
+        storage.getLevel(1).setQuantity(1);
+        storage.transferToLeaderDepots();
+        test=storage.storageStatus();
+        System.out.println(gson.toJson(test));
+
+    }
+
+    @Test
+    public void decreaserTest(){
+        Storage storage=new Storage();
+        storage.getLevel(1).setResourceType(coins);
+        storage.getLevel(1).setQuantity(1);
+        storage.getLevel(2).setResourceType(stones);
+        storage.getLevel(2).setQuantity(2);
+        storage.getLevel(3).setResourceType(shields);
+        storage.getLevel(3).setQuantity(3);
+        storage.addLeader(coins);
+        storage.getFirstLeader().setQuantity(1);
+        storage.addLeader(shields);
+        storage.transferToLeaderDepots();
+        Gson gson=new Gson();
+        int[][] test=storage.storageStatus();
+        System.out.println(gson.toJson(test));
+        // a questo punto possiedo
+        // 2 coins      0 servants
+        // 3 shields    2 stones
+        int[] costo={1, 0, 2, 1}; //è pagabile
+        try {
+            storage.ResourceDecreaser(costo);
+        }catch (NotEnoughResources e){
+            System.out.println("error");
+        }
+        test=storage.storageStatus();
+        System.out.println(gson.toJson(test));
+
     }
 
 

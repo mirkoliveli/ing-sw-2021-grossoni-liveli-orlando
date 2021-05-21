@@ -377,19 +377,33 @@ public class Storage {
         if (firstLeader != null) {
             switch (firstLeader.getResourceTypeLeader()) {
                 case coins:
-                    if (costo[0] > 0 && firstLeader.getQuantity() > 0) {
-                        //togli risorse dal leader
-                    }
+                    removeFromFirstLeader(costo, 0);
                     break;
                 case servants:
-
+                    removeFromFirstLeader(costo, 1);
                     break;
                 case shields:
-
+                    removeFromFirstLeader(costo, 2);
                     break;
                 case stones:
-
+                    removeFromFirstLeader(costo, 3);
                     break;
+            }
+            if(secondLeader!=null){
+                switch (secondLeader.getResourceTypeLeader()) {
+                    case coins:
+                        removeFromSecondLeader(costo, 0);
+                        break;
+                    case servants:
+                        removeFromSecondLeader(costo, 1);
+                        break;
+                    case shields:
+                        removeFromSecondLeader(costo, 2);
+                        break;
+                    case stones:
+                        removeFromSecondLeader(costo, 3);
+                        break;
+                }
             }
         }
 
@@ -404,6 +418,7 @@ public class Storage {
                     else if (costo[0] > temp.getQuantity()) throw new NotEnoughResources();
                     else if (true) {
                         temp.setQuantity(temp.getQuantity() - costo[0]);
+                        costo[0]=0;
                     }
                     break;
                 case 1:
@@ -413,6 +428,7 @@ public class Storage {
                     else if (costo[1] > temp.getQuantity()) throw new NotEnoughResources();
                     else if (true) {
                         temp.setQuantity(temp.getQuantity() - costo[1]);
+                        costo[1]=0;
                     }
                     break;
                 case 2:
@@ -422,6 +438,7 @@ public class Storage {
                     else if (costo[2] > temp.getQuantity()) throw new NotEnoughResources();
                     else if (true) {
                         temp.setQuantity(temp.getQuantity() - costo[2]);
+                        costo[2]=0;
                     }
                     break;
                 case 3:
@@ -431,12 +448,13 @@ public class Storage {
                     else if (costo[3] > temp.getQuantity()) throw new NotEnoughResources();
                     else if (true) {
                         temp.setQuantity(temp.getQuantity() - costo[3]);
+                        costo[3]=0;
                     }
                     break;
             }
         }
 
-        //aggiungi metodo che rimette risorse nei depositi leader
+        transferToLeaderDepots();
     }
 
 
@@ -525,6 +543,35 @@ public class Storage {
         return status;
     }
 
+    /**
+     * transfer all resources available to the depotlevelLeader of that type, if there is any, until either one is full or empty.
+     */
+    public void transferToLeaderDepots(){
+        if(firstLeader!=null){
+            if(firstLeader.getQuantity()!=2){
+                DepotLevel temp=seekerOfResource(firstLeader.getResourceTypeLeader());
+                if(temp!=null){
+                    while(temp.getQuantity()>0 && firstLeader.getQuantity()!=2){
+                        temp.setQuantity(temp.getQuantity()-1);
+                        firstLeader.setQuantity(firstLeader.getQuantity()+1);
+                    }
+                }
+            }
+            if(secondLeader!=null){
+                if(secondLeader.getQuantity()!=2){
+                    DepotLevel temp2=seekerOfResource(secondLeader.getResourceTypeLeader());
+                    if(temp2!=null){
+                        while(temp2.getQuantity()>0 && secondLeader.getQuantity()!=2){
+                            temp2.setQuantity(temp2.getQuantity()-1);
+                            secondLeader.setQuantity(secondLeader.getQuantity()+1);
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
 
     public DepotLevelLeader getFirstLeader() {
         return firstLeader;
@@ -541,5 +588,20 @@ public class Storage {
     public void setSecondLeader(DepotLevelLeader secondLeader) {
         this.secondLeader = secondLeader;
     }
+
+    public void removeFromFirstLeader(int[] costo, int type){
+        while(costo[type]>0 && firstLeader.getQuantity()> 0){
+            costo[type]--;
+            firstLeader.setQuantity(firstLeader.getQuantity()-1);
+        }
+    }
+
+    public void removeFromSecondLeader(int[] costo, int type){
+        while(costo[type]>0 && secondLeader.getQuantity()> 0){
+            costo[type]--;
+            secondLeader.setQuantity(secondLeader.getQuantity()-1);
+        }
+    }
+
 }
 

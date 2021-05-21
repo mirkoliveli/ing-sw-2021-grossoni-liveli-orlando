@@ -124,5 +124,18 @@ public class StaticMethods {
     }
 
 
+    /**
+     * method that values if the second array is bigger than the first(for it to be bigger all his instances must be greater than the other)
+     * @param cost first array
+     * @param maxPayment second array, the one that is valued
+     * @return false if any maxPayment[i] is smaller than cost[i], true otherwise
+     */
+    public static boolean isItAffordable(int[] cost, int[] maxPayment){
+        for(int i=0; i<4; i++){
+            if(cost[i]>maxPayment[i]) return false;
+        }
+        return true;
+    }
+
 
 }
