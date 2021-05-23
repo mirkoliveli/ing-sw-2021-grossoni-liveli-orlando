@@ -22,7 +22,7 @@ import static it.polimi.ingsw.model.TypeOfResource.*;
 
 public class CommandLine {
 
-    static LeaderDeck leaderCards;
+    static LeaderDeck leaderCards=new LeaderDeck();
     static DevelopmentCard[] developmentCards;
 
     /**
@@ -47,6 +47,7 @@ public class CommandLine {
      * @param id
      */
     public static synchronized void printLeader(int id) {
+        System.out.println("prova");
         id = id - 49;
         if (id >= 0 && id <= 3) //LeaderCardDiscount
         {

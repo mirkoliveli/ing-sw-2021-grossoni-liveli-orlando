@@ -277,7 +277,7 @@ public class ThreadedServer extends Thread {
             }
 
             //viene mandata la risposta al cliente
-            messageToClient("scelte registrate! attendi ora che finiscano anche gli altri giocatori!");
+            messageToClient("Everything was set up! Now please wait for the other players to finish!");
 
         } catch (IOException e) {
             System.out.println("giocatore " + idPlayer + " si è disconnesso durante getting started phase");

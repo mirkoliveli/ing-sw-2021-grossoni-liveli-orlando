@@ -97,24 +97,24 @@ public class Client {
 
         //qua va primo user login
         if (loginMessage.getNumOfPlayersInRoom() == 0 && loginMessage.isSuccessfulLogin()) {
-            System.out.println("Benvenuto! sei il primo giocatore di questa lobby Multiplayer\nScegli quanti giocatori parteciperanno alla partita digitando un numero da 2 a 4:");
+            System.out.println("Welcome! You are the first player of this lobby Multiplayer\nChoose how many players will join this game (write a number between 2 and 4:");
             Scanner input = new Scanner(System.in);
             int value = -2345;
             while (true) {
                 if (value != -2345) {
-                    System.out.println("numero non valido!");
+                    System.out.println("Not a valid number!");
                 }
                 value = input.nextInt();
                 System.out.println(value);
                 if (value == 2 || value == 3 || value == 4) break;
             }
             String name = input.nextLine();//serve sennò mi legge subito il primo spazio!!!!!!!!!!!!!!!!
-            System.out.println("bene, il server attenderà l'ingresso di " + value + " giocatori prima di iniziare la partita.");
-            System.out.println("inserisci il tuo nickname desiderato prima di entrare in attesa dei giocatori: ");
+            System.out.println("good, the server will wait " + value + " players before starting the game.");
+            System.out.println("now please enter a username: ");
             name = input.nextLine();
-            System.out.println("nota che se il nome inserito non è valido ti verrà assegnato il nome giocatore1 automaticamente");
+            System.out.println("note that if the username is invalid a automatically generated one will be assigned to you");
             if (name.equals("")) {
-                name = "giocatore1";
+                name = "player1";
             }
             this.nickname = name;
             FirstLoginMessage message = new FirstLoginMessage(name, value);
@@ -125,13 +125,13 @@ public class Client {
         //joino come giocatore non 1
         else {
 
-            System.out.println("\nBenvenuto, questa lobby al momento ha: " + loginMessage.getNumOfPlayersInRoom() + " quindi tu sarai il giocatore numero " + (loginMessage.getNumOfPlayersInRoom() + 1));
-            System.out.println("per favore entra un nickname con cui vorrai giocare: ");
+            System.out.println("\nWelcome, this lobby has, at the moment, " + loginMessage.getNumOfPlayersInRoom() + " active players, so you will be the " + (loginMessage.getNumOfPlayersInRoom() + 1) + "player.");
+            System.out.println("Please enter a username: ");
             Scanner input = new Scanner(System.in);
             String name;
             name = input.nextLine();
-            System.out.println("nota che se il nome inserito non è valido ti verrà assegnato il nome " + (loginMessage.getNumOfPlayersInRoom() + 1) + " giocatore automaticamente");
-            if (name.equals("")) name = "giocatore" + loginMessage.getNumOfPlayersInRoom() + 1;
+            System.out.println("note that if the username is invalid a automatically generated one will be assigned to you");
+            if (name.equals("")) name = "player" + loginMessage.getNumOfPlayersInRoom() + 1;
             this.nickname = name;
             Message message = new Message(name);
 
@@ -143,7 +143,7 @@ public class Client {
         try {
             messageFromServer = in.readLine();
         } catch (IOException e) {
-            System.out.println("errore di connessione!");
+            System.out.println("connection error!");
             throw e;
         }
 
@@ -238,56 +238,67 @@ public class Client {
 
     public void GettingStartedPhaseSection() {
         Gson gson = new Gson();
-        System.out.println("\nè il momento di selezionare le carte leader!");
+        System.out.println("\nit's now time to select the leader cards!");
         try {
             String message = messageFromServer();
             GettingStartedMessage messageFServer = gson.fromJson(message, GettingStartedMessage.class);
             //da sostituire con metodo serio
-            System.out.println("verranno ora stampate le carte tra cui scegliere in ordine");
-            CommandLine.printLeader(messageFServer.getCardID()[0]-49);
-            CommandLine.printLeader(messageFServer.getCardID()[1]-49);
-            CommandLine.printLeader(messageFServer.getCardID()[2]-49);
-            CommandLine.printLeader(messageFServer.getCardID()[3]-49);
-            System.out.println("le carte hanno gli id: " + messageFServer.getCardID()[0] + " " + messageFServer.getCardID()[1] + " " + messageFServer.getCardID()[2] + " " + messageFServer.getCardID()[3] + "\n");
+            System.out.println("4 cards will be shown in order, please refer to the 4 numbers on the bottom of the list when making the decision");
+            CommandLine.printLeader(messageFServer.getCardID()[0]);
+            CommandLine.printLeader(messageFServer.getCardID()[1]);
+            CommandLine.printLeader(messageFServer.getCardID()[2]);
+            CommandLine.printLeader(messageFServer.getCardID()[3]);
+            System.out.println("the cards have the ids: " + messageFServer.getCardID()[0] + " " + messageFServer.getCardID()[1] + " " + messageFServer.getCardID()[2] + " " + messageFServer.getCardID()[3] + "\n");
             Scanner input = new Scanner(System.in);
             int id1 = 0;
             int id2 = 0;
             //scelta carte
             do {
-                if (id1 != 0 || id2 != 0) System.out.println("ID non valido! reinserisci: \n");
+                if (id1 != 0 || id2 != 0) System.out.println("not a valid ID! please retry: \n");
                 input.reset();
                 id1 = input.nextInt();
                 id2 = input.nextInt();
             } while (id1 == id2 ||
                     (id1 != messageFServer.getCardID()[0] && id1 != messageFServer.getCardID()[1] && id1 != messageFServer.getCardID()[2] && id1 != messageFServer.getCardID()[3]) ||
                     (id2 != messageFServer.getCardID()[0] && id2 != messageFServer.getCardID()[1] && id2 != messageFServer.getCardID()[2] && id2 != messageFServer.getCardID()[3]));
-            System.out.println("grazie per la selezione!");
+            System.out.println("thanks for the selection!");
 
             //scelta risorse (se necessaria)
             if (messageFServer.getPlayerPosition() != 1) {
                 int resource;
                 int pos = messageFServer.getPlayerPosition();
                 if (pos != 4) {
-                    System.out.println("essendo il " + pos + " giocatore hai diritto ad una risorsa a scelta tra le 4, inserisci il tipo di risorsa che vuoi inserendo da 1 a 4:"); //va pulito
+                    System.out.println("Because you are the " + pos + " player you can choose a resource as a starting bonus, insert a number between 1 and 4: ");
+                    System.out.println("1 -> 1 coin");
+                    System.out.println("2 -> 1 servant");
+                    System.out.println("3 -> 1 shield");
+                    System.out.println("4 -> 1 stone");
                     do {
                         resource = input.nextInt();
+                        if (resource > 4 || resource < 1) System.out.println("not a valid resource, please retry:");
                     } while (resource > 4 || resource < 1);
+                    System.out.println("the resource will be automatically placed in the third level of the storage, you can change that as soon as your turn starts");
                     GettingStartedMessage messageTOServer = new GettingStartedMessage(id1, id2, 1);
                     messageTOServer.setResources(resource, -1);
                     messageToServer(messageTOServer.getMessageAsString());
                 } else {
                     int resource2;
-                    System.out.println("essendo il " + pos + " giocatore hai diritto a due risorse a scelta tra le 4, inserisci la prima digitando un numero da 1 a 4:"); //va pulito
+                    System.out.println("Because you are the " + pos + "player you can choose 2 resources as a starting bonus, insert a number between 1 and 4 for the first resource: ");
+                    System.out.println("1 -> 1 coin");
+                    System.out.println("2 -> 1 servant");
+                    System.out.println("3 -> 1 shield");
+                    System.out.println("4 -> 1 stone");//va pulito
                     do {
                         resource = input.nextInt();
-                        if (resource > 4 || resource < 1) System.out.println("numero non valido, reinserisci:");
+                        if (resource > 4 || resource < 1) System.out.println("not a valid resource, please retry:");
                     } while (resource > 4 || resource < 1);
 
-                    System.out.println("ora inserisci la seconda: "); //va pulito
+                    System.out.println("now do the same for the second resource: "); //va pulito
                     do {
                         resource2 = input.nextInt();
-                        if (resource2 > 4 || resource2 < 1) System.out.println("numero non valido, reinserisci:");
+                        if (resource2 > 4 || resource2 < 1) System.out.println("not a valid resource, please retry:");
                     } while (resource2 > 4 || resource2 < 1);
+                    System.out.println("the resources will be automatically placed in the second and third level of the storage, you can change that as soon as your turn starts");
                     GettingStartedMessage messageTOServer = new GettingStartedMessage(id1, id2, 2);
                     messageTOServer.setResources(resource, resource2);
                     messageToServer(messageTOServer.getMessageAsString());
@@ -303,11 +314,11 @@ public class Client {
             System.out.println(messageFromServer());
 
         } catch (IOException e) {
-            System.out.println("purtroppo ti sei disconnesso!");
+            System.out.println("You have disconnected!");
             System.exit(1);
         }
 
-        System.out.println("la partita sta per iniziare! verrai avvisato quando sarà il tuo turno");
+        System.out.println("The match will soon begin! You will be informed when your turn starts");
 
     }
 
@@ -323,7 +334,6 @@ public class Client {
             }
             if (message.charAt(0) != 'E' && message.charAt(0)!='Y') {
                 System.out.println(message);
-                System.out.println(message.charAt(0));
             }
         } while (message.charAt(0) != 'E' && message.charAt(0)!='Y');
 
