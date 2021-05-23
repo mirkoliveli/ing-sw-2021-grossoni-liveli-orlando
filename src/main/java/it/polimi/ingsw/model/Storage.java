@@ -93,103 +93,31 @@ public class Storage {
         if (firstLeader != null) {
             switch (firstLeader.getResourceTypeLeader()) {
                 case coins:
-                    if (resources[0] > 0 && firstLeader.getQuantity() != 2) {
-                        leaderHandler = 2 - firstLeader.getQuantity(); //ottengo 1 o 2
-                        if (leaderHandler >= resources[0]) {
-                            firstLeader.setQuantity(firstLeader.getQuantity() + resources[0]);
-                            resources[0] = 0;
-                        } else {
-                            firstLeader.setQuantity(2);
-                            resources[0] = resources[0] - leaderHandler;
-                        }
-                    }
+                    addToFirstLeaderDepot(resources, 0);
                     break;
                 case servants:
-                    if (resources[1] > 0 && firstLeader.getQuantity() != 2) {
-                        leaderHandler = 2 - firstLeader.getQuantity(); //ottengo 1 o 2
-                        if (leaderHandler >= resources[1]) {
-                            firstLeader.setQuantity(firstLeader.getQuantity() + resources[1]);
-                            resources[1] = 0;
-                        } else {
-                            firstLeader.setQuantity(2);
-                            resources[1] = resources[1] - leaderHandler;
-                        }
-                    }
+                    addToFirstLeaderDepot(resources, 1);
                     break;
                 case shields:
-                    if (resources[2] > 0 && firstLeader.getQuantity() != 2) {
-                        leaderHandler = 2 - firstLeader.getQuantity(); //ottengo 1 o 2
-                        if (leaderHandler >= resources[2]) {
-                            firstLeader.setQuantity(firstLeader.getQuantity() + resources[2]);
-                            resources[2] = 0;
-                        } else {
-                            firstLeader.setQuantity(2);
-                            resources[2] = resources[2] - leaderHandler;
-                        }
-                    }
+                    addToFirstLeaderDepot(resources, 2);
                     break;
                 case stones:
-                    if (resources[3] > 0 && firstLeader.getQuantity() != 2) {
-                        leaderHandler = 2 - firstLeader.getQuantity(); //ottengo 1 o 2
-                        if (leaderHandler >= resources[3]) {
-                            firstLeader.setQuantity(firstLeader.getQuantity() + resources[3]);
-                            resources[3] = 0;
-                        } else {
-                            firstLeader.setQuantity(2);
-                            resources[3] = resources[3] - leaderHandler;
-                        }
-                    }
+                    addToFirstLeaderDepot(resources, 3);
                     break;
             }
             if (secondLeader != null) {
                 switch (secondLeader.getResourceTypeLeader()) {
                     case coins:
-                        if (resources[0] > 0 && secondLeader.getQuantity() != 2) {
-                            leaderHandler = 2 - secondLeader.getQuantity(); //ottengo 1 o 2
-                            if (leaderHandler >= resources[0]) {
-                                secondLeader.setQuantity(secondLeader.getQuantity() + resources[0]);
-                                resources[0] = 0;
-                            } else {
-                                secondLeader.setQuantity(2);
-                                resources[0] = resources[0] - leaderHandler;
-                            }
-                        }
+                        addToSecondLeaderDepot(resources, 0);
                         break;
                     case servants:
-                        if (resources[1] > 0 && secondLeader.getQuantity() != 2) {
-                            leaderHandler = 2 - secondLeader.getQuantity(); //ottengo 1 o 2
-                            if (leaderHandler >= resources[1]) {
-                                secondLeader.setQuantity(secondLeader.getQuantity() + resources[1]);
-                                resources[1] = 0;
-                            } else {
-                                secondLeader.setQuantity(2);
-                                resources[1] = resources[1] - leaderHandler;
-                            }
-                        }
+                        addToSecondLeaderDepot(resources, 1);
                         break;
                     case shields:
-                        if (resources[2] > 0 && secondLeader.getQuantity() != 2) {
-                            leaderHandler = 2 - secondLeader.getQuantity(); //ottengo 1 o 2
-                            if (leaderHandler >= resources[2]) {
-                                secondLeader.setQuantity(secondLeader.getQuantity() + resources[2]);
-                                resources[2] = 0;
-                            } else {
-                                secondLeader.setQuantity(2);
-                                resources[2] = resources[2] - leaderHandler;
-                            }
-                        }
+                        addToSecondLeaderDepot(resources, 2);
                         break;
                     case stones:
-                        if (resources[3] > 0 && secondLeader.getQuantity() != 2) {
-                            leaderHandler = 2 - secondLeader.getQuantity(); //ottengo 1 o 2
-                            if (leaderHandler >= resources[3]) {
-                                secondLeader.setQuantity(secondLeader.getQuantity() + resources[3]);
-                                resources[3] = 0;
-                            } else {
-                                secondLeader.setQuantity(2);
-                                resources[3] = resources[3] - leaderHandler;
-                            }
-                        }
+                        addToSecondLeaderDepot(resources, 3);
                         break;
                 }
             }
@@ -204,7 +132,7 @@ public class Storage {
                     case 0:
                         DepotTemp = seekerOfResource(TypeOfResource.coins);
                         if (DepotTemp != null) {
-                            discarded += ResourceAdder(DepotTemp, resources[i]);
+                            resourceAdder(DepotTemp, resources, 0);
                         } else {
                             NullLevel[i] = false;
                         }
@@ -213,7 +141,7 @@ public class Storage {
                     case 1:
                         DepotTemp = seekerOfResource(TypeOfResource.servants);
                         if (DepotTemp != null) {
-                            discarded += ResourceAdder(DepotTemp, resources[i]);
+                            resourceAdder(DepotTemp, resources, 1);
                         } else {
                             NullLevel[i] = false;
                         }
@@ -222,7 +150,7 @@ public class Storage {
                     case 2:
                         DepotTemp = seekerOfResource(TypeOfResource.shields);
                         if (DepotTemp != null) {
-                            discarded += ResourceAdder(DepotTemp, resources[i]);
+                            resourceAdder(DepotTemp, resources, 2);
                         } else {
                             NullLevel[i] = false;
                         }
@@ -231,7 +159,7 @@ public class Storage {
                     case 3:
                         DepotTemp = seekerOfResource(TypeOfResource.stones);
                         if (DepotTemp != null) {
-                            discarded += ResourceAdder(DepotTemp, resources[i]);
+                            resourceAdder(DepotTemp, resources, 3);
                         } else {
                             NullLevel[i] = false;
                         }
@@ -261,6 +189,20 @@ public class Storage {
         }
         return discarded;
 
+    }
+
+    public void addToFirstLeaderDepot(int[] resources, int resourcetype){
+        while(firstLeader.getQuantity()!=2 && resources[resourcetype]>0){
+            resources[resourcetype]--;
+            firstLeader.setQuantity((firstLeader.getQuantity()+1));
+        }
+    }
+
+    public void addToSecondLeaderDepot(int[] resources, int resourcetype){
+        while(secondLeader.getQuantity()!=2 && resources[resourcetype]>0){
+            resources[resourcetype]--;
+            secondLeader.setQuantity((secondLeader.getQuantity()+1));
+        }
     }
 
     /**
@@ -412,44 +354,16 @@ public class Storage {
         for (int i = 0; i < 4; i++) {
             switch (i) {
                 case 0:
-                    temp = seekerOfResource(TypeOfResource.coins);
-                    if (temp == null && costo[0] != 0) throw new NotEnoughResources();
-                    else if (temp == null && costo[0] == 0) break;
-                    else if (costo[0] > temp.getQuantity()) throw new NotEnoughResources();
-                    else if (true) {
-                        temp.setQuantity(temp.getQuantity() - costo[0]);
-                        costo[0]=0;
-                    }
+                    removeFromDepot(0, costo);
                     break;
                 case 1:
-                    temp = seekerOfResource(TypeOfResource.servants);
-                    if (temp == null && costo[1] != 0) throw new NotEnoughResources();
-                    else if (temp == null && costo[1] == 0) break;
-                    else if (costo[1] > temp.getQuantity()) throw new NotEnoughResources();
-                    else if (true) {
-                        temp.setQuantity(temp.getQuantity() - costo[1]);
-                        costo[1]=0;
-                    }
+                    removeFromDepot(1, costo);
                     break;
                 case 2:
-                    temp = seekerOfResource(TypeOfResource.shields);
-                    if (temp == null && costo[2] != 0) throw new NotEnoughResources();
-                    else if (temp == null && costo[2] == 0) break;
-                    else if (costo[2] > temp.getQuantity()) throw new NotEnoughResources();
-                    else if (true) {
-                        temp.setQuantity(temp.getQuantity() - costo[2]);
-                        costo[2]=0;
-                    }
+                    removeFromDepot(2, costo);
                     break;
                 case 3:
-                    temp = seekerOfResource(TypeOfResource.stones);
-                    if (temp == null && costo[3] != 0) throw new NotEnoughResources();
-                    else if (temp == null && costo[3] == 0) break;
-                    else if (costo[3] > temp.getQuantity()) throw new NotEnoughResources();
-                    else if (true) {
-                        temp.setQuantity(temp.getQuantity() - costo[3]);
-                        costo[3]=0;
-                    }
+                    removeFromDepot(3, costo);
                     break;
             }
         }
@@ -457,6 +371,16 @@ public class Storage {
         transferToLeaderDepots();
     }
 
+    public void removeFromDepot(int typeOfResource, int[] costo) throws NotEnoughResources {
+        DepotLevel temp = seekerOfResource(TypeOfResource.stones);
+        if (temp == null && costo[typeOfResource] != 0) throw new NotEnoughResources();
+        else if (temp == null && costo[typeOfResource] == 0) {}
+        else if (costo[typeOfResource] > temp.getQuantity()) throw new NotEnoughResources();
+        else if (true) {
+            temp.setQuantity(temp.getQuantity() - costo[typeOfResource]);
+            costo[typeOfResource]=0;
+        }
+    }
 
     /**
      * method that, given the DepotLevel and the quantity of resources that need to be added,
@@ -478,6 +402,12 @@ public class Storage {
         return discarded;
     }
 
+    public void resourceAdder(DepotLevel temp, int[] resources, int typeOfResource){
+        while(resources[typeOfResource]>0 && temp.getQuantity()<temp.getMaxQuantity()){
+            resources[typeOfResource]--;
+            temp.setQuantity(temp.getQuantity()+1);
+        }
+    }
 
     public boolean EmptyDepot() {
         if (level1.getResourceType() == null) {
@@ -601,6 +531,19 @@ public class Storage {
             costo[type]--;
             secondLeader.setQuantity(secondLeader.getQuantity()-1);
         }
+    }
+
+    /**
+     * returns boolean vector containing true if the corrisponding depotLevel is empty, false otherwise
+     * @return boolean vector containing the emptyStatus of the storage
+     *
+     */
+    public boolean[] emptyStatus(){
+        boolean[] emptyDepots=new boolean[3];
+        for(int i=0; i<3; i++){
+            emptyDepots[i]= getLevel(i + 1).getResourceType() == null;
+        }
+        return emptyDepots;
     }
 
 }

@@ -321,10 +321,11 @@ public class Client {
                 System.out.println("connection lost!");
                 throw e;
             }
-            if (message.charAt(0) != 'E' || message.charAt(0)!='Y') {
+            if (message.charAt(0) != 'E' && message.charAt(0)!='Y') {
                 System.out.println(message);
+                System.out.println(message.charAt(0));
             }
-        } while (message.charAt(0) != 'E' || message.charAt(0)!='Y');
+        } while (message.charAt(0) != 'E' && message.charAt(0)!='Y');
 
         System.out.println(message);
 

@@ -36,7 +36,7 @@ public class WaitingQueue {
      */
     public static synchronized boolean allFinished() {
         for (int i = 0; i < nOfPlayers; i++) {
-            if (queue[i] = false) return false;
+            if (queue[i] == false) return false;
         }
         return true;
     }

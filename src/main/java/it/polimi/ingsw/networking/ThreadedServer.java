@@ -303,7 +303,7 @@ public class ThreadedServer extends Thread {
             messageToClient("You are the first player! the game will proceed and start your turn!");
         }
         try {
-            messageFromClient();
+            System.out.println(messageFromClient());
         }catch(IOException e){
             System.out.println("client " + idPlayer + " disconnected");
         }

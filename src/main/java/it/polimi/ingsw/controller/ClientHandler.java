@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.messages.ActionMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.TypeOfAction;
+import it.polimi.ingsw.messages.chooseDepotMessage;
 import it.polimi.ingsw.model.MatchMultiPlayer;
+import it.polimi.ingsw.model.Storage;
 import it.polimi.ingsw.networking.ThreadedServer;
 import it.polimi.ingsw.utils.StaticMethods;
 
@@ -96,6 +98,10 @@ public class ClientHandler extends Thread {
         }
     }
 
+    public ThreadedServer getClientConnection() {
+        return clientConnection;
+    }
+
     public void swapLevelsAction(String action){
         Gson gson= new Gson();
         int[] swapToDO= gson.fromJson(action, int[].class);
@@ -113,6 +119,34 @@ public class ClientHandler extends Thread {
         else{
             clientConnection.messageToClient("operation denied");
         }
+    }
+
+
+    public static int  handleNotStoredResources(Storage storage, boolean[] resourcesStatus, int[] resources, ClientHandler clientConnect){
+        Gson gson=new Gson();
+        for(int i=0; i<4; i++){
+            if(resourcesStatus[i] && resources[i]>0) {
+            chooseDepotMessage mex=new chooseDepotMessage(storage, i, resources[i]);
+            //mando mex con depot liberi e un tipo di risorsa + quantità di quella risorsa
+            clientConnect.getClientConnection().messageToClient(gson.toJson(mex));
+            try {
+                String answerFromClient = clientConnect.getClientConnection().messageFromClient();
+
+                //ricevuto mex, analizzarlo e procedere con le operazioni
+
+            }catch(IOException e){
+                System.out.println("error in not stored resources (during marble action) needed to change later");
+            }
+
+
+            }
+        }
+
+
+
+
+        return 0;
+
     }
 
 }

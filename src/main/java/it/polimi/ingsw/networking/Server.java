@@ -107,13 +107,15 @@ public class Server {
         GameState.setPhase(1);
         System.out.println("\nuscito da login while\n");
 
-        while(WaitingQueue.allFinished()){
+        while(!WaitingQueue.allFinished()){
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 System.out.println("error with waiting during selection phase!");
             }
         }
+
+
 
         GameState.setPhase(2);
 
