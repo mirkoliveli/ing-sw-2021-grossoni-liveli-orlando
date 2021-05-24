@@ -35,7 +35,10 @@ public class Client {
         this.loggedInGame = loggedInGame;
     }
 
-
+    /**
+     * method that handles all the stuff that happens before the game actually starts (login, selecting starting resources and leader etc)
+     * @throws IOException connection with the server failed
+     */
     public void StartingConnection() throws IOException {
 
         Socket socket = null;
@@ -235,7 +238,9 @@ public class Client {
         out.println(message);
     }
 
-
+    /**
+     * huge method that handles all the messages sent during the getting started phase, that handles the starting bonus and the choice for the leader cards...
+     */
     public void GettingStartedPhaseSection() {
         Gson gson = new Gson();
         System.out.println("\nit's now time to select the leader cards!");
@@ -322,7 +327,10 @@ public class Client {
 
     }
 
-
+    /**
+     * receives a costant update from the server, until all the players have finished selecting the starting resources
+     * @throws IOException
+     */
     public void waitingForGameToStart() throws IOException {
         String message;
         do {
@@ -343,6 +351,11 @@ public class Client {
 
     }
 
+
+    /**
+     * method that should handle the start of the game,
+     * BUT FOR NOW IT'S JUST USED AS A METHOD TO TRY THE TURN SECTION, NEED TO BE REVISED ASAP
+     */
     public void GameStarted(){
         String message="";
         do {
@@ -355,7 +368,7 @@ public class Client {
                 Gson gson = new Gson();
                 ActionMessage starter=gson.fromJson(message, ActionMessage.class);
 
-                //start turn
+                CommandLine.turnMgmt(starter.getActionAsMessage(), this);
 
             }
             else{

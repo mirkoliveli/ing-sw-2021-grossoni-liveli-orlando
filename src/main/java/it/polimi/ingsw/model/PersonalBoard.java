@@ -170,6 +170,10 @@ public class PersonalBoard {
         return boardVictoryPoints;
     }
 
+
+    /**
+     * changes the board victory points (equal to the total victory points the player has gained)
+     */
     public void setBoardVictoryPoints() {
         int boardVictoryPoints;
         int temp = countOfResources();
@@ -194,6 +198,11 @@ public class PersonalBoard {
         return strongbox;
     }
 
+
+    /**
+     * method used by the PlayerUpdate class to generate a status of the DevelopmentCard Slots. Check the PlayerUpdate class to understand how the matrix is used in the view
+     * @return
+     */
     public int[][] DevelopMentSlotsStatus() {
         int[][] status = new int[3][3];
         DevelopmentCardSlot temp;
@@ -212,6 +221,10 @@ public class PersonalBoard {
         return status;
     }
 
+    /**
+     * get a total number of resources that the player has, used to get the victory points
+     * @return total number of resources the player has (only the number)
+     */
     public int countOfResources() {
         int[] temp = this.getTotalResources();
         int tot = temp[0] + temp[1] + temp[3] + temp[2];

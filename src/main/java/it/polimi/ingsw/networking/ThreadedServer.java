@@ -2,6 +2,7 @@ package it.polimi.ingsw.networking;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.ServerMain;
+import it.polimi.ingsw.controller.ClientHandler;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.StagesQueue;
 import it.polimi.ingsw.controller.WaitingQueue;
@@ -82,6 +83,13 @@ public class ThreadedServer extends Thread {
         //waiting to start turns
 
         settingUpGame();
+
+        ClientHandler clientHandler=new ClientHandler(this);
+
+        while(!GameState.isTurnPhase()) sleeping(1000);
+
+
+        clientHandler.TurnPhase();
 
         //messo per non killare subito il thread, così posso testare riconnessioni
         try {
@@ -194,6 +202,11 @@ public class ThreadedServer extends Thread {
         return inFromClient.readLine();
     }
 
+
+    /**
+     * small method used to avoid using the try catch for calling the sleep method.
+     * @param millseconds
+     */
     public void sleeping(int millseconds) {
         try {
             Thread.sleep(millseconds);

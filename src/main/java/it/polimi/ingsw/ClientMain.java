@@ -33,6 +33,8 @@ public class ClientMain {
 
         client.waitingForGameToStart();
 
+        client.GameStarted();
+
         System.out.println("end_waiting");
 
     }

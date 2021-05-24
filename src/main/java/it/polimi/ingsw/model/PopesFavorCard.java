@@ -5,7 +5,7 @@ public class PopesFavorCard extends Card {
     private boolean isDiscarded;
 
     /**
-     * costruttore che setta a zero sia id sia pv
+     * tester constructor
      */
     public PopesFavorCard() {
         super();
@@ -14,9 +14,9 @@ public class PopesFavorCard extends Card {
     }
 
     /**
-     * costruttore che setta a zero id ma setta a parametro 'value' i pv
+     * constructor that handles the pv value of the cards
      *
-     * @param value
+     * @param value sets the pv of the card
      */
     public PopesFavorCard(int value) {
         super(value);
@@ -34,14 +34,14 @@ public class PopesFavorCard extends Card {
 
 
     /**
-     * mettere eccezione per vedere se non è già stata ottenuta
+     * discard the card, method to be called only if not flipped already
      */
     public void discard() {
         this.isDiscarded = true;
     }
 
     /**
-     * mettere eccezione per vedere se non è già stata scartata
+     * flip the card, as in the card is obtained
      */
     public void flip() {
         this.isObtained = true;

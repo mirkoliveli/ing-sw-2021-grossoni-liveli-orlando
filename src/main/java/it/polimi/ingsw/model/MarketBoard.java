@@ -313,7 +313,7 @@ public class MarketBoard {
 
     /**
      * method that prints the state of the board
-     * it already allines the board, so it's easier to visualize
+     * it already allines the board, so it's easier to visualize, used for testing
      *
      * @author Riccardo Grossoni
      */

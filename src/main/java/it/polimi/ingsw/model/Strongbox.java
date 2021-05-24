@@ -8,18 +8,18 @@ public class Strongbox {
     /**
      * contents di tipo vettore, conterrà per ogni indice indica la quantità di quel tipo di risorsa contenuta attualmente nella strongbox
      * <br><br>
-     * coins -> spazio 0
+     * coins -> space 0
      * <br><br>
-     * servants -> spazio 1
+     * servants -> space 1
      * <br><br>
-     * shields -> spazio 2
+     * shields -> space 2
      * <br><br>
-     * stones -> spazio 3
+     * stones -> space 3
      */
     private final int[] contents;
 
     /**
-     * costruttore da utilizzare a inizio partita, setta il contenuto a zero
+     * constructor used when starting the game, sets all the contents to zero
      */
 
     public Strongbox() {
@@ -40,7 +40,7 @@ public class Strongbox {
     }
 
     /**
-     * ritorna il contenuto attuale di Strongbox
+     * returns the vector containing the resources, use carefully
      *
      * @return
      */
@@ -49,10 +49,9 @@ public class Strongbox {
     }
 
     /**
-     * ritorna la quantità specifica di una risorsa, che viene indicata attraverso l'ID (1...4)
-     *
-     * @param id
-     * @return
+     * returns the quantity of a specified resource
+     * @param id number between 1 and 4 representing the resource
+     * @return quantity of that resource
      */
     public int getSpecific(int id) {
         return this.contents[id - 1];
@@ -60,21 +59,18 @@ public class Strongbox {
 
 
     /**
-     * verifica se è possibile comprare una determinata carta o avviare una produzione dato il costo in ingresso
-     * ritorna true se si hanno abbastanza risorse, false altrimenti
-     *
-     * @param cost
-     * @return
+     * verifies that a payment can be done
+     * @param cost payment that has to be made
+     * @return true if the resources contained in the strongbox can pay the cost, false otherwise
      */
     public boolean canBuy(int[] cost) {
         return ((cost[0] <= contents[0]) && (cost[1] <= contents[1]) && (cost[2] <= contents[2]) && (cost[3] <= contents[3]));
     }
 
     /**
-     * funzione che permette di pagare, necessita un parametro "costo" (int[4]) in ingresso
-     * ritorna false se non è stato possibile pagare
-     *
-     * @param cost
+     * method that pays a cost, it does nothing if the the cost can't be paid
+     * @param cost vector containing the cost
+     * @return true if the payment has been done, false otherwise
      */
     public boolean remove(int[] cost) {
         if (canBuy(cost)) {
@@ -90,9 +86,8 @@ public class Strongbox {
     }
 
     /**
-     * permette di posizionare risorse nello strongbox, necessita un parametro (int[4]) in ingresso
-     *
-     * @param gain
+     * method used to store resources in the strongbox
+     * @param gain resources acquired (usually from a production)
      */
     public void store(int[] gain) {
         this.contents[0] = this.contents[0] + gain[0];
@@ -102,6 +97,10 @@ public class Strongbox {
     }
 
 
+    /**
+     * creates a copy of the strongbox.contents vector
+     * @return copy of the strongbox.contents vector
+     */
     public int[] CreateCopy() {
         int[] copy = new int[4];
         for (int i = 0; i < 4; i++) {

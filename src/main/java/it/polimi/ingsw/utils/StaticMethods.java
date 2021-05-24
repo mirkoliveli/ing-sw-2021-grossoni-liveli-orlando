@@ -13,6 +13,11 @@ import java.nio.file.Paths;
 
 public class StaticMethods {
 
+    /**
+     * idiot method that generates the same result as a .clone() method
+     * @param original
+     * @return
+     */
     public static int[] copyArray(int[] original) {
         int[] copy = new int[original.length];
         for (int i = 0; i < copy.length; i++) {
@@ -21,6 +26,12 @@ public class StaticMethods {
         return copy;
     }
 
+    /**
+     * method that generates a GameStatusUpdate in a json file.
+     * @param match match from witch a GameStatusUpdate is generated
+     * @param filePath path of the file that will be generated
+     * @throws IOException if the file cannot be created
+     */
     public static void GameStatus(MatchMultiPlayer match, String filePath) throws IOException {
         Gson gson = new Gson();
         Writer writer = Files.newBufferedWriter(Paths.get(filePath));
@@ -46,6 +57,12 @@ public class StaticMethods {
 
     }
 
+    /**
+     * given a match class and the id of the player in turn returns a string containing a JSON object GameStatusUpdate
+     * @param match match from witch a GameStatusUpdate is generated
+     * @param player player taking is turn
+     * @return JSON object GameStatusUpdate as string
+     */
     public static String GameStatusString(MatchMultiPlayer match, int player) {
         Gson gson = new Gson();
         GameStatusUpdate gameState = new GameStatusUpdate(match.getPlayers().size());

@@ -5,11 +5,13 @@ import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.controller.PlayerUpdate;
 import it.polimi.ingsw.messages.ActionMessage;
 import it.polimi.ingsw.messages.TypeOfAction;
+import it.polimi.ingsw.messages.chooseDepotMessage;
 import it.polimi.ingsw.model.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderDeck;
 import it.polimi.ingsw.model.MarbleColor;
 import it.polimi.ingsw.model.TypeOfResource;
 import it.polimi.ingsw.networking.Client;
+import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -316,7 +318,7 @@ public class CommandLine {
      *
      * @param tray
      */
-    public static synchronized void printMarbleMarket(MarbleColor[][] tray, MarbleColor slide) {
+    public static synchronized void actionMarbleMarket(MarbleColor[][] tray, MarbleColor slide) {
         Scanner scanner = new Scanner(System.in);
         String userInput;
         int numberChosen = 2;
@@ -682,7 +684,7 @@ public class CommandLine {
             switch (numberChosen) {
                 case 0:
                     actionChosen = true;
-                    printMarbleMarket(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble());
+                    actionMarbleMarket(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble());
                     break;
                 case 1:
                     try {
@@ -732,6 +734,11 @@ public class CommandLine {
 
     }
 
+    /**
+     * method that prints the state of the marble market.
+     * @param tray view of the market grid
+     * @param slide view of the slide marble
+     */
     public static void marbleMarketStatus(MarbleColor[][] tray, MarbleColor slide){
         System.out.println("Welcome to the marble market!\nThis is the current market tray:\n");
         System.out.println(tray[0][0] + " | " + tray[0][1] + " | " + tray[0][2] + " | " + tray[0][3]);
@@ -786,8 +793,10 @@ public class CommandLine {
 
     /**
      * overload for actual usage (implements connections)
-     * @param inputJson
-     * @param serverConnection
+     * <br>
+     *     this method handles all the turn actions a player can make, and is in constant communication with the server by sending actions and receiving gameUpdates.
+     * @param inputJson when the method is called a first ActionMessage containing the Status of the game is sent, the GameStatusUpdate object is contained as a JSON string inside this parameter
+     * @param serverConnection connection with the server
      */
     public static synchronized void turnMgmt(String inputJson, Client serverConnection) {
         Gson gson = new Gson();
@@ -807,7 +816,12 @@ public class CommandLine {
             switch (numberChosen) {
                 case 0:
                     actionChosen = true;
-                    //printMarbleMarket(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble());
+                    actionMarbleMarket(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble(), serverConnection);
+                    try {
+                        System.out.println(serverConnection.messageFromServer());
+                    }catch(IOException e){
+                        System.out.println("disconnected");
+                    }
                     break;
                 case 1:
                     try {
@@ -829,6 +843,12 @@ public class CommandLine {
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
                     break;
             }
+            try {
+                inputJson = serverConnection.messageFromServer();
+                status=gson.fromJson(inputJson, GameStatusUpdate.class);
+            }catch(IOException e){
+                System.out.println("disconnected gestisci poi");
+            }
         }
         actionChosen = false;
         while (!actionChosen) {
@@ -841,7 +861,7 @@ public class CommandLine {
             }
             switch (numberChosen) {
                 case 0:
-                    swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage());
+                    swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage(), serverConnection);
                     break;
                 case 1:
                     playLeader(status.getPlayersStatus()[status.getNextPlayer()-1]);
@@ -852,6 +872,14 @@ public class CommandLine {
                 default:
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
                     break;
+            }
+            //nota che se l'azione viene abortita con questo passaggio si va in deadlock, modificare una volta terminato il testing preliminare
+            try {
+                System.out.println("ricevendo update game");
+                inputJson = serverConnection.messageFromServer();
+                status=gson.fromJson(inputJson, GameStatusUpdate.class);
+            }catch(IOException e){
+                System.out.println("disconnected gestisci poi");
             }
         }
 
@@ -875,7 +903,7 @@ public class CommandLine {
         for (int i = 0; i < 3; i++) {
             j = i + 1;
             System.out.println("Depot with capacity " + j + ": ");
-            switch (storage[i][0]) {
+            switch (storage[i][0]-1) {
                 case 0:
                     System.out.println(storage[i][1] + "x \u001B[33mcoins\u001B[0m");
                     break;
@@ -889,6 +917,7 @@ public class CommandLine {
                     System.out.println(storage[i][1] + "x \u001B[37mstones\u001B[0m");
                     break;
                 default:
+                    System.out.println("empty");
                     break;
             }
         }
@@ -914,7 +943,6 @@ public class CommandLine {
                 System.out.println("\n\u001B[31mWarning: you have to choose different depots!\u001B[0m");
             } else {
                 System.out.println("\nOkay!");
-                //comunica al controller i depots da invertire
                 depotsSwapped = true;
             }
         }
@@ -930,11 +958,187 @@ public class CommandLine {
                 System.out.println("Request cannot be completed, you cannot swap this levels!");
             }
             }catch(IOException e){
-                System.out.println("disconnected during turn phase");
+                System.out.println("disconnected during turn phase while swapping resources");
             }
         }
 
     }
 
+
+    /**
+     * method that is used if the client selects the action of acquiring resources from the market
+     * @param tray view of the state of the marble market
+     * @param slide view of the state of the slide_marble in the marble market
+     * @param client connection to the server is handled via this object
+     */
+    public static synchronized void actionMarbleMarket(MarbleColor[][] tray, MarbleColor slide, Client client) {
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
+        int numberChosen = 2;
+        boolean rowOrColumn = false; // vale 0 se viene scelta una riga, 1 se viene scelta una colonna
+        boolean chosen = false;
+
+        marbleMarketStatus(tray, slide);
+
+        while (!chosen) {
+            System.out.println("\nType '0' if you want to choose a row, '1' if you want to choose a column");
+            userInput = scanner.nextLine();
+            try {
+                numberChosen = Integer.parseInt(userInput);
+            } catch (NumberFormatException e) {
+                System.out.println("\u001B[31mYou have to type a number!\u001B[0m");
+            }
+            switch (numberChosen) {
+                case 0:
+                    rowOrColumn = false;
+                    chosen = true;
+                    break;
+                case 1:
+                    rowOrColumn = true;
+                    chosen = true;
+                    break;
+                default:
+                    System.out.println("\u001B[31mInvalid input!\u001B[0m");
+                    break;
+            }
+        }
+        chosen = false;
+        numberChosen = 0;
+        while (!chosen) {
+            if (!rowOrColumn) {
+                System.out.println("\nType the number of the row you want to choose (1-3)");
+                userInput = scanner.nextLine();
+                try {
+                    numberChosen = Integer.parseInt(userInput);
+                } catch (NumberFormatException e) {
+                    System.out.println("\u001B[31mYou have to type a number!\u001B[0m");
+                }
+                if (numberChosen >= 1 && numberChosen <= 3) {
+                    //message sent
+                    handleMarket(client, numberChosen, false);
+                    chosen = true;
+                } else {
+                    System.out.println("\u001B[31mInvalid input!\u001B[0m");
+                }
+            } else {
+                System.out.println("\nType the number of the column you want to choose (1-4)");
+                userInput = scanner.nextLine();
+                try {
+                    numberChosen = Integer.parseInt(userInput);
+                } catch (NumberFormatException e) {
+                    System.out.println("\u001B[31mYou have to type a number!\u001B[0m");
+                }
+                if (numberChosen >= 1 && numberChosen <= 4) {
+                    //message sent
+                    handleMarket(client, numberChosen, true);
+                    chosen = true;
+                } else {
+                    System.out.println("\u001B[31mInvalid input!\u001B[0m");
+                }
+            }
+        }
+    }
+
+
+    /**
+     * method used inside printMarbleMarket to send the message to the server and to handle additional communication necessities that may surge
+     * @param client contains the connection with the server
+     * @param line int between 1 and 3 (or 4 depending on the boolean rowColumn) that indicates which part of the marble market was selected
+     * @param rowColumn switcher for selecting a row or a column of the marble market
+     */
+    public static void handleMarket(Client client, int line, boolean rowColumn){
+        String inputFromC;
+        int ans;
+        Scanner scanner = new Scanner(System.in);
+        ActionMessage message=new ActionMessage(TypeOfAction.GO_TO_MARKET);
+        message.MarbleMarketAction(line, rowColumn);
+
+        Gson gson=new Gson();
+
+        client.messageToServer(gson.toJson(message));
+        String answerFromServer;
+        try{
+            answerFromServer= client.messageFromServer();
+
+            //handles the case where the client needs to choose the level to store the resources
+            while(answerFromServer.contains("resourceStillToBeStored")){
+                chooseDepotMessage subMessage=gson.fromJson(answerFromServer, chooseDepotMessage.class);
+                printDepotChoice(subMessage.getDepotStateOfEmptyness(), subMessage.getResourceStillToBeStored());
+                System.out.println("Select 0 if you wish to discard the resources, otherwise select the level where you wish them to be stored: ");
+                do {
+                    inputFromC = scanner.nextLine();
+                    ans=checkForDepotChoice(inputFromC, subMessage.getDepotStateOfEmptyness());
+                }while(ans<0);
+                client.messageToServer(String.valueOf(ans));
+                answerFromServer= client.messageFromServer();
+            }
+        }catch(IOException e){
+            System.out.println("error during marbleMarketAction");
+        }
+
+
+    }
+
+    /**
+     * method that prints the state of the storage before the selection of a level to store a new type of resource
+     * @param emptyDepots boolean vector sent by the server generated in Storage.emptyStatus()
+     * @param resourceToManage vector containing the type of resource that needs to be handled and the quantity of it
+     */
+    public static void printDepotChoice(boolean[] emptyDepots, int[] resourceToManage){
+        System.out.println("Since the resource " + StaticMethods.IntToTypeOfResource(resourceToManage[0]+1) + "was not stored in any storage level and you still have some empty levels you can choose where to store the resource, or discard it");
+        System.out.println(resourceToManage[1] + " " + StaticMethods.IntToTypeOfResource(resourceToManage[0]+1) + " still need to be stored");
+        System.out.println("your depots are: ");
+        for (int i=0; i<3; i++) {
+         if(emptyDepots[i]) System.out.println("level " + (i+1)+ " is empty");
+         else{System.out.println("level " + (i+1)+ " is occupied");}
+        }
+    }
+
+    /**
+     * method that handles the request to select a level or discard the resources after a marble market action. this is a twin method to the ClientHandler.handleNotStoredResources() method
+     * @param string selection made by the client
+     * @param emptyStatus status of the storage, this boolean is created in the Storage.emptyStatus() method
+     * @return 0 if the client wants to discard the resources, 1-3 for the level selected (if valid) -1 if the input is invalid, whichever the case would be (not a valid level or not a valid input)
+     */
+    public static int checkForDepotChoice(String string, boolean[] emptyStatus){
+        int inNum=Integer.parseInt(string);
+        switch(inNum){
+            case 0:
+                return 0;
+
+            case 1:
+                if(emptyStatus[inNum-1]) {
+                    System.out.println("the resource will be stored here!");
+                    return 1;
+                }
+                else{
+                    System.out.println("you can't select this level because another resource is already stored! please retry");
+                    return -1;
+                }
+            case 2:
+                if(emptyStatus[inNum-1]) {
+                    System.out.println("the resource will be stored here!");
+                    return 2;
+                }
+                else{
+                    System.out.println("you can't select this level because another resource is already stored! please retry");
+                    return -1;
+                }
+
+            case 3:
+                if(emptyStatus[inNum-1]) {
+                    System.out.println("the resource will be stored here!");
+                    return 3;
+                }
+                else{
+                    System.out.println("you can't select this level because another resource is already stored! please retry");
+                    return -1;
+                }
+
+            default:
+                System.out.println("not a valid input! please retry");
+                return -1;
+        }
+    }
 
 }

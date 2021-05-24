@@ -41,6 +41,11 @@ public class DepotLevel {
         return quantity;
     }
 
+
+    /**
+     * method that changes the quantity of the depot, if it's set to zero the resource type is set to null.
+     * @param quantity
+     */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
         if (quantity == 0) resourceType = null;

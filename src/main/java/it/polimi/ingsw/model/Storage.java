@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.controller.ClientHandler;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.utils.StaticMethods;
 
@@ -44,13 +46,24 @@ public class Storage {
             return false;
         } else {
             temp_resource = getLevel(index1).getResourceType();
+
+            System.out.println(temp_resource);
             getLevel(index1).setResourceType(getLevel(index2).getResourceType());
             getLevel(index2).setResourceType(temp_resource);
+
+            System.out.println(getLevel(index2).getResourceType());
+
             temp = getLevel(index1).getQuantity();
+
+            System.out.println("risorse messe nel due" + temp);
             getLevel(index1).setQuantity(getLevel(index2).getQuantity());
             getLevel(index2).setQuantity(temp);
+            Gson gson=new Gson();
+            System.out.println(gson.toJson(storageStatus()));
             return true;
         }
+
+
     }
 
     /**
@@ -77,11 +90,11 @@ public class Storage {
     }
 
     /**
-     * @param originalCost resources gained:([0]-> number of coins, [1]-> number of servants, [2]-> number of shields, [3]-> number of stones)
-     * @throws TooManyResources
-     * @throws AlreadyInOtherLevel doesn't allow to change the layout of the resources on different levels, you either do it before or after the "gain of resources"
+     * method that handles all the required actions when gaining resources from the marble market
+     * @param originalCost resources gained:<br>[0]-> number of coins,<br> [1]-> number of servants,<br> [2]-> number of shields, <br>[3]-> number of stones
+     * @param client it's used to start a client communication if the resources need a new level where to be stored, refer to the ClientHandler.handleNotStoredResources method for additional info
      */
-    public int IncreaseResources(int[] originalCost) {
+    public int IncreaseResources(int[] originalCost, ClientHandler client) {
         int discarded = 0;
         int temp = 0;
         boolean[] NullLevel = {true, true, true, true}; //ogni slot indica se non esiste un deposito (tra quelli normali) di quel tipo di risorsa
@@ -125,7 +138,7 @@ public class Storage {
 
         //ora aggiungo tutto quello che posso ai livelli con già risorse al loro interno
 
-        DepotLevel DepotTemp = new DepotLevel();
+        DepotLevel DepotTemp;
         for (int i = 0; i < 4; i++) {
             if (resources[i] != 0) {
                 switch (i) {
@@ -170,27 +183,17 @@ public class Storage {
 
         //per finire aggiungo quello che rimane ai livelli vuoti(se ce ne sono)
 
-        for (int j = 0; j < 4; j++) {
-            if (!NullLevel[j] && EmptyDepot()) {
-                boolean repeat = false;
-                do {
-                    repeat = false;
-                    try {
-                        //metodo deve ricevere tipo di risorsa e quantità
-                    } catch (Exception e) {
-                        repeat = true;
-                    }
-
-                } while (repeat);
-            } else if (!NullLevel[j] && !EmptyDepot()) {
-                //scarta tutte le risorse perchè non c'è spazio libero dove metterle
-                discarded += resources[j];
-            }
-        }
-        return discarded;
+        ClientHandler.handleNotStoredResources(this, NullLevel, resources, client);
+        System.out.println((resources[0]+ resources[1]+ resources[2]+ resources[3]));
+        return (resources[0]+ resources[1]+ resources[2]+ resources[3]);
 
     }
 
+    /**
+     * add resources to the first leader (if it's obtained)
+     * @param resources array of resources gained from the marble market
+     * @param resourcetype type of resource of the leadertype
+     */
     public void addToFirstLeaderDepot(int[] resources, int resourcetype){
         while(firstLeader.getQuantity()!=2 && resources[resourcetype]>0){
             resources[resourcetype]--;
@@ -198,6 +201,11 @@ public class Storage {
         }
     }
 
+    /**
+     * add resources to the second leader (if it's obtained)
+     * @param resources array of resources gained from the marble market
+     * @param resourcetype type of resource of the leadertype
+     */
     public void addToSecondLeaderDepot(int[] resources, int resourcetype){
         while(secondLeader.getQuantity()!=2 && resources[resourcetype]>0){
             resources[resourcetype]--;
@@ -371,6 +379,12 @@ public class Storage {
         transferToLeaderDepots();
     }
 
+    /**
+     * method that should be used only inside the resourceDecreaser method to decrease a resource in a depot. Additionally the controller SHOULD verify that all the resources can be paid.
+     * @param typeOfResource type of resource that should be decreased
+     * @param costo cost as an int array
+     * @throws NotEnoughResources THIS SHOULD NOT BE THROWN, SINCE THROWING THIS MEANS THAT AN ILLEGAL ACTION HAS POSSIBLY HAPPENED, JUST HERE TO VERIFY THAT IT WON'T HAPPEN
+     */
     public void removeFromDepot(int typeOfResource, int[] costo) throws NotEnoughResources {
         DepotLevel temp = seekerOfResource(TypeOfResource.stones);
         if (temp == null && costo[typeOfResource] != 0) throw new NotEnoughResources();
@@ -383,6 +397,7 @@ public class Storage {
     }
 
     /**
+     * OBSOLETE METHOD
      * method that, given the DepotLevel and the quantity of resources that need to be added,
      * adds the resources to the Level and returns the quantity of resources discarded
      *
@@ -402,6 +417,12 @@ public class Storage {
         return discarded;
     }
 
+    /**
+     * method that adds all the resources it can inside a depot and decreases the resources array. used inside the IncreaseResources
+     * @param temp pointer to the depot
+     * @param resources array of gained resources
+     * @param typeOfResource type of resource, used to select the right slot of the array
+     */
     public void resourceAdder(DepotLevel temp, int[] resources, int typeOfResource){
         while(resources[typeOfResource]>0 && temp.getQuantity()<temp.getMaxQuantity()){
             resources[typeOfResource]--;
@@ -409,6 +430,10 @@ public class Storage {
         }
     }
 
+    /**
+     * method that checks of a level is empty
+     * @return true if at least one level is empty, false otherwise
+     */
     public boolean EmptyDepot() {
         if (level1.getResourceType() == null) {
             return true;
@@ -421,7 +446,16 @@ public class Storage {
 
 
     //interagisce con server e client
-    public int UserChoiceForDepot(TypeOfResource resource, int quantity) throws NotAvalidLevel, DiscardAllResources {
+
+    /**
+     * deprecated method
+     * @param resource
+     * @param quantity
+     * @return
+     * @throws NotAvalidLevel
+     * @throws DiscardAllResources
+     */
+    private int UserChoiceForDepot(TypeOfResource resource, int quantity) throws NotAvalidLevel, DiscardAllResources {
         int discarded = 0;
         boolean var = true;
         DepotLevel temp;
@@ -431,6 +465,10 @@ public class Storage {
         return discarded;
     }
 
+    /**
+     * method that creates a readable state for the view. it's used inside the GameStateUpdate and PlayerUpdate Class
+     * @return int[5][2] representing the status of the storage, refer to the PlayerUpdate class to understand how it can be read
+     */
     public int[][] storageStatus() {
         int[][] status = new int[5][2];
         for (int i = 1; i < 4; i++) {
@@ -519,6 +557,12 @@ public class Storage {
         this.secondLeader = secondLeader;
     }
 
+    /**
+     * method that removes resources from the first depotLevelLeader until the cost is paid or the depot is empty
+     * the method expects to be called only if the depot has already been acquired (the leader card han been played by the client)
+     * @param costo array of cost
+     * @param type type of resource (int version of the leader resourceType)
+     */
     public void removeFromFirstLeader(int[] costo, int type){
         while(costo[type]>0 && firstLeader.getQuantity()> 0){
             costo[type]--;
@@ -526,6 +570,12 @@ public class Storage {
         }
     }
 
+    /**
+     * method that removes resources from the second depotLevelLeader until the cost is paid or the depot is empty
+     * the method expects to be called only if the depot has already been acquired (the leader card han been played by the client)
+     * @param costo array of cost
+     * @param type type of resource (int version of the leader resourceType)
+     */
     public void removeFromSecondLeader(int[] costo, int type){
         while(costo[type]>0 && secondLeader.getQuantity()> 0){
             costo[type]--;
@@ -544,6 +594,24 @@ public class Storage {
             emptyDepots[i]= getLevel(i + 1).getResourceType() == null;
         }
         return emptyDepots;
+    }
+
+
+    /**
+     * method called when a handleNotStoredResources method from clientHandler is "working". It sets the level selected by the client to the resource type that was being handled
+     * and it stores all the resources available until either the level is full or the resources are 0 <br>
+     * this method is only called during the IncreaseResources method
+     * @param level level selected by the client
+     * @param type type of resource that was being handled
+     * @param resource int type of that resource
+     * @param resources array of resources generated in the IncreaseResources method
+     */
+    public void setNewResourceToDepot(int level, TypeOfResource type, int resource, int[] resources){
+        DepotLevel temp=getLevel(level);
+        temp.setResourceType(type);
+        resourceAdder(temp, resources, resource);
+        Gson gson=new Gson();
+        System.out.println(gson.toJson(storageStatus()));
     }
 
 }
