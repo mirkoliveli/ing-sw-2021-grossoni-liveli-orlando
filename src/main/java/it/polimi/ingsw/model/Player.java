@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.exceptions.AlreadyPlayedOrDiscardedLeader;
+import it.polimi.ingsw.utils.StaticMethods;
+
 public class Player {
 
     private final boolean inkwell;
@@ -77,5 +80,143 @@ public class Player {
     public void setLeaderCard2(LeaderDeck deck, int id) {
         leaderCard2 = new LeaderCard(deck.getCardById(id));
     }
+
+    /**
+     * method that is used to play a leader, it does all the checks and play the leader if possible.
+     * @param switcher indicates first or second leader card
+     * @return true if played, false otherwise
+     */
+    public boolean playLeader(int switcher) throws AlreadyPlayedOrDiscardedLeader {
+        LeaderCard leaderPointer=switchLeader(switcher);
+        if(leaderPointer.checkIfPlayed() || leaderPointer.isDiscarded()) throw new AlreadyPlayedOrDiscardedLeader();
+            //discount
+            if(leaderPointer.getId()>=49 && leaderPointer.getId()<53){
+                if(checkForDiscountLeader(switcher)){
+                    leaderPointer.playCard();
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            //storage
+            else if(leaderPointer.getId()>=53 && leaderPointer.getId()<57 ){
+                if(checkForStorageLeader(switcher)){
+                    leaderPointer.playCard();
+                    board.getStorage().addLeader(leaderPointer.getPower());
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            //white ball
+            else if(leaderPointer.getId()>=57 && leaderPointer.getId()<61 ){
+                //carte white ball
+                if(checkForWhiteBallLeader(switcher)){
+                    leaderPointer.playCard();
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            //carte production
+            else if(leaderPointer.getId()>=61 && leaderPointer.getId()<65 ){
+                if(checkForProductionLeader(switcher)){
+                    leaderPointer.playCard();
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+
+        return false;
+    }
+
+
+
+    public LeaderCard switchLeader(int leader){
+        if(leader==1) return leaderCard1;
+        else if(leader==2) return leaderCard2;
+        return null;
+    }
+
+
+    /**
+     * given the leader (only if it's the first or second) this method checks if the card is playable via the discountLeader check. If the card is not a discount leader the result will always be false so
+     * there is no problem of false leader checks
+     * @param leader 1 or 2 depending on which leader the client wants to play
+     * @return true if playable, false otherwise
+     */
+    public boolean checkForDiscountLeader(int leader){
+        LeaderCard leaderPointer=switchLeader(leader);
+        Color[][] allCardsColor= new Color[3][3];
+        for(int i=0;i < 3 ; i++){
+        allCardsColor[i]=board.getSlot(i+1).get_colors();
+        }
+        boolean[] conditions=new boolean[2];
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(allCardsColor[i][j]==leaderPointer.getColor2DiscountCard() && allCardsColor[i][j]!=null) conditions[0]=true;
+                if(allCardsColor[i][j]==leaderPointer.getColor1DiscountCard() && allCardsColor[i][j]!=null) conditions[1]=true;
+            }
+        }
+        return (conditions[0] && conditions[1]);
+    }
+
+    /**
+     * checks if a leader is playable under the white ball conditions. if a leader which is not a white ball leader is checked the result will always be false
+     * @param leader 1 or 2 stating which leader the client chose
+     * @return true if playable, false otherwise
+     */
+    public boolean checkForWhiteBallLeader(int leader){
+        LeaderCard leaderPointer=switchLeader(leader);
+        Color[][] allCardsColor= new Color[3][3];
+        for(int i=0;i < 3 ; i++){
+            allCardsColor[i]=board.getSlot(i+1).get_colors();
+        }
+        boolean[] conditions=new boolean[3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(conditions[0] && allCardsColor[i][j]==leaderPointer.getColor1WhiteBallCard() && allCardsColor[i][j]!=null) conditions[1]= true;
+                if(allCardsColor[i][j]==leaderPointer.getColor1WhiteBallCard() && allCardsColor[i][j]!=null) conditions[0]=true;
+                if(allCardsColor[i][j]==leaderPointer.getColor2WhiteBallCard() && allCardsColor[i][j]!=null) conditions[2]=true;
+            }
+        }
+        return (conditions[0] && conditions[1] && conditions[2]);
+    }
+
+    /**
+     * checks if a leader is playable under the production conditions. if a leader which is not a production leader is checked the result will always be false
+     * @param leader 1 or 2 stating which leader the client chose
+     * @return true if playable, false otherwise
+     */
+    public boolean checkForProductionLeader(int leader){
+        LeaderCard leaderPointer=switchLeader(leader);
+        Color[][] allCardsColor= new Color[3][3];
+        boolean condition=false;
+        for(int i=0;i < 3 ; i++){
+            allCardsColor[i]=board.getSlot(i+1).get_colors();
+            if(allCardsColor[i][2]==leaderPointer.getColorProductionCard() && allCardsColor[i][2]!=null) condition=true;
+        }
+        return condition;
+    }
+
+    /**
+     * checks if the Leader selected is playable under the storage conditions. If a leader is not a storage leader the result will always be false
+     * @param leader 1 or 2 stating which leader the client chose
+     * @return true if playable, false otherwise
+     */
+    public boolean checkForStorageLeader(int leader){
+        LeaderCard leaderPointer=switchLeader(leader);
+        if(leaderPointer.getStorageCardCost()!=null){
+            if(board.getTotalResources()[StaticMethods.TypeOfResourceToInt(leaderPointer.getStorageCardCost())]>4) return true;
+        }
+        return false;
+    }
+
 
 }

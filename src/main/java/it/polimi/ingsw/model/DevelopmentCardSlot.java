@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.Arrays;
+
 public class DevelopmentCardSlot {
 
     // In each slot, the max number of DevelopmentCard is 3
@@ -24,8 +26,8 @@ public class DevelopmentCardSlot {
     // Method that returns the list of colours appeared in the slot
     public Color[] get_colors() {
         Color[] ColorAppeared = new Color[3];
-
         for (int i = 0; i < 3; i++) {
+            if(vectorSlot[i]!=null)
             ColorAppeared[i] = vectorSlot[i].getColor();
         }
 

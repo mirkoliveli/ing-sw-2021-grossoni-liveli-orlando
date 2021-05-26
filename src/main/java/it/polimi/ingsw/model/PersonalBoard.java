@@ -45,6 +45,7 @@ public class PersonalBoard {
         temp = this.storage.seekerOfResource(stones);
         if (temp != null) totResources[3] += temp.getQuantity();
         // VANNO AGGIUNTE QUELLE NELLE CARTE LEADER
+        storage.updateTotalResourcesWithLeaders(totResources);
         return totResources;
     }
 

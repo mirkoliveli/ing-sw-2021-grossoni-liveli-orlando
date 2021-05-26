@@ -614,5 +614,13 @@ public class Storage {
         System.out.println(gson.toJson(storageStatus()));
     }
 
+    public void updateTotalResourcesWithLeaders(int[] resourcesATM) {
+        if (firstLeader != null){
+            resourcesATM[StaticMethods.TypeOfResourceToInt(firstLeader.getResourceTypeLeader())]+=firstLeader.getQuantity();
+            if(secondLeader!= null){
+                resourcesATM[StaticMethods.TypeOfResourceToInt(secondLeader.getResourceTypeLeader())]+=secondLeader.getQuantity();
+            }
+        }
+    }
 }
 
