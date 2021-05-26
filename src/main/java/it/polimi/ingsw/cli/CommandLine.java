@@ -738,6 +738,7 @@ public class CommandLine {
      * method that prints the state of the marble market.
      * @param tray view of the market grid
      * @param slide view of the slide marble
+     *
      */
     public static void marbleMarketStatus(MarbleColor[][] tray, MarbleColor slide){
         System.out.println("Welcome to the marble market!\nThis is the current market tray:\n");
@@ -799,6 +800,7 @@ public class CommandLine {
      * @param serverConnection connection with the server
      */
     public static synchronized void turnMgmt(String inputJson, Client serverConnection) {
+        ViewState.resetTurn();
         Gson gson = new Gson();
         GameStatusUpdate status = gson.fromJson(inputJson, GameStatusUpdate.class);
         Scanner scanner = new Scanner(System.in);
@@ -806,6 +808,7 @@ public class CommandLine {
         int numberChosen = 3;
         boolean actionChosen = false;
         while (!actionChosen) {
+            ViewState.setAction_aborted(false);
             System.out.println("\nIt's your turn! Choose an action:\n[0]: Take resources from the market\n[1]: Buy one development card\n[2]: Activate the production\nElse, you can (before or after your action):\n[3]: Swap resources between your depots\n[4]: Play or discard a leader card");
             userInput = scanner.nextLine();
             try {
@@ -843,15 +846,18 @@ public class CommandLine {
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
                     break;
             }
-            try {
-                inputJson = serverConnection.messageFromServer();
-                status=gson.fromJson(inputJson, GameStatusUpdate.class);
-            }catch(IOException e){
-                System.out.println("disconnected gestisci poi");
+            if(!ViewState.isAction_aborted()){
+                try {
+                    inputJson = serverConnection.messageFromServer();
+                    status=gson.fromJson(inputJson, GameStatusUpdate.class);
+                }catch(IOException e){
+                    System.out.println("disconnected gestisci poi");
+                }
             }
         }
         actionChosen = false;
         while (!actionChosen) {
+            ViewState.setAction_aborted(false);
             System.out.println("You already performed your action! Now you can:\n[0]: Swap resources between your depots\n[1]: Play or discard a leader card\n[2]: End your turn");
             userInput = scanner.nextLine();
             try {
@@ -867,19 +873,24 @@ public class CommandLine {
                     playLeader(status.getPlayersStatus()[status.getNextPlayer()-1]);
                     break;
                 case 2:
-                    actionChosen = true;
+                    EndTurn(serverConnection);
+                    if(ViewState.isTurn_ended()){
+                    actionChosen = true;}
+
                     break;
                 default:
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
                     break;
             }
             //nota che se l'azione viene abortita con questo passaggio si va in deadlock, modificare una volta terminato il testing preliminare
-            try {
-                System.out.println("ricevendo update game");
-                inputJson = serverConnection.messageFromServer();
-                status=gson.fromJson(inputJson, GameStatusUpdate.class);
-            }catch(IOException e){
-                System.out.println("disconnected gestisci poi");
+            if(!ViewState.isAction_aborted()){
+                try {
+                    System.out.println("ricevendo update game");
+                    inputJson = serverConnection.messageFromServer();
+                    status=gson.fromJson(inputJson, GameStatusUpdate.class);
+                }catch(IOException e){
+                    System.out.println("disconnected gestisci poi");
+                }
             }
         }
 
@@ -961,7 +972,9 @@ public class CommandLine {
                 System.out.println("disconnected during turn phase while swapping resources");
             }
         }
-
+        else{
+            ViewState.setAction_aborted(true);
+        }
     }
 
 
@@ -1059,6 +1072,7 @@ public class CommandLine {
         String answerFromServer;
         try{
             answerFromServer= client.messageFromServer();
+            //manca parte in cui viene richiesto il leader (se si è in possesso di un leader white ball
 
             //handles the case where the client needs to choose the level to store the resources
             while(answerFromServer.contains("resourceStillToBeStored")){
@@ -1139,6 +1153,25 @@ public class CommandLine {
                 System.out.println("not a valid input! please retry");
                 return -1;
         }
+    }
+
+    public static void EndTurn(Client connection){
+        ActionMessage action=new ActionMessage(TypeOfAction.END_TURN);
+        action.EndTurn();
+        Gson gson=new Gson();
+        connection.messageToServer(gson.toJson(action));
+        try{
+            if(connection.messageFromServer().contains("successful")) {
+                System.out.println("Your turn is now completed");
+                ViewState.setTurn_ended(true);
+            }
+            else{
+                System.out.println("you can't end your turn now!");
+            }
+        }catch(IOException e){
+            System.out.println("errore di disconnessione da gestire");
+        }
+
     }
 
 }

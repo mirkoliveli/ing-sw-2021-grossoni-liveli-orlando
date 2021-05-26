@@ -32,13 +32,16 @@ public class ClientHandler extends Thread {
      * method that should handle all the turnPhase section of the game.
      */
     public void TurnPhase(){
-        while(idPlayer!= GameState.getIdOfPlayerInTurn() && !GameState.isGameEndedPhase()){
-            waitingMyTurn();
-        }
-        System.out.println("sei in turnphase prima di turn manager");
+        while(!GameState.isGameEndedPhase()) {
+            while (idPlayer != GameState.getIdOfPlayerInTurn()) {
+                waitingMyTurn();
+            }
+            //System.out.println("sei in turnphase prima di turn manager");
+            System.out.println("inizio turno di giocatore " + idPlayer);
             turnManager();
-
-
+            System.out.println("finito turno di giocatore " + idPlayer);
+            GameState.changeTurn();
+        }
     }
 
     private void resetTurnStatus(){
@@ -51,6 +54,7 @@ public class ClientHandler extends Thread {
      * general method that handles the turn of a player, by sending an update to the client as soon as his turn starts, then by managing the messages that are sent to the server by the client
      */
     public void turnManager(){
+        resetTurnStatus();
         Gson gson=new Gson();
         //send first message with game update, then expects an answer for client with the action chosen
         ActionMessage action=new ActionMessage(TypeOfAction.BEGIN_TURN);
@@ -60,7 +64,7 @@ public class ClientHandler extends Thread {
 
 
         while(!turnEnding){
-            System.out.println("sei in turn manager prima di handleanswer");
+            //System.out.println("sei in turn manager prima di handleanswer");
         handleAnswer();
         }
 
@@ -116,6 +120,7 @@ public class ClientHandler extends Thread {
                 }
                 else{
                     clientConnection.messageToClient("Operation denied");
+                    clientConnection.messageToClient("Action aborted! You already took an action during this turn!");
                 }
                 break;
             case ACTIVATE_PRDUCTION:
@@ -175,7 +180,7 @@ public class ClientHandler extends Thread {
      * 3) discarding resources causes the other players to gain faith points, that can cause a vatican report.<br>
      * <br>
      * after the action is completed an operation completed message is sent to the client
-     * @param string
+     * @param string JSON file of the action
      */
     public void goToMarketAction(String string){
         Gson gson= new Gson();
@@ -202,6 +207,7 @@ public class ClientHandler extends Thread {
             System.out.println(i + " resource " + actualResources[i]);
         }
         match.getPlayers().get(idPlayer-1).getBoard().getStorage().IncreaseResources(actualResources, this);
+        //chiamata metodo che gestisce risorse scartate
         clientConnection.messageToClient("action completed");
 
     }
