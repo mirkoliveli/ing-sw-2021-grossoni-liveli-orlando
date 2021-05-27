@@ -819,7 +819,7 @@ public class CommandLine {
             switch (numberChosen) {
                 case 0:
                     actionChosen = true;
-                    actionMarbleMarket(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble(), serverConnection);
+                    actionMarbleMarket(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble(), serverConnection, status);
                     try {
                         System.out.println(serverConnection.messageFromServer());
                     }catch(IOException e){
@@ -840,7 +840,7 @@ public class CommandLine {
                     swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage(), serverConnection);
                     break;
                 case 4:
-                    //playLeader(status.getPlayersStatus()[status.getNextPlayer()-1]);
+                    PlayOrDiscardLeaders(status.getNextPlayer(), status, serverConnection);
                     break;
                 default:
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
@@ -870,7 +870,7 @@ public class CommandLine {
                     swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage(), serverConnection);
                     break;
                 case 1:
-                    playLeader(status.getPlayersStatus()[status.getNextPlayer()-1]);
+                    PlayOrDiscardLeaders(status.getNextPlayer(), status, serverConnection);
                     break;
                 case 2:
                     EndTurn(serverConnection);
@@ -984,7 +984,7 @@ public class CommandLine {
      * @param slide view of the state of the slide_marble in the marble market
      * @param client connection to the server is handled via this object
      */
-    public static synchronized void actionMarbleMarket(MarbleColor[][] tray, MarbleColor slide, Client client) {
+    public static synchronized void actionMarbleMarket(MarbleColor[][] tray, MarbleColor slide, Client client, GameStatusUpdate status) {
         Scanner scanner = new Scanner(System.in);
         String userInput;
         int numberChosen = 2;
@@ -1028,7 +1028,7 @@ public class CommandLine {
                 }
                 if (numberChosen >= 1 && numberChosen <= 3) {
                     //message sent
-                    handleMarket(client, numberChosen, false);
+                    handleMarket(client, numberChosen, false, status);
                     chosen = true;
                 } else {
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
@@ -1043,7 +1043,7 @@ public class CommandLine {
                 }
                 if (numberChosen >= 1 && numberChosen <= 4) {
                     //message sent
-                    handleMarket(client, numberChosen, true);
+                    handleMarket(client, numberChosen, true, status);
                     chosen = true;
                 } else {
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
@@ -1059,7 +1059,7 @@ public class CommandLine {
      * @param line int between 1 and 3 (or 4 depending on the boolean rowColumn) that indicates which part of the marble market was selected
      * @param rowColumn switcher for selecting a row or a column of the marble market
      */
-    public static void handleMarket(Client client, int line, boolean rowColumn){
+    public static void handleMarket(Client client, int line, boolean rowColumn, GameStatusUpdate status){
         String inputFromC;
         int ans;
         Scanner scanner = new Scanner(System.in);
@@ -1073,7 +1073,11 @@ public class CommandLine {
         try{
             answerFromServer= client.messageFromServer();
             //manca parte in cui viene richiesto il leader (se si è in possesso di un leader white ball
-
+            if(!answerFromServer.contains("resourceStillToBeStored") && answerFromServer.contains("true")){
+                System.out.println("You can receive additional resources from the market thanks to your leaders!");
+                client.messageToServer(gson.toJson(printLeadersAndChoose(gson.fromJson(answerFromServer, boolean[].class), status.getNextPlayer(), status)));
+                answerFromServer= client.messageFromServer();
+            }
             //handles the case where the client needs to choose the level to store the resources
             while(answerFromServer.contains("resourceStillToBeStored")){
                 chooseDepotMessage subMessage=gson.fromJson(answerFromServer, chooseDepotMessage.class);
@@ -1089,8 +1093,48 @@ public class CommandLine {
         }catch(IOException e){
             System.out.println("error during marbleMarketAction");
         }
+    }
 
-
+    /**
+     * prints the leaders usable in the action and asks the client which one they want to activate
+     * @param whichToPrint boolean vector stating which leaders are usable
+     * @param Player id of player
+     * @param status GameStatus, used to get the Leaders IDs
+     * @return choice of the client (0-1-2) or -1 if some errors occurred
+     */
+    public static int printLeadersAndChoose (boolean[] whichToPrint, int Player, GameStatusUpdate status){
+        String inputFromC;
+        int ans=-1;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("These leaders are the ones you can use:");
+        int usable=0;
+        for(int i=0; i<2; i++){
+            if(whichToPrint[i] && i==0){
+                printLeader(status.getPlayersStatus()[Player-1].getFirstLeader());
+                usable++;
+            }
+            if(whichToPrint[i] && i==1){
+                printLeader(status.getPlayersStatus()[Player-1].getSecondLeader());
+                usable++;
+            }
+        }
+        if(usable==1){
+            System.out.println("Choose if you want to use this leader effect by selecting 1 or ignore it by selecting 0");
+            do {
+                inputFromC = scanner.nextLine();
+                ans = Integer.parseInt(inputFromC);
+                if(ans!=0 && ans!=1) System.out.println("not a valid selection, please retry!");
+            }while(ans!=0 && ans!=1);
+        }
+        else if(usable==2){
+            System.out.println("Choose if you want to use this leader effect by selecting 1 or 2 (depending on which you want to activate or ignore it by selecting 0");
+            do {
+                inputFromC = scanner.nextLine();
+                ans = Integer.parseInt(inputFromC);
+                if(ans!=0 && ans!=1 && ans!=2) System.out.println("not a valid selection, please retry!");
+            }while(ans!=0 && ans!=1 && ans!=2);
+        }
+        return ans;
     }
 
     /**
@@ -1155,6 +1199,10 @@ public class CommandLine {
         }
     }
 
+    /**
+     * method that sends a request to end the turn and wait for an answer from the server
+     * @param connection handles connection with the server
+     */
     public static void EndTurn(Client connection){
         ActionMessage action=new ActionMessage(TypeOfAction.END_TURN);
         action.EndTurn();
@@ -1171,7 +1219,77 @@ public class CommandLine {
         }catch(IOException e){
             System.out.println("errore di disconnessione da gestire");
         }
+    }
 
+    public static void PlayOrDiscardLeaders(int player, GameStatusUpdate status, Client client){
+        Gson gson=new Gson();
+        printPlayerLeaders(player, status);
+        String inputFromClient;
+        int value;
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("\nSelect which leader you want to either play or discard (digit 1 or 2): ");
+        do{
+            inputFromClient=scanner.nextLine();
+            value=Integer.parseInt(inputFromClient);
+            if(value!=1 && value!=2) System.out.println("not a valid Leader, please retry!");
+        }while(value!=1 && value!=2);
+        System.out.println("nice! Now select 1 of you want to play it or 2 if you want to discard it:");
+        int temp=value;
+        do{
+            inputFromClient=scanner.nextLine();
+            value=Integer.parseInt(inputFromClient);
+            if(value!=1 && value!=2) System.out.println("not a valid selection, please retry!");
+        }while(value!=1 && value!=2);
+        ActionMessage message=new ActionMessage(TypeOfAction.PLAY_OR_DISCARD_LEADER);
+        message.PlayOrDiscardLeaders(temp, value);
+        client.messageToServer(gson.toJson(message));
+
+        try{
+            inputFromClient= client.messageFromServer();
+            int answerFromServer=Integer.parseInt(inputFromClient);
+            printAnswerForPlayLeaderAction(answerFromServer);
+        }catch(IOException e){
+            System.out.println("disconnected from server");
+        }
+
+    }
+
+    /**
+     * method that prints the leaders of a player and states if they have already obtained them or not (doesn't check if discarded or not obtained)
+     * @param player player being checked
+     * @param status GameState of the match
+     */
+    public static void printPlayerLeaders(int player, GameStatusUpdate status){
+        printLeader(status.getPlayersStatus()[player-1].getFirstLeader());
+        if(status.getPlayersStatus()[player-1].isFirstLeaderPlayed()) System.out.println("This leader have been played");
+        else System.out.println("this leader has not been played");
+        printLeader(status.getPlayersStatus()[player-1].getSecondLeader());
+        if(status.getPlayersStatus()[player-1].isSecondLeaderPlayed()) System.out.println("This leader have been played");
+        else System.out.println("this leader has not been played");
+    }
+
+    /**
+     * method that prints the result of the playOrDiscardLeader action
+     * @param answerFromServer answer recived from the server
+     */
+    public static void printAnswerForPlayLeaderAction(int answerFromServer){
+        switch(answerFromServer){
+            case 0:
+                System.out.println("leader played correctly!");
+                break;
+            case 1:
+                System.out.println("leader discarded correctly!");
+                break;
+            case 2:
+                System.out.println("You didn't meet the conditions to play this leader!");
+                break;
+            case 3:
+                System.out.println("the leader was already played or discarded! You can't do this action!");
+                break;
+            default:
+                System.out.println("Some error occurred with the last message received from the server!");
+                break;
+        }
     }
 
 }

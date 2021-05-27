@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.TypeOfAction;
 import it.polimi.ingsw.messages.chooseDepotMessage;
 import it.polimi.ingsw.model.MatchMultiPlayer;
 import it.polimi.ingsw.model.Storage;
+import it.polimi.ingsw.model.exceptions.AlreadyPlayedOrDiscardedLeader;
 import it.polimi.ingsw.model.exceptions.GameIsEnding;
 import it.polimi.ingsw.networking.ThreadedServer;
 import it.polimi.ingsw.utils.Generic_intANDboolean;
@@ -127,7 +128,7 @@ public class ClientHandler extends Thread {
                 //scelta ancora da gestire
                 break;
             case PLAY_OR_DISCARD_LEADER:
-                //scelta ancora da gestire
+                PlayOrDiscardLeaders(action.getActionAsMessage());
                 break;
             default:
                 break;
@@ -137,6 +138,48 @@ public class ClientHandler extends Thread {
 
     public ThreadedServer getClientConnection() {
         return clientConnection;
+    }
+
+    public void PlayOrDiscardLeaders(String action){
+        Gson gson=new Gson();
+        int[] choice=gson.fromJson(action, int[].class);
+        if(choice[1]==2){
+            try {
+                if(     match.getPlayers().get(idPlayer-1).switchLeader(choice[0])!=null && //condizione
+                        !match.getPlayers().get(idPlayer-1).switchLeader(choice[0]).checkIfPlayed() && //condizione
+                        !match.getPlayers().get(idPlayer-1).switchLeader(choice[0]).isDiscarded() //condizione
+                ) {
+                    int ans=1;
+                    clientConnection.messageToClient(gson.toJson(ans));
+                    match.MoveInFaithTrack(1, idPlayer);
+                    match.getPlayers().get(idPlayer-1).switchLeader(choice[0]).discardCard();
+
+                }
+                else{
+                    int ans=3;
+                    clientConnection.messageToClient(gson.toJson(ans));
+                }
+            }catch(GameIsEnding e){
+                System.out.println("gestisci dopo");
+            }
+        }
+        if(choice[1]==1){
+            try{
+                if(match.getPlayers().get(idPlayer-1).playLeader(choice[0])) {
+                    int ans=0;
+                    clientConnection.messageToClient(gson.toJson(ans));
+                }
+                else{
+                    int ans=2;
+                    clientConnection.messageToClient(gson.toJson(ans));
+                }
+            }catch(AlreadyPlayedOrDiscardedLeader e){
+                int ans=3;
+                clientConnection.messageToClient(gson.toJson(ans));
+
+            }
+        }
+
     }
 
 
@@ -190,8 +233,17 @@ public class ClientHandler extends Thread {
         //ancora non gestito il caso in cui abbia il leader delle palline
         int[] resourcesGained=match.getMarket().ConversionToArray(!action.isChoice(), action.getNumber()-1);
 
+        if(resourcesGained[5]>0){
+            try {
+                manageLeaderInteractionWithMarket(resourcesGained);
+
+            }catch(IOException e){
+                System.out.println("disconnection to be handled");
+            }
+        }
+
         // stampa resources
-        for(int i=0; i<5; i++){
+        for(int i=0; i<6; i++){
             System.out.println(i + " resource " + resourcesGained[i]);
         }
         match.getMarket().ChangeBoard(!action.isChoice(), action.getNumber());
@@ -206,11 +258,41 @@ public class ClientHandler extends Thread {
         for(int i=0; i<4; i++){
             System.out.println(i + " resource " + actualResources[i]);
         }
-        match.getPlayers().get(idPlayer-1).getBoard().getStorage().IncreaseResources(actualResources, this);
-        //chiamata metodo che gestisce risorse scartate
+        int movement=match.getPlayers().get(idPlayer-1).getBoard().getStorage().IncreaseResources(actualResources, this);
+        if(movement!=0) {
+            boolean[] someoneFinished;
+            someoneFinished=match.parallelMovementInFaithTrack(movement, idPlayer);
+            if(someoneFinished!=null){
+                //handle endgame
+            }
+        }
         clientConnection.messageToClient("action completed");
-
     }
+
+
+    /**
+     * method that sends to the client the leaders available for the power (only when there is one). the method then receives 0 if the client don't want to use the power,
+     * 1 if they want to use the first leader power (if it's a correct leader) or 2 if theyt want to use the second leader (if it's a correct leader).
+     * <br> the method updates the resources gained from the market and proceeds to the next step (remember that no ack is then resent to the client, as we want to keep a simple exchange of messages that would be redoundant)
+     * <br> if any mistake is made by the logic of the client (e.g. sending a wrong number or not even a number at all) the method should keep working and do nothing at all.
+     * @param resources resources to be updated
+     * @throws IOException client disconnection
+     */
+    public void manageLeaderInteractionWithMarket(int[] resources) throws IOException{
+        Gson gson=new Gson();
+        boolean[] leaders=match.getPlayers().get(idPlayer-1).doIHaveAWhiteBallLeader();
+        if(leaders[0] || leaders[1]){
+            clientConnection.messageToClient(gson.toJson(leaders));
+            int choice=gson.fromJson(clientConnection.messageFromClient(), int.class);
+            if(choice==1 && match.getPlayers().get(idPlayer-1).getLeaderCard1().getColor1WhiteBallCard()!=null && match.getPlayers().get(idPlayer-1).getLeaderCard1().checkIfPlayed()) {
+                resources[StaticMethods.TypeOfResourceToInt(match.getPlayers().get(idPlayer-1).getLeaderCard1().getPower())]+=resources[5];
+            }
+            else if(choice==2 && match.getPlayers().get(idPlayer-1).getLeaderCard2().getColor1WhiteBallCard()!=null && match.getPlayers().get(idPlayer-1).getLeaderCard2().checkIfPlayed()){
+                resources[StaticMethods.TypeOfResourceToInt(match.getPlayers().get(idPlayer-1).getLeaderCard2().getPower())]+=resources[5];
+            }
+        }
+    }
+
 
     /**
      * method that handles the case 2) of the goToMarketAction, that requires a player to select a new level for a type of resource that is not stored in any storage level at that given moment. the interaction is

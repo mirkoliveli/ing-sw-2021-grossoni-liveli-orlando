@@ -122,7 +122,7 @@ public class FaithTrack {
     /**
      * method that returns the actual victory points reached while the marker is moving
      *
-     * @return total points gained from advancing in the faith track
+     * @return total points gained from advancing in the faith track, -1 if after the movement the score hasn't changed
      * @author Riccardo Grossoni
      */
     public int updateScore() {
@@ -270,6 +270,12 @@ public class FaithTrack {
         return PopesZonesActivated;
     }
 
+
+    /**
+     * method that moves the marker on the track, updates the score given by the track and checks if any popespace han been activated, returns the activated space
+     * @param move movement made (faith points received)
+     * @return  vatican report to be activated, zero if none
+     */
     public int MultiPlayerMovement(int move) {
         int popespace;
         int temp_pv = 0;

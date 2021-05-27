@@ -39,6 +39,28 @@ public class MatchMultiPlayer {
         }
     }
 
+    public boolean[] parallelMovementInFaithTrack(int discardedRes, int idOfNotMovingPlayer){
+        boolean[] result=null;
+        int zone=0;
+        int temp=-1;
+        for(int i=0; i<players.size(); i++){
+            if(players.get(i).getId()!=idOfNotMovingPlayer){
+                temp=players.get(i).getBoard().getFaithTrack().MultiPlayerMovement(discardedRes);
+                if(temp>zone) zone=temp;
+            }
+        }
+        if(zone>0){
+            VaticanReport(zone);
+            if(zone==3){
+                result=new boolean[players.size()];
+                for(int i=0; i<players.size(); i++){
+                    if(players.get(i).getBoard().getFaithTrack().getFaithMarker()==24) result[i]=true;
+                }
+            }
+        }
+        return result;
+    }
+
 
     /**
      * method manages the vatican report action. it's all handled automatically.

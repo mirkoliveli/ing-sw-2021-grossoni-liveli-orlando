@@ -87,6 +87,7 @@ public class Player {
      * @return true if played, false otherwise
      */
     public boolean playLeader(int switcher) throws AlreadyPlayedOrDiscardedLeader {
+        if(switcher>2 || switcher<1) return false;
         LeaderCard leaderPointer=switchLeader(switcher);
         if(leaderPointer.checkIfPlayed() || leaderPointer.isDiscarded()) throw new AlreadyPlayedOrDiscardedLeader();
             //discount
@@ -218,5 +219,16 @@ public class Player {
         return false;
     }
 
+    /**
+     * returns an double boolean stating if each leader is a whiteball leader (and is played) or not
+     * @return double boolean, has true if the leader is a PLAYED white ball leader, false otherwise
+     */
+    public boolean[] doIHaveAWhiteBallLeader(){
+        boolean[] leaders=new boolean[2];
+        for(int i=1; i<3; i++){
+            if(switchLeader(i).checkIfPlayed() && switchLeader(i).getColor1WhiteBallCard()!=null) leaders[i-1]=true;
+        }
+        return leaders;
+    }
 
 }

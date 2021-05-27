@@ -226,7 +226,7 @@ public class MarketBoard {
      * @author Riccardo Grossoni
      */
     public int[] ConversionToArray(boolean switcher, int line) {
-        int[] risorseOttenute = new int[5];
+        int[] risorseOttenute = new int[6];
         int temp;
         if (switcher) temp = 4;
         else temp = 3;
@@ -234,6 +234,7 @@ public class MarketBoard {
             for (int i = 0; i < temp; i++) {
                 switch (board[line][i].getColore()) {
                     case white:
+                        risorseOttenute[5]+=1;
                         break;
                     case red:
                         risorseOttenute[4] += 1;
