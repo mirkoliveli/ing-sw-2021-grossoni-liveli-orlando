@@ -93,6 +93,7 @@ public class MatchMultiPlayer {
         }
         int[] resources = players.get(idPlayer - 1).getBoard().getTotalResources();
         int[] cost = cardMarket.getCost(idCard);
+        players.get(idPlayer - 1).applyDiscount(cost);
         if (cost != null) {
             for (int i = 0; i < 4; i++) {
                 if (resources[i] < cost[i]) return false;
@@ -101,6 +102,7 @@ public class MatchMultiPlayer {
         } else {
             throw new CardNotFoundException();
         }
+
     }
 
 

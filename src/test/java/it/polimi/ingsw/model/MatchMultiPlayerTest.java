@@ -2,9 +2,10 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.PlayerUpdate;
+import it.polimi.ingsw.model.exceptions.CardNotFoundException;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class MatchMultiPlayerTest {
 
@@ -34,5 +35,24 @@ public class MatchMultiPlayerTest {
         System.out.println(stringa);
 
 
+    }
+
+    @Test
+    public void canIBuyThisCard() {
+        MatchMultiPlayer match = new MatchMultiPlayer();
+        match.AddPlayer("gross");
+        try {
+            boolean bool=match.availableSlotForCard(1, 1);
+            assertTrue(bool);
+            bool=match.CanIBuyThisCard(1, 1);
+            assertFalse(bool);
+        }catch(CardNotFoundException e){
+            assertEquals(1, 0);
+        }
+
+    }
+
+    @Test
+    public void availableSlotForCard() {
     }
 }

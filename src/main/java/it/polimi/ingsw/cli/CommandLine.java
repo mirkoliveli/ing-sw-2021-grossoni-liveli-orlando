@@ -49,7 +49,6 @@ public class CommandLine {
      * @param id
      */
     public static synchronized void printLeader(int id) {
-        System.out.println("prova");
         id = id - 49;
         if (id >= 0 && id <= 3) //LeaderCardDiscount
         {

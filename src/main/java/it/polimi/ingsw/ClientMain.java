@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class ClientMain {
 
-    //87.1.162.146
+    //79.36.195.214
 
     public static void main(String[] args) throws IOException {
         Scanner scn = new Scanner(System.in);
