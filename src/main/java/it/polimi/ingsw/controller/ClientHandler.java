@@ -1,20 +1,20 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.messages.ActionMessage;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.TypeOfAction;
-import it.polimi.ingsw.messages.chooseDepotMessage;
+import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.model.DevelopmentCard;
 import it.polimi.ingsw.model.MatchMultiPlayer;
 import it.polimi.ingsw.model.Storage;
-import it.polimi.ingsw.model.exceptions.AlreadyPlayedOrDiscardedLeader;
-import it.polimi.ingsw.model.exceptions.GameIsEnding;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.networking.ThreadedServer;
 import it.polimi.ingsw.utils.Generic_intANDboolean;
 import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.IOException;
 import java.net.Socket;
+
+import static it.polimi.ingsw.messages.InBetweenActionExchanges.CHOOSE_A_DEPOT;
+import static it.polimi.ingsw.messages.InBetweenActionExchanges.UNAVAILABLE_ACTION;
 
 public class ClientHandler extends Thread {
     private ThreadedServer clientConnection;
@@ -112,7 +112,8 @@ public class ClientHandler extends Thread {
                 swapLevelsAction(action.getActionAsMessage());
                 break;
             case BUY_A_CARD:
-                //scelta ancora da gestire
+                if(!mainAction)
+                buyACardAction(action.getActionAsMessage());
                 break;
             case GO_TO_MARKET:
                 if(!mainAction){
@@ -212,7 +213,38 @@ public class ClientHandler extends Thread {
         }
     }
 
+    public void buyACardAction(String idOfCard){
+        Gson gson=new Gson();
+        int cardId=gson.fromJson(idOfCard, int.class);
+        String messageFromC;
+        try{
+            if(match.CanIBuyThisCard(cardId, idPlayer)){
+                System.out.println("check posso comprare passato");
+                DevelopmentCard temp=match.getCardMarket().BuyCard(cardId);
+                System.out.println("card id: " + temp.getId());
+                System.out.println("check compro carta passato");
+                match.getPlayers().get(idPlayer-1).payForACard(temp.getCost());
+                System.out.println("check pago passato");
+                BuyACardActionMessage nextChoice=new BuyACardActionMessage(CHOOSE_A_DEPOT, gson.toJson(match.getPlayers().get(idPlayer-1).getBoard().whereCanIPlaceTheCard(temp.getLevel())));
+                clientConnection.messageToClient(gson.toJson(nextChoice));
+                messageFromC=clientConnection.messageFromClient();
+                int slot=gson.fromJson(messageFromC, int.class);
+                match.getPlayers().get(idPlayer-1).getBoard().getSlot(slot).placeCard(temp);
+                mainAction=true;
+            }
+            else{
+                BuyACardActionMessage nextChoice=new BuyACardActionMessage(UNAVAILABLE_ACTION, "");
+                clientConnection.messageToClient(gson.toJson(nextChoice));
+            }
+        }catch(CardNotFoundException | IllegalCardException | NotEnoughResources e){
+            BuyACardActionMessage nextChoice=new BuyACardActionMessage(UNAVAILABLE_ACTION, "");
+            clientConnection.messageToClient(gson.toJson(nextChoice));
+        }catch(IOException e){
+            System.out.println("client disconnected");
+        }
 
+
+    }
     /**
      * handles the action that interacts with the marble market. It receives  a string that contains the JSON file of the action sent by the client.
      * the action is then performed (given a valid check CLIENT-side for the basic inputs of selecting the section of the market the action is always allowed by the rules, so no check is needed)

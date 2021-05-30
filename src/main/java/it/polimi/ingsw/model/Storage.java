@@ -322,6 +322,7 @@ public class Storage {
     //DA FINIRE
     public void ResourceDecreaser(int[] cost) throws NotEnoughResources {
         if (!canPay(cost)) throw new NotEnoughResources();
+        System.out.println("you are after the throw");
         int[] costo = StaticMethods.copyArray(cost);
 
         if (firstLeader != null) {
@@ -386,7 +387,7 @@ public class Storage {
      * @throws NotEnoughResources THIS SHOULD NOT BE THROWN, SINCE THROWING THIS MEANS THAT AN ILLEGAL ACTION HAS POSSIBLY HAPPENED, JUST HERE TO VERIFY THAT IT WON'T HAPPEN
      */
     public void removeFromDepot(int typeOfResource, int[] costo) throws NotEnoughResources {
-        DepotLevel temp = seekerOfResource(TypeOfResource.stones);
+        DepotLevel temp = seekerOfResource(StaticMethods.IntToTypeOfResource(typeOfResource+1));
         if (temp == null && costo[typeOfResource] != 0) throw new NotEnoughResources();
         else if (temp == null && costo[typeOfResource] == 0) {}
         else if (costo[typeOfResource] > temp.getQuantity()) throw new NotEnoughResources();

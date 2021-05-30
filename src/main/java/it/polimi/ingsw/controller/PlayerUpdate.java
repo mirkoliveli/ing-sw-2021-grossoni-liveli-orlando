@@ -141,7 +141,7 @@ public class PlayerUpdate {
     /**
      * @return the id of the cards that can be activated for the production action
      */
-    public int[] getActivatableCards() {
+    public int[] getActivableCards() {
         int[] cards = new int[3];
         for (int i = 0; i < 3; i++) {
             for (int j = 2; j >= 0; j--) {

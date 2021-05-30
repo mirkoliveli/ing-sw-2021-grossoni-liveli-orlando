@@ -223,6 +223,20 @@ public class PersonalBoard {
     }
 
     /**
+     * returns an array stating which level of a development card can be placed on the slots
+     * @return return an int[3], if the slot is full the int[i] will be 0, otherwise it's the next level placeable
+     */
+    public int[] getNextPlaceableLevelOnSlots(){
+        int[] level=new int[3];
+        for(int i=1; i<4; i++){
+            level[i-1]=1;
+            if(getSlot(i).get_top()!=null) level[i-1]=getSlot(i).get_top().getLevel()+1;
+            if(level[i-1]==4) level[i-1]=0;
+        }
+        return level;
+    }
+
+    /**
      * get a total number of resources that the player has, used to get the victory points
      * @return total number of resources the player has (only the number)
      */
@@ -230,6 +244,21 @@ public class PersonalBoard {
         int[] temp = this.getTotalResources();
         int tot = temp[0] + temp[1] + temp[3] + temp[2];
         return tot;
+    }
+
+    /**
+     * returns a boolean vector containing the slots where a card of a certain level can be placed
+     * @param level level of the card willing to be placed
+     * @return boolean vector containing as "true" the slots where the card is placeable
+     */
+    public boolean[] whereCanIPlaceTheCard(int level){
+        boolean[] placeable=new boolean[3];
+        int[] availableLevels=getNextPlaceableLevelOnSlots();
+        for(int i=0; i<3; i++){
+            if(level==availableLevels[i]) placeable[i]=true;
+        }
+
+        return placeable;
     }
 
 

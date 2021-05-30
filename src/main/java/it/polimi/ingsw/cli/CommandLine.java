@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.controller.PlayerUpdate;
 import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.BuyACardActionMessage;
 import it.polimi.ingsw.messages.TypeOfAction;
 import it.polimi.ingsw.messages.chooseDepotMessage;
 import it.polimi.ingsw.model.DevelopmentCard;
@@ -132,7 +133,7 @@ public class CommandLine {
      * @param board
      */
     public static synchronized void printPersonalBoard(PlayerUpdate board) {
-        int[] developmentBoard = board.getActivatableCards();
+        int[] developmentBoard = board.getActivableCards();
         int j = 0;
         System.out.println(board.getName() + "'s board\n\nDevelopment cards:");
         for (int i = 0; i < 3; i++) {
@@ -466,7 +467,7 @@ public class CommandLine {
         TypeOfResource[] ToR = new TypeOfResource[5]; //0-2 for the basic production action, 3-4 for the leader production action
         boolean[] power = new boolean[6];
         boolean chosen = false;
-        int[] developmentBoard = player.getActivatableCards();
+        int[] developmentBoard = player.getActivableCards();
         for (int i = 0; i < 3; i++) {
             if (developmentBoard[i] != 0) {
                 j = i + 1;
@@ -799,6 +800,7 @@ public class CommandLine {
      * @param serverConnection connection with the server
      */
     public static synchronized void turnMgmt(String inputJson, Client serverConnection) {
+        developmentPopulate("src/main/resources/devCards.json");
         ViewState.resetTurn();
         Gson gson = new Gson();
         GameStatusUpdate status = gson.fromJson(inputJson, GameStatusUpdate.class);
@@ -827,10 +829,11 @@ public class CommandLine {
                     break;
                 case 1:
                     try {
-                        actionChosen = printCardMarket(status.getMarketsStatus().getCardMarket());
-                    } catch (IOException e) {
-                        System.out.println("IOException");
+                        printCardMarket(status.getMarketsStatus().getCardMarket(), serverConnection, status);
+                    }catch(IOException e){
+                        System.out.println("disconnected from server!");
                     }
+                    if(ViewState.isMainActionCompleted()) actionChosen=true;
                     break;
                 case 2:
                     //actionChosen = production(status.getPlayersStatus()[status.getNextPlayer()-1]);
@@ -1289,6 +1292,166 @@ public class CommandLine {
                 System.out.println("Some error occurred with the last message received from the server!");
                 break;
         }
+    }
+
+
+    public static synchronized void printCardMarket(int[][] marketCards, Client serverConnection, GameStatusUpdate status) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
+        int cardId=0;
+        boolean cardBought = false;
+        printSmallMarketVersion(marketCards);
+        while (!cardBought) {
+            System.out.println("\nType the id of the card you want to buy,'details' if you want to know more about a card or 'quit' if you don't want to buy anything.");
+            userInput = scanner.nextLine();
+            if (userInput.equalsIgnoreCase("details")) {
+                cardDetails(marketCards);
+            } else if (userInput.equalsIgnoreCase("quit")) {
+                cardBought=true;
+                ViewState.setAction_aborted(true);
+            } else {
+                try {
+                    cardId = Integer.parseInt(userInput);
+                } catch (NumberFormatException e) {
+                    System.out.println("Not a number! please retry!");
+                }
+                if(checkValidCardSelection(marketCards, cardId)){
+                    cardBought=true;
+                    buyCardServerInteraction(cardId, serverConnection, status);
+                }
+                else{
+                    System.out.println("not a valid card selection! please retry!");
+                }
+            }
+        }
+    }
+
+    /**
+     * method that checks if a selected card by the user is a valid card inside the market
+     * @param marketcards market
+     * @param selection chosen card's id
+     * @return true if the id is present in the market, false otherwise
+     */
+    public static boolean checkValidCardSelection(int[][] marketcards, int selection){
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                if(selection==marketcards[i][j]) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * prints a shallow version of the market (only id and cost)
+     * @param marketCards market
+     */
+    public static void printSmallMarketVersion(int[][] marketCards){
+        System.out.println("Welcome to the card market!\nThese are the available cards:\n");
+        int cardId = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                // stampa del mercato provvisoria, da mostrare id + costo o id + potere di produzione
+                // reminder: i getter in developmentCard vanno usati sulla carta una posizione indietro rispetto agli interi passati
+                cardId = marketCards[i][j];
+                System.out.println("Id: \u001B[31m" + cardId + "\u001B[0m; \nCost:");
+                printArray(developmentCards[cardId - 1].getCost());
+            }
+        }
+    }
+
+    public static void buyCardServerInteraction(int cardId, Client serverConnection, GameStatusUpdate status){
+        Gson gson=new Gson();
+        ActionMessage message=new ActionMessage(TypeOfAction.BUY_A_CARD);
+        message.BuyCard(cardId);
+        serverConnection.messageToServer(gson.toJson(message));
+
+        handleInBetweenActionBuyACard(serverConnection, status);
+
+
+    }
+
+    public static void handleInBetweenActionBuyACard(Client client, GameStatusUpdate status){
+        Gson gson=new Gson();
+        int answerToSend;
+        try{
+            String message= client.messageFromServer();
+            BuyACardActionMessage nextObj= gson.fromJson(message, BuyACardActionMessage.class);
+            switch (nextObj.getAction()){
+                case CHOOSE_A_DEPOT:
+                    printTopOfSlots(status, gson.fromJson(nextObj.getObjectToSend(), boolean[].class));
+                    answerToSend=chooseADepotAction(gson.fromJson(nextObj.getObjectToSend(), boolean[].class));
+                    client.messageToServer(gson.toJson(answerToSend));
+                    ViewState.setMainActionCompleted(true);
+                    break;
+                case UNAVAILABLE_ACTION:
+                    System.out.println("action cannot be completed!");
+                    ViewState.setAction_aborted(true);
+                    try{
+                        client.messageFromServer();
+                    }catch(IOException e){
+                        System.out.println("disconnected");
+                    }
+                    break;
+            }
+
+
+
+
+        }catch(IOException e){
+            System.out.println("disconnected from server!");
+        }
+    }
+
+
+    public static void printTopOfSlots(GameStatusUpdate status){
+        developmentPopulate("src/main/resources/devCards.json");
+        int idPlayer=status.getNextPlayer();
+        int[] idOfCardsInSlot=status.getSpecificPlayerStatus(idPlayer).getActivableCards();
+        System.out.println("this is the status of your developmentCards slots:");
+        for(int i=0; i<3; i++){
+        System.out.println("slot " + (i+1) + ":");
+        if(idOfCardsInSlot[i]==0) System.out.println("empty");
+        else{
+            printDevelopmentCard(idOfCardsInSlot[i]);
+        }
+        }
+    }
+
+    public static void printTopOfSlots(GameStatusUpdate status, boolean[] onlyPrintThese){
+        developmentPopulate("src/main/resources/devCards.json");
+        int idPlayer=status.getNextPlayer();
+        int[] idOfCardsInSlot=status.getSpecificPlayerStatus(idPlayer).getActivableCards();
+        System.out.println("these are the developmentCards slots where you can place the card:");
+        for(int i=0; i<3; i++){
+            if(onlyPrintThese[i]){
+                System.out.println("slot " + (i+1) + ":");
+                if(idOfCardsInSlot[i]==0) System.out.println("empty");
+                else{
+                    printDevelopmentCard(idOfCardsInSlot[i]);
+                }
+            }
+        }
+    }
+
+    public static int chooseADepotAction(boolean[] valid){
+        Scanner scanner=new Scanner(System.in);
+        String answer;
+        int depotChosen=0;
+        System.out.println("please choose a depot:");
+        do {
+            try {
+                answer = scanner.nextLine();
+                depotChosen = Integer.parseInt(answer);
+                if(depotChosen==1 && !valid[0]) throw new NumberFormatException();
+                else if(depotChosen==2 && !valid[1]) throw new NumberFormatException();
+                else if(depotChosen==3 && !valid[2]) throw new NumberFormatException();
+                else if(depotChosen!=1 && depotChosen !=2 && depotChosen!=3) throw new NumberFormatException();
+            } catch (NumberFormatException e) {
+                depotChosen=0;
+                System.out.println("Please insert a valid number. Retry:");
+            }
+        }while(depotChosen<1);
+        return depotChosen;
     }
 
 }

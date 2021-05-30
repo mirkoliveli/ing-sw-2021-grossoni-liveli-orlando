@@ -248,8 +248,18 @@ public class Player {
      * @throws NotEnoughResources the check is made "just to be sure", but the method should be called only when it's has already checked that the player can pay for the card.
      */
     public void payForACard(int[] cost) throws NotEnoughResources {
-        if(StaticMethods.isItAffordable(cost, this.board.getTotalResources())) throw new NotEnoughResources();
+        System.out.println("stai qua prima di lancio");
+        if(!StaticMethods.isItAffordable(cost, this.board.getTotalResources())) throw new NotEnoughResources();
+        System.out.println("stai qua dopo lancio");
         int[] resourcesFromStorage=this.getBoard().getStorage().conversionToArray();
+        for(int i=0; i<4; i++){
+            System.out.println("risorse in storage:");
+            System.out.println(resourcesFromStorage[i]);
+            System.out.println("costo equivalente: " + cost[i]);
+        }
+
+
+
         int[] storageCost=new int[4];
         for(int i=0; i<4; i++){
             if(cost[i]>=resourcesFromStorage[i]){
