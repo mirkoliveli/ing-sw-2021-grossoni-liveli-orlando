@@ -213,18 +213,19 @@ public class ClientHandler extends Thread {
         }
     }
 
+    /**
+     * method that handles the buy a card action. If the card can be bought the message sent to the client is a request for a choice of depot (even if the only depot available is one), if the
+     * card cannot be bought the message sent to the client is a "unavailable action" message.
+     * @param idOfCard card selected by the client (is a string because is from an ActionMessage)
+     */
     public void buyACardAction(String idOfCard){
         Gson gson=new Gson();
         int cardId=gson.fromJson(idOfCard, int.class);
         String messageFromC;
         try{
             if(match.CanIBuyThisCard(cardId, idPlayer)){
-                System.out.println("check posso comprare passato");
                 DevelopmentCard temp=match.getCardMarket().BuyCard(cardId);
-                System.out.println("card id: " + temp.getId());
-                System.out.println("check compro carta passato");
                 match.getPlayers().get(idPlayer-1).payForACard(temp.getCost());
-                System.out.println("check pago passato");
                 BuyACardActionMessage nextChoice=new BuyACardActionMessage(CHOOSE_A_DEPOT, gson.toJson(match.getPlayers().get(idPlayer-1).getBoard().whereCanIPlaceTheCard(temp.getLevel())));
                 clientConnection.messageToClient(gson.toJson(nextChoice));
                 messageFromC=clientConnection.messageFromClient();

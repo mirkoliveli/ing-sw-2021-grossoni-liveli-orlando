@@ -232,6 +232,10 @@ public class Player {
         return leaders;
     }
 
+    /**
+     * returns a double boolean stating if each leader is a discount leader (if that leader is played) or not
+     * @return boolean[i]=true if the leader i is played AND is a discount leader, false in any other case
+     */
     public boolean[] doIHaveADiscountLeader(){
         boolean[] leaders=new boolean[2];
         for(int i=1; i<3; i++){
@@ -244,22 +248,14 @@ public class Player {
 
     /**
      * automatic payment (don't need to be checked first but should be checked for discount leaders). The payment is frist made in the storage, while the remaining is made in the strongbox
-     * @param cost cost of the card
+     * @param costo cost of the card
      * @throws NotEnoughResources the check is made "just to be sure", but the method should be called only when it's has already checked that the player can pay for the card.
      */
-    public void payForACard(int[] cost) throws NotEnoughResources {
-        System.out.println("stai qua prima di lancio");
+    public void payForACard(int[] costo) throws NotEnoughResources {
+        int[] cost=costo.clone();
+        applyDiscount(cost);
         if(!StaticMethods.isItAffordable(cost, this.board.getTotalResources())) throw new NotEnoughResources();
-        System.out.println("stai qua dopo lancio");
         int[] resourcesFromStorage=this.getBoard().getStorage().conversionToArray();
-        for(int i=0; i<4; i++){
-            System.out.println("risorse in storage:");
-            System.out.println(resourcesFromStorage[i]);
-            System.out.println("costo equivalente: " + cost[i]);
-        }
-
-
-
         int[] storageCost=new int[4];
         for(int i=0; i<4; i++){
             if(cost[i]>=resourcesFromStorage[i]){

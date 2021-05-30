@@ -1223,6 +1223,13 @@ public class CommandLine {
         }
     }
 
+    /**
+     * method that handles the action playOrDiscardLeader. The selection is made for only one leader, so the client needs to repeat the action if they want to play both leaders (or any combination with discarding them)
+     * during the same turn
+     * @param player id of the player taking is turn
+     * @param status game status used to show and find the leaders
+     * @param client connection with the server
+     */
     public static void PlayOrDiscardLeaders(int player, GameStatusUpdate status, Client client){
         Gson gson=new Gson();
         printPlayerLeaders(player, status);
@@ -1294,7 +1301,13 @@ public class CommandLine {
         }
     }
 
-
+    /**
+     * started method for the BUY_A_CARD action, it prints the status of the market, then it can show details of a card, try to by a card (by calling the right methods) or quit the action
+     * @param marketCards market of the cards (only top cards are displayed)
+     * @param serverConnection connection with the server, it's given to the methods that try to buy a card
+     * @param status gameStatus, used to print the status of market or slots in the "buy a card" related methods
+     * @throws IOException disconnection with server occurred
+     */
     public static synchronized void printCardMarket(int[][] marketCards, Client serverConnection, GameStatusUpdate status) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String userInput;
@@ -1359,6 +1372,12 @@ public class CommandLine {
         }
     }
 
+    /**
+     * method that calls sends the first message and then handles all the in-Between exchange of messages to the right method (handleInBetweenActionBuyACard).
+     * @param cardId id of the selected card
+     * @param serverConnection connection with the server
+     * @param status gameStatus, used by some methods down the sequence of calls
+     */
     public static void buyCardServerInteraction(int cardId, Client serverConnection, GameStatusUpdate status){
         Gson gson=new Gson();
         ActionMessage message=new ActionMessage(TypeOfAction.BUY_A_CARD);
@@ -1370,6 +1389,12 @@ public class CommandLine {
 
     }
 
+    /**
+     * after the first message is sent (containing the selected card) this method handles whether the action can continue or not. It does all the setups for the current turn and select which method should be called next,
+     * whether the action is aborted by the server or not
+     * @param client connection with server
+     * @param status gameStatus that is used by some method called in the body of this method
+     */
     public static void handleInBetweenActionBuyACard(Client client, GameStatusUpdate status){
         Gson gson=new Gson();
         int answerToSend;
@@ -1402,7 +1427,10 @@ public class CommandLine {
         }
     }
 
-
+    /**
+     * method that prints the status of all the slots of the current active player
+     * @param status gameStatus
+     */
     public static void printTopOfSlots(GameStatusUpdate status){
         developmentPopulate("src/main/resources/devCards.json");
         int idPlayer=status.getNextPlayer();
@@ -1417,6 +1445,12 @@ public class CommandLine {
         }
     }
 
+    /**
+     * @overload of the printTopOfSlots<br>
+     * prints all the slots available to store a card of a specified level, and prints the top card (if there's any) of the slot.
+     * @param status gameStatus used to print the cards.
+     * @param onlyPrintThese boolean[] sent by the server stating which slot should be printed
+     */
     public static void printTopOfSlots(GameStatusUpdate status, boolean[] onlyPrintThese){
         developmentPopulate("src/main/resources/devCards.json");
         int idPlayer=status.getNextPlayer();
@@ -1433,6 +1467,11 @@ public class CommandLine {
         }
     }
 
+    /**
+     * if the server communicates a CHOOSE_A_DEPOT message this method is invoked. this method request a selection from the client stating which slot they select.
+     * @param valid check sent by the controller to check which slot can be used
+     * @return the selected slot
+     */
     public static int chooseADepotAction(boolean[] valid){
         Scanner scanner=new Scanner(System.in);
         String answer;
