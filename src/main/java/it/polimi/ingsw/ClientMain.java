@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.gui.hello_world;
 import it.polimi.ingsw.networking.Client;
 
 import java.io.IOException;
@@ -10,6 +11,9 @@ public class ClientMain {
     //79.36.195.214
 
     public static void main(String[] args) throws IOException {
+
+//        hello_world.main(args);
+
         Scanner scn = new Scanner(System.in);
         System.out.println("--- MAESTRI DEL RINASCIMENTO ---\n          W E L C O M E\n");
         System.out.print("Please type in server's ip address: ");
