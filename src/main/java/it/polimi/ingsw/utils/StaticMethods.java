@@ -14,9 +14,9 @@ import java.nio.file.Paths;
 public class StaticMethods {
 
     /**
-     * idiot method that generates the same result as a .clone() method
-     * @param original
-     * @return
+     * method that generates the same result as a .clone() method
+     * @param original original array
+     * @return copy
      */
     public static int[] copyArray(int[] original) {
         int[] copy = new int[original.length];
@@ -154,5 +154,35 @@ public class StaticMethods {
         return true;
     }
 
+    /**
+     * method that checks if any entry on this boolean vector is true
+     * @param toBeChecked boolean vector to be checked
+     * @return false if all entries on the vector are false, true otherwise
+     */
+    public static boolean AreAnyTrue(boolean[] toBeChecked){
+        for(int i=0; i<toBeChecked.length; i++){
+            if(toBeChecked[i]) return true;
+        }
+        return false;
+    }
 
+    /**
+     * method that checks if a number corresponds to a resource
+     * @param n number checked
+     * @return true if num between 1 and 4, false otherwise
+     */
+    public static boolean numBetween1and4(int n){
+        return (n>0 && n<5);
+    }
+
+    /**
+     * adds the arrayToAdd_isTemp to array1, ignoring if the arrayToAdd_isTemp is longer. Will throw a NullPointerException if the arrayToAdd_isTemp is shorter than array1
+     * @param array1 array where the second one is added to (this DOES INCREASE)
+     * @param arrayToAdd_isTemp array which is added to the first one (this DOES NOT INCREASE)
+     */
+    public static void sumArray(int[] array1, int[] arrayToAdd_isTemp){
+        for(int i=0; i<array1.length; i++){
+            array1[i]+=arrayToAdd_isTemp[i];
+        }
+    }
 }

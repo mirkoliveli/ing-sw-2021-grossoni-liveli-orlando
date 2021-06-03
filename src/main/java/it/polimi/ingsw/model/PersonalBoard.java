@@ -80,16 +80,19 @@ public class PersonalBoard {
 
         if (productions[0]) {
             for (i = 0; i < 4; i++) {
+                if(developmentSlot1.get_top()!=null)
                 costs[i] = costs[i] + developmentSlot1.get_top().getCost()[i];
             }
         }
         if (productions[1]) {
             for (i = 0; i < 4; i++) {
+                if(developmentSlot2.get_top()!=null)
                 costs[i] = costs[i] + developmentSlot2.get_top().getCost()[i];
             }
         }
         if (productions[2]) {
             for (i = 0; i < 4; i++) {
+                if(developmentSlot3.get_top()!=null)
                 costs[i] = costs[i] + developmentSlot3.get_top().getCost()[i];
             }
         }

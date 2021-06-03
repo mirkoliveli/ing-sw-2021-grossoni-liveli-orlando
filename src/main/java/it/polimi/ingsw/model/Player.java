@@ -244,6 +244,18 @@ public class Player {
         return leaders;
     }
 
+    /**
+     * returns a double boolean stating if each leader is a production leader (if that leader is played) or not
+     * @return boolean[i]=true if the leader i is played AND is a production leader, false in any other case
+     */
+    public boolean[] doIHaveAProductionLeader(){
+        boolean[] leaders=new boolean[2];
+        for(int i=1; i<3; i++){
+            if(switchLeader(i)!=null && switchLeader(i).checkIfPlayed() && switchLeader(i).getColorProductionCard()!=null) leaders[i-1]=true;
+        }
+        return leaders;
+    }
+
 
 
     /**
@@ -254,6 +266,30 @@ public class Player {
     public void payForACard(int[] costo) throws NotEnoughResources {
         int[] cost=costo.clone();
         applyDiscount(cost);
+        if(!StaticMethods.isItAffordable(cost, this.board.getTotalResources())) throw new NotEnoughResources();
+        int[] resourcesFromStorage=this.getBoard().getStorage().conversionToArray();
+        int[] storageCost=new int[4];
+        for(int i=0; i<4; i++){
+            if(cost[i]>=resourcesFromStorage[i]){
+                storageCost[i]=resourcesFromStorage[i];
+                cost[i]-=storageCost[i];
+            }
+            else{
+                storageCost[i]=cost[i];
+                cost[i]=0;
+            }
+        }
+        this.getBoard().getStorage().ResourceDecreaser(storageCost);
+        this.getBoard().getStrongbox().remove(cost);
+    }
+
+    /**
+     * method that pays for a production action. The method behaves in the same way the payForACard method, but avoids checking for a discount
+     * @param costo cost calcuated by the controller
+     * @throws NotEnoughResources if the cost is not payable by the player
+     */
+    public void payForProductions(int[] costo) throws NotEnoughResources{
+        int[] cost=costo.clone();
         if(!StaticMethods.isItAffordable(cost, this.board.getTotalResources())) throw new NotEnoughResources();
         int[] resourcesFromStorage=this.getBoard().getStorage().conversionToArray();
         int[] storageCost=new int[4];
@@ -284,6 +320,36 @@ public class Player {
             int i=StaticMethods.TypeOfResourceToInt(leaderCard2.getPower());
             if(cost[i]>0) cost[i]--;
         }
+    }
+
+    /**
+     * checks if a cost can be payed with the resources that a player has in this moment.
+     * @param cost total cost checked
+     * @return true if the player has enough resources to pay the cost, false otherwise
+     */
+    public boolean canIPayForProductions(int[] cost){
+        int[] totResources= board.getTotalResources().clone();
+        return StaticMethods.isItAffordable(cost.clone(), totResources);
+    }
+
+    /**
+     * returns a message containing all the productions that can (ideally) be activated. The control is just:
+     * <br> if the basic production can be activated (the player has at least 2 resources),
+     * <br> if the resources are greater than 0 and for each slot at least one card is present,
+     * <br> if each leader is played an is a production leader.
+     * @return boolean array stating which production is ideally activatable (to ease the choice client-side)
+     */
+    public boolean[] whichProductionIsUsable(){
+        boolean[] actionableProductions=new boolean[6];
+        if(board.countOfResources()>1) actionableProductions[0]= true;
+        if(board.countOfResources()>0) {
+            for (int i = 1; i < 4; i++) {
+                if (board.getSlot(i).get_top() != null) actionableProductions[i] = true;
+            }
+            actionableProductions[4] = doIHaveAProductionLeader()[0];
+            actionableProductions[5] = doIHaveAProductionLeader()[1];
+        }
+            return actionableProductions;
     }
 
 

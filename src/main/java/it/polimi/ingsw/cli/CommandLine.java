@@ -3,10 +3,7 @@ package it.polimi.ingsw.cli;
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.controller.PlayerUpdate;
-import it.polimi.ingsw.messages.ActionMessage;
-import it.polimi.ingsw.messages.BuyACardActionMessage;
-import it.polimi.ingsw.messages.TypeOfAction;
-import it.polimi.ingsw.messages.chooseDepotMessage;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderDeck;
 import it.polimi.ingsw.model.MarbleColor;
@@ -836,7 +833,8 @@ public class CommandLine {
                     if(ViewState.isMainActionCompleted()) actionChosen=true;
                     break;
                 case 2:
-                    //actionChosen = production(status.getPlayersStatus()[status.getNextPlayer()-1]);
+                    ProductionActionStarter(status, serverConnection);
+                    if(ViewState.isMainActionCompleted()) actionChosen=true;
                     break;
                 case 3:
                     swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage(), serverConnection);
@@ -1492,5 +1490,281 @@ public class CommandLine {
         }while(depotChosen<1);
         return depotChosen;
     }
+
+    /**
+     * prints all the leaders possessed by a player which corresponds to a specified leader type<br><br>
+     * 0: discount
+     * 1: storage
+     * 2: whiteball
+     * 3: production
+     * @param status game status used to get the leaders' ids
+     * @param type type of leader, as explained in the part before
+     */
+    public static void printSpecificLeaders(GameStatusUpdate status, int type){
+        int idPlayer=status.getNextPlayer();
+            switch (type) {
+                case 0:
+                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<53) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<53) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                    break;
+                case 1:
+                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<57 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>52) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<57 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>52) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                    break;
+                case 2:
+                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<61 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>57) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<61 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>57) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                    break;
+                case 3:
+                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>60) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>60) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                    break;
+            }
+    }
+
+    /**
+     * prints all the leaders played by a player which corresponds to a specified leader type<br><br>
+     * 0: discount
+     * 1: storage
+     * 2: whiteball
+     * 3: production
+     * @param status game status used to get the leaders' ids
+     * @param type type of leader, as explained in the part before
+     */
+    public static void printSpecificPlayedLeaders(GameStatusUpdate status, int type){
+        int idPlayer=status.getNextPlayer();
+            switch (type) {
+                case 0:
+                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<53 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<53 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                    break;
+                case 1:
+                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<57 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>52 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<57 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>52 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                    break;
+                case 2:
+                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<61 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>57 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<61 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>57 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                    break;
+                case 3:
+                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>60 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>60 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                    break;
+
+            }
+
+    }
+
+    /**
+     * starts the production action. Sends a request to the server and forwards the answer to a nested method that handles further interactions with the server
+     * @param status gameStatus used deeper down the call tree
+     * @param client connection with the server
+     */
+    public static void ProductionActionStarter(GameStatusUpdate status, Client client){
+        Gson gson=new Gson();
+        ActionMessage message=new ActionMessage(TypeOfAction.ACTIVATE_PRDUCTION);
+        client.messageToServer(gson.toJson(message));
+
+        try{
+            String reply=client.messageFromServer();
+            ProductionActionMessage answer=gson.fromJson(reply, ProductionActionMessage.class);
+            handleProductionAnswer(answer, status, client);
+        }catch(IOException e){
+            System.out.println("disconnected from server");
+        }
+    }
+
+    /**
+     * handles the first case where the server either sends a request to know which productions to activate (AVAILABLE_PRODUCTIONS) or a denial of action (UNAVAILABLE_ACTION)
+     * the server answers unavailable action if the resources are 0 or the resources are less then 2 and no leader or development card is acquired by the client
+     * @param answer
+     * @param status
+     * @param client
+     */
+    public static void handleProductionAnswer(ProductionActionMessage answer, GameStatusUpdate status, Client client){
+        Gson gson=new Gson();
+        switch(answer.getAction()){
+            case AVAILABLE_PRODUCTIONS:
+                ProductionAction(status, gson.fromJson(answer.getObjectToSend(), boolean[].class), client);
+                try{
+                    answer=gson.fromJson(client.messageFromServer(), ProductionActionMessage.class);
+                    handleAnswerToProduction(answer, client);
+                }catch(IOException e){
+                    System.out.println("disconnected");
+                }
+
+                break;
+            case UNAVAILABLE_ACTION:
+                System.out.println("action cannot be completed!");
+                ViewState.setAction_aborted(true);
+                try{
+                    client.messageFromServer();
+                }catch(IOException e){
+                    System.out.println("disconnected");
+                }
+                break;
+
+        }
+    }
+
+    /**
+     * handles the final message from the server after sending the production selections, which is either a success or a failure
+     * @param answer answer from server
+     * @param client connection (used to recive an abort message)
+     */
+    public static void handleAnswerToProduction(ProductionActionMessage answer, Client client){
+        switch(answer.getAction()){
+            case UNAVAILABLE_ACTION:
+                System.out.println("action cannot be completed!");
+                ViewState.setAction_aborted(true);
+                try{
+                    client.messageFromServer();
+                }catch(IOException e){
+                    System.out.println("disconnected");
+                }
+                break;
+            case ACTION_SUCCESS:
+                System.out.println("Production is now completed!");
+                ViewState.setMainActionCompleted(true);
+                break;
+        }
+    }
+
+    /**
+     * prints the status of the slots and the status of the production leaders (if the client has played any), then asks to make a selection
+     * @param status gameStatus
+     * @param productionsUsable sent by the server this vector contains which productions are theoretically usable (does not check if a combination is still usable)
+     */
+    public static void  ProductionAction(GameStatusUpdate status, boolean[] productionsUsable, Client client){
+        System.out.println("you have chosen to use the Production Action, this is the state of your slots and (maybe) leaders:");
+        printTopOfSlots(status);
+        printSpecificPlayedLeaders(status, 3);
+        if(productionsUsable[0]) System.out.print("Select 0 if you want to activate the base production, ");
+        System.out.print("select 1-3 for the slots production (only if a card is available!)");
+        if(productionsUsable[4] ) System.out.print(", select 4 for the first leader production");
+        if(productionsUsable[5]) System.out.print(", select 5 for the second leader production");
+        System.out.println(" or write \"quit\" if you have finished:");
+        makeSelection(status, productionsUsable, client);
+    }
+
+    /**
+     * method that asks the client to select a production until the client selects "quit". the method invokes another method for handling all the extra interactions.
+     * after the client selects quit a message containing the final choice is sent to the server
+     * @param status gameStatus
+     * @param productionsUsable sent by the server this vector contains which productions are theoretically usable (does not check if a combination is still usable)
+     * @param client contains the serverConnection
+     */
+    public static void makeSelection(GameStatusUpdate status, boolean[] productionsUsable, Client client){
+        Gson gson=new Gson();
+        Scanner scanner=new Scanner(System.in);
+        String answer;
+        int selection=0;
+        int[] selections= {-1, -1, -1, -1, -1, -1, -1, -1};
+
+        do{
+            answer = scanner.nextLine();
+            if(!answer.equalsIgnoreCase("quit")){
+                try {
+                    selection = Integer.parseInt(answer);
+                    manageSelection(selection, productionsUsable, selections);
+                }catch (NumberFormatException e){
+                    System.out.println("You must insert a number! please retry");
+                }
+            }
+        }while(!answer.equalsIgnoreCase("quit"));
+        client.messageToServer(gson.toJson(selections));
+    }
+
+    /**
+     * handles all the client interactions after selecting a production.
+     * @param selection production selected in the makeSelection method
+     * @param productionsUsable sent by the server this vector contains which productions are theoretically usable (does not check if a combination is still usable)
+     * @param selectionsToModify vector that will be sent to the server with all the choices made
+     */
+    public static void manageSelection(int selection, boolean[] productionsUsable, int[] selectionsToModify){
+        Scanner scanner=new Scanner(System.in);
+        String answer;
+        if(selection<4 && selection>1){
+            if(productionsUsable[selection]){
+                if(selectionsToModify[selection+1]==-1){
+                    selectionsToModify[selection+1]= 1;
+                    System.out.println("Saved this selection! Insert A new number or write quit:");
+                }else{
+                    System.out.println("you have already selected this slot! please enter another number or quit:");
+                }
+            }else{
+                System.out.println("This slot is empty! Please enter another number or quit:");
+            }
+
+        }
+        else if(selection==0){
+            if(selectionsToModify[0]==-1 && selectionsToModify[1]==-1 && productionsUsable[0]){
+                System.out.println("now choose 2 numbers between 1 and 4 (representing the resources) to use in the base production\n1-> coins\n2-> servants\n3-> shields\n4->stones");
+                int selectedResource;
+                do{
+                    try{
+                        selectedResource=42;
+                        answer=scanner.nextLine();
+                        selectedResource=Integer.parseInt(answer);
+                        if(selectedResource<1 || selectedResource>4) throw new NumberFormatException();
+                        else{
+                            if(selectionsToModify[0]==-1) selectionsToModify[0]=selectedResource;
+                            else selectionsToModify[1]=selectedResource;
+                        }
+                    }catch(NumberFormatException e){
+                        System.out.println("please insert a valid value! retry:");
+                    }
+                }while(selectionsToModify[1]==-1);
+                System.out.println("Now choose which resource you want to get from the base production\n1-> coins\n2-> servants\n3-> shields\n4->stones");
+                do{
+                    try{
+                        selectedResource=42;
+                        answer=scanner.nextLine();
+                        selectedResource=Integer.parseInt(answer);
+                        if(selectedResource<1 || selectedResource>4) throw new NumberFormatException();
+                        else{
+                            selectionsToModify[7]= selectedResource;
+                        }
+                    }catch(NumberFormatException e){
+                        System.out.println("please insert a valid value! retry:");
+                    }
+                }while(selectionsToModify[7]==-1);
+                System.out.println("selection saved, please enter a new value or select quit:");
+            }else{
+                if(productionsUsable[0]) System.out.println("you have already selected the base production!");
+
+                else System.out.println("You don't have enough resources to activate the base production!");
+            }
+        }
+        else if(selection==4 || selection==5){
+            if(productionsUsable[selection] && selectionsToModify[selection+1]==-1){
+                System.out.println("now choose a number between 1 and 4 (representing the resources) to get in the leader production\n1-> coins\n2-> servants\n3-> shields\n4->stones");
+                int selectedResource;
+                do{
+                    try{
+                        selectedResource=42;
+                        answer=scanner.nextLine();
+                        selectedResource=Integer.parseInt(answer);
+                        if(selectedResource<1 || selectedResource>4) throw new NumberFormatException();
+                        else{
+                            selectionsToModify[selection+1]= selectedResource;
+                        }
+                    }catch(NumberFormatException e){
+                        System.out.println("please insert a valid value! retry:");
+                    }
+                }while(selectionsToModify[selection+1]==-1);
+                System.out.println("selection saved, please enter a new value or select quit:");
+            }else{
+                if(productionsUsable[selection]) System.out.println("you don't have this leader! please enter a new value:");
+                else{
+                    System.out.println("you already selected this leader! please enter a new value or quit");
+                }
+            }
+        }
+        else{
+            System.out.println("Insert a valid number or select quit! please retry:");
+        }
+    }
+
 
 }

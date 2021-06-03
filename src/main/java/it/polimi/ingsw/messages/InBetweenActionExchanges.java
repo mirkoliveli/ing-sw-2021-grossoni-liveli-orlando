@@ -2,5 +2,7 @@ package it.polimi.ingsw.messages;
 
 public enum InBetweenActionExchanges {
     CHOOSE_A_DEPOT,
-    UNAVAILABLE_ACTION;
+    AVAILABLE_PRODUCTIONS,
+    UNAVAILABLE_ACTION,
+    ACTION_SUCCESS;
 }
