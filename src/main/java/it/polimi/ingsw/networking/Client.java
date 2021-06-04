@@ -108,7 +108,7 @@ public class Client {
                     System.out.println("Not a valid number!");
                 }
                 value = input.nextInt();
-                System.out.println(value);
+                //System.out.println(value);
                 if (value == 2 || value == 3 || value == 4) break;
             }
             String name = input.nextLine();//serve sennò mi legge subito il primo spazio!!!!!!!!!!!!!!!!
@@ -128,7 +128,7 @@ public class Client {
         //joino come giocatore non 1
         else {
 
-            System.out.println("\nWelcome, this lobby has, at the moment, " + loginMessage.getNumOfPlayersInRoom() + " active players, so you will be the " + (loginMessage.getNumOfPlayersInRoom() + 1) + "player.");
+            System.out.println("\nWelcome, this lobby has, at the moment, " + loginMessage.getNumOfPlayersInRoom() + " active players, so you will be the " + (loginMessage.getNumOfPlayersInRoom() + 1) + " player.");
             System.out.println("Please enter a username: ");
             Scanner input = new Scanner(System.in);
             String name;

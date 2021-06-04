@@ -132,6 +132,9 @@ public class ClientHandler extends Thread {
             case PLAY_OR_DISCARD_LEADER:
                 PlayOrDiscardLeaders(action.getActionAsMessage());
                 break;
+            case DEBUG_MODE:
+                cheatModeEnabler();
+                break;
             default:
                 break;
         }
@@ -458,6 +461,10 @@ public class ClientHandler extends Thread {
             }
         }
         clientConnect.getClientConnection().messageToClient("end");
+    }
+
+    public void cheatModeEnabler(){
+        match.getPlayers().get(idPlayer-1).getBoard().getStrongbox().store(new int[]{999, 999, 999, 999});
     }
 
 }

@@ -7,5 +7,6 @@ public enum TypeOfAction {
     BUY_A_CARD,
     ACTIVATE_PRDUCTION,
     SWAP_DEPOTS,
-    PLAY_OR_DISCARD_LEADER
+    PLAY_OR_DISCARD_LEADER,
+    DEBUG_MODE
 }

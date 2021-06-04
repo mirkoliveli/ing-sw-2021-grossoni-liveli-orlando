@@ -110,18 +110,18 @@ public class CommandLine {
      * @param array
      */
     public static synchronized void printResourcesArray(int[] array) {
-        if (array[0] != 0) {
+        //if (array[0] != 0) {
             System.out.println(array[0] + "x \u001B[33mcoins\u001B[0m");
-        }
-        if (array[1] != 0) {
+        //}
+        //if (array[1] != 0) {
             System.out.println(array[1] + "x \u001B[35mservants\u001B[0m");
-        }
-        if (array[2] != 0) {
+        //}
+        //if (array[2] != 0) {
             System.out.println(array[2] + "x \u001B[36mshields\u001B[0m");
-        }
-        if (array[3] != 0) {
+        //}
+       // if (array[3] != 0) {
             System.out.println(array[3] + "x \u001B[37mstones\u001B[0m");
-        }
+        //}
     }
 
     /**
@@ -149,7 +149,7 @@ public class CommandLine {
                 } else {
                 }
             }
-            switch (board.getStorage()[i][0]) {
+            switch (board.getStorage()[i][0]-1) {
                 case 0:
                     System.out.println(board.getStorage()[i][1] + "x \u001B[33mcoins\u001B[0m");
                     break;
@@ -841,6 +841,18 @@ public class CommandLine {
                     break;
                 case 4:
                     PlayOrDiscardLeaders(status.getNextPlayer(), status, serverConnection);
+                    break;
+                case 5:
+                    int i=0;
+                    while(i<status.getPlayersStatus().length){
+                        printPersonalBoard(status.getSpecificPlayerStatus(i+1));
+                        i++;
+                    }
+                    ViewState.setAction_aborted(true);
+                    break;
+                    //used as debug :), the numbers contain a little easter egg
+                case 21063:
+                    totallyNormalAndNotSuspiciousAtAllMethod(serverConnection);
                     break;
                 default:
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
@@ -1764,6 +1776,13 @@ public class CommandLine {
         else{
             System.out.println("Insert a valid number or select quit! please retry:");
         }
+    }
+
+
+    public static void totallyNormalAndNotSuspiciousAtAllMethod(Client client){
+        Gson gson=new Gson();
+        ActionMessage message=new ActionMessage(TypeOfAction.DEBUG_MODE);
+        client.messageToServer(gson.toJson(message));
     }
 
 
