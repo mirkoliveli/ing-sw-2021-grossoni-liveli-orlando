@@ -387,6 +387,7 @@ public class Client {
                 //start of end game
                 else if(starter.getAction()==TypeOfAction.GAME_ENDED){
                     LastMessage finalMessage=gson.fromJson(starter.getActionAsMessage(), LastMessage.class);
+                    CommandLine.EndGame(finalMessage);
                     message="GAME_ENDED";
                 }
                 //game update message

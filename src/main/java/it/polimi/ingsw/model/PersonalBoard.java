@@ -51,8 +51,11 @@ public class PersonalBoard {
 
     public int countTotalCards() {
         int totCards = 0;
+        if(developmentSlot1.get_top()!=null)
         totCards = developmentSlot1.get_top().getLevel() + totCards;
+        if(developmentSlot2.get_top()!=null)
         totCards = developmentSlot2.get_top().getLevel() + totCards;
+        if(developmentSlot3.get_top()!=null)
         totCards = developmentSlot3.get_top().getLevel() + totCards;
         return totCards;
     }
