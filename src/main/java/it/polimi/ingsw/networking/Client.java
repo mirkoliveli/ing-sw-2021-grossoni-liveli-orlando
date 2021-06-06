@@ -26,6 +26,9 @@ public class Client {
         this.port = port;
     }
 
+    public Socket getConnection() {
+        return connection;
+    }
 
     public boolean isLoggedInGame() {
         return loggedInGame;
@@ -100,7 +103,7 @@ public class Client {
 
         //qua va primo user login
         if (loginMessage.getNumOfPlayersInRoom() == 0 && loginMessage.isSuccessfulLogin()) {
-            System.out.println("Welcome! You are the first player of this lobby Multiplayer\nChoose how many players will join this game (write a number between 2 and 4:");
+            System.out.println("Welcome! You are the first player of this lobby Multiplayer\nChoose how many players will join this game (write a number between 2 and 4):");
             Scanner input = new Scanner(System.in);
             int value = -2345;
             while (true) {

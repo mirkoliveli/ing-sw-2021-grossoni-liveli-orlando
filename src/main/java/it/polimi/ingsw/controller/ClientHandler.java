@@ -347,6 +347,7 @@ public class ClientHandler extends Thread {
                 BuyACardActionMessage nextChoice=new BuyACardActionMessage(CHOOSE_A_DEPOT, gson.toJson(match.getPlayers().get(idPlayer-1).getBoard().whereCanIPlaceTheCard(temp.getLevel())));
                 clientConnection.messageToClient(gson.toJson(nextChoice));
                 messageFromC=clientConnection.messageFromClient();
+                //add check fro slot=1-3
                 int slot=gson.fromJson(messageFromC, int.class);
                 match.getPlayers().get(idPlayer-1).getBoard().getSlot(slot).placeCard(temp);
                 mainAction=true;

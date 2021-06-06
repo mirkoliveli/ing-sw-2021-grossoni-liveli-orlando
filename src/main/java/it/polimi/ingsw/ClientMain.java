@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class ClientMain {
 
-    //79.36.195.214
+    //87.15.145.156
 
     public static void main(String[] args) throws IOException {
 
@@ -21,8 +21,9 @@ public class ClientMain {
         System.out.print("\nPlease type in port number: ");
         int portNumber = Integer.parseInt(scn.nextLine());
         Client client = new Client(ip, portNumber);
-
         //login phase
+
+        //
         while (!client.isLoggedInGame()) {
             client.StartingConnection();
         }
@@ -41,6 +42,7 @@ public class ClientMain {
 
         System.out.println("game finished, exiting client");
 
+        client.getConnection().close();
     }
 
 }

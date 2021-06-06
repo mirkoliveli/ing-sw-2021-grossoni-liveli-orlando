@@ -856,6 +856,7 @@ public class CommandLine {
                     break;
                 default:
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
+                    ViewState.setAction_aborted(true);
                     break;
             }
             if(!ViewState.isAction_aborted()){
@@ -897,12 +898,14 @@ public class CommandLine {
                     }
                     ViewState.setAction_aborted(true);
                     break;
+                    //little easter egg
                 case 97532044:
                     instantFinish(serverConnection);
                     break;
 
                 default:
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
+                    ViewState.setAction_aborted(true);
                     break;
             }
             //nota che se l'azione viene abortita con questo passaggio si va in deadlock, modificare una volta terminato il testing preliminare
@@ -1497,7 +1500,7 @@ public class CommandLine {
         Scanner scanner=new Scanner(System.in);
         String answer;
         int depotChosen=0;
-        System.out.println("please choose a depot:");
+        System.out.println("please choose a slot:");
         do {
             try {
                 answer = scanner.nextLine();
