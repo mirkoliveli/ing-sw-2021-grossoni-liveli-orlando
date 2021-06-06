@@ -99,7 +99,7 @@ public class DevelopmentCardSlot {
     public void pvSlot() {
         int totpv = 0;
         int position = 0;
-        while (vectorSlot[position] != null) {
+        while (position < 3 && vectorSlot[position] != null) {
             totpv = totpv + vectorSlot[position].getPv();
             position++;
         }
