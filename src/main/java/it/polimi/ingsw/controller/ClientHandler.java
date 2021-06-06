@@ -33,15 +33,31 @@ public class ClientHandler extends Thread {
      */
     public void TurnPhase(){
         while(!GameState.isGameEndedPhase()) {
-            while (idPlayer != GameState.getIdOfPlayerInTurn()) {
+            while (idPlayer != GameState.getIdOfPlayerInTurn() && GameState.isTurnPhase()) {
                 waitingMyTurn();
             }
             //System.out.println("sei in turnphase prima di turn manager");
-            System.out.println("inizio turno di giocatore " + idPlayer);
-            turnManager();
-            System.out.println("finito turno di giocatore " + idPlayer);
-            GameState.changeTurn();
+            if(GameState.isTurnPhase()){
+                System.out.println("Starting turn of player " + idPlayer);
+                turnManager();
+                System.out.println("ending turn of player " + idPlayer);
+                //check if someone finished
+                if(match.hasSomeoneFinished()){
+                    handleSomeoneFinishedMoment();
+                }
+                if(GameState.isTurnPhase())GameState.changeTurn();
+            }
+
+            if(GameState.isLastTurnPhase()){
+                if(GameState.getHasRightToLastTurn()[idPlayer-1]){
+                    handleLastTurn();
+                }
+                avoidCheckLoop();
+            }
         }
+        avoidCheckLoop();
+        SendGameEndMessage();
+
     }
 
     private void resetTurnStatus(){
@@ -67,7 +83,7 @@ public class ClientHandler extends Thread {
             //System.out.println("sei in turn manager prima di handleanswer");
         handleAnswer();
         }
-
+        match.UpdatesAllPlayersVictoryPoints(false);
     }
 
 
@@ -120,6 +136,7 @@ public class ClientHandler extends Thread {
                     mainAction=true;
                 }
                 else{
+                    //might need a revision
                     clientConnection.messageToClient("Operation denied");
                     clientConnection.messageToClient("Action aborted! You already took an action during this turn!");
                 }
@@ -135,9 +152,13 @@ public class ClientHandler extends Thread {
             case DEBUG_MODE:
                 cheatModeEnabler();
                 break;
+            case INSTANT_FINISH:
+                instantFinish();
+                break;
             default:
                 break;
         }
+        match.UpdatesAllPlayersVictoryPoints(false);
         clientConnection.messageToClient(StaticMethods.GameStatusString(match, idPlayer));
     }
 
@@ -180,7 +201,7 @@ public class ClientHandler extends Thread {
                     clientConnection.messageToClient(gson.toJson(ans));
                 }
             }catch(GameIsEnding e){
-                System.out.println("gestisci dopo");
+                System.out.println("player " + idPlayer + " reached an end game status");
             }
         }
         if(choice[1]==1){
@@ -199,7 +220,6 @@ public class ClientHandler extends Thread {
 
             }
         }
-
     }
 
     /**
@@ -274,7 +294,7 @@ public class ClientHandler extends Thread {
                 ProductionActionMessage message=new ProductionActionMessage(UNAVAILABLE_ACTION, "");
                 clientConnection.messageToClient(gson.toJson(message));
             }catch(GameIsEnding e){
-                //gestisci dopo
+                System.out.println("player " + idPlayer + " reached an end game status");
             }
         }else{
             ProductionActionMessage message=new ProductionActionMessage(UNAVAILABLE_ACTION, "");
@@ -374,15 +394,15 @@ public class ClientHandler extends Thread {
         }
 
         // stampa resources
-        for(int i=0; i<6; i++){
-            System.out.println(i + " resource " + resourcesGained[i]);
-        }
+        //for(int i=0; i<6; i++){
+        //    System.out.println(i + " resource " + resourcesGained[i]);
+        //}
         match.getMarket().ChangeBoard(!action.isChoice(), action.getNumber());
         if(resourcesGained[4]>0){
             try {
                 match.MoveInFaithTrack(1, idPlayer);
             }catch(GameIsEnding e){
-                System.out.println("gestisci dopo");
+                System.out.println("player " + idPlayer + " reached an end game status");
             }
         }
         int[] actualResources={resourcesGained[0], resourcesGained[1], resourcesGained[2], resourcesGained[3]};
@@ -463,8 +483,70 @@ public class ClientHandler extends Thread {
         clientConnect.getClientConnection().messageToClient("end");
     }
 
+    public void handleSomeoneFinishedMoment(){
+        GameState.setHasRightToLastTurn(match.getPlayers().size(), match.whoHasFinished());
+        if(StaticMethods.AreAnyTrue(GameState.getHasRightToLastTurn())){
+            GameState.setPhase(3);
+            GameState.changeTurn();
+        }
+        else{
+            GameState.setPhase(4);
+        }
+    }
+
+    public void handleLastTurn(){
+        Gson gson=new Gson();
+        while(idPlayer!=GameState.getIdOfPlayerInTurn()){
+            waitingMyTurn();
+        }
+        //send message to client stating that your last turn will begin shortly
+        ActionMessage SendlastTurn=new ActionMessage(TypeOfAction.BEGIN_LAST_TURN);
+        clientConnection.messageToClient(gson.toJson(SendlastTurn));
+        //start the actual last turn
+        System.out.println("Starting turn of player " + idPlayer);
+        turnManager();
+        System.out.println("ending turn of player " + idPlayer);
+        //change status, set lastTurn to false, change gameState status if everyone finished
+        GameState.setSpecificLastTurnPlayer(idPlayer, false);
+        if(StaticMethods.AreAnyTrue(GameState.getHasRightToLastTurn())) GameState.changeTurn();
+        else GameState.setPhase(4);
+    }
+
+    /**
+     * method used to not check in a loop
+     */
+    public void avoidCheckLoop(){
+        while(!GameState.isGameEndedPhase()){
+            try {
+                Thread.sleep(1000);
+            }catch(InterruptedException e){
+                System.out.println("interrupted while sleeping");
+            }
+        }
+    }
+
+    /**
+     * last message containing the info about who won, and how many victory points the winner and the player had. Also contains a boolean stating if the player is the winner
+     */
+    public void SendGameEndMessage(){
+        Gson gson=new Gson();
+        int winnerID= match.whoHasWon();
+        LastMessage finalmex= new LastMessage(match.getPlayers().get(winnerID-1).getName(), match.getPlayers().get(winnerID-1).getVictoryPoints(), match.getPlayers().get(idPlayer-1).getVictoryPoints(), winnerID==idPlayer);
+        String mex=gson.toJson(finalmex);
+        ActionMessage lastMessage= new ActionMessage(TypeOfAction.GAME_ENDED);
+        lastMessage.EndGameMessage(mex);
+
+        clientConnection.messageToClient(gson.toJson(lastMessage));
+    }
+
     public void cheatModeEnabler(){
         match.getPlayers().get(idPlayer-1).getBoard().getStrongbox().store(new int[]{999, 999, 999, 999});
     }
+
+    public void instantFinish(){
+        match.getPlayers().get(idPlayer-1).getBoard().getFaithTrack().setFaithMarker(24);
+    }
+
+
 
 }

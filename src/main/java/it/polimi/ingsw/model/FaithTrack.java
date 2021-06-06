@@ -243,6 +243,10 @@ public class FaithTrack {
         return third;
     }
 
+    //should not use if not for debug
+    public void setFaithMarker(int faithMarker) {
+        this.faithMarker = faithMarker;
+    }
 
     //serve a prevedere se con la prossima azione (viene passato il movimento totale come parametro) viene attivata
     //qualche zona papale, viene usato un parametro vettore nel remoto caso vengano attivate più zone con un solo movimento

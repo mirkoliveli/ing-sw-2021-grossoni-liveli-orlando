@@ -163,6 +163,55 @@ public class MatchMultiPlayer {
         return playerStats;
     }
 
+    /**
+     * updates all players victoryPoints
+     * @param checkForResources true if resources should be counted for the victory points (only usefule in the endGame scenario), false otherrwise
+     */
+    public void UpdatesAllPlayersVictoryPoints(boolean checkForResources){
+        for(int i=0; i<players.size(); i++){
+            players.get(i).updateVictoryPoints(checkForResources);
+        }
+    }
+
+    /**
+     * method that checks if someone has reached an endGame condition and returns the player id (if someone did it)
+     * @return id of player who reached the end game condition or 0 if nobody did it yet
+     */
+    public int whoHasFinished(){
+        for(int i=0; i< players.size(); i++){
+            if(players.get(i).hasPlayerFinished()) return i+1;
+        }
+        return 0;
+    }
+
+    /**
+     * method that checks if any player has reached an endGame condition (faithmarker ==24 or number of development cards==7)
+     * @return true if someone finished, false otherwise
+     */
+    public boolean hasSomeoneFinished(){
+        for(int i=0; i< players.size(); i++){
+            if(players.get(i).hasPlayerFinished()) return true;
+        }
+        return false;
+    }
+
+    /**
+     * method that updates all the victory points then return the id of the player with max points
+     * @return
+     */
+    public int whoHasWon(){
+        UpdatesAllPlayersVictoryPoints(true);
+        int idOfMaxVP=-1;
+        int maxPoints=-1;
+        for(int i=0; i< players.size(); i++){
+            if(players.get(i).getVictoryPoints()>maxPoints){
+                maxPoints=players.get(i).getVictoryPoints();
+                idOfMaxVP=i+1;
+            }
+        }
+        return idOfMaxVP;
+    }
+
 //----------------------------------------------------------------------------------------------------------------------
 
     //getters e setters

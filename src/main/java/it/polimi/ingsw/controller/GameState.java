@@ -19,6 +19,7 @@ public class GameState {
     private static int idOfPlayerInTurn; //tracker for the player taking the action
     private static int winnerId; //tracker for the winner of the game
     private static int joinedPlayers;
+    private static boolean[] hasRightToLastTurn;
 
 
     public GameState() {
@@ -177,5 +178,31 @@ public class GameState {
 
     public static void setJoinedPlayers(int joinedPlayers) {
         GameState.joinedPlayers = joinedPlayers;
+    }
+
+    /**
+     * creates a boolean array stating which player has the right to a last turn.
+     * @param numOfPlayers number of players
+     * @param IDofWhoHasFinished ID of whom has reached first the end of a faithTrack or has acquired 7 development cards
+     */
+    public static void setHasRightToLastTurn(int numOfPlayers, int IDofWhoHasFinished){
+        hasRightToLastTurn=new boolean[numOfPlayers];
+        for(int i=0; i< hasRightToLastTurn.length; i++){
+            if(i>=IDofWhoHasFinished) hasRightToLastTurn[i]=true;
+        }
+    }
+
+    /**
+     * returns the array stating which players can take another turn in the end game
+     * @return boolean array (size= numOfPlayers
+     */
+    public static boolean[] getHasRightToLastTurn() {
+        return hasRightToLastTurn;
+    }
+
+    public static void setSpecificLastTurnPlayer(int idPlayer, boolean status){
+        if(hasRightToLastTurn!=null){
+            hasRightToLastTurn[idPlayer-1]=status;
+        }
     }
 }

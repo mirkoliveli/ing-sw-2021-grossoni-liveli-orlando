@@ -357,6 +357,7 @@ public class Client {
      * BUT FOR NOW IT'S JUST USED AS A METHOD TO TRY THE TURN SECTION, NEED TO BE REVISED ASAP
      */
     public void GameStarted(){
+        Gson gson = new Gson();
         String message="";
         do {
             try {
@@ -365,16 +366,39 @@ public class Client {
                 System.out.println("connection lost!");
             }
             if (message.contains("action")) {
-                Gson gson = new Gson();
+
                 ActionMessage starter=gson.fromJson(message, ActionMessage.class);
 
-                CommandLine.turnMgmt(starter.getActionAsMessage(), this);
+                //start of normal turn
+                if(starter.getAction()!=TypeOfAction.GAME_ENDED && starter.getAction()!=TypeOfAction.GAME_UPDATE && starter.getAction()!=TypeOfAction.BEGIN_LAST_TURN){
+                    CommandLine.turnMgmt(starter.getActionAsMessage(), this);
+                }
+                //start of last turn
+                else if(starter.getAction()==TypeOfAction.BEGIN_LAST_TURN){
+                    System.out.println("Someone has finished the game, soon will commence your last turn!");
+                    try {
+                        message = messageFromServer();
+                        ActionMessage lastTurn=gson.fromJson(message, ActionMessage.class);
+                        CommandLine.turnMgmt(lastTurn.getActionAsMessage(), this);
+                    } catch (IOException e) {
+                        System.out.println("connection lost!");
+                    }
+                }
+                //start of end game
+                else if(starter.getAction()==TypeOfAction.GAME_ENDED){
+                    LastMessage finalMessage=gson.fromJson(starter.getActionAsMessage(), LastMessage.class);
+                    message="GAME_ENDED";
+                }
+                //game update message
+                else if(starter.getAction()==TypeOfAction.GAME_UPDATE){
+                    //to be finished
+                }
 
             }
             else{
                 System.out.println("some problems with the server");
             }
-        } while (!message.equals("Someone finished"));
+        } while (!message.equals("GAME_ENDED"));
     }
 
 }
