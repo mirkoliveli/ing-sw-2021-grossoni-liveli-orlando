@@ -93,6 +93,7 @@ public class ThreadedServer extends Thread {
 
         //messo per non killare subito il thread, così posso testare riconnessioni
         try {
+            System.out.println("game finished");
             Thread.sleep(600000);
         } catch (InterruptedException e) {
             System.out.println("error while waiting");

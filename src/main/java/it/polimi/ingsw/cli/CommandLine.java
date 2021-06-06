@@ -110,18 +110,18 @@ public class CommandLine {
      * @param array
      */
     public static synchronized void printResourcesArray(int[] array) {
-        if (array[0] != 0) {
+        //if (array[0] != 0) {
             System.out.println(array[0] + "x \u001B[33mcoins\u001B[0m");
-        }
-        if (array[1] != 0) {
+        //}
+        //if (array[1] != 0) {
             System.out.println(array[1] + "x \u001B[35mservants\u001B[0m");
-        }
-        if (array[2] != 0) {
+        //}
+        //if (array[2] != 0) {
             System.out.println(array[2] + "x \u001B[36mshields\u001B[0m");
-        }
-        if (array[3] != 0) {
+        //}
+       // if (array[3] != 0) {
             System.out.println(array[3] + "x \u001B[37mstones\u001B[0m");
-        }
+        //}
     }
 
     /**
@@ -149,7 +149,7 @@ public class CommandLine {
                 } else {
                 }
             }
-            switch (board.getStorage()[i][0]) {
+            switch (board.getStorage()[i][0]-1) {
                 case 0:
                     System.out.println(board.getStorage()[i][1] + "x \u001B[33mcoins\u001B[0m");
                     break;
@@ -842,6 +842,18 @@ public class CommandLine {
                 case 4:
                     PlayOrDiscardLeaders(status.getNextPlayer(), status, serverConnection);
                     break;
+                case 5:
+                    int i=0;
+                    while(i<status.getPlayersStatus().length){
+                        printPersonalBoard(status.getSpecificPlayerStatus(i+1));
+                        i++;
+                    }
+                    ViewState.setAction_aborted(true);
+                    break;
+                    //used as debug :), the numbers contain a little easter egg
+                case 21063:
+                    totallyNormalAndNotSuspiciousAtAllMethod(serverConnection);
+                    break;
                 default:
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
                     break;
@@ -876,8 +888,19 @@ public class CommandLine {
                     EndTurn(serverConnection);
                     if(ViewState.isTurn_ended()){
                     actionChosen = true;}
-
                     break;
+                case 5:
+                    int i=0;
+                    while(i<status.getPlayersStatus().length){
+                        printPersonalBoard(status.getSpecificPlayerStatus(i+1));
+                        i++;
+                    }
+                    ViewState.setAction_aborted(true);
+                    break;
+                case 97532044:
+                    instantFinish(serverConnection);
+                    break;
+
                 default:
                     System.out.println("\u001B[31mInvalid input!\u001B[0m");
                     break;
@@ -1493,10 +1516,10 @@ public class CommandLine {
 
     /**
      * prints all the leaders possessed by a player which corresponds to a specified leader type<br><br>
-     * 0: discount
-     * 1: storage
-     * 2: whiteball
-     * 3: production
+     * 0: discount<br>
+     * 1: storage<br>
+     * 2: whiteball<br>
+     * 3: production<br>
      * @param status game status used to get the leaders' ids
      * @param type type of leader, as explained in the part before
      */
@@ -1524,10 +1547,10 @@ public class CommandLine {
 
     /**
      * prints all the leaders played by a player which corresponds to a specified leader type<br><br>
-     * 0: discount
-     * 1: storage
-     * 2: whiteball
-     * 3: production
+     * 0: discount<br>
+     * 1: storage<br>
+     * 2: whiteball<br>
+     * 3: production<br>
      * @param status game status used to get the leaders' ids
      * @param type type of leader, as explained in the part before
      */
@@ -1764,6 +1787,33 @@ public class CommandLine {
         else{
             System.out.println("Insert a valid number or select quit! please retry:");
         }
+    }
+
+    /**
+     * method used when the game is finished. It prints the final result for the winner and the player
+     * @param finalMessage final message sent by the server
+     */
+    public static void EndGame(LastMessage finalMessage){
+        if(finalMessage.doYouWin()){
+            System.out.println("You have won with a total score of "+ finalMessage.getWinnerVP() + "!!!");
+        }
+        else{
+            System.out.println("Unfortunately you have not won, the winner is " + finalMessage.getWinnerName() + " with a total score of " + finalMessage.getWinnerVP());
+            System.out.println("But you still scored " + finalMessage.getPlayerVP() + " total points!!!");
+        }
+    }
+
+
+    public static void totallyNormalAndNotSuspiciousAtAllMethod(Client client){
+        Gson gson=new Gson();
+        ActionMessage message=new ActionMessage(TypeOfAction.DEBUG_MODE);
+        client.messageToServer(gson.toJson(message));
+    }
+
+    public static void instantFinish(Client client){
+        Gson gson=new Gson();
+        ActionMessage message=new ActionMessage(TypeOfAction.INSTANT_FINISH);
+        client.messageToServer(gson.toJson(message));
     }
 
 

@@ -39,7 +39,7 @@ public class ClientMain {
 
         client.GameStarted();
 
-        System.out.println("end_waiting");
+        System.out.println("game finished, exiting client");
 
     }
 

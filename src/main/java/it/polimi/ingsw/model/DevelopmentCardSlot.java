@@ -88,6 +88,7 @@ public class DevelopmentCardSlot {
                 i++;
             }
             vectorSlot[i] = new DevelopmentCard(CardToPlace);
+            pvSlot();
             return true;
         }
     }
@@ -95,9 +96,8 @@ public class DevelopmentCardSlot {
     /**
      * method that updates the victory points of the slot
      */
-    // Method that set the slot's total amount of victory point
     public void pvSlot() {
-        int totpv = getSlotPV();
+        int totpv = 0;
         int position = 0;
         while (vectorSlot[position] != null) {
             totpv = totpv + vectorSlot[position].getPv();
@@ -120,6 +120,18 @@ public class DevelopmentCardSlot {
     public DevelopmentCard getCard(int stacked) {
         if (vectorSlot[stacked] != null) return vectorSlot[stacked];
         else return null;
+    }
+
+    /**
+     * counts the number of cards in the slot
+     * @return number of cards in the slot
+     */
+    public int numberOfCardsInSlot(){
+        int countCards=0;
+        for(int i=0; i<3; i++){
+            if(getCard(i)!=null) countCards++;
+        }
+        return countCards;
     }
 }
 

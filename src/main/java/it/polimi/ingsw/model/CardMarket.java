@@ -193,9 +193,7 @@ public class CardMarket {
         } catch (CardNotFoundException e) {
             return null;            //volendo si può cambiare facendo lanciare a sua volta una eccezione
         }
-        for (int i : temp.getCost()) {
-            copyCost[i] = temp.getCost()[i];
-        }
+        copyCost= temp.getCost().clone();
         return copyCost;
     }
 

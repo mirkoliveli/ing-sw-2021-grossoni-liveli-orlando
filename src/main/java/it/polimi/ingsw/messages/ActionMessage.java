@@ -125,4 +125,8 @@ public class ActionMessage {
 
     }
 
+    public void EndGameMessage(String lastMessage){
+        ActionAsMessage=lastMessage;
+    }
+
 }

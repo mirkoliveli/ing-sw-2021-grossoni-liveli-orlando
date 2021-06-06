@@ -352,5 +352,33 @@ public class Player {
             return actionableProductions;
     }
 
+    /**
+     * method that updates the player victory points. It checks if the player gets any points from resources in some cases
+     * @param alsoCheckResources if given true the method checks for victory points given by resources
+     */
+    public void updateVictoryPoints(boolean alsoCheckResources){
+        int totalPoints=0;
+        if(alsoCheckResources){
+            board.setBoardVictoryPoints();
+        }
+        else{
+            board.setBoardVictoryPointsIgnoreResources();
+        }
+        totalPoints+= board.getBoardVictoryPoints();
+        if(leaderCard1.checkIfPlayed()) totalPoints+=leaderCard1.getPv();
+        if(leaderCard2.checkIfPlayed()) totalPoints+=leaderCard2.getPv();
+        this.victoryPoints=totalPoints;
+    }
+
+    /**
+     * method that checks if a player has reached an end game status
+     * @return true if a player has reached an end game status, false otherwise (faithTrack completed OR 7 development cards obtained)
+     */
+    public boolean hasPlayerFinished(){
+        if(board.countTotalCards()==7) return true;
+        if(board.getFaithTrack().getFaithMarker()==24) return true;
+        return false;
+    }
+
 
 }

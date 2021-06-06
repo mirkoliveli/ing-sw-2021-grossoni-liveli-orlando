@@ -51,8 +51,11 @@ public class PersonalBoard {
 
     public int countTotalCards() {
         int totCards = 0;
+        if(developmentSlot1.get_top()!=null)
         totCards = developmentSlot1.get_top().getLevel() + totCards;
+        if(developmentSlot2.get_top()!=null)
         totCards = developmentSlot2.get_top().getLevel() + totCards;
+        if(developmentSlot3.get_top()!=null)
         totCards = developmentSlot3.get_top().getLevel() + totCards;
         return totCards;
     }
@@ -190,6 +193,16 @@ public class PersonalBoard {
         this.boardVictoryPoints = boardVictoryPoints;
     }
 
+    /**
+     * Updates the board victory points but ignores the resources, this method is used during the game, where having more than 5 resources can change very fast during a turn, so it's useless to keep track of that value
+     * at the end of the game the setBoardVictoryPoints should be used instead
+     */
+    public void setBoardVictoryPointsIgnoreResources(){
+        int boardVictoryPoints;
+        boardVictoryPoints = developmentSlot1.getSlotPV() + developmentSlot2.getSlotPV() + developmentSlot3.getSlotPV() + faithTrack.TotalVictoryPointsFaithTrack();
+        this.boardVictoryPoints = boardVictoryPoints;
+    }
+
     public FaithTrack getFaithTrack() {
         return faithTrack;
     }
@@ -264,5 +277,16 @@ public class PersonalBoard {
         return placeable;
     }
 
+    /**
+     * Counts the total number of cards in the 3 slots
+     * @return total number of cards in the 3 slots
+     */
+    public int numberOfDevelopmentCards(){
+        int tot=0;
+        for(int i=1; i<4; i++){
+            tot+= getSlot(i).numberOfCardsInSlot();
+        }
+        return tot;
+    }
 
 }
