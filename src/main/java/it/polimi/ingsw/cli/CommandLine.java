@@ -138,6 +138,25 @@ public class CommandLine {
                 printDevelopmentCard(developmentBoard[i]);
             }
         }
+        printStorageStatus(board);
+        System.out.println("\nAvailable resources in strongbox:");
+        printResourcesArray(board.getStrongBox());
+        System.out.println("\nLeader cards:");
+        if (board.isFirstLeaderPlayed()) {
+            printLeader(board.getFirstLeader());
+        }
+        if (board.isSecondLeaderPlayed()) {
+            printLeader(board.getSecondLeader());
+        }
+        System.out.println("\nVictory points: \u001B[32m" + board.getPv() + "\u001B[0m");
+    }
+
+    /**
+     * prints a status of a player storage
+     * @param board player status object
+     */
+    public static void printStorageStatus(PlayerUpdate board) {
+        int j=0;
         System.out.println("Available resources in storage:");
         for (int i = 0; i < 5; i++) {
             if (i < 3) {
@@ -149,7 +168,7 @@ public class CommandLine {
                 } else {
                 }
             }
-            switch (board.getStorage()[i][0]-1) {
+            switch (board.getStorage()[i][0] - 1) {
                 case 0:
                     System.out.println(board.getStorage()[i][1] + "x \u001B[33mcoins\u001B[0m");
                     break;
@@ -163,21 +182,13 @@ public class CommandLine {
                     System.out.println(board.getStorage()[i][1] + "x \u001B[37mstones\u001B[0m");
                     break;
                 default:
+                    if (board.getStorage()[i][0] != -1) {
+                        System.out.println("empty");
+                    }
                     break;
             }
         }
-        System.out.println("\nAvailable resources in strongbox:");
-        printResourcesArray(board.getStrongBox());
-        System.out.println("\nLeader cards:");
-        if (board.isFirstLeaderPlayed()) {
-            printLeader(board.getFirstLeader());
-        }
-        if (board.isSecondLeaderPlayed()) {
-            printLeader(board.getSecondLeader());
-        }
-        System.out.println("\nVictory points: \u001B[32m" + board.getPv() + "\u001B[0m");
     }
-
     /**
      * startingLeaders is invoked at the beginning of a game to help a user choose his initial leaders
      *
@@ -797,6 +808,9 @@ public class CommandLine {
      * @param serverConnection connection with the server
      */
     public static synchronized void turnMgmt(String inputJson, Client serverConnection) {
+        //should clear the console when using the jar? does not work on intellij tho
+        System.out.println("\033[H\033[2J");
+
         developmentPopulate("src/main/resources/devCards.json");
         ViewState.resetTurn();
         Gson gson = new Gson();
@@ -1017,6 +1031,8 @@ public class CommandLine {
         boolean rowOrColumn = false; // vale 0 se viene scelta una riga, 1 se viene scelta una colonna
         boolean chosen = false;
 
+        printStorageStatus(status.getSpecificPlayerStatus(status.getNextPlayer()));
+        System.out.println();
         marbleMarketStatus(tray, slide);
 
         while (!chosen) {

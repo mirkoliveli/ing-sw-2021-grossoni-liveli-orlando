@@ -19,6 +19,7 @@ public class GameState {
     private static int idOfPlayerInTurn; //tracker for the player taking the action
     private static int winnerId; //tracker for the winner of the game
     private static int joinedPlayers;
+    private static boolean[] DisconnectedPlayers;
     private static boolean[] hasRightToLastTurn;
 
 
@@ -46,7 +47,7 @@ public class GameState {
 
 
     /**
-     * method that changes the player in turn
+     * method that changes the player in turn, if a player is set as disconnected then the player is skipped and the method recalls itself
      */
     public synchronized static void changeTurn(){
         if(idOfPlayerInTurn==totalPlayersNumber) idOfPlayerInTurn=1;
@@ -54,6 +55,7 @@ public class GameState {
             int i=idOfPlayerInTurn+1;
             idOfPlayerInTurn=i;
         }
+        if(DisconnectedPlayers[idOfPlayerInTurn-1]) changeTurn();
     }
 
 
@@ -83,6 +85,7 @@ public class GameState {
 
     public static void setTotalPlayersNumber(int totalPlayersNumber) {
         GameState.totalPlayersNumber = totalPlayersNumber;
+        DisconnectedPlayers=new boolean[totalPlayersNumber];
     }
 
     public static int getWinnerId() {
@@ -188,7 +191,7 @@ public class GameState {
     public static void setHasRightToLastTurn(int numOfPlayers, int IDofWhoHasFinished){
         hasRightToLastTurn=new boolean[numOfPlayers];
         for(int i=0; i< hasRightToLastTurn.length; i++){
-            if(i>=IDofWhoHasFinished) hasRightToLastTurn[i]=true;
+            if(i>=IDofWhoHasFinished && !DisconnectedPlayers[i]) hasRightToLastTurn[i]=true;
         }
     }
 
@@ -203,6 +206,20 @@ public class GameState {
     public static void setSpecificLastTurnPlayer(int idPlayer, boolean status){
         if(hasRightToLastTurn!=null){
             hasRightToLastTurn[idPlayer-1]=status;
+        }
+    }
+
+    /**
+     * set a player status to disconnected
+     * @param idPlayer player who disconnected
+     */
+    public static void playerDisconnected(int idPlayer){
+        if(DisconnectedPlayers!=null){
+            try {
+                DisconnectedPlayers[idPlayer - 1] = true;
+            }catch (NullPointerException e){
+                System.out.println("weird bug when disconnecting player");
+            }
         }
     }
 }

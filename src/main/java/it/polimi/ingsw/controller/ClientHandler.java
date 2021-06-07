@@ -31,7 +31,7 @@ public class ClientHandler extends Thread {
     /**
      * method that should handle all the turnPhase section of the game.
      */
-    public void TurnPhase(){
+    public void TurnPhase() throws IOException{
         while(!GameState.isGameEndedPhase()) {
             while (idPlayer != GameState.getIdOfPlayerInTurn() && GameState.isTurnPhase()) {
                 waitingMyTurn();
@@ -69,7 +69,7 @@ public class ClientHandler extends Thread {
     /**
      * general method that handles the turn of a player, by sending an update to the client as soon as his turn starts, then by managing the messages that are sent to the server by the client
      */
-    public void turnManager(){
+    public void turnManager() throws IOException{
         resetTurnStatus();
         Gson gson=new Gson();
         //send first message with game update, then expects an answer for client with the action chosen
@@ -105,7 +105,7 @@ public class ClientHandler extends Thread {
      * this is the method that handles the action the client requests to do. it receives a message from the client containing the action that they want to perform, then manages that action
      * by either performing it by calling the right methods or by sending a denial. After the action is managed a gameUpdate is sent to the client.
      */
-    public void handleAnswer(){
+    public void handleAnswer() throws IOException{
         Gson gson =new Gson();
         String messageFromC="";
         try {
@@ -113,6 +113,7 @@ public class ClientHandler extends Thread {
             System.out.println(messageFromC);
         }catch (IOException e){
             System.out.println("client disconnected before sending TurnAction");
+            throw e;
         }
         if(!messageFromC.contains("action")) {
             clientConnection.messageToClient("invalid message");
@@ -495,7 +496,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    public void handleLastTurn(){
+    public void handleLastTurn()throws IOException{
         Gson gson=new Gson();
         while(idPlayer!=GameState.getIdOfPlayerInTurn()){
             waitingMyTurn();

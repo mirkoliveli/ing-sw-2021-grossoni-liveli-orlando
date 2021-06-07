@@ -252,10 +252,11 @@ public class Client {
             GettingStartedMessage messageFServer = gson.fromJson(message, GettingStartedMessage.class);
             //da sostituire con metodo serio
             System.out.println("4 cards will be shown in order, please refer to the 4 numbers on the bottom of the list when making the decision");
-            CommandLine.printLeader(messageFServer.getCardID()[0]);
-            CommandLine.printLeader(messageFServer.getCardID()[1]);
-            CommandLine.printLeader(messageFServer.getCardID()[2]);
-            CommandLine.printLeader(messageFServer.getCardID()[3]);
+            System.out.println();
+            for(int i=0; i<4; i++){
+                CommandLine.printLeader(messageFServer.getCardID()[i]);
+                System.out.println();
+            }
             System.out.println("the cards have the ids: " + messageFServer.getCardID()[0] + " " + messageFServer.getCardID()[1] + " " + messageFServer.getCardID()[2] + " " + messageFServer.getCardID()[3] + "\n");
             Scanner input = new Scanner(System.in);
             int id1 = 0;

@@ -88,9 +88,12 @@ public class ThreadedServer extends Thread {
 
         while(!GameState.isTurnPhase()) sleeping(1000);
 
-
-        clientHandler.TurnPhase();
-
+        try {
+            clientHandler.TurnPhase();
+        }catch(IOException e){
+            playerDisconnection();
+            return;
+        }
         //messo per non killare subito il thread, così posso testare riconnessioni
         try {
             System.out.println("game finished");
@@ -122,10 +125,10 @@ public class ThreadedServer extends Thread {
 
             if (answerFromClient.getName() != null) {
                 match.AddPlayer(answerFromClient.getName());
-                messageToClient("Connesione riuscita!");
+                messageToClient("Successful connection!");
             } else {
-                match.AddPlayer("giocatore1");
-                messageToClient("Connesione riuscita!");
+                match.AddPlayer("Player1");
+                messageToClient("Successful connection!");
             }
 
             idPlayer = match.getPlayers().size(); //give the id to the player
@@ -159,10 +162,10 @@ public class ThreadedServer extends Thread {
             Message answerFromClient = gson.fromJson(messageFromClient(), Message.class); //messaggio contiene nome del giocatore
             if (answerFromClient.getMessage() != null) {
                 match.AddPlayer(answerFromClient.getMessage());
-                messageToClient("Connesione riuscita!");
+                messageToClient("Successful connection!");
             } else {
-                messageToClient("Connesione riuscita!");
-                match.AddPlayer("giocatore" + (match.getPlayers().size() + 1)); //assegna in automatico il nome giocatoreN al giocatore in questione
+                messageToClient("Successful connection!");
+                match.AddPlayer("Player" + (match.getPlayers().size() + 1)); //assegna in automatico il nome giocatoreN al giocatore in questione
             }
             idPlayer = match.getPlayers().size(); //give the id to the player
             GameState.increaseJoinedPlayers(); //increase the number of players in the lobby
@@ -248,7 +251,8 @@ public class ThreadedServer extends Thread {
      */
     public void GettingStartedPhaseManager() {
         Gson gson = new Gson();
-        messageToClient(new GettingStartedMessage(match, idPlayer).getMessageAsString());
+        GettingStartedMessage mexToClient=new GettingStartedMessage(match, idPlayer);
+        messageToClient(mexToClient.getMessageAsString());
         try {
             //get answer
             GettingStartedMessage messageFromC = gson.fromJson(messageFromClient(), GettingStartedMessage.class);
@@ -294,7 +298,11 @@ public class ThreadedServer extends Thread {
             messageToClient("Everything was set up! Now please wait for the other players to finish!");
 
         } catch (IOException e) {
-            System.out.println("giocatore " + idPlayer + " si è disconnesso durante getting started phase");
+
+            int[] temp= mexToClient.getCardID();
+            System.out.println("client disconnected during getting started phase, leader set automatically");
+            match.getPlayers().get(idPlayer - 1).setLeaderCard1(match.getLeaderDeck(), temp[0]);
+            match.getPlayers().get(idPlayer - 1).setLeaderCard2(match.getLeaderDeck(), temp[1]);
 
         }
         WaitingQueue.PlayerFinished(idPlayer);
@@ -312,7 +320,7 @@ public class ThreadedServer extends Thread {
             messageToClient("The game Will start soon...");
         }
         if(idPlayer!=GameState.getIdOfPlayerInTurn())
-        messageToClient("Everything was set up correctly, the first player taking is turn is: " +match.getPlayers().get(GameState.getIdOfPlayerInTurn()-1).getName());
+        messageToClient("Everything was set up correctly, the first player taking his turn is: " +match.getPlayers().get(GameState.getIdOfPlayerInTurn()-1).getName());
         else{
             messageToClient("You are the first player! the game will proceed and start your turn!");
         }
@@ -321,6 +329,19 @@ public class ThreadedServer extends Thread {
         }catch(IOException e){
             System.out.println("client " + idPlayer + " disconnected");
         }
+    }
+
+    public void playerDisconnection(){
+        System.out.println("client "+ idPlayer +" disconnected");
+        GameState.playerDisconnected(idPlayer);
+        if(GameState.getHasRightToLastTurn()!=null){
+            if(GameState.getHasRightToLastTurn()[idPlayer-1]) {
+                GameState.setSpecificLastTurnPlayer(idPlayer, false);
+                if(!StaticMethods.AreAnyTrue(GameState.getHasRightToLastTurn()))
+                    GameState.setPhase(4);
+            }
+        }
+        GameState.changeTurn();
     }
 
     public BufferedReader getInFromClient() {

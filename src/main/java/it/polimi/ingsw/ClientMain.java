@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.gui.hello_world;
+//import it.polimi.ingsw.gui.hello_world;
 import it.polimi.ingsw.networking.Client;
 
 import java.io.IOException;
