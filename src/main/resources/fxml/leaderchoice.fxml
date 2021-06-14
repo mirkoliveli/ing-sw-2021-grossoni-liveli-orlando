@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="519.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.LeaderChoiceController">
+   <children>
+      <ChoiceBox fx:id="firstleader" layoutX="237.0" layoutY="453.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="secondleader" layoutX="432.0" layoutY="453.0" prefWidth="150.0" />
+      <ImageView fx:id="img1" fitHeight="280.0" fitWidth="190.0" layoutX="29.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img4" fitHeight="280.0" fitWidth="190.0" layoutX="629.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img2" fitHeight="280.0" fitWidth="190.0" layoutX="229.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img3" fitHeight="280.0" fitWidth="190.0" layoutX="429.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="title" alignment="CENTER" layoutX="-1.0" layoutY="32.0" prefHeight="38.0" prefWidth="840.0">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Button layoutX="707.0" layoutY="453.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <Button layoutX="59.0" layoutY="453.0" mnemonicParsing="false" onAction="#fill" text="Fill" />
+      <Label layoutX="101.0" layoutY="400.0" text="Leader 1" />
+      <Label layoutX="301.0" layoutY="400.0" text="Leader 2" />
+      <Label layoutX="501.0" layoutY="400.0" text="Leader 3" />
+      <Label layoutX="701.0" layoutY="400.0" text="Leader 4" />
+   </children>
+</AnchorPane>
