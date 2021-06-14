@@ -10,15 +10,23 @@
 
 <AnchorPane prefHeight="669.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.CardMarketController">
    <children>
-      <ImageView fx:id="img1" fitHeight="140.0" fitWidth="95.0" layoutX="86.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="img4" fitHeight="140.0" fitWidth="95.0" layoutX="686.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="img2" fitHeight="140.0" fitWidth="95.0" layoutX="286.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="img3" fitHeight="140.0" fitWidth="95.0" layoutX="486.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="title" alignment="CENTER" layoutX="-1.0" layoutY="32.0" prefHeight="38.0" prefWidth="840.0">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
+      <Button layoutX="752.0" layoutY="631.0" mnemonicParsing="false" text="Confirm" />
+      <Button layoutX="418.0" layoutY="631.0" mnemonicParsing="false" onAction="#fill" text="Fill" />
+      <Label alignment="CENTER" layoutX="19.0" layoutY="9.0" prefHeight="17.0" prefWidth="815.0" text="Please select the card you want to buy">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <Button layoutX="86.0" layoutY="631.0" mnemonicParsing="false" onAction="#backToActionTurn" text="Back" />
+      <ImageView fx:id="img1" fitHeight="140.0" fitWidth="95.0" layoutX="86.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img4" fitHeight="140.0" fitWidth="95.0" layoutX="686.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img2" fitHeight="140.0" fitWidth="95.0" layoutX="286.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img3" fitHeight="140.0" fitWidth="95.0" layoutX="486.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="img5" fitHeight="140.0" fitWidth="95.0" layoutX="86.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="img8" fitHeight="140.0" fitWidth="95.0" layoutX="686.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="img6" fitHeight="140.0" fitWidth="95.0" layoutX="286.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
@@ -43,13 +51,5 @@
       <RadioButton fx:id="rad10" layoutX="294.0" layoutY="585.0" mnemonicParsing="false" onAction="#getChoice" text="Choose" toggleGroup="$card" />
       <RadioButton fx:id="rad11" layoutX="494.0" layoutY="585.0" mnemonicParsing="false" onAction="#getChoice" text="Choose" toggleGroup="$card" />
       <RadioButton fx:id="rad12" layoutX="694.0" layoutY="585.0" mnemonicParsing="false" onAction="#getChoice" text="Choose" toggleGroup="$card" />
-      <Button layoutX="752.0" layoutY="631.0" mnemonicParsing="false" text="Confirm" />
-      <Button layoutX="418.0" layoutY="631.0" mnemonicParsing="false" onAction="#fill" text="Fill" />
-      <Label alignment="CENTER" layoutX="19.0" layoutY="9.0" prefHeight="17.0" prefWidth="815.0" text="Please select the card you want to buy">
-         <font>
-            <Font name="System Bold" size="30.0" />
-         </font>
-      </Label>
-      <Button layoutX="86.0" layoutY="631.0" mnemonicParsing="false" onAction="#backToActionTurn" text="Back" />
    </children>
 </AnchorPane>
