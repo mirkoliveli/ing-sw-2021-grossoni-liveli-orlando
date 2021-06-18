@@ -203,6 +203,7 @@ public class ThreadedServer extends Thread {
      * @throws IOException if client disconnected or there's an error while receiving the message and IOEexceptions is thrown
      */
     public String messageFromClient() throws IOException {
+
         return inFromClient.readLine();
     }
 

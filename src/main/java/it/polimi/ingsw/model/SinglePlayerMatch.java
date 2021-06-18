@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameStatusUpdate;
+import it.polimi.ingsw.controller.PlayerUpdate;
 import it.polimi.ingsw.model.exceptions.EndSoloGame;
 
 public class SinglePlayerMatch {
@@ -90,6 +92,43 @@ public class SinglePlayerMatch {
                 break;
         }
 
+    }
+
+    public GameStatusUpdate gameUpdate(){
+        GameStatusUpdate game=new GameStatusUpdate(1);
+        PlayerUpdate[] player=new PlayerUpdate[1];
+        //setting the markets
+        game.getMarketsStatus().setCardMarket(this.cardMarket.cardMarketStatus());
+        game.getMarketsStatus().setMarketBoard(this.marketBoard.status());
+        game.getMarketsStatus().setSlideMarble(this.marketBoard.getSlideMarble().getColore());
+
+        //setting the player
+        player[0]=playerStatus();
+        game.setPlayersStatus(player);
+        game.setNextPlayer(1);
+
+        return game;
+    }
+
+    public PlayerUpdate playerStatus(){
+        PlayerUpdate temp=new PlayerUpdate(this.player.getName(), 1);
+        temp.setPv(this.player.getVictoryPoints());
+        temp.setDevelopMentSlots(this.player.getBoard().DevelopMentSlotsStatus());
+        temp.setStorage(this.player.getBoard().getStorage().storageStatus());
+        temp.setStrongBox(this.player.getBoard().getStrongbox().CreateCopy());
+        if (this.player.getLeaderCard1() != null) {
+            temp.setFirstLeader(this.player.getLeaderCard1().getId());
+            temp.setFirstLeaderIsPlayed(this.player.getLeaderCard1().checkIfPlayed());
+        }
+        if (this.player.getLeaderCard2() != null) {
+            temp.setSecondLeader(this.player.getLeaderCard2().getId());
+            temp.setSecondLeaderIsPlayed(this.player.getLeaderCard2().checkIfPlayed());
+        }
+
+        temp.setFaithTrackProgress(this.player.getBoard().getFaithTrack().getFaithMarker());
+        temp.setPopesFavorCards(this.player.getBoard().getFaithTrack().popeCardsStatus());
+
+        return temp;
     }
 
 
