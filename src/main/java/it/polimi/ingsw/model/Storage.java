@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.ClientHandler;
 import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.singlePlayer.cli.CliForSP;
 import it.polimi.ingsw.utils.StaticMethods;
 
 
@@ -47,15 +48,15 @@ public class Storage {
         } else {
             temp_resource = getLevel(index1).getResourceType();
 
-            System.out.println(temp_resource);
+            //System.out.println(temp_resource);
             getLevel(index1).setResourceType(getLevel(index2).getResourceType());
             getLevel(index2).setResourceType(temp_resource);
 
-            System.out.println(getLevel(index2).getResourceType());
+            //System.out.println(getLevel(index2).getResourceType());
 
             temp = getLevel(index1).getQuantity();
 
-            System.out.println("risorse messe nel due" + temp);
+            //System.out.println("risorse messe nel due" + temp);
             getLevel(index1).setQuantity(getLevel(index2).getQuantity());
             getLevel(index2).setQuantity(temp);
             Gson gson=new Gson();
@@ -95,10 +96,10 @@ public class Storage {
      * @param client it's used to start a client communication if the resources need a new level where to be stored, refer to the ClientHandler.handleNotStoredResources method for additional info
      */
     public int IncreaseResources(int[] originalCost, ClientHandler client) {
-        int discarded = 0;
-        int temp = 0;
+
+
         boolean[] NullLevel = {true, true, true, true}; //ogni slot indica se non esiste un deposito (tra quelli normali) di quel tipo di risorsa
-        int leaderHandler = 0;
+
         int[] resources = StaticMethods.copyArray(originalCost);
 
         //prima aggiungo quello che posso ai depotLevelLeaders
@@ -234,7 +235,7 @@ public class Storage {
     /**
      * returns an int[4] with the quantity of resources stored in the storage.
      *
-     * @return
+     * @return conversion of the total content of the storage in the standardized array version
      */
     public int[] conversionToArray() {
         int[] resources = new int[4];
@@ -301,8 +302,8 @@ public class Storage {
     /**
      * given a cost this method checks if it can be paid with the resources stored in the storage.
      *
-     * @param cost
-     * @return
+     * @param cost cost of the resources to be paid
+     * @return true if can pay, false otherwise
      */
     public boolean canPay(int[] cost) {
         int[] resources = conversionToArray();
@@ -390,7 +391,7 @@ public class Storage {
         DepotLevel temp = seekerOfResource(StaticMethods.IntToTypeOfResource(typeOfResource+1));
         if (temp == null && costo[typeOfResource] != 0) throw new NotEnoughResources();
         else if (temp == null && costo[typeOfResource] == 0) {}
-        else if (costo[typeOfResource] > temp.getQuantity()) throw new NotEnoughResources();
+        else if ( costo[typeOfResource] > temp.getQuantity()) throw new NotEnoughResources();
         else if (true) {
             temp.setQuantity(temp.getQuantity() - costo[typeOfResource]);
             costo[typeOfResource]=0;
@@ -449,14 +450,13 @@ public class Storage {
     //interagisce con server e client
 
     /**
+     * @deprecated
      * deprecated method
-     * @param resource
-     * @param quantity
-     * @return
-     * @throws NotAvalidLevel
-     * @throws DiscardAllResources
+     * @param resource type
+     * @param quantity qntity
+     * @return discarded resources
      */
-    private int UserChoiceForDepot(TypeOfResource resource, int quantity) throws NotAvalidLevel, DiscardAllResources {
+    private int UserChoiceForDepot(TypeOfResource resource, int quantity){
         int discarded = 0;
         boolean var = true;
         DepotLevel temp;
@@ -623,5 +623,105 @@ public class Storage {
             }
         }
     }
-}
 
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    //single player methods
+
+    public int IncreaseResources(int[] originalCost) {
+        int discarded = 0;
+        int temp = 0;
+        boolean[] NullLevel = {true, true, true, true}; //ogni slot indica se non esiste un deposito (tra quelli normali) di quel tipo di risorsa
+        int leaderHandler = 0;
+        int[] resources = StaticMethods.copyArray(originalCost);
+
+        //prima aggiungo quello che posso ai depotLevelLeaders
+
+        if (firstLeader != null) {
+            switch (firstLeader.getResourceTypeLeader()) {
+                case coins:
+                    addToFirstLeaderDepot(resources, 0);
+                    break;
+                case servants:
+                    addToFirstLeaderDepot(resources, 1);
+                    break;
+                case shields:
+                    addToFirstLeaderDepot(resources, 2);
+                    break;
+                case stones:
+                    addToFirstLeaderDepot(resources, 3);
+                    break;
+            }
+            if (secondLeader != null) {
+                switch (secondLeader.getResourceTypeLeader()) {
+                    case coins:
+                        addToSecondLeaderDepot(resources, 0);
+                        break;
+                    case servants:
+                        addToSecondLeaderDepot(resources, 1);
+                        break;
+                    case shields:
+                        addToSecondLeaderDepot(resources, 2);
+                        break;
+                    case stones:
+                        addToSecondLeaderDepot(resources, 3);
+                        break;
+                }
+            }
+        }
+
+        //ora aggiungo tutto quello che posso ai livelli con già risorse al loro interno
+
+        DepotLevel DepotTemp;
+        for (int i = 0; i < 4; i++) {
+            if (resources[i] != 0) {
+                switch (i) {
+                    case 0:
+                        DepotTemp = seekerOfResource(TypeOfResource.coins);
+                        if (DepotTemp != null) {
+                            resourceAdder(DepotTemp, resources, 0);
+                        } else {
+                            NullLevel[i] = false;
+                        }
+                        break;
+
+                    case 1:
+                        DepotTemp = seekerOfResource(TypeOfResource.servants);
+                        if (DepotTemp != null) {
+                            resourceAdder(DepotTemp, resources, 1);
+                        } else {
+                            NullLevel[i] = false;
+                        }
+                        break;
+
+                    case 2:
+                        DepotTemp = seekerOfResource(TypeOfResource.shields);
+                        if (DepotTemp != null) {
+                            resourceAdder(DepotTemp, resources, 2);
+                        } else {
+                            NullLevel[i] = false;
+                        }
+                        break;
+
+                    case 3:
+                        DepotTemp = seekerOfResource(TypeOfResource.stones);
+                        if (DepotTemp != null) {
+                            resourceAdder(DepotTemp, resources, 3);
+                        } else {
+                            NullLevel[i] = false;
+                        }
+                        break;
+                }
+            }
+        }
+
+        //per finire aggiungo quello che rimane ai livelli vuoti(se ce ne sono)
+        CliForSP.resourceAdderInteraction(this, NullLevel, resources);
+        //ClientHandler.handleNotStoredResources(this, NullLevel, resources, client);
+        System.out.println("print from storage: " + (resources[0]+ resources[1]+ resources[2]+ resources[3]));
+        return (resources[0]+ resources[1]+ resources[2]+ resources[3]);
+
+    }
+
+}

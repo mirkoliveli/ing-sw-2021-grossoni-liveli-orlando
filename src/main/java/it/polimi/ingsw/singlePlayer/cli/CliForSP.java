@@ -2,18 +2,29 @@ package it.polimi.ingsw.singlePlayer.cli;
 
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.cli.CommandLine;
+import it.polimi.ingsw.cli.ViewState;
+import it.polimi.ingsw.controller.GameStatusUpdate;
+import it.polimi.ingsw.messages.chooseDepotMessage;
 import it.polimi.ingsw.model.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderDeck;
+import it.polimi.ingsw.model.SinglePlayerMatch;
+import it.polimi.ingsw.model.Storage;
+import it.polimi.ingsw.networking.Client;
+import it.polimi.ingsw.singlePlayer.controller.SinglePlayerHandler;
+import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class CliForSP {
 
-    static LeaderDeck leaderCards=new LeaderDeck();
-    static DevelopmentCard[] developmentCards;
+
+    public static LeaderDeck leaderCards=new LeaderDeck();
+    public static DevelopmentCard[] developmentCards;
 
     public static void developmentPopulate(String path) {
         Gson gson = new Gson();
@@ -26,6 +37,10 @@ public class CliForSP {
         developmentCards = gson.fromJson(buffer, DevelopmentCard[].class);
     }
 
+
+    public CliForSP(){
+        developmentPopulate("src/main/resources/devCards.json");
+    }
     /**
      * method that takes the 4 leaders (form which the player chooses 2), prints them and asks for a selection, then returns the 2 selected values.
      * @param choices vector that contains the 4 possible leaders
@@ -96,7 +111,69 @@ public class CliForSP {
         }
     }
 
+    /**
+     * method that prints the storage for single player games, it uses the printStorageStatus form CommandLine.class
+     * @param status gamestatus used to find informations quickly
+     */
+    public static void printStorage(GameStatusUpdate status){
+        CommandLine.printStorageStatus(status.getPlayersStatus()[0]);
+    }
 
+    /**
+     * method that prints the storage status and asks what depots should be swapped
+     * @param status game status used to print the storage
+     * @return vector containing the 2 selected levels+
+     */
+    public static int[] storageSwapAction(GameStatusUpdate status){
+        System.out.println("You chose to swap depots!");
+        printStorage(status);
+        System.out.println("please type 2 numbers between 1 and 3 (referring to the depot with that amount of resources), or type 0 if you want to exit");
+        int[] selection =new int[2];
+        System.out.println("type the first number:");
+        selection[0]=selectANumber(0, 3, -1);
+        if(selection[0]==0){
+            System.out.println("you selected 0, the action will be aborted");
+            selection[1]=0;
+            return selection;
+        }
+        System.out.println("Now type the second number:");
+        selection[1]=selectANumber(1, 3, selection[0]);
+        return selection;
+    }
 
+    public static void printStorageEmptyStatus(boolean[] emptyDepots, int[] resourceToManage){
+        CommandLine.printDepotChoice(emptyDepots, resourceToManage);
+    }
+
+    /**
+     * manages the interaction with the storage when deciding where to place resources
+     * @param storage storage given to ease the interaction
+     * @param resourcesStatus status created in the storage stating what resources are yet to be handled
+     * @param resources resources left to place or discard
+     */
+    public static void resourceAdderInteraction(Storage storage, boolean[] resourcesStatus, int[] resources){
+        int discarded=0;
+        int[] resource_and_quantity= new int[2];
+        for(int i=0; i<4; i++){
+            if(!resourcesStatus[i] && storage.EmptyDepot() && resources[i]>0) {
+                resource_and_quantity[0]=i;
+                resource_and_quantity[1]=resources[i];
+                printStorageEmptyStatus(storage.emptyStatus(), resource_and_quantity);
+                System.out.println("Select 0 if you wish to discard the resources, otherwise select the level where you wish them to be stored: ");
+
+                SinglePlayerHandler.addToStorage(storage, storage.emptyStatus(), i, resources);
+
+            }
+        }
+    }
+
+    /**
+     * prints the storage status of the player and the marble market status
+     * @param status game status
+     */
+    public static void printMarbleMarket(GameStatusUpdate status){
+        printStorage(status);
+        CommandLine.marbleMarketStatus(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble());
+    }
 
 }

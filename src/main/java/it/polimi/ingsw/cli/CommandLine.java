@@ -1185,7 +1185,7 @@ public class CommandLine {
      * @param resourceToManage vector containing the type of resource that needs to be handled and the quantity of it
      */
     public static void printDepotChoice(boolean[] emptyDepots, int[] resourceToManage){
-        System.out.println("Since the resource " + StaticMethods.IntToTypeOfResource(resourceToManage[0]+1) + "was not stored in any storage level and you still have some empty levels you can choose where to store the resource, or discard it");
+        System.out.println("Since the resource " + StaticMethods.IntToTypeOfResource(resourceToManage[0]+1) + " was not stored in any storage level and you still have some empty levels you can choose where to store the resource, or discard it");
         System.out.println(resourceToManage[1] + " " + StaticMethods.IntToTypeOfResource(resourceToManage[0]+1) + " still need to be stored");
         System.out.println("your depots are: ");
         for (int i=0; i<3; i++) {

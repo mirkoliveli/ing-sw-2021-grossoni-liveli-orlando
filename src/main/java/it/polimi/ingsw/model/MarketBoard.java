@@ -259,6 +259,7 @@ public class MarketBoard {
             for (int i = 0; i < temp; i++) {
                 switch (board[i][line].getColore()) {
                     case white:
+                        risorseOttenute[5]+=1;
                         break;
                     case red:
                         risorseOttenute[4] += 1;

@@ -383,7 +383,7 @@ public class ClientHandler extends Thread {
         Generic_intANDboolean action;
         action=gson.fromJson(string, Generic_intANDboolean.class);
         System.out.println(action.getNumber());
-        //ancora non gestito il caso in cui abbia il leader delle palline
+
         int[] resourcesGained=match.getMarket().ConversionToArray(!action.isChoice(), action.getNumber()-1);
 
         if(resourcesGained[5]>0){
