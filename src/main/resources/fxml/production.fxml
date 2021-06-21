@@ -7,19 +7,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane accessibleText="You have chosen the production action! Please tick the actions you want to activate" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.ProductionController">
+<AnchorPane accessibleText="You have chosen the production action! Please tick the actions you want to activate" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="850.0" style="-fx-background-color: #e5fafa;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.ProductionController">
    <children>
-      <CheckBox fx:id="prod1" layoutX="382.0" layoutY="506.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="99.0" text="Production 1" />
-      <CheckBox fx:id="prod2" layoutX="506.0" layoutY="506.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="99.0" text="Production 2" />
-      <CheckBox fx:id="prod3" layoutX="633.0" layoutY="506.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="92.0" text="Production 3" />
-      <CheckBox fx:id="prod0" layoutX="248.0" layoutY="506.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="110.0" text="Base Production" />
-      <Button layoutX="58.0" layoutY="550.0" mnemonicParsing="false" onAction="#backToActionTurn" text="Back" />
-      <Label layoutX="39.0" layoutY="24.0" prefHeight="32.0" prefWidth="822.0" text="You have chosen the production action! Please tick the actions you want to activate and confirm your choice.">
+      <CheckBox fx:id="prod1" layoutX="358.0" layoutY="506.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="99.0" text="Production 1" />
+      <CheckBox fx:id="prod2" layoutX="482.0" layoutY="506.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="99.0" text="Production 2" />
+      <CheckBox fx:id="prod3" layoutX="609.0" layoutY="506.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="92.0" text="Production 3" />
+      <CheckBox fx:id="prod0" layoutX="224.0" layoutY="506.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="110.0" text="Base Production" />
+      <Button layoutX="65.0" layoutY="536.0" mnemonicParsing="false" onAction="#backToActionTurn" prefHeight="0.0" prefWidth="41.0" text="Back" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="24.0" prefHeight="32.0" prefWidth="853.0" text="You have chosen the production action! Please tick the actions you want to activate and confirm your choice.">
          <font>
             <Font name="Dubai Regular" size="18.0" />
          </font>
       </Label>
-      <ImageView fx:id="board" fitHeight="437.0" fitWidth="611.0" layoutX="145.0" layoutY="63.0" preserveRatio="true" />
-      <Button layoutX="773.0" layoutY="511.0" mnemonicParsing="false" onAction="#printProduction" text="PrintProduction" />
+      <ImageView fx:id="board" fitHeight="437.0" fitWidth="611.0" layoutX="121.0" layoutY="63.0" preserveRatio="true" />
+      <Button layoutX="714.0" layoutY="536.0" mnemonicParsing="false" onAction="#printProduction" text="PrintProduction" />
    </children>
 </AnchorPane>

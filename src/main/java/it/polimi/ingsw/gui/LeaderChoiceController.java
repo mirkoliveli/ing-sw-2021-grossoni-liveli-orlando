@@ -47,11 +47,11 @@ public class LeaderChoiceController implements Initializable {
         else if (choice1 == choice2) { title.setText("You have to choose different leaders!"); }
         else {
             try {
-                root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
+               root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
+               stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+               scene = new Scene(root);
+               stage.setScene(scene);
+               stage.show();
             }
             catch (Exception e) { System.out.println(e); }
         }

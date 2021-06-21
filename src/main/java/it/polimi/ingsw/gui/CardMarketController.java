@@ -31,6 +31,16 @@ public class CardMarketController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+
+        /*
+        // non funziona, a runtime controller è null
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+        TurnController controller = loader.getController();
+        controller.removePane();
+        */
+
+
     }
     
 

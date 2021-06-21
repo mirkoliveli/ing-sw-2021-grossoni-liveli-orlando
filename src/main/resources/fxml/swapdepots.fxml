@@ -11,9 +11,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="511.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.SwapDepotsController">
+<AnchorPane prefHeight="621.0" prefWidth="850.0" style="-fx-background-color: #e5fafa;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.SwapDepotsController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="113.0" layoutX="162.0" layoutY="312.0" stroke="BLACK" strokeType="INSIDE" width="277.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="113.0" layoutX="288.0" layoutY="370.0" stroke="BLACK" strokeType="INSIDE" width="277.0">
          <fill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>
@@ -36,7 +36,7 @@
             </RadialGradient>
          </fill>
       </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="113.0" layoutX="208.0" layoutY="199.0" stroke="BLACK" strokeType="INSIDE" width="186.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="113.0" layoutX="334.0" layoutY="257.0" stroke="BLACK" strokeType="INSIDE" width="186.0">
          <fill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>
@@ -59,7 +59,7 @@
             </RadialGradient>
          </fill>
       </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="113.0" layoutX="254.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" width="93.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="113.0" layoutX="380.0" layoutY="144.0" stroke="BLACK" strokeType="INSIDE" width="93.0">
          <fill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>
@@ -82,21 +82,21 @@
             </RadialGradient>
          </fill>
       </Rectangle>
-      <ImageView fx:id="img1" fitHeight="113.0" fitWidth="93.0" layoutX="254.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="img2" fitHeight="113.0" fitWidth="93.0" layoutX="208.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="img3" fitHeight="113.0" fitWidth="93.0" layoutX="301.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="img5" fitHeight="113.0" fitWidth="93.0" layoutX="255.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="img4" fitHeight="113.0" fitWidth="93.0" layoutX="162.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="img6" fitHeight="113.0" fitWidth="93.0" layoutX="348.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="523.0" layoutY="108.0" mnemonicParsing="false" onAction="#fill" text="Fill" />
-      <Label fx:id="title" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="30.0" prefWidth="600.0" text="Select the depots you want to swap:" textAlignment="CENTER">
+      <ImageView fx:id="img1" fitHeight="113.0" fitWidth="93.0" layoutX="380.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img2" fitHeight="113.0" fitWidth="93.0" layoutX="334.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img3" fitHeight="113.0" fitWidth="93.0" layoutX="427.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img5" fitHeight="113.0" fitWidth="93.0" layoutX="381.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img4" fitHeight="113.0" fitWidth="93.0" layoutX="288.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img6" fitHeight="113.0" fitWidth="93.0" layoutX="474.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="665.0" layoutY="76.0" mnemonicParsing="false" onAction="#fill" text="Fill" />
+      <Label fx:id="title" alignment="CENTER" layoutX="125.0" layoutY="31.0" prefHeight="30.0" prefWidth="600.0" text="Select the depots you want to swap:" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="firstdepot" layoutX="105.0" layoutY="449.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="seconddepot" layoutX="347.0" layoutY="449.0" prefWidth="150.0" />
-      <Button layoutX="525.0" layoutY="449.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
-      <Button layoutX="32.0" layoutY="449.0" mnemonicParsing="false" onAction="#backToActionTurn" text="Back" />
+      <ChoiceBox fx:id="firstdepot" layoutX="225.0" layoutY="559.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="seconddepot" layoutX="467.0" layoutY="559.0" prefWidth="150.0" />
+      <Button layoutX="645.0" layoutY="559.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <Button layoutX="152.0" layoutY="559.0" mnemonicParsing="false" onAction="#backToActionTurn" text="Back" />
    </children>
 </AnchorPane>
