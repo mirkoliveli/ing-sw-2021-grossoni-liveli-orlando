@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.controller.PlayerUpdate;
+import it.polimi.ingsw.model.exceptions.CardNotFoundException;
 import it.polimi.ingsw.model.exceptions.EndSoloGame;
 
 public class SinglePlayerMatch {
@@ -67,7 +68,9 @@ public class SinglePlayerMatch {
                 break;
 
             case moveCrossAndShuffle:
-                tempForFaithTrack = this.lorenzoFaithTrack.Action(1);
+                lorenzoFaithTrackMove(1);
+                this.tokensStack.resetStack();
+                /*tempForFaithTrack = this.lorenzoFaithTrack.Action(1);
                 if (tempForFaithTrack != 0) {
                     if (this.player.getBoard().getFaithTrack().DoIActivateTheZone(tempForFaithTrack)) {
                         this.player.getBoard().getFaithTrack().activatePopeSpace(tempForFaithTrack);
@@ -76,11 +79,12 @@ public class SinglePlayerMatch {
                 this.tokensStack.resetStack();
                 if (tempForFaithTrack == 3) {
                     throw new EndSoloGame();
-                }
+                }*/
                 break;
 
             case twoSpaceMovement:
-                tempForFaithTrack = this.lorenzoFaithTrack.Action(2);
+                lorenzoFaithTrackMove(2);
+                /*tempForFaithTrack = this.lorenzoFaithTrack.Action(2);
                 if (tempForFaithTrack != 0) {
                     if (this.player.getBoard().getFaithTrack().DoIActivateTheZone(tempForFaithTrack)) {
                         this.player.getBoard().getFaithTrack().activatePopeSpace(tempForFaithTrack);
@@ -88,12 +92,16 @@ public class SinglePlayerMatch {
                 }
                 if (tempForFaithTrack == 3) {
                     throw new EndSoloGame();
-                }
+                }*/
                 break;
         }
 
     }
 
+    /**
+     * method that returns and updated version of the game
+     * @return GameStatusUpdate object
+     */
     public GameStatusUpdate gameUpdate(){
         GameStatusUpdate game=new GameStatusUpdate(1);
         PlayerUpdate[] player=new PlayerUpdate[1];
@@ -110,6 +118,10 @@ public class SinglePlayerMatch {
         return game;
     }
 
+    /**
+     * method used to update the player status, used only in the gameUpdate method
+     * @return PlayerUpdate object of the player
+     */
     public PlayerUpdate playerStatus(){
         PlayerUpdate temp=new PlayerUpdate(this.player.getName(), 1);
         temp.setPv(this.player.getVictoryPoints());
@@ -129,6 +141,67 @@ public class SinglePlayerMatch {
         temp.setPopesFavorCards(this.player.getBoard().getFaithTrack().popeCardsStatus());
 
         return temp;
+    }
+
+    /**
+     * method that checks if a player has enough resources to buy a card from the market and if the slots can store this card.
+     * The method expects a card that can be bought, and only handles the case where the card is not present in the market,
+     * not the case where the card is an illegal buy
+     *
+     * @param idCard   card checked
+     * @return boolean true if the card can be bought, false otherwise
+     * @throws CardNotFoundException if the card does not exist in the market
+     */
+    public boolean CanIBuyThisCard(int idCard) throws CardNotFoundException {
+        try {
+            if (!this.availableSlotForCard(idCard)) return false;
+        } catch (CardNotFoundException e) {
+            throw e;
+        }
+        int[] resources = player.getBoard().getTotalResources();
+        int[] cost = cardMarket.getCost(idCard);
+        player.applyDiscount(cost);
+        if (cost != null) {
+            for (int i = 0; i < 4; i++) {
+                if (resources[i] < cost[i]) return false;
+            }
+            return true;
+        } else {
+            throw new CardNotFoundException();
+        }
+
+    }
+
+    /**
+     * checks if a slot of this player can store the card selected
+     *
+     * @param idCard   id of the card selected
+     * @return true if the card can be stored, false otherwise
+     * @throws CardNotFoundException the card selected does not exist in the market.
+     */
+    public boolean availableSlotForCard(int idCard) throws CardNotFoundException {
+        int cardLevel = -1;
+        try {
+            cardLevel = cardMarket.getCardById(idCard).getLevel();
+        } catch (CardNotFoundException e) {
+            throw e;
+        }
+        for (int i = 0; i < 3; i++) {
+            if (player.getBoard().getSlot(i + 1).levelOfTop() + 1 == cardLevel) return true;
+        }
+        return false;
+    }
+
+    public void lorenzoFaithTrackMove(int movement) throws EndSoloGame {
+       int tempForFaithTrack = this.lorenzoFaithTrack.Action(movement);
+        if (tempForFaithTrack != 0) {
+            if (this.player.getBoard().getFaithTrack().DoIActivateTheZone(tempForFaithTrack)) {
+                this.player.getBoard().getFaithTrack().activatePopeSpace(tempForFaithTrack);
+            }
+        }
+        if (tempForFaithTrack == 3) {
+            throw new EndSoloGame();
+        }
     }
 
 

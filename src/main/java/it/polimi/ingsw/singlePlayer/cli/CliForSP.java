@@ -168,6 +168,63 @@ public class CliForSP {
     }
 
     /**
+     * method used for the action play or discard a leader, prints a status of the leaders (prints the played leaders then the "playable or discardable" leaders)
+     * then asks for a selection
+     * @param status game status used to get faster the ids of the leaders
+     * @param isDiscarded1 missing info in the game status is given directly
+     * @param isDiscarded2 missing info in the game status is given directly
+     * @return selection
+     */
+    public static int[] playOrDiscardLeader(GameStatusUpdate status, boolean isDiscarded1, boolean isDiscarded2){
+        boolean firstPlayed=false, secondPlayed=false; //just for ease of reading
+        int[] selection=new int[2];
+       if(status.getPlayersStatus()[0].isFirstLeaderPlayed() || status.getPlayersStatus()[0].isSecondLeaderPlayed()) System.out.println("You have already played these leaders:");
+        if(status.getPlayersStatus()[0].isFirstLeaderPlayed()){
+            printLeader(status.getPlayersStatus()[0].getFirstLeader());
+            firstPlayed=true;
+        }
+        System.out.println();
+        if(status.getPlayersStatus()[0].isSecondLeaderPlayed()){
+            printLeader(status.getPlayersStatus()[0].getSecondLeader());
+            secondPlayed=true;
+        }
+        System.out.println();
+        if((!firstPlayed && !isDiscarded1 ) || (!secondPlayed && !isDiscarded2))
+        System.out.println("You currently can play or discard these leaders");
+
+        if(!firstPlayed && !isDiscarded1) printLeader(status.getPlayersStatus()[0].getFirstLeader());
+        if(!secondPlayed && !isDiscarded2) printLeader(status.getPlayersStatus()[0].getSecondLeader());
+
+        System.out.println("select 1 if you want to do an action with the first leader, 2 if you want to do an action with the second, or 0 to abort: ");
+        selection[0]=selectANumber(0, 2, -1);
+        if(selection[0]!=0){
+        System.out.println("nice! Now select 1 of you want to play it or 2 if you want to discard it:");
+        selection[1]=selectANumber(1, 2, -1);}
+        return selection;
+    }
+
+    public static void playOrDiscardActionResult(int result){
+        switch(result){
+            case 0:
+                System.out.println("Leader played correctly");
+                break;
+            case 1:
+                System.out.println("Leader discarded correctly");
+                break;
+            case 2:
+                System.out.println("Sorry, you cannot play this leader right now!");
+                break;
+            case 3:
+                System.out.println("you have already played or discarded this leader!");
+                break;
+            default:
+                System.out.println("Some error occurred, the action was aborted, please retry");
+                break;
+        }
+    }
+
+
+    /**
      * prints the storage status of the player and the marble market status
      * @param status game status
      */

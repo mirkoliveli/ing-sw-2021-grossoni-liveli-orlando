@@ -170,7 +170,7 @@ public class ClientHandler extends Thread {
     /**
      * method that handles the interaction when playing or discarding a leader, and call all the logic methods that perform the action requested (or deny it)
      * <br><br>
-     * the method also sends back a message stating which state the controller ended with there can be 4 different types of state
+     * the method also sends back a message stating which state the controller ended with. there can be 4 different types of states
      * <br>
      * "1" means that the leader has been discarded correctly
      * <br>

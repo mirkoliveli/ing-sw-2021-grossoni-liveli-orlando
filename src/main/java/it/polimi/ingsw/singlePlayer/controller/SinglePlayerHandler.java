@@ -6,6 +6,9 @@ import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.model.SinglePlayerMatch;
 import it.polimi.ingsw.model.Storage;
 import it.polimi.ingsw.model.TypeOfResource;
+import it.polimi.ingsw.model.exceptions.AlreadyPlayedOrDiscardedLeader;
+import it.polimi.ingsw.model.exceptions.EndSoloGame;
+import it.polimi.ingsw.model.exceptions.GameIsEnding;
 import it.polimi.ingsw.singlePlayer.cli.CliForSP;
 import it.polimi.ingsw.utils.StaticMethods;
 
@@ -141,10 +144,10 @@ public class SinglePlayerHandler {
 
     /**
      * method that handles the sorting of resources to a valid place
-     * @param storage
-     * @param emptyStatus
-     * @param index
-     * @param resources
+     * @param storage pointer to storage to ease the interaction
+     * @param emptyStatus status of the depots
+     * @param index used as pointer to the right resource
+     * @param resources vector containing the remaining resources
      */
     public static void addToStorage(Storage storage, boolean[] emptyStatus, int index, int[] resources){
         Gson gson=new Gson();
@@ -155,29 +158,117 @@ public class SinglePlayerHandler {
         System.out.println(gson.toJson(storage.storageStatus()));
     }
 
+    /**
+     * method that starts the marbleMarket Action. asks the player for a choice between row and column then asks for the specific row or column
+     * then handles the leader interactions, the resource increase and the possible discarded resources by calling the specific methods.
+     */
     public void marbleMarketAction(){
         boolean rowColumn=false;
         int rowOrColumn;
         int line=1;
         int[] result;
+        int discarded=0;
 
         if(!gui) {
             System.out.println("you selected the marble market action!");
             CliForSP.printMarbleMarket(game.gameUpdate());
-            System.out.println("Select 0 if you choose a row, 1 if you chose a column:");
+            System.out.println("Select 0 if you choose a row, 1 if you choose a column:");
             rowOrColumn=CliForSP.selectANumber(0,1,-1);
             rowColumn= rowOrColumn == 0;
             System.out.println("now please select the line you desire (1 - "+ (3+rowOrColumn) +"):");
             line=CliForSP.selectANumber(1, (3+rowOrColumn), -1);
         }
+
+        //parte di "controller", indipendente da gui
+        //get vector with info
         result=game.getMarketBoard().ConversionToArray(rowColumn, line-1);
         //interazione leader da aggiungere
 
-        int[] resoruces={result[0], result[1], result[2], result[3]};
+        //update faithtrack
+        if(result[4]>0) game.getPlayer().getBoard().getFaithTrack().Movement(result[4]);
 
-        System.out.println("risorse scartate: " + game.getPlayer().getBoard().getStorage().IncreaseResources(resoruces) + "");
-        CliForSP.printStorage(game.gameUpdate());
+        //update storage
+        int[] resoruces={result[0], result[1], result[2], result[3]};
+        discarded=game.getPlayer().getBoard().getStorage().IncreaseResources(resoruces);
+
+        //check for discarded resources, updates lorenzo's faithtrack
+        if(discarded>0){
+            if(!gui) System.out.println("you have discarded: " + discarded + " resources");
+            try {
+                game.lorenzoFaithTrackMove(discarded);
+            }catch (EndSoloGame e){
+                System.out.println("to be handled");
+                //endGame();
+            }
+        }
+
+        if(!gui) CliForSP.printStorage(game.gameUpdate());
     }
+
+    /**
+     * logic for the play or discard a leader action. Given the choice as an int[],
+     * <br>[0]: which leader; <br>[1] discard or play
+     * <br>the method returns an int stating which state has been reached
+     * <br>
+     * "1" means that the leader has been discarded correctly
+     * <br>
+     * "0" means that the leader has been played correcly
+     * <br>
+     * "2" means that the player does not meet the conditions to play the leader (meaning that they can play them in the future)
+     * <br>
+     * "3" means that the player has already played or discarded the leader, meaning that they can't play them again
+     * <br>
+     * "-1" input error, abort action
+     * @param choice represents the decision made in the cli or gui methods: <br>[0]: which leader; <br>[1] discard or play
+     * @return int stating which state has been reached
+     */
+    public int playOrDiscardLeadersLogic(int[] choice){
+        if(choice[1]==2){
+                if(     game.getPlayer().switchLeader(choice[0])!=null && //condizione
+                        !game.getPlayer().switchLeader(choice[0]).checkIfPlayed() && //condizione
+                        !game.getPlayer().switchLeader(choice[0]).isDiscarded() //condizione
+                ) {
+                    game.getPlayer().getBoard().getFaithTrack().Movement(1);
+                    game.getPlayer().switchLeader(choice[0]).discardCard();
+                    return 1;
+                }
+                else{
+                    return 3;
+                }
+        }
+        if(choice[1]==1){
+            try{
+                if(game.getPlayer().playLeader(choice[0])) {
+                    return 0;
+                }
+                else{
+                    return 2;
+                }
+            }catch(AlreadyPlayedOrDiscardedLeader e){
+                return 3;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * method that starts the play or discard a leader action.
+     */
+    public void playOrDiscardLeaders(){
+        int[] selection;
+        if(!gui){
+            selection=CliForSP.playOrDiscardLeader(game.gameUpdate(), game.getPlayer().getLeaderCard1().isDiscarded(), game.getPlayer().getLeaderCard2().isDiscarded());
+        }
+        else{
+            selection=new int[]{0, 0};
+        }
+        if(selection[0]>0){
+            if(!gui) CliForSP.playOrDiscardActionResult(playOrDiscardLeadersLogic(selection));
+        }
+    }
+
+
+
 
     public void turnMgmt() {
         //should clear the console when using the jar? does not work on intellij tho
@@ -218,7 +309,7 @@ public class SinglePlayerHandler {
                     //swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage(), serverConnection);
                     break;
                 case 4:
-                    //PlayOrDiscardLeaders(status.getNextPlayer(), status, serverConnection);
+                    playOrDiscardLeaders();
                     break;
                 case 5:
                     int i = 0;
@@ -252,7 +343,7 @@ public class SinglePlayerHandler {
                     storageSwapHandler();
                     break;
                 case 1:
-                    //PlayOrDiscardLeaders(status.getNextPlayer(), status, serverConnection);
+                    playOrDiscardLeaders();
                     break;
                 case 2:
                     //EndTurn(serverConnection);

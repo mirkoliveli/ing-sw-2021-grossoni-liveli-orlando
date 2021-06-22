@@ -359,6 +359,10 @@ public class FaithTrack {
         System.out.println("                P               P               P");
     }
 
+    public void singlePlayerMovement(int move){
+        Movement(move);
+
+    }
 
     /**
      * method that is used to update the status inside a PlayerUpdate

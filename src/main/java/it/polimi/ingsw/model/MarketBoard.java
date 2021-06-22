@@ -216,13 +216,15 @@ public class MarketBoard {
     }
 
     /**
-     * this is a beta of a return function which gives back an int array which is 5 units long;
+     * this is used a return function which gives back an int array which is 6 units long;
      * it cointains the numbers of each resource in the selected row/column (in the standard coins->servants->shields->stones->faith order)
-     * the benefits is that the length of the array is pre-determined as 5.
+     * the benefits is that the length of the array is pre-determined as 6.
+     * <br>
+     * the sixth space is used to store the number of white marbles, as it can be used with a leader to produce resources
      *
      * @param switcher is needed to select if it's being searched a row (true) or a column (false)
      * @param line     is needed to select the specific row/column
-     * @return an array of length 5
+     * @return an array of length 6
      * @author Riccardo Grossoni
      */
     public int[] ConversionToArray(boolean switcher, int line) {
