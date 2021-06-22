@@ -7,7 +7,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class LoginController {
@@ -24,9 +26,9 @@ public class LoginController {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private Button exit;
     @FXML
     private AnchorPane mainpane;
+
 
     public void login(ActionEvent event) throws Exception {
         String username = user.getText();
@@ -36,6 +38,7 @@ public class LoginController {
         try {
             portnumber = Integer.parseInt(chosenport);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/leaderchoice.fxml"));
+
             root = loader.load();
             LeaderChoiceController sceneController = loader.getController();
             sceneController.displayName(username);
@@ -61,9 +64,6 @@ public class LoginController {
             System.out.println("Thank you for playing!");
             stage.close();
         }
-
-
-
     }
 
 

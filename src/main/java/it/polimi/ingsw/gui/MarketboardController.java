@@ -13,8 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-// è anche l'attuale controller dell'fxml turnaction
-// esso non ha un controller dedicato perché è provvisorio, serve solo per muoversi tra le schermate
 
 public class MarketboardController extends AnchorPane {
 
@@ -35,41 +33,6 @@ public class MarketboardController extends AnchorPane {
     private AnchorPane background;
 
 
-    public void switchToProduction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/production.fxml"));
-        root = loader.load();
-        Image image = new Image("img/board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
-        ProductionController sceneController = loader.getController();
-        sceneController.setImage(image);
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToMarketboard (ActionEvent event) throws Exception {
-        root = FXMLLoader.load(getClass().getResource("/fxml/marketboard.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToSwapDepots(ActionEvent event) throws Exception {
-        root = FXMLLoader.load(getClass().getResource("/fxml/swapdepots.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToCardMarket(ActionEvent event) throws Exception {
-        root = FXMLLoader.load(getClass().getResource("/fxml/cardmarket.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
 
     public void backToActionTurn(ActionEvent event) throws Exception {
         root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
