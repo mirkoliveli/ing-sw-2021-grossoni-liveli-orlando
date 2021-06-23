@@ -203,6 +203,10 @@ public class CliForSP {
         return selection;
     }
 
+    /**
+     * prints a result for the play or discard a leader action. has 5 possible results (one is the default, which is presented if an error occurs)
+     * @param result result is genereated as an int from the SinglePlayerHandler.playOrDiscardLeadersLogic method
+     */
     public static void playOrDiscardActionResult(int result){
         switch(result){
             case 0:
@@ -223,6 +227,106 @@ public class CliForSP {
         }
     }
 
+    /**
+     * prints all the cards visible in the market at the moment
+     * @param status gameStatus, contains the marketCards status
+     */
+    public static void printCardMarket(GameStatusUpdate status){
+        int id;
+        for(int i=0; i<3; i++){
+            System.out.println("CARDS OF LEVEL " + (i+1));
+            System.out.println();
+            for(int j=0; j<4; j++){
+                id=status.getMarketsStatus().getCardMarket()[i][j];
+                printCard(id);
+            }
+        }
+    }
+
+    /**
+     * prints a specific card or EMPTY if the given id is zero
+     * @param id id of the card
+     */
+    public static void printCard(int id){
+        id = id - 1;
+        if(id>-1 && id<49){
+            System.out.println("- Id: " + developmentCards[id].getId());
+            System.out.println("- Level " + developmentCards[id].getLevel() + " " + developmentCards[id].getColor() + " card");
+            // costi
+            System.out.println("- Cost:");
+            CommandLine.printArray(developmentCards[id].getCost());
+            System.out.println("- Production Cost:");
+            CommandLine.printArray(developmentCards[id].getProductionCost());
+            System.out.println("- Production Power:");
+            CommandLine.printArray(developmentCards[id].getProduct());
+            System.out.println("- Victory points: \u001B[32m" + developmentCards[id].getPv() + "\u001B[0m\n");
+            System.out.println();
+        }
+        else{
+            System.out.println("EMPTY");
+        }
+    }
+
+    public static int selectACardFromMarket(GameStatusUpdate status){
+        int selection;
+        boolean nextphase=true;
+        System.out.println("You selected the buy a card from market action! here's the cards available:\n");
+        printCardMarket(status);
+        System.out.println("now please type the id of the card you want to buy, write 0 if you want to exit: ");
+        do {
+            if(!nextphase) System.out.println("now please type the id of the card you want to buy, or 0 if you want to exit: ");
+
+            selection = selectANumber(0, 48, -1);
+            nextphase= validate(selection, status.getMarketsStatus().getCardMarket());
+            if(selection==0) nextphase=true;
+
+            if(!nextphase) System.out.println("Your selected card is not present in the market!");
+        }while(!nextphase);
+
+        return selection;
+    }
+
+    /**
+     * Cli method for selecting a slot
+     * @param status status of the game
+     * @param slots available slots
+     * @return slot selected
+     */
+    public static int selectASlot(GameStatusUpdate status ,boolean[] slots){
+        int selection;
+        boolean goNext=false;
+        System.out.println("these are the available slots you can select: ");
+        for(int i=0; i<3; i++){
+            if(slots[i]) printDevelopmentSlot(status, i+1);
+        }
+        do{
+            System.out.println("please choose a slot");
+            selection=selectANumber(1, 3, -1);
+            if(!slots[selection-1]) {
+                System.out.println("Not a valid slot, please retry");
+                goNext=false;
+            }
+            else{
+                goNext=true;
+            }
+        }while(!goNext);
+        return selection;
+    }
+
+    /**
+     * prints the slot and the relative card inside, prints empty if no card is present
+     * @param status game status
+     * @param slot slot
+     */
+    public static void printDevelopmentSlot(GameStatusUpdate status, int slot){
+        if(slot<4 && slot>0){
+            System.out.println("slot " + slot);
+            int cardId=status.getPlayersStatus()[0].getActivableCards()[slot-1];
+            if(cardId==0) System.out.println("empty");
+            else printCard(cardId);
+            System.out.println();
+        }
+    }
 
     /**
      * prints the storage status of the player and the marble market status
@@ -231,6 +335,21 @@ public class CliForSP {
     public static void printMarbleMarket(GameStatusUpdate status){
         printStorage(status);
         CommandLine.marbleMarketStatus(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble());
+    }
+
+    /**
+     * checks if a card is in the market
+     * @param num card's id
+     * @param matrix id of cardmarket
+     * @return true if id is in matrix, false otherwise
+     */
+    public static boolean validate(int num, int[][] matrix){
+        for(int j=0; j<3; j++){
+            for(int i=0; i<matrix[j].length; i++){
+                if(num==matrix[j][i]) return true;
+            }
+        }
+        return false;
     }
 
 }

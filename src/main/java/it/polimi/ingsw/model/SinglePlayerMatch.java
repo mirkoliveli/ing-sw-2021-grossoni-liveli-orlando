@@ -40,6 +40,7 @@ public class SinglePlayerMatch {
         switch (action.getType()) {
             case greenToken:
                 try {
+                    System.out.println("Lorenzo removed 2 green cards!");
                     cardMarket.SoloAction(Color.green);
                 } catch (EndSoloGame e) {
                     throw e;
@@ -47,6 +48,7 @@ public class SinglePlayerMatch {
                 break;
             case purpleToken:
                 try {
+                    System.out.println("Lorenzo removed 2 purple cards!");
                     cardMarket.SoloAction(Color.purple);
                 } catch (EndSoloGame e) {
                     throw e;
@@ -54,6 +56,7 @@ public class SinglePlayerMatch {
                 break;
             case blueToken:
                 try {
+                    System.out.println("Lorenzo removed 2 blue cards!");
                     cardMarket.SoloAction(Color.blue);
                 } catch (EndSoloGame e) {
                     throw e;
@@ -61,6 +64,7 @@ public class SinglePlayerMatch {
                 break;
             case yellowToken:
                 try {
+                    System.out.println("Lorenzo removed 2 yellow cards!");
                     cardMarket.SoloAction(Color.yellow);
                 } catch (EndSoloGame e) {
                     throw e;
@@ -68,6 +72,7 @@ public class SinglePlayerMatch {
                 break;
 
             case moveCrossAndShuffle:
+                System.out.println("Lorenzo moved 1 place on the faithTrack!");
                 lorenzoFaithTrackMove(1);
                 this.tokensStack.resetStack();
                 /*tempForFaithTrack = this.lorenzoFaithTrack.Action(1);
@@ -83,6 +88,7 @@ public class SinglePlayerMatch {
                 break;
 
             case twoSpaceMovement:
+                System.out.println("Lorenzo moved 2 places on the faithTrack!");
                 lorenzoFaithTrackMove(2);
                 /*tempForFaithTrack = this.lorenzoFaithTrack.Action(2);
                 if (tempForFaithTrack != 0) {

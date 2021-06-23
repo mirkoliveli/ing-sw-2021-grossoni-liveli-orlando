@@ -3,12 +3,11 @@ package it.polimi.ingsw.singlePlayer.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.cli.ViewState;
 import it.polimi.ingsw.controller.GameStatusUpdate;
+import it.polimi.ingsw.model.DevelopmentCard;
 import it.polimi.ingsw.model.SinglePlayerMatch;
 import it.polimi.ingsw.model.Storage;
 import it.polimi.ingsw.model.TypeOfResource;
-import it.polimi.ingsw.model.exceptions.AlreadyPlayedOrDiscardedLeader;
-import it.polimi.ingsw.model.exceptions.EndSoloGame;
-import it.polimi.ingsw.model.exceptions.GameIsEnding;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.singlePlayer.cli.CliForSP;
 import it.polimi.ingsw.utils.StaticMethods;
 
@@ -49,7 +48,19 @@ public class SinglePlayerHandler {
 
     public void startMatch(){
         chooseLeaders();
-        turnMgmt();
+        int[] temp={999, 999, 999, 999};
+        game.getPlayer().getBoard().getStrongbox().store(temp);
+        int i =6;
+        while(i!=0){
+            turnMgmt();
+            try {
+                game.LorenzoAction();
+            }catch(EndSoloGame e){
+                System.out.println("wtf");
+            }
+            i--;
+        }
+
         utilForChecks();
     }
 
@@ -267,7 +278,40 @@ public class SinglePlayerHandler {
         }
     }
 
-
+    /**
+     * method that buys a card (or not)
+     * @return true if a card has been bought, false otherwise
+     */
+    public boolean buyACardAction(){
+    int card;
+    int slot;
+        if(!gui){
+            card=CliForSP.selectACardFromMarket(game.gameUpdate());
+            if(card==0){
+                System.out.println("you selected exit");
+                return false;
+            }
+            try{
+                if(game.CanIBuyThisCard(card)){
+                    DevelopmentCard temp=game.getCardMarket().BuyCard(card);
+                    game.getPlayer().payForACard(temp.getCost());
+                    slot=CliForSP.selectASlot(game.gameUpdate(), game.getPlayer().getBoard().whereCanIPlaceTheCard(temp.getLevel()));
+                    game.getPlayer().getBoard().getSlot(slot).placeCard(temp);
+                    return true;
+                }
+                else{
+                    System.out.println("you can't buy this card! please retry with another card or choose another action");
+                    return false;
+                }
+            }catch(CardNotFoundException | IllegalCardException | NotEnoughResources e){
+                return false;
+            }
+        }
+        else {
+            //gui
+            return false;
+        }
+    }
 
 
     public void turnMgmt() {
@@ -290,13 +334,7 @@ public class SinglePlayerHandler {
                     marbleMarketAction();
                     break;
                 case 1:
-                    actionChosen = true;
-                    /*try {
-                        //printCardMarket(status.getMarketsStatus().getCardMarket(), serverConnection, status);
-                    }catch(IOException e){
-                        System.out.println("disconnected from server!");
-                    }*/
-                    if (ViewState.isMainActionCompleted()) actionChosen = true;
+                    actionChosen = buyACardAction();
                     break;
                 case 2:
                     actionChosen = true;
@@ -347,9 +385,7 @@ public class SinglePlayerHandler {
                     break;
                 case 2:
                     //EndTurn(serverConnection);
-                    if (ViewState.isTurn_ended()) {
-                        actionChosen = true;
-                    }
+                    actionChosen=true;
                     break;
                 case 5:
                     int i = 0;
