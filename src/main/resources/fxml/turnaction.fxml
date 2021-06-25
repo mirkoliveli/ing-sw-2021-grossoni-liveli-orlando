@@ -42,8 +42,8 @@
           <Menu mnemonicParsing="false" text="View">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#showleaders" text="Your Leader Cards" />
-              <MenuItem mnemonicParsing="false" onAction="#testMenu" text="Card Market (wip)" />
-                  <MenuItem mnemonicParsing="false" text="Marble Market (missing)" />
+              <MenuItem mnemonicParsing="false" onAction="#showCardMarket" text="Card Market" />
+                  <MenuItem mnemonicParsing="false" onAction="#showMarketBoard" text="Marble Market" />
                   <MenuItem mnemonicParsing="false" text="Faith Tracks and Victory Points (missing)" />
                   <MenuItem mnemonicParsing="false" onAction="#showBoard" text="Your Board" />
             </items>

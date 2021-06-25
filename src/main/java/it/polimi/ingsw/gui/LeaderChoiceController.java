@@ -58,9 +58,6 @@ public class LeaderChoiceController implements Initializable {
 
     }
 
-    public void displayName(String username) {
-        title.setText("Welcome, " + username + "! Time to choose your leaders!");
-    }
 
 
     @Override
