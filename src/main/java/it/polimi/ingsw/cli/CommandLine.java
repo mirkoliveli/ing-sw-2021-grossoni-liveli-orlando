@@ -70,6 +70,7 @@ public class CommandLine {
      */
     public static synchronized void printDevelopmentCard(int id) {
         id = id - 1;
+        developmentPopulate("src/main/resources/devCards.json");
         System.out.println("- Level " + developmentCards[id].getLevel() + " " + developmentCards[id].getColor() + " card");
         // costi
         System.out.println("- Cost:");
@@ -127,7 +128,7 @@ public class CommandLine {
     /**
      * printPersonalBoard shows every relevant characteristic of the personal board of a single user
      *
-     * @param board
+     * @param board player board
      */
     public static synchronized void printPersonalBoard(PlayerUpdate board) {
         int[] developmentBoard = board.getActivableCards();
@@ -148,6 +149,56 @@ public class CommandLine {
         if (board.isSecondLeaderPlayed()) {
             printLeader(board.getSecondLeader());
         }
+        System.out.println("\nFaithTrack:\n");
+        CoolPrint(board);
+        System.out.println("\nVictory points: \u001B[32m" + board.getPv() + "\u001B[0m");
+    }
+
+    /**
+     * prints a status of the faithtrack
+     * @param board player board
+     */
+    public static void CoolPrint(PlayerUpdate board) {
+        int tempPosition = board.getFaithTrackProgress();
+        int pos = 0;
+        while (pos < tempPosition) {
+            System.out.print("  ");
+            pos++;
+        }
+        System.out.print("\u001B[1;31mM\u001B[0m\n");
+        System.out.println("_ _ _ _ _ \u001B[1;32m_ _ _ _\u001B[0m _ _ _ \u001B[1;32m_ _ _ _ _\u001B[0m _ _ \u001B[1;32m_ _ _ _ _ _\u001B[0m");
+        System.out.println("                P               P               P");
+    }
+
+    /**
+     * should be used for printing only the active player board
+     * @param board player board
+     */
+    public static synchronized void printActivePlayerPersonalBoard(PlayerUpdate board) {
+        int[] developmentBoard = board.getActivableCards();
+        System.out.println(board.getName() + "'s board\n\nDevelopment cards:");
+        for (int i = 0; i < 3; i++) {
+            if (developmentBoard[i] != 0) {
+                printDevelopmentCard(developmentBoard[i]);
+            }
+            else{
+                System.out.println("slot "+ (i+1) + ":");
+                System.out.println("empty");
+            }
+        }
+        System.out.println();
+        printStorageStatus(board);
+        System.out.println("\nAvailable resources in strongbox:\n");
+        printResourcesArray(board.getStrongBox());
+        System.out.println("\nLeader cards:");
+        System.out.println();
+        printLeader(board.getFirstLeader());
+        System.out.println();
+        printLeader(board.getSecondLeader());
+
+        System.out.println("\nFaithTrack:\n");
+        CoolPrint(board);
+
         System.out.println("\nVictory points: \u001B[32m" + board.getPv() + "\u001B[0m");
     }
 
@@ -157,7 +208,7 @@ public class CommandLine {
      */
     public static void printStorageStatus(PlayerUpdate board) {
         int j=0;
-        System.out.println("Available resources in storage:");
+        System.out.println("Available resources in storage:\n");
         for (int i = 0; i < 5; i++) {
             if (i < 3) {
                 j = i + 1;
@@ -333,13 +384,6 @@ public class CommandLine {
         boolean rowOrColumn = false; // vale 0 se viene scelta una riga, 1 se viene scelta una colonna
         boolean chosen = false;
         marbleMarketStatus(tray, slide);
-       //System.out.println("Welcome to the marble market!\nThis is the current market tray:\n");
-       //System.out.println(tray[0][0] + " | " + tray[0][1] + " | " + tray[0][2] + " | " + tray[0][3]);
-       //System.out.println("---------------------------------");
-       //System.out.println(tray[1][0] + " | " + tray[1][1] + " | " + tray[1][2] + " | " + tray[1][3]);
-       //System.out.println("---------------------------------");
-       //System.out.println(tray[2][0] + " | " + tray[2][1] + " | " + tray[2][2] + " | " + tray[2][3]);
-       //System.out.println("\nSlide marble: " + slide);
         while (!chosen) {
             System.out.println("\nType '0' if you want to choose a row, '1' if you want to choose a column");
             userInput = scanner.nextLine();

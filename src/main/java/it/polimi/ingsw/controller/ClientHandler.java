@@ -395,10 +395,7 @@ public class ClientHandler extends Thread {
             }
         }
 
-        // stampa resources
-        //for(int i=0; i<6; i++){
-        //    System.out.println(i + " resource " + resourcesGained[i]);
-        //}
+
         match.getMarket().ChangeBoard(!action.isChoice(), action.getNumber());
         if(resourcesGained[4]>0){
             try {

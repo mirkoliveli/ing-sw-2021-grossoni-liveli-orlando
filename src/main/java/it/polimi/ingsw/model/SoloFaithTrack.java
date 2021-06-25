@@ -40,4 +40,17 @@ public class SoloFaithTrack extends FaithTrack {
         return 0;
     }
 
+
+    public void CoolPrint() {
+        System.out.println("\nLorenzo's faithTrack:\n");
+        int tempPosition = this.enemy;
+        int pos = 0;
+        while (pos < tempPosition) {
+            System.out.print("  ");
+            pos++;
+        }
+        System.out.print("\u001B[1;31mL\u001B[0m\n");
+        System.out.println("_ _ _ _ _ \u001B[1;32m_ _ _ _\u001B[0m _ _ _ \u001B[1;32m_ _ _ _ _\u001B[0m _ _ \u001B[1;32m_ _ _ _ _ _\u001B[0m");
+        System.out.println("                P               P               P");
+    }
 }

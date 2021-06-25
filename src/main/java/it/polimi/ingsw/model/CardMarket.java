@@ -387,10 +387,11 @@ public class CardMarket {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 int card = 0;
-                while (matrixDevelopment[i][j][card] == null && card < 4) {
+                while (matrixDevelopment[i][j][card] == null && card < 3) {
                     card++;
                 }
                 if (card < 4) {
+                    if(matrixDevelopment[i][j][card]!=null)
                     visibleMarket[i][j] = matrixDevelopment[i][j][card].getId();
                 } else {
                     visibleMarket[i][j] = 0;

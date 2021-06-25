@@ -77,9 +77,7 @@ public class CliForSP {
             answer=scanner.nextLine();
             try{
                 value=Integer.parseInt(answer);
-            }catch(NumberFormatException e){
-                System.out.println("You must insert a number!");
-            }
+
             if(value<min || value>max){
                 System.out.println("Your number must be between " + min + " "+ max +"!");
             }
@@ -90,6 +88,9 @@ public class CliForSP {
                 else{
                     System.out.println("you must insert a different value from "+ mustBeDiverseFromThis + "!");
                 }
+            }
+            }catch(NumberFormatException e){
+                System.out.println("You must insert a number!");
             }
         }
     }
@@ -263,10 +264,15 @@ public class CliForSP {
             System.out.println();
         }
         else{
-            System.out.println("EMPTY");
+            System.out.println("SLOT EMPTY\n");
         }
     }
 
+    /**
+     * method that handles the selection of a card during the buy a card from market.
+     * @param status game status used to print the market
+     * @return id of the bought card, 0 if action aborted
+     */
     public static int selectACardFromMarket(GameStatusUpdate status){
         int selection;
         boolean nextphase=true;
@@ -284,6 +290,30 @@ public class CliForSP {
         }while(!nextphase);
 
         return selection;
+    }
+
+    /**
+     * prints leaders, can handle a boolean vector stating which leader should not be printed
+     * @param status game status to get the leaders id
+     * @param onlyThese vector stating which leader should be printed (give null if both wanted)
+     */
+    public static void printLeaders(GameStatusUpdate status, boolean[] onlyThese){
+        if(onlyThese==null || onlyThese[0]){
+            printLeader(status.getPlayersStatus()[0].getFirstLeader());
+        }
+        if(onlyThese==null || onlyThese[1]){
+            printLeader(status.getPlayersStatus()[0].getSecondLeader());
+        }
+    }
+
+    /**
+     * prints all the slots with the card or "empty"
+     * @param status game status to get the info for the print ( game.gameUpdate() )
+     */
+    public static void printSlots(GameStatusUpdate status){
+        for(int i=1; i<4; i++){
+            printDevelopmentSlot(status, i);
+        }
     }
 
     /**
@@ -328,6 +358,70 @@ public class CliForSP {
         }
     }
 
+    public static void printProductions(GameStatusUpdate status, boolean[] actionable){
+        boolean[] leaders={actionable[4], actionable[5]};
+
+        //print of slots
+        for(int i=0; i<3; i++){
+            if(actionable[i+1]) {
+                printDevelopmentSlot(status, i+1);
+            }
+        }
+        //print of production leaders
+        printLeaders(status, leaders);
+    }
+
+    /**
+     * prints a menù for the production action
+     * @param actionable what production can be theoretically activated
+     */
+    public static void printSelectionForProduction(boolean[] actionable){
+        int counter=0;
+        if(actionable[0]){
+            System.out.println(counter + ") Base Production");
+            counter++;
+        }
+        for(int i=0; i<3; i++){
+            if(actionable[i+1]){
+                System.out.println(counter + ") slot " + i+1);
+                counter++;
+            }
+        }
+
+        if(actionable[4]) {
+            System.out.println(counter + ") First Leader");
+            counter++;
+        }
+        if(actionable[5]) {
+            System.out.println(counter + ") Second leader Leader");
+            counter++;
+        }
+    }
+
+    public static void baseProductionReward(int[] production){
+        System.out.println("you have produced with the base production, please select which resource will be given to you");
+        System.out.print("1 -> coins\n2 -> servants\n3 -> shields\n4 -> stones\n\n");
+        int value=selectANumber(1, 4, -1);
+        production[value-1]++;
+    }
+
+    public static void leaderProductionReward(int[] production){
+        System.out.println("you have produced with a leader, please select which resource will be given to you");
+        System.out.print("1 -> coins\n2 -> servants\n3 -> shields\n4 -> stones\n\n");
+        int value=selectANumber(1, 4, -1);
+        production[value-1]++;
+    }
+
+
+
+    public static void productionActionStarter(GameStatusUpdate status, boolean[] actionable){
+        printProductions(status, actionable);
+        System.out.println("You selected the production action! Before this line your slots and leaders have been printed to help with the selection.");
+        System.out.println("Type the number you wish to select, or type -1 to exit (note that if you have selected a production it can't be cancelled with -1)");
+        System.out.println("note that the resources gained from a selection will be asked at the end of the action (your base and leader productions)");
+        printSelectionForProduction(actionable);
+    }
+
     /**
      * prints the storage status of the player and the marble market status
      * @param status game status
@@ -350,6 +444,62 @@ public class CliForSP {
             }
         }
         return false;
+    }
+
+    /**
+     * util that returns the position of a true inside vector (if i'm searching for the third true inside a {treu, true, false, false, false, true} the method
+     * will return 5
+     * @param whatTrueAreYouSearching number of true that must have appeared before the returned position
+     * @param array array to scan
+     * @return position of the n-th true, -420 if the array contains less than n true
+     */
+    public static int positionOfATrueValue(int whatTrueAreYouSearching, boolean[] array){
+        int counter=-1;
+        for(int i=0; i< array.length; i++){
+            if(array[i]) counter++;
+            if(counter==whatTrueAreYouSearching) return i;
+        }
+        return -420;
+    }
+
+    /**
+     * returns a number of trues in an array
+     * @param array array scanned
+     * @return number of true in the array
+     */
+    public static int totalNumOfTrues(boolean[] array){
+        int counter=0;
+        for(int i=0; i< array.length; i++){
+            if(array[i]) counter++;
+        }
+        return counter;
+    }
+
+    /**
+     * prints to system.in a readable version of the cardMarket and MarbleMarket
+     */
+    public static void printMarbleMarketAndCardMarket(GameStatusUpdate game){
+        System.out.println("Card Market:\n");
+        CliForSP.printCardMarket(game);
+        System.out.println();
+        System.out.println("Marble Market:\n");
+        CliForSP.printMarbleMarket(game);
+    }
+
+    public static int[] baseProductionCostforCli(GameStatusUpdate status){
+        int[] result=new int[4];
+        CliForSP.printStorage(status);
+        System.out.println("\nStrongbox:\n");
+        CommandLine.printResourcesArray(status.getPlayersStatus()[0].getStrongBox());
+        System.out.println("you selected the base production, please select what resources you will spend:");
+        System.out.println("type the number relative to the selected resource in this list:");
+        System.out.print("1 -> coins\n2 -> servants\n3 -> shields\n4 -> stones\n\n");
+        int value=CliForSP.selectANumber(1,4,-4);
+        result[value-1]++;
+        System.out.println("now select the second resource:");
+        value=CliForSP.selectANumber(1,4,-4);
+        result[value-1]++;
+        return result;
     }
 
 }

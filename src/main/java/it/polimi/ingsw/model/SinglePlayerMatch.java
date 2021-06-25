@@ -40,7 +40,7 @@ public class SinglePlayerMatch {
         switch (action.getType()) {
             case greenToken:
                 try {
-                    System.out.println("Lorenzo removed 2 green cards!");
+                    System.out.println("\u001B[1;33m⚠️\u001B[1;0m\u001B[31mLorenzo removed 2 green cards!\u001B[0m  \u001B[1;33m⚠️\u001B[1;0m");
                     cardMarket.SoloAction(Color.green);
                 } catch (EndSoloGame e) {
                     throw e;
@@ -48,7 +48,7 @@ public class SinglePlayerMatch {
                 break;
             case purpleToken:
                 try {
-                    System.out.println("Lorenzo removed 2 purple cards!");
+                    System.out.println("\u001B[1;33m⚠️\u001B[1;0m\u001B[31mLorenzo removed 2 purple cards!\u001B[0m  \u001B[1;33m⚠️\u001B[1;0m");
                     cardMarket.SoloAction(Color.purple);
                 } catch (EndSoloGame e) {
                     throw e;
@@ -56,7 +56,7 @@ public class SinglePlayerMatch {
                 break;
             case blueToken:
                 try {
-                    System.out.println("Lorenzo removed 2 blue cards!");
+                    System.out.println("\u001B[1;33m⚠️\u001B[1;0m\u001B[31mLorenzo removed 2 blue cards!\u001B[0m  \u001B[1;33m⚠️\u001B[1;0m");
                     cardMarket.SoloAction(Color.blue);
                 } catch (EndSoloGame e) {
                     throw e;
@@ -64,7 +64,7 @@ public class SinglePlayerMatch {
                 break;
             case yellowToken:
                 try {
-                    System.out.println("Lorenzo removed 2 yellow cards!");
+                    System.out.println("\u001B[1;33m⚠️\u001B[1;0m\u001B[31mLorenzo removed 2 yellow cards!\u001B[0m  \u001B[1;33m⚠️\u001B[1;0m");
                     cardMarket.SoloAction(Color.yellow);
                 } catch (EndSoloGame e) {
                     throw e;
@@ -72,33 +72,14 @@ public class SinglePlayerMatch {
                 break;
 
             case moveCrossAndShuffle:
-                System.out.println("Lorenzo moved 1 place on the faithTrack!");
+                System.out.println("\u001B[1;33m⚠️\u001B[1;0m\u001B[31mLorenzo moved 1 place on the faithTrack!\u001B[0m  \u001B[1;33m⚠️\u001B[1;0m");
                 lorenzoFaithTrackMove(1);
                 this.tokensStack.resetStack();
-                /*tempForFaithTrack = this.lorenzoFaithTrack.Action(1);
-                if (tempForFaithTrack != 0) {
-                    if (this.player.getBoard().getFaithTrack().DoIActivateTheZone(tempForFaithTrack)) {
-                        this.player.getBoard().getFaithTrack().activatePopeSpace(tempForFaithTrack);
-                    }
-                }
-                this.tokensStack.resetStack();
-                if (tempForFaithTrack == 3) {
-                    throw new EndSoloGame();
-                }*/
                 break;
 
             case twoSpaceMovement:
-                System.out.println("Lorenzo moved 2 places on the faithTrack!");
+                System.out.println("\u001B[1;33m⚠️\u001B[1;0m\u001B[31mLorenzo moved 2 places on the faithTrack!\u001B[0m  \u001B[1;33m⚠️\u001B[1;0m");
                 lorenzoFaithTrackMove(2);
-                /*tempForFaithTrack = this.lorenzoFaithTrack.Action(2);
-                if (tempForFaithTrack != 0) {
-                    if (this.player.getBoard().getFaithTrack().DoIActivateTheZone(tempForFaithTrack)) {
-                        this.player.getBoard().getFaithTrack().activatePopeSpace(tempForFaithTrack);
-                    }
-                }
-                if (tempForFaithTrack == 3) {
-                    throw new EndSoloGame();
-                }*/
                 break;
         }
 
@@ -200,6 +181,9 @@ public class SinglePlayerMatch {
 
     public void lorenzoFaithTrackMove(int movement) throws EndSoloGame {
        int tempForFaithTrack = this.lorenzoFaithTrack.Action(movement);
+        System.out.println();
+       lorenzoFaithTrack.CoolPrint();
+        System.out.println();
         if (tempForFaithTrack != 0) {
             if (this.player.getBoard().getFaithTrack().DoIActivateTheZone(tempForFaithTrack)) {
                 this.player.getBoard().getFaithTrack().activatePopeSpace(tempForFaithTrack);
