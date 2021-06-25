@@ -15,9 +15,9 @@ public class ClientMain {
     public static void main(String[] args) throws IOException {
         Scanner scn = new Scanner(System.in);
 //        hello_world.main(args);
-        boolean slection=spOrMp(scn);
+        boolean selection=spOrMp(scn);
 
-        if(slection) {
+        if(selection) {
             //MULTIPLAYER
             System.out.println("--- MAESTRI DEL RINASCIMENTO ---\n          W E L C O M E\n");
             System.out.print("Please type in server's ip address: ");

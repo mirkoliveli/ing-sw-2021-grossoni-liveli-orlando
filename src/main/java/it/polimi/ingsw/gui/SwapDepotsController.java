@@ -1,5 +1,9 @@
 package it.polimi.ingsw.gui;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.TypeOfAction;
+import it.polimi.ingsw.networking.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -50,7 +55,26 @@ public class SwapDepotsController implements Initializable {
         String choice2 = seconddepot.getValue();
         if (choice1 == null || choice2 == null) { title.setText("You have to choose your depots first!"); }
         else if (choice1 == choice2) { title.setText("You have to choose different depots!"); }
-        else { title.setText("Okay!"); }
+        else {
+            title.setText("Okay!");
+            //choice1 e choice2 convertiti in interi
+            //goToController
+        }
+    }
+
+    public void goToController(Client client, int depot1, int depot2) {
+        Gson gson= new Gson();
+        ActionMessage action= new ActionMessage(TypeOfAction.SWAP_DEPOTS);
+        action.SwapDepotsMessage(depot1, depot2);
+        client.messageToServer(gson.toJson(action));
+        try{
+            if(client.messageFromServer().equals("Operation successful")) System.out.println("Levels swapped successfully!");
+            else  {
+                System.out.println("Request cannot be completed, you cannot swap this levels!");
+            }
+        }catch(IOException e){
+            System.out.println("disconnected during turn phase while swapping resources");
+        }
     }
 
     public void backToActionTurn(ActionEvent event) throws Exception {

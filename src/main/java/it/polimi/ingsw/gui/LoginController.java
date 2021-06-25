@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui;
 
+import it.polimi.ingsw.networking.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +31,7 @@ public class LoginController {
     private AnchorPane mainpane;
 
 
+
     public void login(ActionEvent event) throws Exception {
         String username = user.getText();
         String ipaddress = ip.getText(); //da gestire
@@ -37,21 +39,34 @@ public class LoginController {
 
         try {
             portnumber = Integer.parseInt(chosenport);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/leaderchoice.fxml"));
 
+            /*
+            Client client = new Client(ipaddress, portnumber);
+
+            if (!client.isLoggedInGame()) {
+                client.StartingConnection();
+            }
+
+             */
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/post-login.fxml"));
             root = loader.load();
-            LeaderChoiceController sceneController = loader.getController();
-            sceneController.displayName(username);
+            PostLoginController controller = loader.getController();
 
+            //per ora funziona sul primo giocatore
+            //modificare correttamente il parametro player dopo aver aggiunto connessione a server
+
+            controller.postlogin(1, username);
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+
         }
         catch (NumberFormatException e) { title.setText("Your port number should be a number!"); }
 
-
     }
+
+
 
     public void logout(ActionEvent event) {
 
