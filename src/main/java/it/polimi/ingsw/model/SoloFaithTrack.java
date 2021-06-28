@@ -40,6 +40,9 @@ public class SoloFaithTrack extends FaithTrack {
         return 0;
     }
 
+    public void setEnemy(int enemy) {
+        this.enemy = enemy;
+    }
 
     public void CoolPrint() {
         System.out.println("\nLorenzo's faithTrack:\n");

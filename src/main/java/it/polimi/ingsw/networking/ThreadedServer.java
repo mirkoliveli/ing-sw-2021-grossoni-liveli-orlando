@@ -2,10 +2,7 @@ package it.polimi.ingsw.networking;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.ServerMain;
-import it.polimi.ingsw.controller.ClientHandler;
-import it.polimi.ingsw.controller.GameState;
-import it.polimi.ingsw.controller.StagesQueue;
-import it.polimi.ingsw.controller.WaitingQueue;
+import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.messages.FirstLoginMessage;
 import it.polimi.ingsw.messages.GettingStartedMessage;
 import it.polimi.ingsw.messages.LoginMessage;
@@ -186,7 +183,6 @@ public class ThreadedServer extends Thread {
 
     /**
      * Sends a String message to the client.
-     *
      * @param message message sent
      */
     public void messageToClient(String message) {
@@ -203,8 +199,11 @@ public class ThreadedServer extends Thread {
      * @throws IOException if client disconnected or there's an error while receiving the message and IOEexceptions is thrown
      */
     public String messageFromClient() throws IOException {
-
-        return inFromClient.readLine();
+        Timer time=new Timer(clientSocket);
+        time.start();
+        String result=inFromClient.readLine();
+        time.interrupt();
+        return result;
     }
 
 

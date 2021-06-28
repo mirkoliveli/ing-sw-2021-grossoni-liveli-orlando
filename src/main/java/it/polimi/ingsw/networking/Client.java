@@ -156,7 +156,7 @@ public class Client {
         System.out.println(messageFromServer + "\n");
 
         //roba a random che va tolta
-        while (true) {
+        /*while (true) {
             try {
                 System.out.print("w");
                 Thread.sleep(400);
@@ -184,7 +184,7 @@ public class Client {
                 System.out.println("error");
             }
             break;
-        }
+        }*/
         setLoggedInGame(true);
         System.out.println("login successful!");
     }

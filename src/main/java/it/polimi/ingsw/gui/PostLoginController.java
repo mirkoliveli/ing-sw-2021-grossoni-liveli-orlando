@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gui;
 
+import it.polimi.ingsw.messages.FirstLoginMessage;
+import it.polimi.ingsw.messages.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,13 +54,15 @@ public class PostLoginController {
         if (firstPlayer) {
             String p = choice.getValue();
             int players = Integer.parseInt(p);
+            FirstLoginMessage message=new FirstLoginMessage(ConnectionHandlerForGui.getUsername(), players);
+            ConnectionHandlerForGui.sendMessage(message);
 
-            //COMUNICARE NUMERO GIOCATORI A SERVER
         }
         else {
             //COMUNICARE RISORSE A SERVER
         }
         try {
+            ConnectionHandlerForGui.sendMessage(new Message(ConnectionHandlerForGui.getUsername()));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/leaderchoice.fxml"));
             root = loader.load();
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();

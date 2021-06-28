@@ -60,7 +60,9 @@ public class SinglePlayerHandler {
         }
     }
 
-
+    /**
+     * prints a state of the game
+     */
     public void utilForChecks(){
         GameStatusUpdate gamer=game.gameUpdate();
         Gson gson =new Gson();
@@ -443,7 +445,7 @@ public class SinglePlayerHandler {
                 "\nThis match you scored a total of: " + game.getPlayer().getVictoryPoints());
         try {
             gameFinished=true;
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         }catch(InterruptedException e){
             System.exit(0);
         }
@@ -459,7 +461,7 @@ public class SinglePlayerHandler {
                 "\nIn this match you scored a total of: " + game.getPlayer().getVictoryPoints() + " points!");
         try {
             gameFinished=true;
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         }catch(InterruptedException e){
             System.exit(0);
         }
@@ -535,7 +537,7 @@ public class SinglePlayerHandler {
                     CliForSP.printMarbleMarketAndCardMarket(game.gameUpdate());
                     break;
                 default:
-                    System.out.println("\u001B[31mInvalid input!\u001B[0m");
+                    System.out.println("\u001B[1;31mInvalid input!\u001B[0m");
                     break;
             }
             game.getPlayer().updateVictoryPoints(false);

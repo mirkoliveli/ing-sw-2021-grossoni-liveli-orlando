@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui;
 
+import it.polimi.ingsw.messages.LoginMessage;
 import it.polimi.ingsw.networking.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.net.Socket;
 
 public class LoginController {
 
@@ -37,17 +40,22 @@ public class LoginController {
         String ipaddress = ip.getText(); //da gestire
         String chosenport = port.getText(); //da gestire, diventa l'intero portnumber nel blocco try
 
+        System.out.println(username);
+        System.out.println(ipaddress);
+        System.out.println(chosenport);
+
         try {
-            portnumber = Integer.parseInt(chosenport);
-
-            /*
-            Client client = new Client(ipaddress, portnumber);
-
-            if (!client.isLoggedInGame()) {
-                client.StartingConnection();
+            //connessione
+            int player;
+            ConnectionHandlerForGui.setConnection(new Socket(ipaddress, Integer.parseInt(chosenport)));
+            ConnectionHandlerForGui.setUsername(username);
+            LoginMessage message=ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), LoginMessage.class);
+            //get the info if the player is the first or not
+            if(message.getNumOfPlayersInRoom()==0) player=1;
+            else{
+                player=message.getNumOfPlayersInRoom()+1;
             }
 
-             */
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/post-login.fxml"));
             root = loader.load();
             PostLoginController controller = loader.getController();
@@ -55,7 +63,7 @@ public class LoginController {
             //per ora funziona sul primo giocatore
             //modificare correttamente il parametro player dopo aver aggiunto connessione a server
 
-            controller.postlogin(1, username);
+            controller.postlogin(player, username);
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

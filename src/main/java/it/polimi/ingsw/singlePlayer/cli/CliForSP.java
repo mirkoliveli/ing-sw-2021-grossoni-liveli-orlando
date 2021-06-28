@@ -77,7 +77,6 @@ public class CliForSP {
             answer=scanner.nextLine();
             try{
                 value=Integer.parseInt(answer);
-
             if(value<min || value>max){
                 System.out.println("Your number must be between " + min + " "+ max +"!");
             }
