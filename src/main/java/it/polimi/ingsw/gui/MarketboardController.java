@@ -31,6 +31,8 @@ public class MarketboardController extends AnchorPane {
     private RadioButton row1, row2, row3, column1, column2, column3, column4;
     @FXML
     private AnchorPane background;
+    @FXML
+    private AnchorPane pane; //850x621
 
 
 
@@ -46,8 +48,8 @@ public class MarketboardController extends AnchorPane {
 
 
 
-    //metodo provvisorio
-    public void fill(ActionEvent event) {
+    //metodo da modificare
+    public void fill() {
         background.setStyle("-fx-background-color: black");
         c1.setFill(red);
         c2.setFill(blue);
@@ -64,6 +66,22 @@ public class MarketboardController extends AnchorPane {
         c13.setFill(grey);
     }
 
+    public void fillMarbleColors(Color[] colors) {
+        c1.setFill(colors[0]);
+        c2.setFill(colors[1]);
+        c3.setFill(colors[2]);
+        c4.setFill(colors[3]);
+        c5.setFill(colors[4]);
+        c6.setFill(colors[5]);
+        c7.setFill(colors[6]);
+        c8.setFill(colors[7]);
+        c9.setFill(colors[8]);
+        c10.setFill(colors[9]);
+        c11.setFill(colors[10]);
+        c12.setFill(colors[11]);
+        if (c13 != null) { c13.setFill(colors[12]); }
+    }
+
 
     //per ora stampa la scelta e basta, da modificare
     public void getChoice(ActionEvent event) {
@@ -76,7 +94,15 @@ public class MarketboardController extends AnchorPane {
         if (column4.isSelected()) { System.out.println("Col4"); }
     }
 
+    public void exitWindow(ActionEvent event) {
+        stage = (Stage) pane.getScene().getWindow();
+        stage.close();
+    }
 
+
+    public void confirm(ActionEvent event) {
+        // lanciato quando si preme confirm, da gestire
+    }
 
 
 }

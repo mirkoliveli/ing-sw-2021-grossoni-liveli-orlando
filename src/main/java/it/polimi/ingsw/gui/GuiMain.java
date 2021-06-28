@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
@@ -24,7 +25,10 @@ public class GuiMain extends Application {
         stage.setResizable(false);
         //stage.setFullScreen(true);
         //modificare il contenuto di getResource per cambiare la schermata iniziale
-        Parent root2 = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+        Parent root2 = loader.load();
+
         Scene productionScene = new Scene(root2);
         stage.setScene(productionScene);
         stage.show();

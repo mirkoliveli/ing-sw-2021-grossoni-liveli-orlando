@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="pane" prefHeight="306.0" prefWidth="328.0" style="-fx-background-color: #181717;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.TurnController">
+<AnchorPane fx:id="pane" prefHeight="306.0" prefWidth="328.0" style="-fx-background-color: #181717;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.MarketboardController">
    <children>
       <Circle fx:id="c1" layoutX="68.0" layoutY="79.0" radius="32.0" strokeType="INSIDE" />
       <Circle fx:id="c2" layoutX="132.0" layoutY="79.0" radius="32.0" strokeType="INSIDE" />

@@ -16,7 +16,6 @@
          </font>
       </Label>
       <Button layoutX="767.0" layoutY="585.0" mnemonicParsing="false" text="Confirm" />
-      <Button layoutX="423.0" layoutY="585.0" mnemonicParsing="false" onAction="#fill" text="Fill" />
       <Label alignment="CENTER" layoutX="12.0" layoutY="3.0" prefHeight="17.0" prefWidth="815.0" text="Please select the card you want to buy">
          <font>
             <Font name="System Bold" size="20.0" />

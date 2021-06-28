@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="pane" prefHeight="602.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.TurnController">
+<AnchorPane fx:id="pane" prefHeight="602.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.CardMarketController">
    <children>
       <Button layoutX="260.0" layoutY="556.0" mnemonicParsing="false" onAction="#exitWindow" text="Close" />
       <ImageView fx:id="img1" fitHeight="140.0" fitWidth="95.0" layoutX="44.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
