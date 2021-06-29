@@ -30,10 +30,14 @@ public class LeaderChoiceController implements Initializable {
 
 
     public void fill(ActionEvent event) {
-        Image test1 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png");
-        Image test2 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png");
-        Image test3 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-63-1.png");
-        Image test4 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-64-1.png");
+        String source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[0] + "-1.png";
+        Image test1 = new Image(source);
+        source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[1] + "-1.png";
+        Image test2 = new Image(source);
+        source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[2] + "-1.png";
+        Image test3 = new Image(source);
+        source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[3] + "-1.png";
+        Image test4 = new Image(source);
         img1.setImage(test1);
         img2.setImage(test2);
         img3.setImage(test3);
@@ -44,7 +48,7 @@ public class LeaderChoiceController implements Initializable {
         String choice1 = firstleader.getValue();
         String choice2 = secondleader.getValue();
         if (choice1 == null || choice2 == null) { title.setText("You have to choose your leaders first!"); }
-        else if (choice1 == choice2) { title.setText("You have to choose different leaders!"); }
+        else if (choice1.equals(choice2)) { title.setText("You have to choose different leaders!"); }
         else {
             try {
                root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));

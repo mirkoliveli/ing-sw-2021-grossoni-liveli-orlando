@@ -13,7 +13,7 @@ public class ConnectionHandlerForGui {
     private static OutputStreamWriter outputToServer;
     private static String username;
     private static Gson gson;
-
+    private static int[] leaders;
 
     public static void setConnection(Socket connection) throws IOException {
         ConnectionHandlerForGui.connection = connection;
@@ -21,6 +21,14 @@ public class ConnectionHandlerForGui {
         bufferFromServer=new BufferedReader(inputFromServer);
         outputToServer=new OutputStreamWriter(connection.getOutputStream());
         gson=new Gson();
+    }
+
+    public static void setLeaders(int[] leaders) {
+        ConnectionHandlerForGui.leaders = leaders;
+    }
+
+    public static int[] getLeaders() {
+        return leaders;
     }
 
     public static void setIdOfPlayer(int idOfPlayer) {
@@ -62,6 +70,17 @@ public class ConnectionHandlerForGui {
     }
 
     public static String getMessage() throws IOException{
-        return bufferFromServer.readLine();
+        String message=bufferFromServer.readLine();
+        while(message.equals("waiting other players...") || message.equals("Successful connection!")){
+            System.out.println("message");
+            message=bufferFromServer.readLine();
+        }
+        if(message.equals("next")) {
+            System.out.println(message);
+            sendMessage("still connected");
+            message=bufferFromServer.readLine();
+            System.out.println(message);
+        }
+        return message;
     }
 }

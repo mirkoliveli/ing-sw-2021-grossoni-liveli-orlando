@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.messages.FirstLoginMessage;
+import it.polimi.ingsw.messages.GettingStartedMessage;
 import it.polimi.ingsw.messages.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,6 +45,7 @@ public class PostLoginController {
                 label.setText("Hello " + username + ", you are the player no. " + player + ". Select your bonus resources:");
                 ObservableList<String> list = FXCollections.observableArrayList(resources);
                 choice.setItems(list);
+                firstPlayer=false;
             }
 
         }
@@ -51,18 +53,19 @@ public class PostLoginController {
     }
 
     public void confirm(ActionEvent event) {
+        try {
         if (firstPlayer) {
             String p = choice.getValue();
             int players = Integer.parseInt(p);
             FirstLoginMessage message=new FirstLoginMessage(ConnectionHandlerForGui.getUsername(), players);
             ConnectionHandlerForGui.sendMessage(message);
-
+            ConnectionHandlerForGui.setLeaders(ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), GettingStartedMessage.class).getCardID());
         }
         else {
-            //COMUNICARE RISORSE A SERVER
-        }
-        try {
             ConnectionHandlerForGui.sendMessage(new Message(ConnectionHandlerForGui.getUsername()));
+            ConnectionHandlerForGui.setLeaders(ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), GettingStartedMessage.class).getCardID());
+        }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/leaderchoice.fxml"));
             root = loader.load();
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -70,7 +73,7 @@ public class PostLoginController {
             stage.setScene(scene);
             stage.show();
         }
-        catch (Exception e) { System.out.println(e); }
+        catch (Exception e) { e.printStackTrace(); }
 
     }
 

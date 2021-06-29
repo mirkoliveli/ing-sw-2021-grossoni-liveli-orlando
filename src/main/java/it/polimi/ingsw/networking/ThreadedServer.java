@@ -238,7 +238,7 @@ public class ThreadedServer extends Thread {
 
         } catch (IOException e) {
             System.out.println("connection lost with client " + idPlayer);
-            sleeping(100000);
+
         }
     }
 
