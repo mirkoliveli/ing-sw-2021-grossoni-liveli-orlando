@@ -179,6 +179,17 @@ public class TurnController {
         catch (Exception e) { System.out.println(e); }
     }
 
+    public void showFaithTrack(ActionEvent event) {
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menufaithtrack.fxml"));
+            AnchorPane popup = popupLoader.load();
+            // carica punti vittoria
+            loadPopup(popup, "Your Faith Track");
+        }
+        catch (Exception e) { System.out.println(e); }
+
+    }
+
     public void setLeaders(Image img1, Image img2) {
         leadershown1.setImage(img1);
         leadershown2.setImage(img2);

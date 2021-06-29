@@ -60,9 +60,6 @@ public class LoginController {
             root = loader.load();
             PostLoginController controller = loader.getController();
 
-            //per ora funziona sul primo giocatore
-            //modificare correttamente il parametro player dopo aver aggiunto connessione a server
-
             controller.postlogin(player, username);
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
