@@ -34,23 +34,13 @@
    <top>
       <MenuBar prefHeight="25.0" prefWidth="850.0" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="View">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#showleaders" text="Your Leader Cards" />
               <MenuItem mnemonicParsing="false" onAction="#showCardMarket" text="Card Market" />
                   <MenuItem mnemonicParsing="false" onAction="#showMarketBoard" text="Marble Market" />
-                  <MenuItem mnemonicParsing="false" text="Faith Tracks and Victory Points (missing)" />
+                  <MenuItem mnemonicParsing="false" onAction="#showFaithTrack" text="Faith Tracks and Victory Points" />
                   <MenuItem mnemonicParsing="false" onAction="#showBoard" text="Your Board" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
