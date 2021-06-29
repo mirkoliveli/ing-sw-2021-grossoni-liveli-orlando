@@ -58,10 +58,12 @@ public class PostLoginController {
             String p = choice.getValue();
             int players = Integer.parseInt(p);
             FirstLoginMessage message=new FirstLoginMessage(ConnectionHandlerForGui.getUsername(), players);
+
             ConnectionHandlerForGui.sendMessage(message);
             ConnectionHandlerForGui.setLeaders(ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), GettingStartedMessage.class).getCardID());
         }
         else {
+            ConnectionHandlerForGui.getResourceFromString(choice.getValue());
             ConnectionHandlerForGui.sendMessage(new Message(ConnectionHandlerForGui.getUsername()));
             ConnectionHandlerForGui.setLeaders(ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), GettingStartedMessage.class).getCardID());
         }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui;
 
+import it.polimi.ingsw.messages.GettingStartedMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,6 +52,9 @@ public class LeaderChoiceController implements Initializable {
         else if (choice1.equals(choice2)) { title.setText("You have to choose different leaders!"); }
         else {
             try {
+                // server connection
+                serverMessage(choice1, choice2);
+
                root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                scene = new Scene(root);
@@ -60,6 +64,41 @@ public class LeaderChoiceController implements Initializable {
             catch (Exception e) { System.out.println(e); }
         }
 
+    }
+
+    /**
+     * sends the getting started message to the server
+     * @param choice1
+     * @param choice2
+     */
+    public static void serverMessage(String choice1, String choice2){
+        getLeaderId(choice1);
+        int[] leaders={ConnectionHandlerForGui.getLeaders()[getLeaderId(choice1)-1], ConnectionHandlerForGui.getLeaders()[getLeaderId(choice2)-1]};
+        ConnectionHandlerForGui.setLeaders(leaders);
+        if(ConnectionHandlerForGui.getIdOfPlayer()==1){
+            GettingStartedMessage mex=new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 0);
+            ConnectionHandlerForGui.sendMessage(mex);
+        }
+        else if(ConnectionHandlerForGui.getIdOfPlayer()==2 || ConnectionHandlerForGui.getIdOfPlayer()==3){
+            GettingStartedMessage mex=new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 1);
+            mex.setResources(ConnectionHandlerForGui.getResource(), -1);
+            ConnectionHandlerForGui.sendMessage(mex);
+        }
+        else{
+            GettingStartedMessage mex=new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 2);
+            mex.setResources(ConnectionHandlerForGui.getResource(), 2);
+            ConnectionHandlerForGui.sendMessage(mex);
+        }
+
+    }
+
+    /**
+     * parse the selected leader
+     * @param choice selected via gui
+     * @return 1-4, stating which leader was selected
+     */
+    public static int getLeaderId(String choice){
+        return Integer.parseInt(choice.substring(7));
     }
 
 

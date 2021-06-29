@@ -55,7 +55,7 @@ public class LoginController {
             else{
                 player=message.getNumOfPlayersInRoom()+1;
             }
-
+            ConnectionHandlerForGui.setIdOfPlayer(player);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/post-login.fxml"));
             root = loader.load();
             PostLoginController controller = loader.getController();
