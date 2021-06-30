@@ -8,10 +8,7 @@ import it.polimi.ingsw.model.exceptions.CardNotFoundException;
 import it.polimi.ingsw.model.exceptions.EndSoloGame;
 import it.polimi.ingsw.model.exceptions.IllegalCardException;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * class that defines the cardMarket section
@@ -28,18 +25,18 @@ public class CardMarket {
      */
     public CardMarket() {
         this.matrixDevelopment = new DevelopmentCard[3][4][4];
-        this.populate(0, 0, "src/main/resources/green_lvl1.json");
-        this.populate(0, 1, "src/main/resources/purple_lvl1.json");
-        this.populate(0, 2, "src/main/resources/blue_lvl1.json");
-        this.populate(0, 3, "src/main/resources/yellow_lvl1.json");
-        this.populate(1, 0, "src/main/resources/green_lvl2.json");
-        this.populate(1, 1, "src/main/resources/purple_lvl2.json");
-        this.populate(1, 2, "src/main/resources/blue_lvl2.json");
-        this.populate(1, 3, "src/main/resources/yellow_lvl2.json");
-        this.populate(2, 0, "src/main/resources/green_lvl3.json");
-        this.populate(2, 1, "src/main/resources/purple_lvl3.json");
-        this.populate(2, 2, "src/main/resources/blue_lvl3.json");
-        this.populate(2, 3, "src/main/resources/yellow_lvl3.json");
+        this.populate(0, 0, "/green_lvl1.json");
+        this.populate(0, 1, "/purple_lvl1.json");
+        this.populate(0, 2, "/blue_lvl1.json");
+        this.populate(0, 3, "/yellow_lvl1.json");
+        this.populate(1, 0, "/green_lvl2.json");
+        this.populate(1, 1, "/purple_lvl2.json");
+        this.populate(1, 2, "/blue_lvl2.json");
+        this.populate(1, 3, "/yellow_lvl2.json");
+        this.populate(2, 0, "/green_lvl3.json");
+        this.populate(2, 1, "/purple_lvl3.json");
+        this.populate(2, 2, "/blue_lvl3.json");
+        this.populate(2, 3, "/yellow_lvl3.json");
     }
 
     public DevelopmentCard[][][] getMatrixDevelopment() {
@@ -60,7 +57,12 @@ public class CardMarket {
      * @author Riccardo Grossoni
      */
     public void populate(int lvl, int color, String Source) {
-        Gson gson = new Gson();
+        Gson gson=new Gson();
+        Reader reader=new InputStreamReader(DevelopmentCard[].class.getResourceAsStream(Source));
+        this.matrixDevelopment[lvl][color] = gson.fromJson(reader, DevelopmentCard[].class);
+
+
+        /*Gson gson = new Gson();
         BufferedReader buffer = null;
         try {
             buffer = new BufferedReader(new FileReader(Source));
@@ -72,7 +74,7 @@ public class CardMarket {
             buffer.close();
         } catch (IOException e) {
             System.out.println("error");
-        }
+        }*/
     }
 
     /**

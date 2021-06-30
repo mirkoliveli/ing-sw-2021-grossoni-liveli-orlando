@@ -2,27 +2,30 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class LeaderDeck {
+    private static final String deckLoadPath="/LeaderCards.json";
     private LeaderCard[] deck;
 
     public LeaderDeck() {
         deck = new LeaderCard[16];
-        this.populate("src/main/resources/LeaderCards.json");
+        this.populate(deckLoadPath);
     }
 
     public void populate(String path) {
-        Gson gson = new Gson();
+        Gson gson=new Gson();
+        Reader reader=new InputStreamReader(LeaderCard[].class.getResourceAsStream(path));
+        this.deck=gson.fromJson(reader, LeaderCard[].class);
+
+        /*Gson gson = new Gson();
         BufferedReader buffer = null;
         try {
             buffer = new BufferedReader(new FileReader(path));
         } catch (FileNotFoundException e) {
             System.out.println("File non trovato");
         }
-        this.deck = gson.fromJson(buffer, LeaderCard[].class);
+        this.deck = gson.fromJson(buffer, LeaderCard[].class);*/
     }
 
 

@@ -12,10 +12,7 @@ import it.polimi.ingsw.model.TypeOfResource;
 import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.utils.StaticMethods;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
@@ -24,6 +21,7 @@ import static it.polimi.ingsw.model.TypeOfResource.*;
 
 public class CommandLine {
 
+    public static final String pathForDevCards="/devCards.json";
     static LeaderDeck leaderCards=new LeaderDeck();
     static DevelopmentCard[] developmentCards;
 
@@ -34,13 +32,19 @@ public class CommandLine {
      */
     public static void developmentPopulate(String path) {
         Gson gson = new Gson();
+        Reader reader =new InputStreamReader(DevelopmentCard[].class.getResourceAsStream(pathForDevCards));
+        developmentCards = gson.fromJson(reader, DevelopmentCard[].class);
+
+
+
+        /*Gson gson = new Gson();
         BufferedReader buffer = null;
         try {
             buffer = new BufferedReader(new FileReader(path));
         } catch (FileNotFoundException e) {
             System.out.println("File non trovato");
         }
-        developmentCards = gson.fromJson(buffer, DevelopmentCard[].class);
+        developmentCards = gson.fromJson(buffer, DevelopmentCard[].class);*/
     }
 
     /**
@@ -243,6 +247,7 @@ public class CommandLine {
         }
     }
     /**
+     * @deprecated
      * startingLeaders is invoked at the beginning of a game to help a user choose his initial leaders
      *
      * @param l1
@@ -291,10 +296,9 @@ public class CommandLine {
     /**
      * cardDetails can be invoked from printMarket when the user types "details"; it helps the user giving him more information about the cards in the market
      *
-     * @param marketCards
-     * @throws IOException
+     * @param marketCards game update contains the market cards vector id
      */
-    public static synchronized void cardDetails(int[][] marketCards) throws IOException {
+    public static synchronized void cardDetails(int[][] marketCards)  {
         Scanner scanner = new Scanner(System.in);
         String userInput;
         int cardId = 0;
@@ -324,7 +328,7 @@ public class CommandLine {
     /**
      * printCardMarket receives a two-dimensional array containing the 12 IDs of the cards in the market and interacts with the user so he can buy one
      *
-     * @param marketCards
+     * @param marketCards game update contains the market cards vector id
      * @return true if the user confirms he wants to buy a card, false if he wants to choose another action
      * @throws IOException
      */
@@ -867,7 +871,7 @@ public class CommandLine {
         boolean actionChosen = false;
         while (!actionChosen) {
             ViewState.setAction_aborted(false);
-            System.out.println("\nIt's your turn! Choose an action:\n[0]: Take resources from the market\n[1]: Buy one development card\n[2]: Activate the production\nElse, you can (before or after your action):\n[3]: Swap resources between your depots\n[4]: Play or discard a leader card");
+            System.out.println("\nIt's your turn! Choose an action:\n[0]: Take resources from the market\n[1]: Buy one development card\n[2]: Activate the production\nElse, you can (before or after your action):\n[3]: Swap resources between your depots\n[4]: Play or discard a leader card\n[5]: Visualize all the player boards");
             userInput = scanner.nextLine();
             try {
                 numberChosen = Integer.parseInt(userInput);
@@ -931,7 +935,7 @@ public class CommandLine {
         actionChosen = false;
         while (!actionChosen) {
             ViewState.setAction_aborted(false);
-            System.out.println("You already performed your action! Now you can:\n[0]: Swap resources between your depots\n[1]: Play or discard a leader card\n[2]: End your turn");
+            System.out.println("You already performed your action! Now you can:\n[0]: Swap resources between your depots\n[1]: Play or discard a leader card\n[2]: End your turn\n[3]: Visualize all player boards");
             userInput = scanner.nextLine();
             try {
                 numberChosen = Integer.parseInt(userInput);
@@ -950,7 +954,7 @@ public class CommandLine {
                     if(ViewState.isTurn_ended()){
                     actionChosen = true;}
                     break;
-                case 5:
+                case 3:
                     int i=0;
                     while(i<status.getPlayersStatus().length){
                         printPersonalBoard(status.getSpecificPlayerStatus(i+1));

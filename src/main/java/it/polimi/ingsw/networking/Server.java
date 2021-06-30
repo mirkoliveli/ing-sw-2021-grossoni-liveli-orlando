@@ -113,7 +113,6 @@ public class Server {
 
         try {
             Thread.sleep(3000000);
-            StaticMethods.GameStatus(match, "src/main/resources/gametest.json");
         } catch (InterruptedException e) {
             System.out.println("wtf");
         }

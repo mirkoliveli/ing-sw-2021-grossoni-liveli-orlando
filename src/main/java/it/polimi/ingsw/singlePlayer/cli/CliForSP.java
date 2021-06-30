@@ -14,27 +14,29 @@ import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.singlePlayer.controller.SinglePlayerHandler;
 import it.polimi.ingsw.utils.StaticMethods;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class CliForSP {
 
-
+    public static final String pathForDevCards="/devCards.json";
     public static LeaderDeck leaderCards=new LeaderDeck();
     public static DevelopmentCard[] developmentCards;
 
     public static void developmentPopulate(String path) {
         Gson gson = new Gson();
+        Reader reader =new InputStreamReader(DevelopmentCard[].class.getResourceAsStream(pathForDevCards));
+        developmentCards = gson.fromJson(reader, DevelopmentCard[].class);
+
+
+        /*Gson gson = new Gson();
         BufferedReader buffer = null;
         try {
             buffer = new BufferedReader(new FileReader(path));
         } catch (FileNotFoundException e) {
             System.out.println("File non trovato");
         }
-        developmentCards = gson.fromJson(buffer, DevelopmentCard[].class);
+        developmentCards = gson.fromJson(buffer, DevelopmentCard[].class);*/
     }
 
 
