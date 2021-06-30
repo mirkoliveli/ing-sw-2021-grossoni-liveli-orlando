@@ -15,9 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 
-//provvisorio, è il controller di TurnAction che serve per muoversi tra le schermate durante il testing
 
 public class TurnController {
 
@@ -46,6 +44,14 @@ public class TurnController {
     private AnchorPane popup;
     @FXML
     private Button finishbutton, cmbutton, marketbutton, prodbutton;
+    @FXML
+    private Label coinslabel, servantslabel, shieldslabel, stoneslabel;
+    @FXML
+    private ImageView card1, card2, card3;
+    Image coins = new Image("/img/punchboard/coin2.png");
+    Image servants = new Image("/img/punchboard/servant2.png");
+    Image shields = new Image("/img/punchboard/shield2.png");
+    Image stones = new Image("/img/punchboard/stone2.png");
 
     public void switchToProduction(ActionEvent event) throws Exception {
         /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/production.fxml"));
@@ -59,10 +65,8 @@ public class TurnController {
         stage.show();*/
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/production.fxml"));
+        // lanciare setProductionCards e eventualmente setLeaders in base alle carte possedute
         temp = loader.load();
-        Image image = new Image("img/board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
-        ProductionController sceneController = loader.getController();
-        sceneController.setImage(image);
         pane.getChildren().add(temp);
     }
 
@@ -75,6 +79,7 @@ public class TurnController {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/marketboard.fxml"));
         temp = loader.load();
+        // provvisorio, colors dovrebbe contenere i colori delle biglie di marble market in fila
         Color[] colors = {red, blue, yellow, purple, red, blue, yellow, purple, red, blue, yellow, grey, grey};
         MarketboardController controller = loader.getController();
         controller.fillMarbleColors(colors);
@@ -96,6 +101,8 @@ public class TurnController {
             SwapDepotsController controller = loader.getController();
             controller.setExtra(true);
         }
+
+        // lanciare fill da qui
         pane.getChildren().add(temp);
     }
 
@@ -108,6 +115,8 @@ public class TurnController {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/cardmarket.fxml"));
         temp = loader.load();
+
+        // provvisorio, cards dovrebbe contenere le carte nel mercato in base allo stato della partita
         int[] cards = {33, 35, 36, 34, 17, 19, 20, 18, 1, 3, 4, 2};
 
         CardMarketController cardmarketcontroller = loader.getController();
@@ -131,6 +140,7 @@ public class TurnController {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menuleaders.fxml"));
             AnchorPane popup = popupLoader.load();
 
+            // provvisorio, leader1 e leader2 saranno i leader posseduti dal giocatore attivo
             Image leader1 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png");
             Image leader2 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png");
             TurnController controller = popupLoader.getController();
@@ -150,6 +160,17 @@ public class TurnController {
         catch (Exception e) { System.out.println(e); }
     }
 
+    public void showStorage(ActionEvent event) {
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menustorage.fxml"));
+            AnchorPane popup = popupLoader.load();
+
+            // manca il metodo per settare contenuto storage e strongbox
+            loadPopup(popup, "Storage and Strongbox");
+        }
+        catch (Exception e) { System.out.println(e); }
+    }
+
     public void exitWindow(ActionEvent event) {
         stage = (Stage) pane.getScene().getWindow();
         stage.close();
@@ -159,6 +180,8 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menumarketboard.fxml"));
             AnchorPane popup = popupLoader.load();
+
+            // provvisorio, colors dovrebbe contenere i colori delle biglie di marble market in fila
             Color[] colors = {red, blue, yellow, purple, red, blue, yellow, purple, red, blue, yellow, grey, grey};
             MarketboardController controller = popupLoader.getController();
             controller.fillMarbleColors(colors);
@@ -172,6 +195,8 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menucardmarket.fxml"));
             AnchorPane popup = popupLoader.load();
+
+            // provvisorio, cards dovrebbe contenere le carte nel mercato in base allo stato della partita
             int[] cards = {33, 35, 36, 34, 17, 19, 20, 18, 1, 3, 4, 2};
 
             CardMarketController cardmarketcontroller = popupLoader.getController();
@@ -185,9 +210,7 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menuboard.fxml"));
             AnchorPane popup = popupLoader.load();
-            Image image = new Image("img/board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
-            TurnController controller = popupLoader.getController();
-            controller.setBoard(image);
+            // lanciare setProductionCards in base alle carte possedute
             loadPopup(popup, "Your Board");
         }
         catch (Exception e) { System.out.println(e); }
@@ -197,7 +220,7 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menufaithtrack.fxml"));
             AnchorPane popup = popupLoader.load();
-            // carica punti vittoria
+            // manca il metodo per settare i punti vittoria
             loadPopup(popup, "Your Faith Track");
         }
         catch (Exception e) { System.out.println(e); }
@@ -222,6 +245,21 @@ public class TurnController {
         popupStage.setTitle(title);
         popupStage.setResizable(false);
         popupStage.show();
+    }
+
+    public void setProductionCards(int c1, int c2, int c3) {
+        if (c1 != 0) {
+            Image firstcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c1 + "-1.png");
+            card1.setImage(firstcard);
+        }
+        if (c2 != 0) {
+            Image secondcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c2 + "-1.png");
+            card2.setImage(secondcard);
+        }
+        if (c3 != 0) {
+            Image thirdcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c3 + "-1.png");
+            card3.setImage(thirdcard);
+        }
     }
 
     public void fillMarbleColors(Color[] colors) {

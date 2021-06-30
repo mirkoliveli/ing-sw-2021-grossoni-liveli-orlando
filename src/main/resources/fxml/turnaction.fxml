@@ -39,6 +39,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#showleaders" text="Your Leader Cards" />
               <MenuItem mnemonicParsing="false" onAction="#showCardMarket" text="Card Market" />
                   <MenuItem mnemonicParsing="false" onAction="#showMarketBoard" text="Marble Market" />
+                  <MenuItem mnemonicParsing="false" onAction="#showStorage" text="Storage and Strongbox" />
                   <MenuItem mnemonicParsing="false" onAction="#showFaithTrack" text="Faith Tracks and Victory Points" />
                   <MenuItem mnemonicParsing="false" onAction="#showBoard" text="Your Board" />
             </items>

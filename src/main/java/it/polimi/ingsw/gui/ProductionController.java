@@ -20,10 +20,19 @@ public class ProductionController {
     private Scene scene;
     private Parent root;
     @FXML
-    private CheckBox prod0, prod1, prod2, prod3;
+    private CheckBox prod0, prod1, prod2, prod3, prod4, prod5;
     @FXML
-    ImageView board;
+    private ImageView leader1, leader2;
+    @FXML
+    private ImageView card1, card2, card3;
     private boolean[] production = new boolean[6];
+    // 0: costo shields; 1: costo servants; 2: costo stones; 3: costo coins
+    private Image[] leadercards = {
+            new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png"),
+            new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png"),
+            new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-63-1.png"),
+            new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-64-1.png")
+    };
 
     public void backToActionTurn(ActionEvent event) throws Exception {
         root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
@@ -42,10 +51,38 @@ public class ProductionController {
         else { production[2] = false; }
         if (prod3.isSelected()) { production[3] = true; }
         else { production[3] = false; }
+        if (prod4.isSelected()) { production[4] = true; }
+        else { production[4] = false; }
+        if (prod5.isSelected()) { production[5] = true; }
+        else { production[5] = false; }
     }
 
-    public void setImage(Image image) {
-        board.setImage(image);
+
+    public void setLeaders(int l1) {
+        prod4.setVisible(true);
+        leader1.setImage(leadercards[l1]);
+    }
+
+    public void setLeaders (int l1, int l2) {
+        prod4.setVisible(true);
+        prod5.setVisible(true);
+        leader1.setImage(leadercards[l1]);
+        leader2.setImage(leadercards[l2]);
+    }
+
+    public void setProductionCards(int c1, int c2, int c3) {
+        if (c1 != 0) {
+            Image firstcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c1 + "-1.png");
+            card1.setImage(firstcard);
+        }
+        if (c2 != 0) {
+            Image secondcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c2 + "-1.png");
+            card2.setImage(secondcard);
+        }
+        if (c3 != 0) {
+            Image thirdcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c3 + "-1.png");
+            card3.setImage(thirdcard);
+        }
     }
 
     //metodo provvisorio

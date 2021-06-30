@@ -57,25 +57,25 @@ public class SwapDepotsController implements Initializable {
         if (choice1 == null || choice2 == null) { title.setText("You have to choose your depots first!"); }
         else if (choice1 == choice2) { title.setText("You have to choose different depots!"); }
         else {
-            title.setText("Okay!");
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+                root = loader.load();
+
+                if (extra) {
+                    TurnController controller = loader.getController();
+                    controller.actionDone();
+                }
+
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+            catch (Exception e) { System.out.println(e); }
             //choice1 e choice2 convertiti in interi
             //goToController
         }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
-            root = loader.load();
 
-            if (extra) {
-                TurnController controller = loader.getController();
-                controller.actionDone();
-            }
-
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }
-        catch (Exception e) { System.out.println(e); }
 
     }
 
