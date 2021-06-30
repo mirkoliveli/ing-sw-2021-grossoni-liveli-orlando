@@ -2,6 +2,7 @@ package it.polimi.ingsw.messages;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameStatusUpdate;
+import it.polimi.ingsw.controller.LastActionMade;
 import it.polimi.ingsw.model.MatchMultiPlayer;
 import it.polimi.ingsw.model.TypeOfResource;
 import it.polimi.ingsw.utils.Generic_intANDboolean;
@@ -123,6 +124,12 @@ public class ActionMessage {
         action=TypeOfAction.BEGIN_TURN;
         ActionAsMessage=gson.toJson(StaticMethods.GameStatusString(match, player));
 
+    }
+
+    public void updatePlayers(LastActionMade action){
+        Gson gson=new Gson();
+        this.action=TypeOfAction.ACTION;
+        ActionAsMessage=gson.toJson(action);
     }
 
     public void EndGameMessage(String lastMessage){

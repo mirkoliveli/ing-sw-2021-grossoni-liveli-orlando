@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +28,15 @@ public class CardMarketController {
     @FXML
     private ImageView img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12;
     private ScaleTransition scale;
+    @FXML
+    private RadioButton slot1, slot2, slot3;
+    @FXML
+    private Label slotlabel;
+
+    // vanno caricate card1, card2 e card3 in base alle carte possedute sulla board
+    @FXML
+    private ImageView card1, card2, card3;
+    private int slot;
     private Image[] cards = {
             new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-1-1.png"),
             new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-2-1.png"),
@@ -145,11 +155,17 @@ public class CardMarketController {
         if (rad5.isSelected()) { zoom(img5, rad5); }
         if (rad6.isSelected()) { zoom(img6, rad6); }
         if (rad7.isSelected()) { zoom(img7, rad7); }
-        if (rad8.isSelected()) { zoom(img8, rad8);; }
+        if (rad8.isSelected()) { zoom(img8, rad8); }
         if (rad9.isSelected()) { zoom(img9, rad9); }
         if (rad10.isSelected()) { zoom(img10, rad10); }
         if (rad11.isSelected()) { zoom(img11, rad11); }
         if (rad12.isSelected()) { zoom(img12, rad12); }
+    }
+
+    public void setSlot(ActionEvent event) {
+        if (slot1.isSelected()) { slot = 1; }
+        if (slot2.isSelected()) { slot = 2; }
+        if (slot3.isSelected()) { slot = 3; }
     }
 
     public void confirm(ActionEvent event) {
@@ -166,6 +182,13 @@ public class CardMarketController {
             stage.show();
         }
         catch (Exception e) { System.out.println(e); }
+    }
+
+    public void confirmSlot(ActionEvent event) {
+        if (slot == 0) { slotlabel.setText("You have to select a valid slot!"); }
+        else {
+            //comunica slot
+            }
     }
 
     public void exitWindow(ActionEvent event) {

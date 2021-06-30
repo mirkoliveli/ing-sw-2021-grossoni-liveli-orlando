@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="621.0" prefWidth="850.0" style="-fx-background-color: #e5fafa;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.MarketboardController">
+   <children>
+      <AnchorPane layoutX="125.0" layoutY="137.0" prefHeight="393.0" prefWidth="600.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="113.0" layoutX="161.0" layoutY="249.0" stroke="BLACK" strokeType="INSIDE" width="277.0">
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.8421052694320679" green="0.6941520571708679" blue="0.035087719559669495" opacity="0.6200000047683716" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.9961685823754789">
+                           <color>
+                              <Color red="0.75" green="0.5806713104248047" blue="0.2152777761220932" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.75" green="0.5806713104248047" blue="0.2152777761220932" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </fill>
+            </Rectangle>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="113.0" layoutX="207.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" width="186.0">
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.8421052694320679" green="0.6941520571708679" blue="0.035087719559669495" opacity="0.6200000047683716" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.9961685823754789">
+                           <color>
+                              <Color red="0.75" green="0.5806713104248047" blue="0.2152777761220932" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.75" green="0.5806713104248047" blue="0.2152777761220932" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </fill>
+            </Rectangle>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="113.0" layoutX="253.0" layoutY="23.0" stroke="BLACK" strokeType="INSIDE" width="93.0">
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.8421052694320679" green="0.6941520571708679" blue="0.035087719559669495" opacity="0.6200000047683716" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.9961685823754789">
+                           <color>
+                              <Color red="0.75" green="0.5806713104248047" blue="0.2152777761220932" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.75" green="0.5806713104248047" blue="0.2152777761220932" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </fill>
+            </Rectangle>
+            <ImageView fx:id="img1" fitHeight="113.0" fitWidth="93.0" layoutX="253.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img2" fitHeight="113.0" fitWidth="93.0" layoutX="207.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img3" fitHeight="113.0" fitWidth="93.0" layoutX="300.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img5" fitHeight="113.0" fitWidth="93.0" layoutX="254.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img4" fitHeight="113.0" fitWidth="93.0" layoutX="161.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img6" fitHeight="113.0" fitWidth="93.0" layoutX="347.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true" />
+            <RadioButton fx:id="depot2" layoutX="470.0" layoutY="184.0" mnemonicParsing="false" text="Second Depot">
+               <toggleGroup>
+                  <ToggleGroup fx:id="depotslot" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="depot1" layoutX="470.0" layoutY="68.0" mnemonicParsing="false" text="First Depot" toggleGroup="$depotslot" />
+            <RadioButton fx:id="depot3" layoutX="470.0" layoutY="297.0" mnemonicParsing="false" text="Third Depot" toggleGroup="$depotslot" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="54.0" layoutY="58.0" text="Choose where you want to store:">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="resource" layoutX="400.0" layoutY="58.0" text="-">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Button fx:id="confirmDepot" layoutX="776.0" layoutY="578.0" mnemonicParsing="false" text="Confirm" />
+   </children>
+</AnchorPane>

@@ -13,21 +13,22 @@
    <center>
       <AnchorPane fx:id="pane" prefHeight="621.0" prefWidth="850.0">
          <children>
-            <Button fx:id="prodbutton" layoutX="507.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToProduction" text="Production" />
+            <Button fx:id="prodbutton" layoutX="284.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToProduction" text="Production" />
             <Label fx:id="nameLabel" layoutX="43.0" layoutY="40.0" prefHeight="41.0" prefWidth="464.0">
                <font>
                   <Font size="27.0" />
                </font>
             </Label>
-            <Button fx:id="marketbutton" layoutX="410.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToMarketboard" text="Marketboard" />
+            <Button fx:id="marketbutton" layoutX="187.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToMarketboard" text="Marketboard" />
             <Button layoutX="619.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToSwapDepots" text="SwapDepots" />
-            <Button fx:id="cmbutton" layoutX="320.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToCardMarket" text="CardMarket" />
+            <Button fx:id="cmbutton" layoutX="97.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToCardMarket" text="CardMarket" />
             <Button fx:id="finishbutton" layoutX="740.0" layoutY="569.0" mnemonicParsing="false" onAction="#finishTurn" text="Finish Turn" visible="false" />
             <Label fx:id="label" alignment="CENTER" layoutY="99.0" prefHeight="27.0" prefWidth="850.0" text="Now it's your turn! Choose your action using the buttons below">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
+            <Button layoutX="489.0" layoutY="569.0" mnemonicParsing="false" onAction="#switchToPlayLeader" text="Play/Discard Leader" />
          </children>
       </AnchorPane>
    </center>
@@ -39,6 +40,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#showleaders" text="Your Leader Cards" />
               <MenuItem mnemonicParsing="false" onAction="#showCardMarket" text="Card Market" />
                   <MenuItem mnemonicParsing="false" onAction="#showMarketBoard" text="Marble Market" />
+                  <MenuItem mnemonicParsing="false" onAction="#showStorage" text="Storage and Strongbox" />
                   <MenuItem mnemonicParsing="false" onAction="#showFaithTrack" text="Faith Tracks and Victory Points" />
                   <MenuItem mnemonicParsing="false" onAction="#showBoard" text="Your Board" />
             </items>

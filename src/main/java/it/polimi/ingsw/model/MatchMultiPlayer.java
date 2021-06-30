@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.LastActionMade;
 import it.polimi.ingsw.controller.PlayerUpdate;
+import it.polimi.ingsw.messages.TypeOfAction;
 import it.polimi.ingsw.model.exceptions.CardNotFoundException;
 import it.polimi.ingsw.model.exceptions.GameIsEnding;
 
@@ -71,6 +73,7 @@ public class MatchMultiPlayer {
         for (Player player : players) {
             player.getBoard().getFaithTrack().activatePopeSpace(zone);
         }
+        LastActionMade.PopeActivated(TypeOfAction.VATICAN_REPORT, zone);
     }
 
 

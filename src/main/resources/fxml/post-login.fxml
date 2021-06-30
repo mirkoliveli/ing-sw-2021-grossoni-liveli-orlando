@@ -13,7 +13,8 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="choice" layoutX="225.0" layoutY="201.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="choice" layoutX="225.0" layoutY="214.0" prefWidth="150.0" />
       <Button layoutX="511.0" layoutY="201.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <ChoiceBox fx:id="invisiblechoice" layoutX="225.0" layoutY="176.0" prefWidth="150.0" visible="false" />
    </children>
 </AnchorPane>

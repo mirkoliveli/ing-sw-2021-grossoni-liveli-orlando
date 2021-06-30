@@ -32,9 +32,13 @@ public class ClientHandler extends Thread {
      * method that should handle all the turnPhase section of the game.
      */
     public void TurnPhase() throws IOException{
+        Gson gson =new Gson();
         while(!GameState.isGameEndedPhase()) {
             while (idPlayer != GameState.getIdOfPlayerInTurn() && GameState.isTurnPhase()) {
                 waitingMyTurn();
+                ActionMessage message=new ActionMessage(TypeOfAction.ACTION);
+                message.updatePlayers(new LastActionMade());
+                clientConnection.messageToClient(gson.toJson(message));
             }
             //System.out.println("sei in turnphase prima di turn manager");
             if(GameState.isTurnPhase()){
@@ -134,6 +138,7 @@ public class ClientHandler extends Thread {
             case GO_TO_MARKET:
                 if(!mainAction){
                     goToMarketAction(action.getActionAsMessage());
+                    LastActionMade.setAction(TypeOfAction.GO_TO_MARKET, match.getPlayers().get(idPlayer-1).getName(), 0);
                     mainAction=true;
                 }
                 else{
@@ -195,7 +200,7 @@ public class ClientHandler extends Thread {
                     clientConnection.messageToClient(gson.toJson(ans));
                     match.MoveInFaithTrack(1, idPlayer);
                     match.getPlayers().get(idPlayer-1).switchLeader(choice[0]).discardCard();
-
+                    LastActionMade.setAction(TypeOfAction.PLAY_OR_DISCARD_LEADER, match.getPlayers().get(idPlayer-1).getName(), choice[0]);
                 }
                 else{
                     int ans=3;
@@ -210,6 +215,7 @@ public class ClientHandler extends Thread {
                 if(match.getPlayers().get(idPlayer-1).playLeader(choice[0])) {
                     int ans=0;
                     clientConnection.messageToClient(gson.toJson(ans));
+                    LastActionMade.setAction(TypeOfAction.PLAY_OR_DISCARD_LEADER, match.getPlayers().get(idPlayer-1).getName(), 10+choice[0]);
                 }
                 else{
                     int ans=2;
@@ -260,22 +266,26 @@ public class ClientHandler extends Thread {
         int[] cost=new int[4];
         int[] gains=new int[5];
 
+        //selection [0] ed [1] contiene le due risorse della produzione base, oppure 0 (se non si vuole attivare), slection[7] contiene la risorsa che si vuole ottenere
         if(selections[0]>0 && productionIsUsable[0] && StaticMethods.numBetween1and4(selections[0]) && StaticMethods.numBetween1and4(selections[1]) && StaticMethods.numBetween1and4(selections[7])){
             cost[selections[0]-1]++;
             cost[selections[1]-1]++;
             gains[selections[7]-1]++;
         }
+        //selection [2] [3] [4] contengono 1 se si vuole produrre con lo slot, 0 altrimenti
         for(int i=1; i<4; i++){
             if(selections[i+1]>0 && productionIsUsable[i]){
                 StaticMethods.sumArray(cost, match.getPlayers().get(idPlayer-1).getBoard().getSlot(i).get_top().getProductionCost());
                 StaticMethods.sumArray(gains, match.getPlayers().get(idPlayer-1).getBoard().getSlot(i).get_top().getProduct());
             }
         }
+        //selection [5] contiene selezione sul leader 1, ossia la risorsa che si vuole ottenere
         if(selections[5]>0 && productionIsUsable[4] && StaticMethods.numBetween1and4(selections[5])){
             cost[StaticMethods.TypeOfResourceToInt(match.getPlayers().get(idPlayer-1).getLeaderCard1().getPower())]++;
             gains[selections[5]-1]++;
             gains[4]++;
         }
+        //selection [6] contiene selezione sul leader 1, ossia la risorsa che si vuole ottenere
         if(selections[6]>0 && productionIsUsable[5] && StaticMethods.numBetween1and4(selections[6])){
             cost[StaticMethods.TypeOfResourceToInt(match.getPlayers().get(idPlayer-1).getLeaderCard2().getPower())]++;
             gains[selections[6]-1]++;
@@ -289,6 +299,7 @@ public class ClientHandler extends Thread {
                 match.getPlayers().get(idPlayer-1).getBoard().getStrongbox().store(resources);
                 match.MoveInFaithTrack(gains[4], idPlayer);
                 ProductionActionMessage message=new ProductionActionMessage(ACTION_SUCCESS, "");
+                LastActionMade.setAction(TypeOfAction.ACTIVATE_PRDUCTION, match.getPlayers().get(idPlayer-1).getName(), 0);
                 clientConnection.messageToClient(gson.toJson(message));
                 mainAction=true;
             }catch(NotEnoughResources e){
@@ -326,6 +337,7 @@ public class ClientHandler extends Thread {
         if(mainAction){
             turnEnding=true;
             clientConnection.messageToClient("Operation successful");
+            LastActionMade.setAction(TypeOfAction.END_TURN, match.getPlayers().get(idPlayer-1).getName(), 0);
         }
         else{
             clientConnection.messageToClient("operation denied");
@@ -351,7 +363,9 @@ public class ClientHandler extends Thread {
                 //add check fro slot=1-3
                 int slot=gson.fromJson(messageFromC, int.class);
                 match.getPlayers().get(idPlayer-1).getBoard().getSlot(slot).placeCard(temp);
+                LastActionMade.setAction(TypeOfAction.BUY_A_CARD, match.getPlayers().get(idPlayer-1).getName(), temp.getId());
                 mainAction=true;
+
             }
             else{
                 BuyACardActionMessage nextChoice=new BuyACardActionMessage(UNAVAILABLE_ACTION, "");

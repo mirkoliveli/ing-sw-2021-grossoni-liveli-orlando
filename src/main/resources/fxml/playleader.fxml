@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="621.0" prefWidth="850.0" style="-fx-background-color: #e5fafa;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.PlayLeaderController">
+   <children>
+      <ImageView fx:id="leader1" fitHeight="334.0" fitWidth="221.0" layoutX="145.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="leader2" fitHeight="334.0" fitWidth="221.0" layoutX="490.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <RadioButton fx:id="play1" layoutX="161.0" layoutY="500.0" mnemonicParsing="false" onAction="#getChoice" text="Play">
+         <toggleGroup>
+            <ToggleGroup fx:id="choice" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="discard1" layoutX="277.0" layoutY="500.0" mnemonicParsing="false" onAction="#getChoice" text="Discard" toggleGroup="$choice" />
+      <RadioButton fx:id="play2" layoutX="504.0" layoutY="500.0" mnemonicParsing="false" onAction="#getChoice" text="Play" toggleGroup="$choice" />
+      <RadioButton fx:id="discard2" layoutX="620.0" layoutY="500.0" mnemonicParsing="false" onAction="#getChoice" text="Discard" toggleGroup="$choice" />
+      <Button layoutX="52.0" layoutY="562.0" mnemonicParsing="false" onAction="#backToActionTurn" text="Back" />
+      <Button layoutX="735.0" layoutY="562.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="61.0" prefHeight="17.0" prefWidth="847.0" text="Please select the leader you want to play or discard">
+         <font>
+            <Font name="System Bold" size="27.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

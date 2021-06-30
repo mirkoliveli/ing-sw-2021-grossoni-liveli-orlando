@@ -12,5 +12,7 @@ public enum TypeOfAction {
     SWAP_DEPOTS,
     PLAY_OR_DISCARD_LEADER,
     DEBUG_MODE,
-    INSTANT_FINISH
+    INSTANT_FINISH,
+    VATICAN_REPORT,
+    ACTION
 }
