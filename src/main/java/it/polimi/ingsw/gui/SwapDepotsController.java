@@ -37,6 +37,7 @@ public class SwapDepotsController implements Initializable {
     Image servants = new Image("/img/punchboard/servant2.png");
     Image shields = new Image("/img/punchboard/shield2.png");
     Image stones = new Image("/img/punchboard/stone2.png");
+    private boolean extra;
 
 
 
@@ -60,6 +61,22 @@ public class SwapDepotsController implements Initializable {
             //choice1 e choice2 convertiti in interi
             //goToController
         }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+            root = loader.load();
+
+            if (extra) {
+                TurnController controller = loader.getController();
+                controller.actionDone();
+            }
+
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e) { System.out.println(e); }
+
     }
 
     public void goToController(Client client, int depot1, int depot2) {
@@ -78,7 +95,15 @@ public class SwapDepotsController implements Initializable {
     }
 
     public void backToActionTurn(ActionEvent event) throws Exception {
-        root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+        root = loader.load();
+
+        if (extra) {
+            TurnController controller = loader.getController();
+            controller.actionDone();
+        }
+
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -90,4 +115,7 @@ public class SwapDepotsController implements Initializable {
         firstdepot.getItems().addAll(depots);
         seconddepot.getItems().addAll(depots);
     }
+
+    //true if Swap Depots is an extra action
+    public void setExtra(boolean b) { extra = b; }
 }

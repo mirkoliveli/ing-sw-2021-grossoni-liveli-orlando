@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +25,8 @@ public class TurnController {
     private Scene scene;
     private Parent root;
     @FXML
+    private Label label;
+    @FXML
     private ImageView leadershown1, leadershown2;
     @FXML
     private Label labelleader1, labelleader2;
@@ -41,6 +44,8 @@ public class TurnController {
     Color purple = new Color(1.0, 0.0, 1.0, 1.0); //SERVANTS
     private AnchorPane temp;
     private AnchorPane popup;
+    @FXML
+    private Button finishbutton, cmbutton, marketbutton, prodbutton;
 
     public void switchToProduction(ActionEvent event) throws Exception {
         /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/production.fxml"));
@@ -85,7 +90,12 @@ public class TurnController {
         stage.setScene(scene);
         stage.show();*/
 
-        temp = FXMLLoader.load(getClass().getResource("/fxml/swapdepots.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/swapdepots.fxml"));
+        temp = loader.load();
+        if (finishbutton.isVisible()) {
+            SwapDepotsController controller = loader.getController();
+            controller.setExtra(true);
+        }
         pane.getChildren().add(temp);
     }
 
@@ -106,6 +116,10 @@ public class TurnController {
         pane.getChildren().add(temp);
 
     }
+
+    public void finishTurn(ActionEvent event) {
+        //FINISCE TURNO
+        }
 
     public void removePane() {
         pane.getChildren().remove(temp);
@@ -223,6 +237,14 @@ public class TurnController {
         c10.setFill(colors[9]);
         c11.setFill(colors[10]);
         c12.setFill(colors[11]);
+    }
+
+    public void actionDone() {
+        cmbutton.setDisable(true);
+        marketbutton.setDisable(true);
+        prodbutton.setDisable(true);
+        finishbutton.setVisible(true);
+        label.setText("You already performed your main action! You can swap depots or finish your turn");
     }
 
 }

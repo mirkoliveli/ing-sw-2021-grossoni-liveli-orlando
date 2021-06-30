@@ -152,6 +152,22 @@ public class CardMarketController {
         if (rad12.isSelected()) { zoom(img12, rad12); }
     }
 
+    public void confirm(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+            root = loader.load();
+
+            TurnController controller = loader.getController();
+            controller.actionDone();
+
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e) { System.out.println(e); }
+    }
+
     public void exitWindow(ActionEvent event) {
         stage = (Stage) pane.getScene().getWindow();
         stage.close();

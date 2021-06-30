@@ -101,7 +101,20 @@ public class MarketboardController extends AnchorPane {
 
 
     public void confirm(ActionEvent event) {
-        // lanciato quando si preme confirm, da gestire
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+            root = loader.load();
+
+            TurnController controller = loader.getController();
+            controller.actionDone();
+
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e) { System.out.println(e); }
+
     }
 
 
