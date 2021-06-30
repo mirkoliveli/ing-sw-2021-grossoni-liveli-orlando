@@ -2,11 +2,11 @@ package it.polimi.ingsw.model;
 
 import java.util.Arrays;
 
+/**
+ * In each slot, the max number of DevelopmentCard is 3
+ * The slot is managed as an array where the cards are overlapped based on their level
+ */
 public class DevelopmentCardSlot {
-
-    // In each slot, the max number of DevelopmentCard is 3
-    // The slot is managed as an array
-    // where the cards are overlapped based on their level
 
     private final DevelopmentCard[] vectorSlot;
     private int slotPV;
@@ -23,7 +23,9 @@ public class DevelopmentCardSlot {
         this.slotPV = slotPV;
     }
 
-    // Method that returns the list of colours appeared in the slot
+    /**
+     *     Method that returns the list of colours appeared in the slot
+     */
     public Color[] get_colors() {
         Color[] ColorAppeared = new Color[3];
         for (int i = 0; i < 3; i++) {
@@ -34,8 +36,13 @@ public class DevelopmentCardSlot {
         return ColorAppeared;
     }
 
-    // Method that returns the colour of the level 2 DevelopmentCard
-    // This method could be used to activate Leaders effect
+
+
+    /**
+     * Method that returns the colour of the level 2 DevelopmentCard
+     * This method could be used to activate Leaders effect
+     * @return the colour of the level 2 DevelopmentCard
+     */
     public Color get_secondLevelColor() {
         return vectorSlot[2].getColor();
     }
@@ -43,7 +50,6 @@ public class DevelopmentCardSlot {
 
     /**
      * method that returns the "active" card on the slot, returns null if the slot is empty
-     *
      * @return null if slot is empty, the card otherwise
      */
     public DevelopmentCard get_top() {
@@ -64,7 +70,6 @@ public class DevelopmentCardSlot {
 
     /**
      * method that places the card on the slot, returns true if the operation is done correctly, false otherwise
-     *
      * @param CardToPlace card "acquired"
      * @return true if operation is done successfully, false otherwise
      */
@@ -109,8 +114,7 @@ public class DevelopmentCardSlot {
 
     /**
      * method that returns the level of the top card, if the slot is empty returns zero.
-     *
-     * @return 0-1-2-3
+     * @return an integer between 0-3 that represent the last level occupied
      */
     public int levelOfTop() {
         if (this.get_top() != null) return this.get_top().getLevel();

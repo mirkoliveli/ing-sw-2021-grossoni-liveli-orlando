@@ -14,6 +14,9 @@ import it.polimi.ingsw.utils.StaticMethods;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Each client has a threaded server dedicated that manage all the interactions
+ */
 public class ThreadedServer extends Thread {
 
     protected Socket clientSocket;
@@ -42,6 +45,7 @@ public class ThreadedServer extends Thread {
     public int getIdPlayer() {
         return idPlayer;
     }
+
 
     public void run() {
 

@@ -49,6 +49,10 @@ public class PersonalBoard {
         return totResources;
     }
 
+    /**
+     * Method that count the number of development card on personal board
+     * @return totCards, represent the the number of development card on personal board
+     */
     public int countTotalCards() {
         int totCards = 0;
         if(developmentSlot1.get_top()!=null)
@@ -59,6 +63,7 @@ public class PersonalBoard {
         totCards = developmentSlot3.get_top().getLevel() + totCards;
         return totCards;
     }
+
 
     public DevelopmentCardSlot getSlot(int slot) {
         if (slot == 1) return developmentSlot1;

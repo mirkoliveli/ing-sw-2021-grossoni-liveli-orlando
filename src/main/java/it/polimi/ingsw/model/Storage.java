@@ -32,9 +32,8 @@ public class Storage {
 
     /**
      * method that swaps levels, return false if it can't be done, or true after the swap is done
-     *
-     * @param index1 1-2-3
-     * @param index2 1-2-3
+     * @param index1 an integer between 1-3
+     * @param index2 an integer between 1-3
      * @return true if action done, false otherwise
      */
     public boolean swapLevels(int index1, int index2) {
@@ -66,8 +65,8 @@ public class Storage {
     }
 
     /**
-     * @param index 1/2/3 come livello
-     * @return livello richiesto
+     * @param index an integer between 1-3 representing the level
+     * @return level required
      */
     public DepotLevel getLevel(int index) {
         switch (index) {

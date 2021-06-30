@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+
+/**
+ * class that defines every depot in storage
+ */
 public class DepotLevel {
 
     private TypeOfResource resourceType;
@@ -64,12 +68,17 @@ public class DepotLevel {
 
     //LEGACY METHODS
 
+    /**
+     * This methods adds q resources of the TypeOfResource ToR
+     * @param ToR Typer of Resource to add
+     * @param q number of ToR to add
+     * @return true if the "add action" can be done, false otherwise
+     */
     public boolean increaseQuantity(TypeOfResource ToR, int q) {
         /*
-        This methods adds q resources of the TypeOfResource ToR
+
         It guarantees that ToR corresponds to the depot's resource type and quantity+q is less than or equal to maxQuantity before doing so
         If ToR doesn't correspond to the depot's resource type and quantity = 0, it sets a new resourceType
-        If the increase ends well the method returns true, otherwise it prints an error message and returns false
          */
 
         if (ToR == this.getResourceType()) {
@@ -97,10 +106,15 @@ public class DepotLevel {
         }
     }
 
+    /**
+     * This methods removes q resources of the TypeOfResource ToR
+     * @param ToR Typer of Resource to add
+     * @param q number of ToR to remove
+     * @return true if the "decrease action" can be done, false otherwise
+     */
     public boolean decreaseQuantity(TypeOfResource ToR, int q) {
 
         /*
-        This methods removes q resources of the TypeOfResource ToR
         It guarantees that ToR corresponds to the depot's resource type and quantity is greater than q before doing so
         If the decrease ends well the method returns true, otherwise it prints an error message and returns false
          */

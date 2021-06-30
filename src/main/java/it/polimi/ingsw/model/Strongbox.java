@@ -6,7 +6,9 @@ package it.polimi.ingsw.model;
 
 public class Strongbox {
     /**
-     * contents di tipo vettore, conterrà per ogni indice indica la quantità di quel tipo di risorsa contenuta attualmente nella strongbox
+     * contents, vector type
+     * each index represents the type of resource already existing in the strongbox
+     * in each element of contents is contained the amount of 'index' resource
      * <br><br>
      * coins -> space 0
      * <br><br>
@@ -21,7 +23,6 @@ public class Strongbox {
     /**
      * constructor used when starting the game, sets all the contents to zero
      */
-
     public Strongbox() {
         this.contents = new int[4];
         this.contents[0] = 0;
@@ -41,7 +42,6 @@ public class Strongbox {
 
     /**
      * returns the vector containing the resources, use carefully
-     *
      * @return
      */
     public int[] getContents() {

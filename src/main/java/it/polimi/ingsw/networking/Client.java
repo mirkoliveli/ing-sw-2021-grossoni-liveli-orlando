@@ -39,7 +39,7 @@ public class Client {
     }
 
     /**
-     * method that handles all the stuff that happens before the game actually starts (login, selecting starting resources and leader etc)
+     * method that handles all the events and settings before the game actually starts (login, selecting starting resources and leader etc)
      * @throws IOException connection with the server failed
      */
     public void StartingConnection() throws IOException {
@@ -191,8 +191,7 @@ public class Client {
 
 
     /**
-     * method used when players need to wait other players before continuing to play, needs to be synced with the server
-     *
+     * method used when players need to wait the room's filling before continuing to play, needs to be synced with the server
      * @throws IOException
      */
     public void waitingPhase() throws IOException {
@@ -215,7 +214,6 @@ public class Client {
 
     /**
      * receives a message from the server (string)
-     *
      * @return String message
      * @throws IOException connection with server lost
      */
@@ -230,7 +228,6 @@ public class Client {
 
     /**
      * sends a string message to the server
-     *
      * @param message message sent
      * @throws IOException connection with server lost
      */
@@ -242,7 +239,8 @@ public class Client {
     }
 
     /**
-     * huge method that handles all the messages sent during the getting started phase, that handles the starting bonus and the choice for the leader cards...
+     * The method that handles all the messages sent during the getting started phase,
+     * that handles the starting bonus and the choice for the leader cards...
      */
     public void GettingStartedPhaseSection() {
         Gson gson = new Gson();
@@ -332,7 +330,7 @@ public class Client {
     }
 
     /**
-     * receives a costant update from the server, until all the players have finished selecting the starting resources
+     * receives regular updates from the server, until all the players have finished selecting the starting resources
      * @throws IOException
      */
     public void waitingForGameToStart() throws IOException {
@@ -357,8 +355,7 @@ public class Client {
 
 
     /**
-     * method that should handle the start of the game,
-     * BUT FOR NOW IT'S JUST USED AS A METHOD TO TRY THE TURN SECTION, NEED TO BE REVISED ASAP
+     * method that handles the start of the game
      */
     public void GameStarted(){
         Gson gson = new Gson();

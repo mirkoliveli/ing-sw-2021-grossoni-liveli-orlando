@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.exceptions.AlreadyPlayedOrDiscardedLeader;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.utils.StaticMethods;
 
+
 public class Player {
 
     private final boolean inkwell;
@@ -61,6 +62,9 @@ public class Player {
         return leaderCard2;
     }
 
+    /**
+     * setter of total amount of victory point
+     */
     public void setPvTotal() {
         int pvtemp = 0;
         if (leaderCard1 != null) {

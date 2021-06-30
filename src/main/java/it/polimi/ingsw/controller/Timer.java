@@ -28,8 +28,6 @@ public class Timer extends Thread {
             System.out.println("IO exception while closing socket");
         }
 
-
-
     }
 
 }

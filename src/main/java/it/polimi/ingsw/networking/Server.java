@@ -17,32 +17,20 @@ public class Server {
 
     private final ServerSocket serverSocket;
 
-//--------------CONTERRÀ L'ELENCO SOCKET-NOMEGIOCATORE-----------------//
-//    private Map<Socket, String> names = new HashMap<>();
-//
-//
-//    public Map<Socket, String> getNames() {
-//        return names;
-//    }
-//
-//    public void setNames(Map<Socket, String> names) {
-//        this.names = names;
-//    }
 
-
-//    public static int turno;
-//    public static int getTurno() {
-//        return turno;
-//    }    public static void setTurno(int turno) {
-//        this.turno = turno;
-//    }
-
-
+    /**
+     * Methot that open the server socket on the port number PORT
+     * @param PORT,
+     * @throws IOException
+     */
     public Server(int PORT) throws IOException {
         this.serverSocket = new ServerSocket(PORT);
     }
 
-
+    /**
+     * The method that manage all the server logic
+     * @throws IOException
+     */
     public void execute() throws IOException {
         ArrayList<ThreadedServer> clients = new ArrayList<>(4);
         MatchMultiPlayer match = new MatchMultiPlayer();

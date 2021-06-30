@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
-//manca interazione con giocatori per il rapporto in vaticano
-//manca un conteggio pv per le carte favore papale
+
 
 public class FaithTrack {
 
@@ -19,7 +18,6 @@ public class FaithTrack {
      *
      * @author Riccardo Grossoni
      */
-
     public FaithTrack() {
         faithMarker = 0;
         first = new PopesFavorCard(2);
