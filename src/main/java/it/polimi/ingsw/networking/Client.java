@@ -294,7 +294,7 @@ public class Client {
                     System.out.println("1 -> 1 coin");
                     System.out.println("2 -> 1 servant");
                     System.out.println("3 -> 1 shield");
-                    System.out.println("4 -> 1 stone");//va pulito
+                    System.out.println("4 -> 1 stone");
                     do {
                         resource = input.nextInt();
                         if (resource > 4 || resource < 1) System.out.println("not a valid resource, please retry:");
