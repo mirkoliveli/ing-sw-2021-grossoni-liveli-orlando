@@ -30,7 +30,7 @@ public class LeaderChoiceController implements Initializable {
     ImageView img1, img2, img3, img4;
 
 
-    public void fill(ActionEvent event) {
+    public void fill() {
         String source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[0] + "-1.png";
         Image test1 = new Image(source);
         source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[1] + "-1.png";

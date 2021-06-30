@@ -70,6 +70,8 @@ public class PostLoginController {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/leaderchoice.fxml"));
             root = loader.load();
+            LeaderChoiceController controller = loader.getController();
+            controller.fill();
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

@@ -21,7 +21,6 @@
          </font>
       </Label>
       <Button layoutX="707.0" layoutY="453.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
-      <Button layoutX="59.0" layoutY="453.0" mnemonicParsing="false" onAction="#fill" text="Fill" />
       <Label layoutX="101.0" layoutY="400.0" text="Leader 1" />
       <Label layoutX="301.0" layoutY="400.0" text="Leader 2" />
       <Label layoutX="501.0" layoutY="400.0" text="Leader 3" />
