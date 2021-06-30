@@ -374,7 +374,7 @@ public class Client {
                 ActionMessage starter=gson.fromJson(message, ActionMessage.class);
 
                 //start of normal turn
-                if(starter.getAction()!=TypeOfAction.GAME_ENDED && starter.getAction()!=TypeOfAction.GAME_UPDATE && starter.getAction()!=TypeOfAction.BEGIN_LAST_TURN){
+                if(starter.getAction()!=TypeOfAction.GAME_ENDED && starter.getAction()!=TypeOfAction.GAME_UPDATE && starter.getAction()!=TypeOfAction.BEGIN_LAST_TURN && starter.getAction()!=TypeOfAction.ACTION){
                     CommandLine.turnMgmt(starter.getActionAsMessage(), this);
                 }
                 //start of last turn
@@ -395,8 +395,8 @@ public class Client {
                     message="GAME_ENDED";
                 }
                 //game update message
-                else if(starter.getAction()==TypeOfAction.GAME_UPDATE){
-                    //to be finished
+                else if(starter.getAction()==TypeOfAction.ACTION){
+                    CommandLine.messageUpdateFromOtherPlayers(starter.getActionAsMessage());
                 }
 
             }

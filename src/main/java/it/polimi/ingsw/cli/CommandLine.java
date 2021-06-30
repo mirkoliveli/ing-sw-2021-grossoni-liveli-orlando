@@ -2,6 +2,7 @@ package it.polimi.ingsw.cli;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameStatusUpdate;
+import it.polimi.ingsw.controller.LastActionMade;
 import it.polimi.ingsw.controller.PlayerUpdate;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.DevelopmentCard;
@@ -15,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.model.MarbleColor.*;
@@ -969,7 +971,6 @@ public class CommandLine {
             //nota che se l'azione viene abortita con questo passaggio si va in deadlock, modificare una volta terminato il testing preliminare
             if(!ViewState.isAction_aborted()){
                 try {
-                    System.out.println("ricevendo update game");
                     inputJson = serverConnection.messageFromServer();
                     status=gson.fromJson(inputJson, GameStatusUpdate.class);
                 }catch(IOException e){
@@ -1866,6 +1867,53 @@ public class CommandLine {
         }
     }
 
+    public static void messageUpdateFromOtherPlayers(String Update){
+        if(Update.contains("Local")){
+            Gson gson=new Gson();
+            LastActionMade action=gson.fromJson(Update, LastActionMade.class);
+            if(LastActionMade.getAction()==null){
+                LastActionMade.setAction(action.getActionLocal(), action.getUsernameLocal(), action.getIdOrzoneLocal());
+
+            }
+            else if(LastActionMade.actionChanged(action)){
+                LastActionMade.setAction(action.getActionLocal(), action.getUsernameLocal(), action.getIdOrzoneLocal());
+                switch(action.getActionLocal()){
+                    case PLAY_OR_DISCARD_LEADER:
+                        if(action.getIdOrzoneLocal()<10){
+                            System.out.println("Player " + action.getUsernameLocal() +" discarded his leader!");
+                            System.out.println();
+                            printLeader(action.getIdOrzoneLocal());
+                        }
+                        else{
+                            System.out.println("Player " + action.getUsernameLocal() +" played his leader!");
+                            System.out.println();
+                            printLeader(action.getIdOrzoneLocal());
+                        }
+                        break;
+                    case ACTIVATE_PRDUCTION:
+                        System.out.println("Player " + action.getUsernameLocal() + " activated his productions!");
+                        break;
+                    case GO_TO_MARKET:
+                        System.out.println("Player "+ action.getUsernameLocal() + " gained resources from the market!");
+                        break;
+                    case BUY_A_CARD:
+                        System.out.println("Player "+ action.getUsernameLocal() + " bought a card!");
+                        System.out.println();
+                        printDevelopmentCard(action.getIdOrzoneLocal());
+                        break;
+                    case VATICAN_REPORT:
+                        System.out.println("The " + action.getIdOrzoneLocal() + " has been activated!");
+                        break;
+                    case END_TURN:
+                        System.out.println("Player "+ action.getUsernameLocal() +" ended his turn!");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
 
     public static void totallyNormalAndNotSuspiciousAtAllMethod(Client client){
         Gson gson=new Gson();
@@ -1878,6 +1926,7 @@ public class CommandLine {
         ActionMessage message=new ActionMessage(TypeOfAction.INSTANT_FINISH);
         client.messageToServer(gson.toJson(message));
     }
+
 
 
 }
