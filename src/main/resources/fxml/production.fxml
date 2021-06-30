@@ -20,7 +20,7 @@
             <Font name="Dubai Regular" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="699.0" layoutY="570.0" mnemonicParsing="false" onAction="#printProduction" text="PrintProduction" />
+      <Button layoutX="763.0" layoutY="570.0" mnemonicParsing="false" onAction="#printProduction" text="Confirm" />
       <Label layoutX="676.0" layoutY="70.0" text="Activated Production Leaders:" />
       <ImageView fx:id="leader1" fitHeight="163.0" fitWidth="108.0" layoutX="695.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="leader2" fitHeight="163.0" fitWidth="108.0" layoutX="695.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true" />

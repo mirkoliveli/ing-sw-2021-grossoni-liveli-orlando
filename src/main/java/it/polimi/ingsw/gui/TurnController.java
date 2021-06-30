@@ -106,6 +106,20 @@ public class TurnController {
         pane.getChildren().add(temp);
     }
 
+    public void switchToPlayLeader(ActionEvent event) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/playleader.fxml"));
+        temp = loader.load();
+        PlayLeaderController controller = loader.getController();
+
+        // provvisorio, setLeaders viene lanciato con gli ID dei leader del giocatore attivo
+        controller.setLeaders(51, 53, true, false);
+
+        if (finishbutton.isVisible()) {
+            controller.setExtra(true);
+        }
+        pane.getChildren().add(temp);
+    }
+
     public void switchToCardMarket(ActionEvent event) throws Exception {
         /*root = FXMLLoader.load(getClass().getResource("/fxml/cardmarket.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -282,7 +296,7 @@ public class TurnController {
         marketbutton.setDisable(true);
         prodbutton.setDisable(true);
         finishbutton.setVisible(true);
-        label.setText("You already performed your main action! You can swap depots or finish your turn");
+        label.setText("You already performed your main action! You can swap depots, play/discard a leader or finish your turn");
     }
 
 }
