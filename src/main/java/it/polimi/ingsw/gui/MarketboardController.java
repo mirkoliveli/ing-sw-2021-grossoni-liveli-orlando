@@ -6,8 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -33,6 +35,15 @@ public class MarketboardController extends AnchorPane {
     private AnchorPane background;
     @FXML
     private AnchorPane pane; //850x621
+
+    //prima di visualizzare choosedepot settare immagini in base al depot e lanciare setResource
+    @FXML
+    private ImageView img1, img2, img3, img4, img5, img6;
+    @FXML
+    private RadioButton depot1, depot2, depot3;
+    @FXML
+    private Label resource;
+    private int depot;
 
 
 
@@ -99,6 +110,31 @@ public class MarketboardController extends AnchorPane {
         stage.close();
     }
 
+    public void setDepot(ActionEvent event) {
+        if (depot1.isSelected()) { depot=1; }
+        if (depot2.isSelected()) { depot=2; }
+        if (depot3.isSelected()) { depot=3; }
+    }
+
+    public void setResource(int r) {
+        switch (r) {
+            case 0:
+                resource.setText("coins");
+                break;
+            case 1:
+                resource.setText("servants");
+                break;
+            case 2:
+                resource.setText("shields");
+                break;
+            case 3:
+                resource.setText("stones");
+                break;
+            default:
+                break;
+        }
+    }
+
 
     public void confirm(ActionEvent event) {
         try {
@@ -114,7 +150,12 @@ public class MarketboardController extends AnchorPane {
             stage.show();
         }
         catch (Exception e) { System.out.println(e); }
+    }
 
+    public void confirmDepot(ActionEvent event) {
+        if (depot!=0) {
+            //comunica slot
+        }
     }
 
 

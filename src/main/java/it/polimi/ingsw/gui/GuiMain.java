@@ -23,8 +23,8 @@ public class GuiMain extends Application {
         stage.setTitle("Masters of Renaissance");
         stage.setResizable(false);
         //stage.setFullScreen(true);
-        //modificare il contenuto di getResource per cambiare la schermata iniziale
 
+        //modificare il contenuto di getResource per cambiare la schermata iniziale
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         Parent root2 = loader.load();
 

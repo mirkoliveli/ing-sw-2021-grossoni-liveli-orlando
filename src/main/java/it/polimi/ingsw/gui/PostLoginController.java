@@ -26,7 +26,7 @@ public class PostLoginController {
     @FXML
     private Label label;
     @FXML
-    private ChoiceBox<String> choice;
+    private ChoiceBox<String> choice, invisiblechoice;
     private final ArrayList<String> numberofplayers = new ArrayList<String>(Arrays.asList("1","2","3","4"));
     private final ArrayList<String> resources = new ArrayList<String>(Arrays.asList("Coin","Servant","Shield","Stone"));
 
@@ -45,6 +45,10 @@ public class PostLoginController {
                 label.setText("Hello " + username + ", you are the player no. " + player + ". Select your bonus resources:");
                 ObservableList<String> list = FXCollections.observableArrayList(resources);
                 choice.setItems(list);
+                if (player ==4) {
+                    invisiblechoice.setVisible(true);
+                    invisiblechoice.setItems(list);
+                }
                 firstPlayer=false;
             }
 
