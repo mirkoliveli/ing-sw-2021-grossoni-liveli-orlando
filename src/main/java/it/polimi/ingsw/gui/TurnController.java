@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gui;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.TypeOfAction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -141,7 +144,10 @@ public class TurnController {
     }
 
     public void finishTurn(ActionEvent event) {
-        //FINISCE TURNO
+        ActionMessage action=new ActionMessage(TypeOfAction.END_TURN);
+        action.EndTurn();
+        Gson gson=new Gson();
+        ConnectionHandlerForGui.sendMessage(gson.toJson(action));
         }
 
     public void removePane() {

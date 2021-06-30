@@ -66,6 +66,11 @@ public class ConnectionHandlerForGui {
      * @param message send a "raw" message to the server
      */
     public static void sendMessage(String message){
+//        try {
+//            outputToServer.write(message, 0, message.length());
+//            outputToServer.flush();
+//        } catch (Exception e) { System.out.println(e);
+//            System.out.println("Lost connection from the server.\n"); }
         PrintWriter out = null;
         BufferedWriter bufferToServer = new BufferedWriter(outputToServer);
         out = new PrintWriter(bufferToServer, true);
@@ -77,6 +82,13 @@ public class ConnectionHandlerForGui {
      * @param object message to send (converted to json before sending)
      */
     public static void sendMessage(Object object){
+
+//        try {
+//            String message = gson.toJson(object);
+//            outputToServer.write(message, 0, message.length());
+//            outputToServer.flush();
+//        } catch (Exception e) { System.out.println(e);
+//            System.out.println("Lost connection from the server.\n"); }
         PrintWriter out = null;
         BufferedWriter bufferToServer = new BufferedWriter(outputToServer);
         out = new PrintWriter(bufferToServer, true);
@@ -90,8 +102,14 @@ public class ConnectionHandlerForGui {
      */
     public static String getMessage() throws IOException{
         String message=bufferFromServer.readLine();
+        while (message.equals(null)){
+            try {
+                System.out.println("MESSAGGE: Null\n");
+                Thread.sleep(1000);
+            } catch (Exception e) { System.out.println(e);}
+        }
         while(message.equals("waiting other players...") || message.equals("Successful connection!") || message.equals("Everything was set up! Now please wait for the other players to finish!")){
-            System.out.println("message");
+            System.out.println(message);
             message=bufferFromServer.readLine();
         }
         if(message.equals("next")) {
