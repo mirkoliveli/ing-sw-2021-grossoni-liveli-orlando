@@ -58,11 +58,23 @@ public class LeaderChoiceController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
                 root = loader.load();
                 TurnController controller = loader.getController();
-                if(messageFromServer.charAt(0)=='E') controller.setWaiting();
+
                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                scene = new Scene(root);
+
+               if(messageFromServer.charAt(0)=='E'){
+                   controller.setWaiting();
+                   ConnectionHandlerForGui.setIsItMyTurn(false);
+                   ConnectionHandlerForGui.sendMessage("Still_connected");
+               }
+                else{
+                    ConnectionHandlerForGui.setIsItMyTurn(true);
+                   ConnectionHandlerForGui.sendMessage("Still_connected");
+               }
+
                stage.setScene(scene);
                stage.show();
+
             }
             catch (Exception e) { System.out.println(e); }
         }

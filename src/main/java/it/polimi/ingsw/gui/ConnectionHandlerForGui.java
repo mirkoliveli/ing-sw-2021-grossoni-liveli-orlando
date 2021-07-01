@@ -16,6 +16,9 @@ public class ConnectionHandlerForGui {
     private static int[] leaders;
     private static int resource;
 
+    private static boolean isItMyTurn;
+    private static boolean isMyTurnEnded;
+
     /**
      * generates connection with server and input and output streams
      * @param connection Socket connection
@@ -27,6 +30,14 @@ public class ConnectionHandlerForGui {
         bufferFromServer=new BufferedReader(inputFromServer);
         outputToServer=new OutputStreamWriter(connection.getOutputStream());
         gson=new Gson();
+    }
+
+    public static void setIsMyTurnEnded(boolean isMyTurnEnded) {
+        ConnectionHandlerForGui.isMyTurnEnded = isMyTurnEnded;
+    }
+
+    public static boolean IsMyTurnEnded() {
+        return isMyTurnEnded;
     }
 
     public static void setLeaders(int[] leaders) {
@@ -59,6 +70,14 @@ public class ConnectionHandlerForGui {
 
     public static int getIdOfPlayer() {
         return idOfPlayer;
+    }
+
+    public static void setIsItMyTurn(boolean isItMyTurn) {
+        ConnectionHandlerForGui.isItMyTurn = isItMyTurn;
+    }
+
+    public static boolean IsItMyTurn() {
+        return isItMyTurn;
     }
 
     /**

@@ -28,8 +28,6 @@ public class GuiMain extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         Parent root2 = loader.load();
 
-
-
         Scene productionScene = new Scene(root2);
         stage.setScene(productionScene);
         stage.show();
