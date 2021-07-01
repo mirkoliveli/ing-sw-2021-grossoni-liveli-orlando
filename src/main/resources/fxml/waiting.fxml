@@ -11,7 +11,7 @@
             <Font size="56.0" />
          </font>
       </Label>
-      <Label fx:id="waitingmessage" layoutX="154.0" layoutY="337.0" text="The game is not started yet">
+      <Label layoutX="43.0" layoutY="349.0" text="You have to wait for your turn">
          <font>
             <Font size="55.0" />
          </font>
