@@ -14,11 +14,7 @@ public abstract class Card {
     }
 //----------------------------------------------------------------------------------------------------------------------
 
-    /**
-     * costruttori per testing e settaggi
-     *
-     * @return
-     */
+    //costruttore per testing
     public Card(int victorypt, int code) {
         pv = victorypt;
         id = code;

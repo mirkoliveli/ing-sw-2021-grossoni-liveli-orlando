@@ -3,15 +3,18 @@ package it.polimi.ingsw;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.singlePlayer.controller.SinglePlayerHandler;
+import it.polimi.ingsw.gui.GuiMain;
 
 import java.io.IOException;
 import java.util.Scanner;
+
 
 public class ClientMain {
 
 
 
     public static void main(String[] args) throws IOException {
+//        GuiMain.main(args);
         Scanner scn = new Scanner(System.in);
         boolean selection=spOrMp(scn);
 

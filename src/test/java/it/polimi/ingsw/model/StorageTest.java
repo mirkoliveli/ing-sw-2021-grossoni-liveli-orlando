@@ -38,38 +38,44 @@ public class StorageTest {
         assertEquals(coins, testing.getLevel(2).getResourceType());
     }
 
-
     @Test
-    public void AddResourcesIfLevelIsPresent() {
-       /* Storage Tester = new Storage();
-        Tester.getLevel(3).setQuantity(1);
-        Tester.getLevel(3).setResourceType(TypeOfResource.coins);
-        int[] prova = {1, 0, 0, 0};
-        assertEquals(0, Tester.IncreaseResources(prova));
-        prova[0] = 2;
-        assertEquals(1, Tester.IncreaseResources(prova)); //c'è una risorsa scartata
-        assertEquals(3, Tester.getLevel(3).getQuantity()); //lo slot è pieno
-        Tester.addLeader(coins);
-        assertEquals(0, Tester.IncreaseResources(prova));
-        System.out.println(Tester.getFirstLeader().getQuantity());
-        */
+    public void SwapLevelsTest(){
+        Storage storageTest = new Storage();
+        DepotLevel depotLevelTest1 = new DepotLevel();
+        DepotLevel depotLevelTest2 = new DepotLevel();
+        DepotLevel depotLevelTest3 = new DepotLevel();
+        storageTest.getLevel(1).increaseQuantity(stones, 1);
+        storageTest.getLevel(2).increaseQuantity(coins, 2);
+        storageTest.getLevel(3).increaseQuantity(shields, 2);
+        storageTest.swapLevels(1,2);
+        assertEquals(stones, storageTest.getLevel(1).getResourceType());
+        assertEquals(coins, storageTest.getLevel(2).getResourceType());
+        storageTest.swapLevels(2,3);
+        assertEquals(coins,storageTest.getLevel(3).getResourceType());
+        assertEquals(shields, storageTest.getLevel(2).getResourceType());
     }
 
 
-    //breve controllo sul decreaser
-//    @Test
-//    public void DecreaserTest(){
-//        Storage tester=new Storage();
-//        tester.getLevel(1).setResourceType(coins);
-//        tester.getLevel(1).setQuantity(1);
-//        try {
-//            tester.ResourceDecreaser(new int[]{2, 0, 0, 0});
-//        }catch (NotEnoughResources e){
-//            System.out.println("errore");
-//            assertEquals(1, 0);//dato che NON 00 devo entrare qua faccio fallire il test automaticamente nel caso succeda
-//        }
-//        System.out.print(tester.getLevel(1).getResourceType() + "" + tester.getLevel(1).getQuantity());
-//    }
+    @Test
+    public void seekerOfResource(){
+        Storage storageTest = new Storage();
+        DepotLevel depotLevelTest1 = new DepotLevel();
+        DepotLevel depotLevelTest2 = new DepotLevel();
+        DepotLevel depotLevelTest3 = new DepotLevel();
+        storageTest.getLevel(1).increaseQuantity(stones, 1);
+        storageTest.getLevel(2).increaseQuantity(coins, 2);
+        storageTest.getLevel(3).increaseQuantity(shields, 3);
+        depotLevelTest1 = storageTest.seekerOfResource(stones);
+        depotLevelTest2 = storageTest.seekerOfResource(coins);
+        depotLevelTest3 = storageTest.seekerOfResource(shields);
+        assertEquals(storageTest.getLevel(1), depotLevelTest1);
+        assertEquals(storageTest.getLevel(2), depotLevelTest2);
+        assertEquals(storageTest.getLevel(3), depotLevelTest3);
+
+
+    }
+
+
 
 
     //controllo se la conversione funziona

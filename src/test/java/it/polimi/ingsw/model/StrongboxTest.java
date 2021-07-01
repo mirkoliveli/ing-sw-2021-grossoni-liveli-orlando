@@ -26,13 +26,6 @@ public class StrongboxTest {
 
     //metodi getters non necessari da testare, getSpecific viene comunque usato ampliamente negli altri tests
 
-    @Test
-    public void getContents() {
-    }
-
-    @Test
-    public void getSpecific() {
-    }
 
     //verifica se funziona il metodo canBuy
     //questo metodo restituisce true se è possibile pagare un costo (int[4]) passato come parametro
@@ -62,6 +55,7 @@ public class StrongboxTest {
         assertFalse(testing.canBuy(costo));
         System.out.println("fine test canBuy");
     }
+
 
     //testa se funziona la rimozione di un costo
     //la rimozione viene eseguita solo se è possibile pagare il costo

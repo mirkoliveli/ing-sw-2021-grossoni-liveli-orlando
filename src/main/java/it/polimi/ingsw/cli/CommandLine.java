@@ -1562,7 +1562,7 @@ public class CommandLine {
     }
 
     /**
-     * @overload of the printTopOfSlots<br>
+     * override of the printTopOfSlots<br>
      * prints all the slots available to store a card of a specified level, and prints the top card (if there's any) of the slot.
      * @param status gameStatus used to print the cards.
      * @param onlyPrintThese boolean[] sent by the server stating which slot should be printed

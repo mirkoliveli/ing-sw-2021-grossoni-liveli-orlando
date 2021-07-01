@@ -236,7 +236,6 @@ public class Client {
     /**
      * sends a string message to the server
      * @param message message sent
-     * @throws IOException connection with server lost
      */
     public void messageToServer(String message) {
         PrintWriter out = null;

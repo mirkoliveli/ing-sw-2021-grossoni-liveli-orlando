@@ -143,9 +143,9 @@ public class CardMarketTest {
         assertNull(prova.getMatrixDevelopment()[0][0][2]);
         //assertNull(prova.getMatrixDevelopment()[0][0][3]); //usare solo se vuoi testare esattametne due carte
 
-        /*prova.PrintId();*/
-        prova.populate(0, 0, "src/main/resources/green_lvl1.json"); //ripristina stato iniziale
-        /*prova.PrintId();*/
+//        /*prova.PrintId();*/
+//        prova.populate(0, 0, "src/main/resources/green_lvl1.json"); //ripristina stato iniziale
+//        /*prova.PrintId();*/
 
         //SECONDO TEST, una sola carta nel mazzo (deve quindi eliminare la prima del mazzo al livello dopo)
         prova.Remove(1);
