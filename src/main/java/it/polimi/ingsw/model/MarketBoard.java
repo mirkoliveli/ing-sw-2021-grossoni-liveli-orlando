@@ -47,6 +47,7 @@ public class MarketBoard {
         this.board[2][2] = new Marble(MarbleColor.red);
         this.board[2][3] = new Marble(MarbleColor.blue);
         this.slideMarble = new Marble(MarbleColor.white);
+        this.shuffle();
     }
 
     //getters

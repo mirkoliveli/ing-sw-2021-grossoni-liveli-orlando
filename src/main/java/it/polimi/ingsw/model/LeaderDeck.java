@@ -11,6 +11,7 @@ public class LeaderDeck {
     public LeaderDeck() {
         deck = new LeaderCard[16];
         this.populate(deckLoadPath);
+        this.shuffle();
     }
 
     public void populate(String path) {

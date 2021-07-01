@@ -37,6 +37,7 @@ public class CardMarket {
         this.populate(2, 1, "/purple_lvl3.json");
         this.populate(2, 2, "/blue_lvl3.json");
         this.populate(2, 3, "/yellow_lvl3.json");
+        this.shuffle();
     }
 
     public DevelopmentCard[][][] getMatrixDevelopment() {
