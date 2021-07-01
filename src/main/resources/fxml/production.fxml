@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -34,5 +35,9 @@
       <ImageView fx:id="card1" fitHeight="163.0" fitWidth="108.0" layoutX="258.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="card2" fitHeight="163.0" fitWidth="108.0" layoutX="372.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="card3" fitHeight="163.0" fitWidth="108.0" layoutX="493.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true" />
+      <ChoiceBox fx:id="base1" layoutX="159.0" layoutY="570.0" prefHeight="25.0" prefWidth="92.0" visible="false" />
+      <ChoiceBox fx:id="base2" layoutX="266.0" layoutY="570.0" prefHeight="25.0" prefWidth="92.0" visible="false" />
+      <ChoiceBox fx:id="base3" layoutX="417.0" layoutY="570.0" prefHeight="25.0" prefWidth="92.0" visible="false" />
+      <Label fx:id="baselabel" layoutX="132.0" layoutY="547.0" prefHeight="17.0" prefWidth="385.0" text="Base production:        pay                                                       receive" visible="false" />
    </children>
 </AnchorPane>

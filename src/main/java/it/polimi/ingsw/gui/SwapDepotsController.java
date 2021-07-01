@@ -30,7 +30,7 @@ public class SwapDepotsController implements Initializable {
     private Label title;
     @FXML
     private ChoiceBox<String> firstdepot, seconddepot;
-    private String[] depots = {"Depot 1", "Depot 2", "Depot 3"};
+    private String[] depots = {"1", "2", "3"};
     @FXML
     ImageView img1, img2, img3, img4, img5, img6;
     Image coins = new Image("/img/punchboard/coin2.png");
@@ -57,6 +57,15 @@ public class SwapDepotsController implements Initializable {
         if (choice1 == null || choice2 == null) { title.setText("You have to choose your depots first!"); }
         else if (choice1 == choice2) { title.setText("You have to choose different depots!"); }
         else {
+
+
+            ActionMessage action=new ActionMessage(TypeOfAction.SWAP_DEPOTS);
+            action.SwapDepotsMessage(Integer.parseInt(choice1), Integer.parseInt(choice2));
+            Gson gson=new Gson();
+            ConnectionHandlerForGui.sendMessage(gson.toJson(action));
+
+
+
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
                 root = loader.load();

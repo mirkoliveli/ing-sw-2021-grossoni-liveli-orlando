@@ -1,5 +1,11 @@
 package it.polimi.ingsw.gui;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.TypeOfAction;
+import it.polimi.ingsw.model.TypeOfResource;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,11 +14,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class ProductionController {
@@ -25,7 +35,13 @@ public class ProductionController {
     private ImageView leader1, leader2;
     @FXML
     private ImageView card1, card2, card3;
+    @FXML
+    private Label baselabel;
+    @FXML
+    private ChoiceBox<String> base1, base2, base3;
+    private final ArrayList<String> resources = new ArrayList<String>(Arrays.asList("Coin","Servant","Shield","Stone"));
     private boolean[] production = new boolean[6];
+    private String[] res = new String[3];
     // 0: costo shields; 1: costo servants; 2: costo stones; 3: costo coins
     private Image[] leadercards = {
             new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png"),
@@ -43,8 +59,19 @@ public class ProductionController {
     }
 
     public void selectProd(ActionEvent event) throws Exception {
-        if (prod0.isSelected()) { production[0] = true; }
-        else { production[0] = false; }
+        if (prod0.isSelected()) {
+            production[0] = true;
+            baselabel.setVisible(true);
+            base1.setVisible(true);
+            base2.setVisible(true);
+            base3.setVisible(true);
+        }
+        else {
+            production[0] = false;
+            baselabel.setVisible(false);
+            base1.setVisible(false);
+            base2.setVisible(false);
+            base3.setVisible(false); }
         if (prod1.isSelected()) { production[1] = true; }
         else { production[1] = false; }
         if (prod2.isSelected()) { production[2] = true; }
@@ -85,8 +112,37 @@ public class ProductionController {
         }
     }
 
+    public void fillBaseProd() {
+        ObservableList<String> list = FXCollections.observableArrayList(resources);
+        base1.setItems(list);
+        base2.setItems(list);
+        base3.setItems(list);
+    }
+
     //metodo provvisorio
     public void printProduction(ActionEvent event) {
+
+        /*
+        if (production[0]) {
+            res[0] = base1.getItems();
+            res[1] = base2.getItems();
+            res[2] = base3.getItems();
+        }
+
+        */
+
+
+
+        ActionMessage action=new ActionMessage(TypeOfAction.ACTIVATE_PRODUCTION);
+        // mettere a posto qui
+        // action.ActivateProduction(production, ???);
+        Gson gson=new Gson();
+        ConnectionHandlerForGui.sendMessage(gson.toJson(action));
+
+
+
+
+        // stampa per controllo
         for (int i=0; i<6; i++) { System.out.println("Production " + i + ": " + production[i]); }
     }
 

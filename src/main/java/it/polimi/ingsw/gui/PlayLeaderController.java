@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gui;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.TypeOfAction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,13 +28,14 @@ public class PlayLeaderController {
     @FXML
     private Label label;
     private boolean extra;
-    private int choiceNumber;
+    private int playordiscard;
+    private int idl1, idl2, chosen;
 
     public void getChoice(ActionEvent event) {
-        if (play1.isSelected()) { choiceNumber = 1; }
-        if (discard1.isSelected()) { choiceNumber = 2; }
-        if (play2.isSelected()) { choiceNumber = 3; }
-        if (discard2.isSelected()) { choiceNumber = 4; }
+        if (play1.isSelected()) { playordiscard=0; chosen=idl1; }
+        if (discard1.isSelected()) { playordiscard=1; chosen=idl1; }
+        if (play2.isSelected()) { playordiscard=0; chosen=idl2; }
+        if (discard2.isSelected()) { playordiscard=1; chosen=idl2; }
     }
 
     public void backToActionTurn(ActionEvent event) throws Exception {
@@ -51,10 +55,13 @@ public class PlayLeaderController {
     }
 
     public void confirm(ActionEvent event) {
-        if (choiceNumber == 0) { label.setText("You have to choose an action to perform!"); }
+        if (chosen == 0) { label.setText("You have to choose an action to perform!"); }
         else {
-            // comunica choiceNumber
-            System.out.println(choiceNumber);
+
+            ActionMessage action=new ActionMessage(TypeOfAction.PLAY_OR_DISCARD_LEADER);
+            action.PlayOrDiscardLeaders(chosen, playordiscard);
+            Gson gson=new Gson();
+            ConnectionHandlerForGui.sendMessage(gson.toJson(action));
 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
@@ -80,6 +87,8 @@ public class PlayLeaderController {
 
         Image image1 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + l1 + "-1.png");
         Image image2 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + l2 + "-1.png");
+        idl1 = l1;
+        idl2 = l2;
 
         if (played1) {
             play1.setDisable(true);

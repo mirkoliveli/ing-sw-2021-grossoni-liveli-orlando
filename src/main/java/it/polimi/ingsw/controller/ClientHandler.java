@@ -11,7 +11,6 @@ import it.polimi.ingsw.utils.Generic_intANDboolean;
 import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.IOException;
-import java.net.Socket;
 
 import static it.polimi.ingsw.messages.InBetweenActionExchanges.*;
 
@@ -147,7 +146,7 @@ public class ClientHandler extends Thread {
                     clientConnection.messageToClient("Action aborted! You already took an action during this turn!");
                 }
                 break;
-            case ACTIVATE_PRDUCTION:
+            case ACTIVATE_PRODUCTION:
                 if(!mainAction){
                 ProductionAction();
                 }
@@ -299,7 +298,7 @@ public class ClientHandler extends Thread {
                 match.getPlayers().get(idPlayer-1).getBoard().getStrongbox().store(resources);
                 match.MoveInFaithTrack(gains[4], idPlayer);
                 ProductionActionMessage message=new ProductionActionMessage(ACTION_SUCCESS, "");
-                LastActionMade.setAction(TypeOfAction.ACTIVATE_PRDUCTION, match.getPlayers().get(idPlayer-1).getName(), 0);
+                LastActionMade.setAction(TypeOfAction.ACTIVATE_PRODUCTION, match.getPlayers().get(idPlayer-1).getName(), 0);
                 clientConnection.messageToClient(gson.toJson(message));
                 mainAction=true;
             }catch(NotEnoughResources e){
