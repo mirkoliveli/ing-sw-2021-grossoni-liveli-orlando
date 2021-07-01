@@ -51,6 +51,8 @@ public class SinglePlayerHandler {
     public void startMatch(){
         chooseLeaders();
         while(!gameFinished){
+            int[] vec={999,999,999,999};
+            game.getPlayer().getBoard().getStrongbox().store(vec);
             turnMgmt();
             try {
                 game.LorenzoAction();
@@ -188,14 +190,39 @@ public class SinglePlayerHandler {
 
         result=game.getMarketBoard().ConversionToArray(rowColumn, line-1);
         game.getMarketBoard().ChangeBoard(rowColumn, line);
+        int[] resources={result[0], result[1], result[2], result[3]};
         //interazione leader da aggiungere
+        if(StaticMethods.AreAnyTrue(game.getPlayer().doIHaveAWhiteBallLeader()) && result[5]>0){
+            System.out.println("You have leaders that can transform white marbles into resources:\n");
+            CliForSP.printLeaders(game.gameUpdate(), game.getPlayer().doIHaveAWhiteBallLeader());
+            int min=1;
+            int selection;
+            int power;
+            if(!game.getPlayer().doIHaveAWhiteBallLeader()[0]) min++;
+
+            if(StaticMethods.areAllTrue( game.getPlayer().doIHaveAWhiteBallLeader())) {
+                System.out.println("Please select which leader to activate, or 0 if you don't want to activate any: ");
+                selection=CliForSP.selectANumber(0,2,-1);
+                if(selection!=0){
+                    resources[StaticMethods.TypeOfResourceToInt(game.getPlayer().switchLeader(selection).getPower())]+=result[5];
+                }
+            }
+            else{
+                System.out.println("Do you want to activate the leader? Select 1 if you want to, 0 if you don't: ");
+                selection=CliForSP.selectANumber(0,1,-1);
+                if(selection!=0){
+                    resources[StaticMethods.TypeOfResourceToInt(game.getPlayer().switchLeader(min).getPower())]+=result[5];
+                }
+            }
+        }
+
 
         //update faithtrack
         if(result[4]>0) game.getPlayer().getBoard().getFaithTrack().Movement(result[4]);
 
         //update storage
-        int[] resoruces={result[0], result[1], result[2], result[3]};
-        discarded=game.getPlayer().getBoard().getStorage().IncreaseResources(resoruces);
+
+        discarded=game.getPlayer().getBoard().getStorage().IncreaseResources(resources);
 
 
         if(discarded>0){
@@ -471,7 +498,7 @@ public class SinglePlayerHandler {
 
 
     /**
-     * handles all the cli game
+     * handles all the cli comunication with the client
      */
     public void turnMgmt() {
         System.out.println("\033[H\033[2J"); //should clear the console when using the jar? does not work on intellij tho

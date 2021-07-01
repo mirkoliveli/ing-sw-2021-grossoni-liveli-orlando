@@ -187,6 +187,18 @@ public class StaticMethods {
     }
 
     /**
+     * checks if a boolean vector is all true
+     * @param toBeChecked vector checked
+     * @return true if the vector does not contain any false, true otherwise
+     */
+    public static boolean areAllTrue(boolean[] toBeChecked){
+        for(int i=0; i<toBeChecked.length; i++){
+            if(!toBeChecked[i]) return false;
+        }
+        return true;
+    }
+
+    /**
      * controls that the client wants to take the production action
      * @param array array to be checked
      * @return true if at least one selection is changed, false otherwise
