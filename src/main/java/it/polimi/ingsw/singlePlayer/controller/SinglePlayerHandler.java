@@ -51,8 +51,6 @@ public class SinglePlayerHandler {
     public void startMatch(){
         chooseLeaders();
         while(!gameFinished){
-            int[] vec={999,999,999,999};
-            game.getPlayer().getBoard().getStrongbox().store(vec);
             turnMgmt();
             try {
                 game.LorenzoAction();
