@@ -104,7 +104,7 @@ public class ConnectionHandlerForGui {
         String message=bufferFromServer.readLine();
         while (message.equals(null)){
             try {
-                System.out.println("MESSAGGE: Null\n");
+                System.out.println("MESSAGE: Null\n");
                 Thread.sleep(1000);
             } catch (Exception e) { System.out.println(e);}
         }

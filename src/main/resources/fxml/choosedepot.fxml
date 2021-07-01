@@ -12,7 +12,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="621.0" prefWidth="850.0" style="-fx-background-color: #e5fafa;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.MarketboardController">
    <children>
       <AnchorPane layoutX="125.0" layoutY="137.0" prefHeight="393.0" prefWidth="600.0">
@@ -99,6 +98,7 @@
             </RadioButton>
             <RadioButton fx:id="depot1" layoutX="470.0" layoutY="68.0" mnemonicParsing="false" text="First Depot" toggleGroup="$depotslot" />
             <RadioButton fx:id="depot3" layoutX="470.0" layoutY="297.0" mnemonicParsing="false" text="Third Depot" toggleGroup="$depotslot" />
+            <RadioButton fx:id="depotdisc" layoutX="470.0" layoutY="352.0" mnemonicParsing="false" text="Discard Resource" toggleGroup="$depotslot" />
          </children>
       </AnchorPane>
       <Label layoutX="54.0" layoutY="58.0" text="Choose where you want to store:">

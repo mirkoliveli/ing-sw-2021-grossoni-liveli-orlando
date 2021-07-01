@@ -5,7 +5,7 @@ public enum TypeOfAction {
     BEGIN_LAST_TURN,
     GAME_UPDATE,
     BEGIN_TURN,
-    END_TURN, //v
+    END_TURN,
     GO_TO_MARKET,
     BUY_A_CARD,
     ACTIVATE_PRODUCTION,

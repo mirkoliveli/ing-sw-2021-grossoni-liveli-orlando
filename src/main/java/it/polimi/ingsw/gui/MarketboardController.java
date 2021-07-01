@@ -3,12 +3,14 @@ package it.polimi.ingsw.gui;
 import com.google.gson.Gson;
 import it.polimi.ingsw.messages.ActionMessage;
 import it.polimi.ingsw.messages.TypeOfAction;
+import it.polimi.ingsw.messages.chooseDepotMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
@@ -38,6 +40,8 @@ public class MarketboardController extends AnchorPane {
     private AnchorPane background;
     @FXML
     private AnchorPane pane; //850x621
+    @FXML
+    private CheckBox leaderbonus1, leaderbonus2;
     private int line;
     private boolean rowcolumn;
 
@@ -45,7 +49,7 @@ public class MarketboardController extends AnchorPane {
     @FXML
     private ImageView img1, img2, img3, img4, img5, img6;
     @FXML
-    private RadioButton depot1, depot2, depot3;
+    private RadioButton depot1, depot2, depot3, depotdisc;
     @FXML
     private Label resource;
     private int depot;
@@ -119,6 +123,7 @@ public class MarketboardController extends AnchorPane {
         if (depot1.isSelected()) { depot=1; }
         if (depot2.isSelected()) { depot=2; }
         if (depot3.isSelected()) { depot=3; }
+        if (depotdisc.isSelected()) { depot=4; }
     }
 
     public void setResource(int r) {
@@ -141,12 +146,45 @@ public class MarketboardController extends AnchorPane {
     }
 
 
-    public void confirm(ActionEvent event) {
+    public void confirm(ActionEvent event) throws Exception {
 
         ActionMessage action=new ActionMessage(TypeOfAction.GO_TO_MARKET);
         action.MarbleMarketAction(line, rowcolumn);
         Gson gson=new Gson();
         ConnectionHandlerForGui.sendMessage(gson.toJson(action));
+        String answerFromServer = ConnectionHandlerForGui.getMessage();
+        try {
+
+            while(answerFromServer.contains("resourceStillToBeStored")){
+                chooseDepotMessage subMessage=gson.fromJson(answerFromServer, chooseDepotMessage.class);
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosedepot.fxml"));
+                AnchorPane temp = loader.load();
+                // settare immagini depot e stato
+                pane.getChildren().add(temp);
+
+
+                /*
+                da finire di gestire
+
+                printDepotChoice(subMessage.getDepotStateOfEmptyness(), subMessage.getResourceStillToBeStored());
+                System.out.println("Select 0 if you wish to discard the resources, otherwise select the level where you wish them to be stored: ");
+                do {
+                    inputFromC = scanner.nextLine();
+                    ans=checkForDepotChoice(inputFromC, subMessage.getDepotStateOfEmptyness());
+                }while(ans<0);
+                client.messageToServer(String.valueOf(ans));
+                answerFromServer= client.messageFromServer();
+
+                 */
+            }
+
+
+
+
+
+        }
+        catch (Exception e) { System.out.println(e); }
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
