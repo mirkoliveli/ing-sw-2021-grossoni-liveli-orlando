@@ -108,7 +108,8 @@ public class ConnectionHandlerForGui {
                 Thread.sleep(1000);
             } catch (Exception e) { System.out.println(e);}
         }
-        while(message.equals("waiting other players...") || message.equals("Successful connection!") || message.equals("Everything was set up! Now please wait for the other players to finish!")){
+        while(message.equals("waiting other players...") || message.equals("Successful connection!") || message.equals("Everything was set up! Now please wait for the other players to finish!") ||
+        message.equals("The game Will start soon...")){
             System.out.println(message);
             message=bufferFromServer.readLine();
         }

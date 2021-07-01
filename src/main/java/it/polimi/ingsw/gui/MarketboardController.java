@@ -70,7 +70,7 @@ public class MarketboardController extends AnchorPane {
 
     //metodo da modificare
     public void fill() {
-        background.setStyle("-fx-background-color: black");
+        background.setStyle("-fx-background-color: #000000");
         c1.setFill(red);
         c2.setFill(blue);
         c3.setFill(yellow);

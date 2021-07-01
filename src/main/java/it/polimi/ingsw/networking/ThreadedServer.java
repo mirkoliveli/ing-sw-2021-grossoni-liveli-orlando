@@ -96,12 +96,7 @@ public class ThreadedServer extends Thread {
             return;
         }
         //messo per non killare subito il thread, così posso testare riconnessioni
-        try {
-            System.out.println("game finished");
-            Thread.sleep(600000);
-        } catch (InterruptedException e) {
-            System.out.println("error while waiting");
-        }
+
     }
 
 
@@ -206,6 +201,7 @@ public class ThreadedServer extends Thread {
         Timer time=new Timer(clientSocket);
         time.start();
         String result=inFromClient.readLine();
+        if(result==null) throw new IOException();
         time.interrupt();
         return result;
     }
