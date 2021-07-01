@@ -55,8 +55,6 @@ public class TurnController {
     Image servants = new Image("/img/punchboard/servant2.png");
     Image shields = new Image("/img/punchboard/shield2.png");
     Image stones = new Image("/img/punchboard/stone2.png");
-    @FXML
-    private Label waitingmessage;
 
     public void switchToProduction(ActionEvent event) throws Exception {
         /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/production.fxml"));
@@ -314,7 +312,7 @@ public class TurnController {
         c12.setFill(colors[11]);
     }
 
-    public void setWaitText() { waitingmessage.setText("It's not your turn!"); }
+
 
     public void actionDone() {
         cmbutton.setDisable(true);
