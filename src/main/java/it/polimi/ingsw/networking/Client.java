@@ -383,6 +383,7 @@ public class Client {
                         CommandLine.turnMgmt(lastTurn.getActionAsMessage(), this);
                     } catch (IOException e) {
                         System.out.println("connection lost!");
+                        System.exit(1);
                     }
                 }
                 //start of end game

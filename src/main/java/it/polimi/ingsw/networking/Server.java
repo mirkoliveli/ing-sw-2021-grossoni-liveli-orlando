@@ -111,13 +111,7 @@ public class Server {
         //finisce la fase di login, inzio del game vero e proprio
 
 
-        try {
-            Thread.sleep(3000000);
-        } catch (InterruptedException e) {
-            System.out.println("wtf");
-        }
 
-        serverSocket.close();
     }
 
 

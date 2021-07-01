@@ -294,6 +294,8 @@ public class ClientHandler extends Thread {
 
         if(match.getPlayers().get(idPlayer-1).canIPayForProductions(cost)){
             try{
+                System.out.println("costo:" + gson.toJson(cost));
+                System.out.println("guadagno: " + gson.toJson(gains));
                 match.getPlayers().get(idPlayer-1).payForProductions(cost);
                 int[] resources={gains[0], gains[1], gains[2], gains[3]};
                 match.getPlayers().get(idPlayer-1).getBoard().getStrongbox().store(resources);

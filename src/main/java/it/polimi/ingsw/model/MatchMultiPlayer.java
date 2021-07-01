@@ -30,6 +30,12 @@ public class MatchMultiPlayer {
         players.add(player);
     }
 
+    /**
+     * handles the moves in the faith track while ensuring that the pope spaces are activated
+     * @param move how much the marker will move
+     * @param id id of the player who made the move
+     * @throws GameIsEnding in case the marker reaches 24
+     */
     public void MoveInFaithTrack(int move, int id) throws GameIsEnding {
         int zone = 0;
         zone = players.get(id - 1).getBoard().getFaithTrack().MultiPlayerMovement(move); //esegue movimento, modifica score
@@ -41,6 +47,12 @@ public class MatchMultiPlayer {
         }
     }
 
+    /**
+     * handles movement when a player discard resources (movement is made in parallel)
+     * @param discardedRes quantity of discarded resources
+     * @param idOfNotMovingPlayer  only player who does not get movement
+     * @return states all the players that have finished
+     */
     public boolean[] parallelMovementInFaithTrack(int discardedRes, int idOfNotMovingPlayer){
         boolean[] result=null;
         int zone=0;
@@ -66,7 +78,6 @@ public class MatchMultiPlayer {
 
     /**
      * method manages the vatican report action. it's all handled automatically.
-     *
      * @param zone zone that is being checked
      */
     public void VaticanReport(int zone) {

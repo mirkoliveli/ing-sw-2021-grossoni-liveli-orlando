@@ -1775,7 +1775,7 @@ public class CommandLine {
     public static void manageSelection(int selection, boolean[] productionsUsable, int[] selectionsToModify){
         Scanner scanner=new Scanner(System.in);
         String answer;
-        if(selection<4 && selection>1){
+        if(selection<4 && selection>0){
             if(productionsUsable[selection]){
                 if(selectionsToModify[selection+1]==-1){
                     selectionsToModify[selection+1]= 1;
@@ -1871,6 +1871,10 @@ public class CommandLine {
         }
     }
 
+    /**
+     * shows what action the last player did during a multiplayer match
+     * @param Update update message, should be a Json file of a LastActionMade object
+     */
     public static void messageUpdateFromOtherPlayers(String Update){
         if(Update.contains("Local")){
             Gson gson=new Gson();
