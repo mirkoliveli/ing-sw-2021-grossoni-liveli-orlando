@@ -65,7 +65,7 @@ public class ActionMessage {
      * @param resources
      */
     public void ActivateProduction(boolean[] choices, TypeOfResource[] resources){
-        action=TypeOfAction.ACTIVATE_PRDUCTION;
+        action=TypeOfAction.ACTIVATE_PRODUCTION;
         ProductionMessageSetup ActionProduction= new ProductionMessageSetup(choices, resources);
         Gson gson=new Gson();
         ActionAsMessage=gson.toJson(ActionProduction);

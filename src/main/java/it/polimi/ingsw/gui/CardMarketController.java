@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gui;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.TypeOfAction;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
@@ -32,6 +35,8 @@ public class CardMarketController {
     private RadioButton slot1, slot2, slot3;
     @FXML
     private Label slotlabel;
+    private int[] cardsinmarket;
+    private int cardchosen;
 
     // vanno caricate card1, card2 e card3 in base alle carte possedute sulla board
     @FXML
@@ -111,6 +116,7 @@ public class CardMarketController {
      * @param available
      */
     public void fill(int[] available) {
+        cardsinmarket = available;
         img1.setImage(cards[available[0]-1]);
         img2.setImage(cards[available[1]-1]);
         img3.setImage(cards[available[2]-1]);
@@ -148,18 +154,18 @@ public class CardMarketController {
             scale.jumpTo(Duration.ZERO);
             scale.stop();
         }
-        if (rad1.isSelected()) { zoom(img1, rad1); }
-        if (rad2.isSelected()) { zoom(img2, rad2); }
-        if (rad3.isSelected()) { zoom(img3, rad3); }
-        if (rad4.isSelected()) { zoom(img4, rad4); }
-        if (rad5.isSelected()) { zoom(img5, rad5); }
-        if (rad6.isSelected()) { zoom(img6, rad6); }
-        if (rad7.isSelected()) { zoom(img7, rad7); }
-        if (rad8.isSelected()) { zoom(img8, rad8); }
-        if (rad9.isSelected()) { zoom(img9, rad9); }
-        if (rad10.isSelected()) { zoom(img10, rad10); }
-        if (rad11.isSelected()) { zoom(img11, rad11); }
-        if (rad12.isSelected()) { zoom(img12, rad12); }
+        if (rad1.isSelected()) { zoom(img1, rad1); cardchosen=0; }
+        if (rad2.isSelected()) { zoom(img2, rad2); cardchosen=1; }
+        if (rad3.isSelected()) { zoom(img3, rad3); cardchosen=2; }
+        if (rad4.isSelected()) { zoom(img4, rad4); cardchosen=3; }
+        if (rad5.isSelected()) { zoom(img5, rad5); cardchosen=4; }
+        if (rad6.isSelected()) { zoom(img6, rad6); cardchosen=5; }
+        if (rad7.isSelected()) { zoom(img7, rad7); cardchosen=6; }
+        if (rad8.isSelected()) { zoom(img8, rad8); cardchosen=7; }
+        if (rad9.isSelected()) { zoom(img9, rad9); cardchosen=8; }
+        if (rad10.isSelected()) { zoom(img10, rad10); cardchosen=9; }
+        if (rad11.isSelected()) { zoom(img11, rad11); cardchosen=10; }
+        if (rad12.isSelected()) { zoom(img12, rad12); cardchosen=11; }
     }
 
     public void setSlot(ActionEvent event) {
@@ -169,6 +175,15 @@ public class CardMarketController {
     }
 
     public void confirm(ActionEvent event) {
+
+
+        ActionMessage action=new ActionMessage(TypeOfAction.BUY_A_CARD);
+        action.BuyCard(cardsinmarket[cardchosen]);
+        Gson gson=new Gson();
+        ConnectionHandlerForGui.sendMessage(gson.toJson(action));
+
+
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
             root = loader.load();

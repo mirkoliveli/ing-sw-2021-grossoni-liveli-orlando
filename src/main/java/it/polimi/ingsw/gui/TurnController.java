@@ -70,6 +70,8 @@ public class TurnController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/production.fxml"));
         // lanciare setProductionCards e eventualmente setLeaders in base alle carte possedute
         temp = loader.load();
+        ProductionController controller = loader.getController();
+        controller.fillBaseProd();
         pane.getChildren().add(temp);
     }
 
@@ -143,11 +145,24 @@ public class TurnController {
 
     }
 
+    public void setWaiting() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/waiting.fxml"));
+            temp = loader.load();
+            pane.getChildren().add(temp);
+        }
+        catch (Exception e) { System.out.println(e); }
+    }
+
     public void finishTurn(ActionEvent event) {
+
         ActionMessage action=new ActionMessage(TypeOfAction.END_TURN);
         action.EndTurn();
         Gson gson=new Gson();
         ConnectionHandlerForGui.sendMessage(gson.toJson(action));
+
+        setWaiting();
+
         }
 
     public void removePane() {

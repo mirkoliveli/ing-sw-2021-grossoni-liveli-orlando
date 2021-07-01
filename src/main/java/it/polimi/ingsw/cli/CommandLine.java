@@ -13,7 +13,6 @@ import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.model.MarbleColor.*;
@@ -1681,7 +1680,7 @@ public class CommandLine {
      */
     public static void ProductionActionStarter(GameStatusUpdate status, Client client){
         Gson gson=new Gson();
-        ActionMessage message=new ActionMessage(TypeOfAction.ACTIVATE_PRDUCTION);
+        ActionMessage message=new ActionMessage(TypeOfAction.ACTIVATE_PRODUCTION);
         client.messageToServer(gson.toJson(message));
 
         try{
@@ -1926,7 +1925,7 @@ public class CommandLine {
                             printLeader(action.getIdOrzoneLocal());
                         }
                         break;
-                    case ACTIVATE_PRDUCTION:
+                    case ACTIVATE_PRODUCTION:
                         System.out.println("Player " + action.getUsernameLocal() + " activated his productions!");
                         break;
                     case GO_TO_MARKET:

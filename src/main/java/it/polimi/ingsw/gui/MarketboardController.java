@@ -1,5 +1,8 @@
 package it.polimi.ingsw.gui;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.TypeOfAction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +38,8 @@ public class MarketboardController extends AnchorPane {
     private AnchorPane background;
     @FXML
     private AnchorPane pane; //850x621
+    private int line;
+    private boolean rowcolumn;
 
     //prima di visualizzare choosedepot settare immagini in base al depot e lanciare setResource
     @FXML
@@ -96,13 +101,13 @@ public class MarketboardController extends AnchorPane {
 
     //per ora stampa la scelta e basta, da modificare
     public void getChoice(ActionEvent event) {
-        if (row1.isSelected()) { System.out.println("Row1"); }
-        if (row2.isSelected()) { System.out.println("Row2"); }
-        if (row3.isSelected()) { System.out.println("Row3"); }
-        if (column1.isSelected()) { System.out.println("Col1"); }
-        if (column2.isSelected()) { System.out.println("Col2"); }
-        if (column3.isSelected()) { System.out.println("Col3"); }
-        if (column4.isSelected()) { System.out.println("Col4"); }
+        if (row1.isSelected()) { line=1; rowcolumn=false; }
+        if (row2.isSelected()) { line=2; rowcolumn=false; }
+        if (row3.isSelected()) { line=3; rowcolumn=false; }
+        if (column1.isSelected()) { line=1; rowcolumn=true; }
+        if (column2.isSelected()) { line=2; rowcolumn=true; }
+        if (column3.isSelected()) { line=3; rowcolumn=true; }
+        if (column4.isSelected()) { line=4; rowcolumn=true; }
     }
 
     public void exitWindow(ActionEvent event) {
@@ -137,13 +142,17 @@ public class MarketboardController extends AnchorPane {
 
 
     public void confirm(ActionEvent event) {
+
+        ActionMessage action=new ActionMessage(TypeOfAction.GO_TO_MARKET);
+        action.MarbleMarketAction(line, rowcolumn);
+        Gson gson=new Gson();
+        ConnectionHandlerForGui.sendMessage(gson.toJson(action));
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
             root = loader.load();
-
             TurnController controller = loader.getController();
             controller.actionDone();
-
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -154,6 +163,7 @@ public class MarketboardController extends AnchorPane {
 
     public void confirmDepot(ActionEvent event) {
         if (depot!=0) {
+
             //comunica slot
         }
     }

@@ -54,8 +54,10 @@ public class LeaderChoiceController implements Initializable {
             try {
                 // server connection
                 serverMessage(choice1, choice2);
-
-               root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+                root = loader.load();
+                TurnController controller = loader.getController();
+                controller.setWaiting();
                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                scene = new Scene(root);
                stage.setScene(scene);
