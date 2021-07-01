@@ -22,7 +22,7 @@ import static it.polimi.ingsw.model.TypeOfResource.*;
 public class CommandLine {
 
     public static final String pathForDevCards="/devCards.json";
-    static LeaderDeck leaderCards=new LeaderDeck();
+    static LeaderDeck leaderCards=new LeaderDeck("aa");
     static DevelopmentCard[] developmentCards;
 
     /**
@@ -1027,12 +1027,14 @@ public class CommandLine {
             try {
                 depot1 = Integer.parseInt(userInput);
             } catch (NumberFormatException e) {
+                depot1=100;
             }
             System.out.println("\nChoose the second depot to swap! Number:");
             userInput = scanner.nextLine();
             try {
                 depot2 = Integer.parseInt(userInput);
             } catch (NumberFormatException e) {
+                depot2=100;
             }
             if (depot1 == 0 && depot2 == 0) {
                 depotsSwapped = true;
@@ -1213,7 +1215,12 @@ public class CommandLine {
             System.out.println("Choose if you want to use this leader effect by selecting 1 or ignore it by selecting 0");
             do {
                 inputFromC = scanner.nextLine();
-                ans = Integer.parseInt(inputFromC);
+                try {
+                    ans = Integer.parseInt(inputFromC);
+                }catch (NumberFormatException e){
+                    System.out.println("You must insert a number!");
+                    ans=-1;
+                }
                 if(ans!=0 && ans!=1) System.out.println("not a valid selection, please retry!");
             }while(ans!=0 && ans!=1);
         }
@@ -1221,7 +1228,12 @@ public class CommandLine {
             System.out.println("Choose if you want to use this leader effect by selecting 1 or 2 (depending on which you want to activate or ignore it by selecting 0");
             do {
                 inputFromC = scanner.nextLine();
-                ans = Integer.parseInt(inputFromC);
+                try {
+                    ans = Integer.parseInt(inputFromC);
+                }catch (NumberFormatException e){
+                    System.out.println("You must insert a number!");
+                    ans=-1;
+                }
                 if(ans!=0 && ans!=1 && ans!=2) System.out.println("not a valid selection, please retry!");
             }while(ans!=0 && ans!=1 && ans!=2);
         }
@@ -1250,7 +1262,13 @@ public class CommandLine {
      * @return 0 if the client wants to discard the resources, 1-3 for the level selected (if valid) -1 if the input is invalid, whichever the case would be (not a valid level or not a valid input)
      */
     public static int checkForDepotChoice(String string, boolean[] emptyStatus){
-        int inNum=Integer.parseInt(string);
+        int inNum;
+        try {
+            inNum = Integer.parseInt(string);
+        }catch (NumberFormatException e){
+            System.out.println("Please insert a valid number!");
+            inNum=420;
+        }
         switch(inNum){
             case 0:
                 return 0;
@@ -1328,14 +1346,24 @@ public class CommandLine {
         System.out.println("\nSelect which leader you want to either play or discard (digit 1 or 2): ");
         do{
             inputFromClient=scanner.nextLine();
-            value=Integer.parseInt(inputFromClient);
+            try {
+                value = Integer.parseInt(inputFromClient);
+            }catch (NumberFormatException e){
+                System.out.println("You must insert a valid number!");
+                value=0;
+            }
             if(value!=1 && value!=2) System.out.println("not a valid Leader, please retry!");
         }while(value!=1 && value!=2);
         System.out.println("nice! Now select 1 of you want to play it or 2 if you want to discard it:");
         int temp=value;
         do{
             inputFromClient=scanner.nextLine();
-            value=Integer.parseInt(inputFromClient);
+            try {
+                value = Integer.parseInt(inputFromClient);
+            }catch (NumberFormatException e){
+                System.out.println("You must insert a valid number!");
+                value=0;
+            }
             if(value!=1 && value!=2) System.out.println("not a valid selection, please retry!");
         }while(value!=1 && value!=2);
         ActionMessage message=new ActionMessage(TypeOfAction.PLAY_OR_DISCARD_LEADER);

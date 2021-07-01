@@ -14,11 +14,15 @@ public class LeaderDeck {
         this.shuffle();
     }
 
+    public LeaderDeck(String forCli){
+        deck = new LeaderCard[16];
+        this.populate(deckLoadPath);
+    }
+
     public void populate(String path) {
         Gson gson=new Gson();
         Reader reader=new InputStreamReader(LeaderCard[].class.getResourceAsStream(path));
         this.deck=gson.fromJson(reader, LeaderCard[].class);
-
         /*Gson gson = new Gson();
         BufferedReader buffer = null;
         try {

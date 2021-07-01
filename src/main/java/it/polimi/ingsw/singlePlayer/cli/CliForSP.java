@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class CliForSP {
 
     public static final String pathForDevCards="/devCards.json";
-    public static LeaderDeck leaderCards=new LeaderDeck();
+    public static LeaderDeck leaderCards=new LeaderDeck("aa");
     public static DevelopmentCard[] developmentCards;
 
     public static void developmentPopulate(String path) {
@@ -50,17 +50,20 @@ public class CliForSP {
      */
     public static int[] leaderChoice(int[] choices){
         int[] selection=new int[2];
+        int[] realSelection=new int[2];
         System.out.println("These are the choices for the 2 leader, please select 2 of them by typing the number 1-4");
         for(int i=0; i<4; i++){
             printLeader(choices[i]);
             System.out.println();
         }
         System.out.println("Please select the first leader (type a number between 1 and 4)");
-        selection[0]=selectANumber(1, 4, -1)+48;
+        selection[0]=selectANumber(1, 4, -1);
+        realSelection[0]=choices[selection[0]-1];
         System.out.println("Please select the second leader (type a number between 1 and 4)");
-        selection[1]=selectANumber(1, 4, selection[0]-48)+48;
+        selection[1]=selectANumber(1, 4, selection[0]);
+        realSelection[1]=choices[selection[1]-1];
         System.out.println("Thanks! The game will start soon");
-        return selection;
+        return realSelection;
     }
 
     /**

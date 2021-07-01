@@ -292,7 +292,7 @@ public class ClientHandler extends Thread {
             gains[4]++;
         }
 
-        if(match.getPlayers().get(idPlayer-1).canIPayForProductions(cost)){
+        if(match.getPlayers().get(idPlayer-1).canIPayForProductions(cost) && StaticMethods.productionNotAborted(selections)){
             try{
                 System.out.println("costo:" + gson.toJson(cost));
                 System.out.println("guadagno: " + gson.toJson(gains));

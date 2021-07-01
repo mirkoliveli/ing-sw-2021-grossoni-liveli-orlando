@@ -8,6 +8,7 @@ import it.polimi.ingsw.utils.StaticMethods;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 //import it.polimi.ingsw.message.*;
 
@@ -110,7 +111,13 @@ public class Client {
                 if (value != -2345) {
                     System.out.println("Not a valid number!");
                 }
-                value = input.nextInt();
+                try {
+                    value = input.nextInt();
+                }catch (InputMismatchException e){
+                    System.out.println("Please insert a number!");
+                    input.nextLine();
+                    value=-2345;
+                }
                 //System.out.println(value);
                 if (value == 2 || value == 3 || value == 4) break;
             }
@@ -261,10 +268,17 @@ public class Client {
             int id2 = 0;
             //scelta carte
             do {
-                if (id1 != 0 || id2 != 0) System.out.println("not a valid ID! please retry: \n");
+                if (id1 != 0 || id2 != 0) System.out.println("not a valid ID! please retry (re-enter both numbers): \n");
                 input.reset();
-                id1 = input.nextInt();
-                id2 = input.nextInt();
+                try {
+                    id1 = input.nextInt();
+                    id2 = input.nextInt();
+                }catch (InputMismatchException e){
+                    System.out.println("please insert a valid number!");
+                    input.nextLine();
+                    id1=0;
+                    id2=0;
+                }
             } while (id1 == id2 ||
                     (id1 != messageFServer.getCardID()[0] && id1 != messageFServer.getCardID()[1] && id1 != messageFServer.getCardID()[2] && id1 != messageFServer.getCardID()[3]) ||
                     (id2 != messageFServer.getCardID()[0] && id2 != messageFServer.getCardID()[1] && id2 != messageFServer.getCardID()[2] && id2 != messageFServer.getCardID()[3]));

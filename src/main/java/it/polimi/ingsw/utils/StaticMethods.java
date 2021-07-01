@@ -186,5 +186,17 @@ public class StaticMethods {
         }
     }
 
+    /**
+     * controls that the client wants to take the production action
+     * @param array array to be checked
+     * @return true if at least one selection is changed, false otherwise
+     */
+    public static boolean productionNotAborted(int[] array){
+        for(int i =0; i< array.length; i++){
+            if(array[i]!=-1) return true;
+        }
+        return false;
+    }
+
 
 }
