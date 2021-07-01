@@ -40,6 +40,22 @@ public class CardMarket {
         this.shuffle();
     }
 
+    public CardMarket(String tests) {
+        this.matrixDevelopment = new DevelopmentCard[3][4][4];
+        this.populate(0, 0, "/green_lvl1.json");
+        this.populate(0, 1, "/purple_lvl1.json");
+        this.populate(0, 2, "/blue_lvl1.json");
+        this.populate(0, 3, "/yellow_lvl1.json");
+        this.populate(1, 0, "/green_lvl2.json");
+        this.populate(1, 1, "/purple_lvl2.json");
+        this.populate(1, 2, "/blue_lvl2.json");
+        this.populate(1, 3, "/yellow_lvl2.json");
+        this.populate(2, 0, "/green_lvl3.json");
+        this.populate(2, 1, "/purple_lvl3.json");
+        this.populate(2, 2, "/blue_lvl3.json");
+        this.populate(2, 3, "/yellow_lvl3.json");
+    }
+
     public DevelopmentCard[][][] getMatrixDevelopment() {
         return matrixDevelopment;
     }
