@@ -199,6 +199,11 @@ public class MarketboardController extends AnchorPane {
         catch (Exception e) { System.out.println(e); }
     }
 
+    public void setBonus(boolean b1, boolean b2) {
+        if (b1) { leaderbonus1.setDisable(false); }
+        if (b2) { leaderbonus2.setDisable(false); }
+    }
+
     public void confirmDepot(ActionEvent event) {
         if (depot!=0) {
 
