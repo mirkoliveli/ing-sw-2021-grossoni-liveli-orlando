@@ -20,6 +20,7 @@ The final version includes:
 * working game implementation, which has to be rules compliant;
 * source code of the implementation;
 * source code of unity tests.
+* javadoc of the entire code.
 ## Find out more
 
 
@@ -102,6 +103,5 @@ java -jar Client.jar
 **draw.io** - UML diagrams
 
 **Intellij IDEA Ultimate** - main IDE 
-
 
 
