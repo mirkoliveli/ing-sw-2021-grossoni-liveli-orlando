@@ -26,7 +26,7 @@ public class MessageControllerForGui extends Thread{
                     System.out.println("DISCONNECTED");
                     System.exit(1);
                 }
-            } while (!message.contains("BEGIN_TURN") || !message.contains("BEGIN_LAST_TURN"));
+            } while (!message.contains("BEGIN_TURN") && !message.contains("BEGIN_LAST_TURN"));
             System.out.println(ConnectionHandlerForGui.getGson().toJson(message));
             sendUpdate(message);
             if(message.contains("BEGIN_LAST_TURN")){

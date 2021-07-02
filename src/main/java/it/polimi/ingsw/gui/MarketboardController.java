@@ -123,7 +123,7 @@ public class MarketboardController extends AnchorPane {
 
 
     public void confirm(ActionEvent event) throws Exception {
-
+        boolean stopSending=false;
         ActionMessage action=new ActionMessage(TypeOfAction.GO_TO_MARKET);
         action.MarbleMarketAction(line, rowcolumn);
         Gson gson=new Gson();
@@ -131,23 +131,32 @@ public class MarketboardController extends AnchorPane {
         String answerFromServer = ConnectionHandlerForGui.getMessage();
         try {
             if(!answerFromServer.contains("resourceStillToBeStored") && answerFromServer.contains("true")) {
-                //gestione leaders
                 System.out.println("You can receive additional resources from the market thanks to your leaders!");
+                if(leaderbonus1.isSelected()) ConnectionHandlerForGui.sendMessage(1);
+                if(leaderbonus2.isSelected() && !leaderbonus1.isSelected()) ConnectionHandlerForGui.sendMessage(2);
+                answerFromServer=ConnectionHandlerForGui.getMessage();
             }
-            while(answerFromServer.contains("resourceStillToBeStored")){
-                //gestione depot
-                chooseDepotMessage subMessage=gson.fromJson(answerFromServer, chooseDepotMessage.class);
+            while(answerFromServer.contains("resourceStillToBeStored")) {
+                System.out.println("setting storage atumatically");
+                chooseDepotMessage subMessage = gson.fromJson(answerFromServer, chooseDepotMessage.class);
+                boolean[] possibleChoices = subMessage.getDepotStateOfEmptyness().clone();
+                for (int i = 0; i < 3; i++) {
+                    if (possibleChoices[2 - i] && !stopSending) {
+                        ConnectionHandlerForGui.sendMessage(3 - i);
+                        System.out.println("waiting mex from server");
+                        System.out.println("mex arrived");
+                        stopSending = true;
+                    }
+                }
+                stopSending = false;
+                answerFromServer = ConnectionHandlerForGui.getMessage();
+            }
 
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
-                root = loader.load();
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                TurnController controller = loader.getController();
-                controller.goToChooseDepot(subMessage.getDepotStateOfEmptyness(), subMessage.getResourceStillToBeStored());
-                stage.setScene(scene);
-                stage.show();
-
+            System.out.println("azione finita");
+            ConnectionHandlerForGui.getMessage();
+            answerFromServer=ConnectionHandlerForGui.getMessage();
+            GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(answerFromServer, GameStatusUpdate.class);
+            LastGameStatus.update(status);
 
 
                 /*
@@ -163,7 +172,18 @@ public class MarketboardController extends AnchorPane {
                 answerFromServer= client.messageFromServer();
 
                  */
-            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+            root = loader.load();
+
+
+                TurnController controller = loader.getController();
+                controller.actionDone();
+
+
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
 
 
 
