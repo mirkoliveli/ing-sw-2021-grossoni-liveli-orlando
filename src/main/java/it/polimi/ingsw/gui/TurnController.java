@@ -6,7 +6,6 @@ import it.polimi.ingsw.messages.TypeOfAction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,8 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -44,6 +41,15 @@ public class TurnController {
     private Label coinslabel, servantslabel, shieldslabel, stoneslabel;
     @FXML
     private ImageView card1, card2, card3, img1, img2, img3, img4, img5, img6;
+    @FXML
+    private Label points;
+    @FXML
+    private ImageView cross;
+    private int position = 0;
+    private double x;
+    private double y;
+    @FXML
+    private ImageView bonus1, bonus2, bonus3;
     Image coins = new Image("/img/punchboard/coin2.png");
     Image servants = new Image("/img/punchboard/servant2.png");
     Image shields = new Image("/img/punchboard/shield2.png");
@@ -84,7 +90,6 @@ public class TurnController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/playleader.fxml"));
         temp = loader.load();
         PlayLeaderController controller = loader.getController();
-
         controller.setLeaders(LastGameStatus.leader1, LastGameStatus.leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played);
 
         if (finishbutton.isVisible()) {
@@ -199,7 +204,8 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menuboard.fxml"));
             AnchorPane popup = popupLoader.load();
-            setProductionCards(LastGameStatus.activatableCards);
+            TurnController controller = popupLoader.load();
+            controller.setProductionCards(LastGameStatus.activatableCards);
             loadPopup(popup, "Your Board");
         }
         catch (Exception e) { System.out.println(e); }
@@ -209,7 +215,7 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menufaithtrack.fxml"));
             AnchorPane popup = popupLoader.load();
-            FaithTrackController controller = popupLoader.load();
+            TurnController controller = popupLoader.getController();
             controller.increasePosition(LastGameStatus.faithMarkerStatus);
             controller.setPoints(LastGameStatus.victoryPoints);
             controller.setBonuses(LastGameStatus.popeCards);
@@ -295,6 +301,31 @@ public class TurnController {
         servantslabel.setText("x" + box[1]);
         shieldslabel.setText("x" + box[2]);
         stoneslabel.setText("x" + box[3]);
+    }
+
+    public void increasePosition(int faithmarker){
+        while (faithmarker > 0) {
+            if (position == 9 || position == 10) { y+=27.3; cross.setY(y); }
+            else if (position == 2 || position == 3 || position == 16 || position == 17) { y-=27.3; cross.setY(y); }
+            else { x+=27.3; cross.setX(x); }
+            position++;
+            faithmarker--;
+        }
+    }
+
+    public void setPoints(int p) { points.setText(Integer.toString(p)); }
+
+    public void setBonuses(boolean[] bonus) {
+        Image b1, b2, b3;
+        if (bonus[0]) { b1 = new Image("/img/punchboard/pope_favor1_front.png"); }
+        else { b1 = new Image("/img/punchboard/pope_favor1_back.png"); }
+        if (bonus[1]) { b2 = new Image("/img/punchboard/pope_favor2_front.png"); }
+        else { b2 = new Image("/img/punchboard/pope_favor2_back.png"); }
+        if (bonus[2]) { b3 = new Image("/img/punchboard/pope_favor3_front.png"); }
+        else { b3 = new Image("/img/punchboard/pope_favor3_back.png"); }
+        bonus1.setImage(b1);
+        bonus2.setImage(b2);
+        bonus3.setImage(b3);
     }
 
     public void actionDone() {

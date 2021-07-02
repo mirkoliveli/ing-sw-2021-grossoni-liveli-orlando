@@ -87,11 +87,11 @@ public class ProductionController {
     public void setLeaders (int l1, int l2) {
         if (LastGameStatus.leader1Played || l1 > 60) {
             prod4.setVisible(true);
-            leader1.setImage(leadercards[l1]);
+            leader1.setImage(leadercards[l1-61]);
         }
         if (LastGameStatus.leader2Played || l2 > 60) {
             prod5.setVisible(true);
-            leader2.setImage(leadercards[l2]);
+            leader2.setImage(leadercards[l2-61]);
         }
     }
 
