@@ -32,7 +32,7 @@ The final version includes:
 | Complete rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
 | Socket |[![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
 | CLI |[![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
-| GUI | [![YELLOW](http://placehold.it/15/ffdd00/ffdd00)]() |
+| GUI | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
 | Multiple games | [![RED](http://placehold.it/15/f03c15/f03c15)]()|
 | Local Single Player | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
 | Persistence | [![RED](http://placehold.it/15/f03c15/f03c15)]() |
