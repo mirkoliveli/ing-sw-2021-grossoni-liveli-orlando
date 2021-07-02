@@ -215,10 +215,8 @@ public class CardMarketController {
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
                 root = loader.load();
-
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
-
                 TurnController controller = loader.getController();
                 controller.goToChooseSlot(ConnectionHandlerForGui.getGson().fromJson(nextChoice.getObjectToSend(), boolean[].class));
                 stage.setScene(scene);

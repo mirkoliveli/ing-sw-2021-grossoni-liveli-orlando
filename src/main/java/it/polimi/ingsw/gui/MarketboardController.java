@@ -131,11 +131,16 @@ public class MarketboardController extends AnchorPane {
             while(answerFromServer.contains("resourceStillToBeStored")){
                 chooseDepotMessage subMessage=gson.fromJson(answerFromServer, chooseDepotMessage.class);
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosedepot.fxml"));
-                AnchorPane temp = loader.load();
-                // settare immagini depot e stato
-                // da aggiungere eventuali bonus white ball
-                pane.getChildren().add(temp);
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+                root = loader.load();
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                TurnController controller = loader.getController();
+                controller.goToChooseDepot(subMessage.getDepotStateOfEmptyness(), subMessage.getResourceStillToBeStored());
+                stage.setScene(scene);
+                stage.show();
+
 
 
                 /*
