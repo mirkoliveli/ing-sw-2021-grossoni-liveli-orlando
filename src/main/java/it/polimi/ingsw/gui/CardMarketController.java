@@ -194,9 +194,17 @@ public class CardMarketController {
             if(messageFromServer.contains("UNAVAILABLE_ACTION")){
                 System.out.println("cannot buy card");
                 //update necessary
-                actuallyDone=false;
 
-                //azione viene abortita
+
+                messageFromServer=ConnectionHandlerForGui.getMessage();
+                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
+                LastGameStatus.update(status);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+                root = loader.load();
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
 
             }
             else{
@@ -204,17 +212,22 @@ public class CardMarketController {
                 BuyACardActionMessage nextChoice=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, BuyACardActionMessage.class);
                 System.out.println("messaggio arrivato");
                 //seleziono lo slot in cui inserirla
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosecardslot.fxml"));
-                AnchorPane temp = loader.load();
-                CardMarketController controller = loader.getController();
-                controller.legalSlots(ConnectionHandlerForGui.getGson().fromJson(nextChoice.getObjectToSend(), boolean[].class));
-                pane.getChildren().add(temp);
-                actuallyDone=true;
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+                root = loader.load();
+
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+
+                TurnController controller = loader.getController();
+                controller.goToChooseSlot(ConnectionHandlerForGui.getGson().fromJson(nextChoice.getObjectToSend(), boolean[].class));
+                stage.setScene(scene);
+
+                stage.show();
+
             }
 
-            messageFromServer=ConnectionHandlerForGui.getMessage();
-            GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
-            LastGameStatus.update(status);
+
         }catch (IOException e){
             System.out.println("disconnected, quitting...");
             System.exit(1);
@@ -223,19 +236,7 @@ public class CardMarketController {
 
 
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
-            root = loader.load();
 
-            TurnController controller = loader.getController();
-            if(actuallyDone) controller.actionDone();
-
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }
-        catch (Exception e) { System.out.println(e); }
     }
 
     public void legalSlots(boolean[] slots) {
@@ -250,7 +251,24 @@ public class CardMarketController {
     public void confirmSlot(ActionEvent event) {
         if (slot == 0) { slotlabel.setText("You have to select a valid slot!"); }
         else {
-            //comunica slot
+            try {
+
+                ConnectionHandlerForGui.sendMessage(slot);
+                String messageFromServer=ConnectionHandlerForGui.getMessage();
+                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
+                LastGameStatus.update(status);
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+                root = loader.load();
+                TurnController controller = loader.getController();
+                controller.actionDone();
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+
+            }
+            catch (Exception e) { System.out.println(e); }
             }
     }
 

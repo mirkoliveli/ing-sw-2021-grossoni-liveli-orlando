@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.messages.ActionMessage;
 import it.polimi.ingsw.messages.TypeOfAction;
 import it.polimi.ingsw.messages.chooseDepotMessage;
+import it.polimi.ingsw.utils.StaticMethods;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,25 +118,6 @@ public class MarketboardController extends AnchorPane {
         if (depotdisc.isSelected()) { depot=4; }
     }
 
-    public void setResource(int r) {
-        switch (r) {
-            case 0:
-                resource.setText("coins");
-                break;
-            case 1:
-                resource.setText("servants");
-                break;
-            case 2:
-                resource.setText("shields");
-                break;
-            case 3:
-                resource.setText("stones");
-                break;
-            default:
-                break;
-        }
-    }
-
 
     public void confirm(ActionEvent event) throws Exception {
 
@@ -194,6 +176,16 @@ public class MarketboardController extends AnchorPane {
     public void setBonus(int l1, int l2, boolean b1, boolean b2) {
         if (l1 > 56 && l1 < 61 && b1) { leaderbonus1.setDisable(false); }
         if (l2 > 56 && l2 < 61 && b2) { leaderbonus2.setDisable(false); }
+    }
+
+    public void setDepotChoice(boolean[] depots, int[] toStore) {
+        resource.setText(toStore[1] + "x " + StaticMethods.IntToTypeOfResource(toStore[0]));
+        if (depots[0]) { depot1.setDisable(false); }
+        else { depot1.setDisable(true); }
+        if (depots[1]) { depot2.setDisable(false); }
+        else { depot2.setDisable(true); }
+        if (depots[2]) { depot3.setDisable(false); }
+        else { depot3.setDisable(true); }
     }
 
     public void confirmDepot(ActionEvent event) {

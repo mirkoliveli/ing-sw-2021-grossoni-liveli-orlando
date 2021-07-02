@@ -118,6 +118,28 @@ public class TurnController {
         catch (Exception e) { System.out.println(e); }
     }
 
+    public void goToChooseSlot(boolean[] bool) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosecardslot.fxml"));
+            AnchorPane temp = loader.load();
+            CardMarketController controller = loader.getController();
+            controller.legalSlots(bool);
+            pane.getChildren().add(temp);
+        }
+        catch (Exception e) { System.out.println(e); }
+    }
+
+    public void goToChooseDepot(boolean[] bool, int[] resources) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosecardslot.fxml"));
+            AnchorPane temp = loader.load();
+            MarketboardController controller = loader.getController();
+            controller.setDepotChoice(bool, resources);
+            pane.getChildren().add(temp);
+        }
+        catch (Exception e) { System.out.println(e); }
+    }
+
     /**
      * sends message to the server requesting to end the turn, if the answer is positive the turn will end, the view for the actions will be blocked and MessageController thread will restart
      * if the answer is negative nothing will happen.
@@ -140,6 +162,12 @@ public class TurnController {
             System.out.println("DISCONNECTED");
             System.exit(0);
         }
+        cmbutton.setDisable(false);
+        marketbutton.setDisable(false);
+        prodbutton.setDisable(false);
+        finishbutton.setVisible(false);
+        label.setText("Now it's your turn! Choose your action using the buttons below");
+
     }
 
     public void removePane() {

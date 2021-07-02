@@ -101,12 +101,12 @@
             <RadioButton fx:id="depotdisc" layoutX="470.0" layoutY="352.0" mnemonicParsing="false" text="Discard Resource" toggleGroup="$depotslot" />
          </children>
       </AnchorPane>
-      <Label layoutX="54.0" layoutY="58.0" text="Choose where you want to store:">
+      <Label layoutX="54.0" layoutY="58.0" text="Choose an empty depot where you want to store:">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="resource" layoutX="400.0" layoutY="58.0" text="-">
+      <Label fx:id="resource" layoutX="569.0" layoutY="58.0" prefHeight="34.0" prefWidth="226.0" text="-">
          <font>
             <Font size="23.0" />
          </font>
