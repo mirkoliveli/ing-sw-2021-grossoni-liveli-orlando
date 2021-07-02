@@ -110,17 +110,29 @@ public class CardMarketController {
     public void fill(int[][] available) {
         cardsinmarket = available;
         if (available[2][0] != 0) { img1.setImage(cards[available[2][0]-1]); } //green lv3
+        else { rad1.setDisable(true); }
         if (available[2][2] != 0) { img2.setImage(cards[available[2][2]-1]); } //blue lv3
+        else { rad2.setDisable(true); }
         if (available[2][3] != 0) { img3.setImage(cards[available[2][3]-1]); } //yellow lv3
+        else { rad3.setDisable(true); }
         if (available[2][1] != 0) { img4.setImage(cards[available[2][1]-1]); } //purple lv3
+        else { rad4.setDisable(true); }
         if (available[1][0] != 0) { img5.setImage(cards[available[1][0]-1]); } //green lv2
+        else { rad5.setDisable(true); }
         if (available[1][2] != 0) { img6.setImage(cards[available[1][2]-1]); } //blue lv2
+        else { rad6.setDisable(true); }
         if (available[1][3] != 0) { img7.setImage(cards[available[1][3]-1]); } //yellow lv2
+        else { rad7.setDisable(true); }
         if (available[1][1] != 0) { img8.setImage(cards[available[1][1]-1]); } //purple lv2
+        else { rad8.setDisable(true); }
         if (available[0][0] != 0) { img9.setImage(cards[available[0][0]-1]); } //green lv1
+        else { rad9.setDisable(true); }
         if (available[0][2] != 0) { img10.setImage(cards[available[0][2]-1]); } //blue lv1
+        else { rad10.setDisable(true); }
         if (available[0][3] != 0) { img11.setImage(cards[available[0][3]-1]); } //yellow lv1
+        else { rad11.setDisable(true); }
         if (available[0][1] != 0) { img12.setImage(cards[available[0][1]-1]); } //purple lv1
+        else { rad12.setDisable(true); }
     }
 
     /**

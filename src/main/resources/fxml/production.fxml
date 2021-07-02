@@ -22,11 +22,10 @@
          </font>
       </Label>
       <Button layoutX="763.0" layoutY="570.0" mnemonicParsing="false" onAction="#printProduction" text="Confirm" />
-      <Label layoutX="676.0" layoutY="70.0" text="Activated Production Leaders:" />
-      <ImageView fx:id="leader1" fitHeight="163.0" fitWidth="108.0" layoutX="695.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="leader2" fitHeight="163.0" fitWidth="108.0" layoutX="695.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true" />
-      <CheckBox fx:id="prod4" layoutX="679.0" layoutY="269.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="136.0" text="Production Leader 1" visible="false" />
-      <CheckBox fx:id="prod5" layoutX="679.0" layoutY="488.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="135.0" text="Production Leader 2" visible="false" />
+      <ImageView fx:id="leader1" fitHeight="163.0" fitWidth="108.0" layoutX="687.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="leader2" fitHeight="163.0" fitWidth="108.0" layoutX="687.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <CheckBox fx:id="prod4" layoutX="676.0" layoutY="244.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="136.0" text="Production Leader 1" visible="false" />
+      <CheckBox fx:id="prod5" layoutX="676.0" layoutY="495.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="135.0" text="Production Leader 2" visible="false" />
       <ImageView fitHeight="437.0" fitWidth="611.0" layoutX="21.0" layoutY="69.0">
          <image>
             <Image url="@../img/board/Masters%20of%20Renaissance_PlayerBoard%20(11_2020)-1.png" />
@@ -39,5 +38,7 @@
       <ChoiceBox fx:id="base2" layoutX="266.0" layoutY="570.0" prefHeight="25.0" prefWidth="92.0" visible="false" />
       <ChoiceBox fx:id="base3" layoutX="417.0" layoutY="570.0" prefHeight="25.0" prefWidth="92.0" visible="false" />
       <Label fx:id="baselabel" layoutX="132.0" layoutY="547.0" prefHeight="17.0" prefWidth="385.0" text="Base production:        pay                                                       receive" visible="false" />
+      <ChoiceBox fx:id="leaderproduction1" layoutX="668.0" layoutY="285.0" prefWidth="150.0" visible="false" />
+      <ChoiceBox fx:id="leaderproduction2" layoutX="666.0" layoutY="535.0" prefWidth="150.0" visible="false" />
    </children>
 </AnchorPane>
