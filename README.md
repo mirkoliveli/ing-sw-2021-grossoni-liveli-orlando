@@ -1,6 +1,6 @@
 # Masters Of Renaissance Board Game
 
-![latest release](https://img.shields.io/github/v/release/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=green)
+![latest release](https://img.shields.io/badge/release-v1.1-green)
 
 <img src="http://www.craniocreations.it/wp-content/uploads/2019/06/Masters-of-Renaissance_box3D_ombra.png" width=192px height=192 px align="right" />
 
