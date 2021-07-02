@@ -65,6 +65,7 @@ Run:
 java -jar Server.jar
 ```
 The server will be opened on port 1234
+
 ###Client
 
 The ClientColoured.jar shows coloured text on the terminal (only Linux).
