@@ -99,20 +99,19 @@ public class PlayLeaderController {
 
     }
 
-    // l1 and l2 are the leaders' IDs, played1 and played2 indicate if they have been played/discarded
-    public void setLeaders(int l1, int l2, boolean played1, boolean played2) {
+    public void setLeaders(int l1, int l2, boolean played1, boolean played2, boolean discarded1, boolean discarded2) {
 
         Image image1 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + l1 + "-1.png");
         Image image2 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + l2 + "-1.png");
         idl1 = l1;
         idl2 = l2;
 
-        if (played1) {
+        if (played1 || discarded1) {
             play1.setDisable(true);
             discard1.setDisable(true);
         }
         else { leader1.setImage(image1); }
-        if (played2) {
+        if (played2 || discarded2) {
             play2.setDisable(true);
             discard2.setDisable(true);
         }

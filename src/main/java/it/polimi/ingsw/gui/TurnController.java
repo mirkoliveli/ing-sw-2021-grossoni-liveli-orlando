@@ -91,7 +91,7 @@ public class TurnController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/playleader.fxml"));
         temp = loader.load();
         PlayLeaderController controller = loader.getController();
-        controller.setLeaders(LastGameStatus.leader1, LastGameStatus.leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played);
+        controller.setLeaders(LastGameStatus.leader1, LastGameStatus.leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played, LastGameStatus.leader1Discarded, LastGameStatus.leader2Discarded);
 
         if (finishbutton.isVisible()) {
             controller.setExtra(true);
