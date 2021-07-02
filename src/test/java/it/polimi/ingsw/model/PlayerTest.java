@@ -7,14 +7,14 @@ import static org.junit.Assert.assertEquals;
 public class PlayerTest {
 
     @Test
-    public void nameTest(){
+    public void nameTest() {
         Player test = new Player("gigi", 1);
         assertEquals("gigi", test.getName());
         assertEquals(1, test.getId());
     }
 
     @Test
-    public void victoryPointTest(){
+    public void victoryPointTest() {
         Player test = new Player("gigi", 1);
         test.setVictoryPoints(100);
         assertEquals(100, test.getVictoryPoints());

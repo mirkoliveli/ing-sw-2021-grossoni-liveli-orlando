@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.Gson;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class DevelopmentCardSlotTest {
 
@@ -16,12 +13,12 @@ public class DevelopmentCardSlotTest {
     @Test
     public void colors() {
         DevelopmentCardSlot slot = new DevelopmentCardSlot();
-        Color[] vector=slot.get_colors();
-        for (Color i: vector
-             ) {
+        Color[] vector = slot.get_colors();
+        for (Color i : vector
+        ) {
             System.out.println(i);
         }
-        if(vector[0]!=Color.blue) System.out.println("lol");
+        if (vector[0] != Color.blue) System.out.println("lol");
     }
 
 //    @Test
