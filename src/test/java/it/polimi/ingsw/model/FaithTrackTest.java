@@ -14,7 +14,7 @@ public class FaithTrackTest {
     public void increasePosition() {
         FaithTrack test = new FaithTrack();
         int n = 0;
-        while (n<10){
+        while (n < 10) {
             test.increasePosition();
             n++;
         }
@@ -188,6 +188,6 @@ public class FaithTrackTest {
         test.CoolPrint();
         test.Movement(20);
         test.CoolPrint();
-        assertEquals (24,  test.getFaithMarker());
+        assertEquals(24, test.getFaithMarker());
     }
 }

@@ -39,7 +39,7 @@ public class StorageTest {
     }
 
     @Test
-    public void SwapLevelsTest(){
+    public void SwapLevelsTest() {
         Storage storageTest = new Storage();
         DepotLevel depotLevelTest1 = new DepotLevel();
         DepotLevel depotLevelTest2 = new DepotLevel();
@@ -47,17 +47,17 @@ public class StorageTest {
         storageTest.getLevel(1).increaseQuantity(stones, 1);
         storageTest.getLevel(2).increaseQuantity(coins, 2);
         storageTest.getLevel(3).increaseQuantity(shields, 2);
-        storageTest.swapLevels(1,2);
+        storageTest.swapLevels(1, 2);
         assertEquals(stones, storageTest.getLevel(1).getResourceType());
         assertEquals(coins, storageTest.getLevel(2).getResourceType());
-        storageTest.swapLevels(2,3);
-        assertEquals(coins,storageTest.getLevel(3).getResourceType());
+        storageTest.swapLevels(2, 3);
+        assertEquals(coins, storageTest.getLevel(3).getResourceType());
         assertEquals(shields, storageTest.getLevel(2).getResourceType());
     }
 
 
     @Test
-    public void seekerOfResource(){
+    public void seekerOfResource() {
         Storage storageTest = new Storage();
         DepotLevel depotLevelTest1 = new DepotLevel();
         DepotLevel depotLevelTest2 = new DepotLevel();
@@ -74,8 +74,6 @@ public class StorageTest {
 
 
     }
-
-
 
 
     //controllo se la conversione funziona
@@ -97,8 +95,8 @@ public class StorageTest {
 
 
     @Test
-    public void LeaderTests(){
-        Storage storage=new Storage();
+    public void LeaderTests() {
+        Storage storage = new Storage();
         storage.getLevel(1).setResourceType(coins);
         storage.getLevel(1).setQuantity(1);
         storage.getLevel(2).setResourceType(stones);
@@ -117,20 +115,20 @@ public class StorageTest {
         assertEquals(1, storage.getLevel(3).getQuantity());
         assertEquals(2, storage.getLevel(2).getQuantity());
         assertEquals(0, storage.getLevel(1).getQuantity());
-        Gson gson=new Gson();
-        int[][] test=storage.storageStatus();
+        Gson gson = new Gson();
+        int[][] test = storage.storageStatus();
         System.out.println(gson.toJson(test));
         storage.getLevel(1).setResourceType(servants);
         storage.getLevel(1).setQuantity(1);
         storage.transferToLeaderDepots();
-        test=storage.storageStatus();
+        test = storage.storageStatus();
         System.out.println(gson.toJson(test));
 
     }
 
     @Test
-    public void decreaserTest(){
-        Storage storage=new Storage();
+    public void decreaserTest() {
+        Storage storage = new Storage();
         storage.getLevel(1).setResourceType(coins);
         storage.getLevel(1).setQuantity(1);
         storage.getLevel(2).setResourceType(stones);
@@ -141,19 +139,19 @@ public class StorageTest {
         storage.getFirstLeader().setQuantity(1);
         storage.addLeader(shields);
         storage.transferToLeaderDepots();
-        Gson gson=new Gson();
-        int[][] test=storage.storageStatus();
+        Gson gson = new Gson();
+        int[][] test = storage.storageStatus();
         System.out.println(gson.toJson(test));
         // a questo punto possiedo
         // 2 coins      0 servants
         // 3 shields    2 stones
-        int[] costo={1, 0, 2, 1}; //è pagabile
+        int[] costo = {1, 0, 2, 1}; //è pagabile
         try {
             storage.ResourceDecreaser(costo);
-        }catch (NotEnoughResources e){
+        } catch (NotEnoughResources e) {
             System.out.println("error");
         }
-        test=storage.storageStatus();
+        test = storage.storageStatus();
         System.out.println(gson.toJson(test));
 
     }
