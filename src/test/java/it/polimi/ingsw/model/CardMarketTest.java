@@ -94,14 +94,14 @@ public class CardMarketTest {
 //        assertNull(prova.getMatrixDevelopment()[0][0][0]);
 
         try {
-            Comprata = prova.BuyCard(5);
+            Comprata = prova.BuyCard(4);
         } catch (CardNotFoundException e) {
             checker = 1;
         } catch (IllegalCardException e) {
             checker = 2;
         }
-        assertEquals(0, checker);
-        assertNull(prova.getMatrixDevelopment()[0][0][1]);
+        assertEquals(2, checker);
+//        assertEquals(null, prova.getMatrixDevelopment()[0][0][1]);
         try {
             Comprata = prova.BuyCard(48);
         } catch (CardNotFoundException e) {
@@ -121,114 +121,114 @@ public class CardMarketTest {
         assertEquals(1, checker);
     }
 
-    /**
-     * test for the main method of the single player action.
-     */
-    @Test
-    public void deleteTwoByColorTest() {
-        CardMarket prova = new CardMarket();
-
-        //PRIMO TEST, se ci sono almeno due carte nel mazzo (non livello 3)
-        prova.Remove(1); //simula l'acquisto di una carta
-
-        //prova.Remove(5); //aggiungi questo se vuoi provare con esattamente due carte
-//        assertNull(prova.getMatrixDevelopment()[0][0][0]);
-        //assertNull(prova.getMatrixDevelopment()[0][0][1]); //usare solo se vuoi provare esattamente due carte
-        try {
-            prova.DeleteTwoCardsByColor(0);
-        } catch (EndSoloGame e) {
-            System.out.println("errore");
-        }
-        assertNull(prova.getMatrixDevelopment()[0][0][1]);
-        assertNull(prova.getMatrixDevelopment()[0][0][2]);
-        //assertNull(prova.getMatrixDevelopment()[0][0][3]); //usare solo se vuoi testare esattametne due carte
-
+//    /**
+//     * test for the main method of the single player action.
+//     */
+//    @Test
+//    public void deleteTwoByColorTest() {
+//        CardMarket cardMarketTest = new CardMarket();
+//
+//        //PRIMO TEST, se ci sono almeno due carte nel mazzo (non livello 3)
+//        cardMarketTest.Remove(1); //simula l'acquisto di una carta
+//
+//        //prova.Remove(5); //aggiungi questo se vuoi provare con esattamente due carte
+////        assertNull(prova.getMatrixDevelopment()[0][0][0]);
+//        //assertNull(prova.getMatrixDevelopment()[0][0][1]); //usare solo se vuoi provare esattamente due carte
+//        try {
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//        } catch (EndSoloGame e) {
+//            System.out.println("errore");
+//        }
+//        assertEquals(null, cardMarketTest.getMatrixDevelopment()[0][0][1]);
+//        assertEquals(null, cardMarketTest.getMatrixDevelopment()[0][0][2]);
+//        //assertNull(prova.getMatrixDevelopment()[0][0][3]); //usare solo se vuoi testare esattametne due carte
+//
+////        /*prova.PrintId();*/
+////        prova.populate(0, 0, "src/main/resources/green_lvl1.json"); //ripristina stato iniziale
+////        /*prova.PrintId();*/
+//
+//        //SECONDO TEST, una sola carta nel mazzo (deve quindi eliminare la prima del mazzo al livello dopo)
+//        cardMarketTest.Remove(1);
+//        cardMarketTest.Remove(5);
+//        cardMarketTest.Remove(9);
+//        try {
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//        } catch (EndSoloGame e) {
+//            System.out.println("errore");
+//        }
+//        //rimane una carta nel mazzo livello 1 verde, in posizione 3, la prossima carta da rimuovere è quindi
+//        //quella in posizione 0 nel mazzo livello 2 verde!
+//        assertNull(cardMarketTest.getMatrixDevelopment()[0][0][3]);
+//        assertNull(cardMarketTest.getMatrixDevelopment()[1][0][0]);
+//        //prova.PrintId(); //nota, deve mancare una carta dal mazzo 5! (e tutto il mazzo uno)
+//
+////        prova.populate(0, 0, "src/main/resources/green_lvl1.json");
+//        cardMarketTest.populate(1, 0, "src/main/resources/green_lvl2.json");
+//
+//        //TERZO TEST, vediamo se effettivamente va tutto bene quando finisce la partita!
+//        //
+//
+//        //questa volta eliminiamone alcune con il metodo che stiamo provando, e non con il remove!
+//        //per rendere le cose più spicy ne eliminiamo una, così deve fare il jump tra livelli ogni volta
+//        cardMarketTest.Remove(1);
+//        try {
+//            //questa cosa in realtà è un micro test per altri casi, vedi fondo
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//        } catch (EndSoloGame e) {
+//            System.out.println("errore");
+//        }
+//        assertNotNull(cardMarketTest.getMatrixDevelopment()[2][0][1]);
+//        cardMarketTest.Remove(37);
+//        int tester = 42;
+//        try {
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//        } catch (EndSoloGame e) {
+//            tester = 0;
+//
+//        }
+//        assertEquals(0, tester);
+//        assertNull(cardMarketTest.getMatrixDevelopment()[2][0][2]);
+//        assertNull(cardMarketTest.getMatrixDevelopment()[2][0][3]);
+//
+//
+//        cardMarketTest.populate(0, 0, "src/main/resources/green_lvl1.json");
+//        cardMarketTest.populate(1, 0, "src/main/resources/green_lvl2.json");
+//        cardMarketTest.populate(2, 0, "src/main/resources/green_lvl3.json");
 //        /*prova.PrintId();*/
-//        prova.populate(0, 0, "src/main/resources/green_lvl1.json"); //ripristina stato iniziale
+//
+//        //QUARTO TEST, vediamo se finisce comunque il game quando c'è esattamente una carta nei mazzi con livelli diversi
+//        try {
+//            //questa cosa in realtà è un micro test per altri casi, vedi fondo
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//        } catch (EndSoloGame e) {
+//            System.out.println("errore");
+//        }
 //        /*prova.PrintId();*/
-
-        //SECONDO TEST, una sola carta nel mazzo (deve quindi eliminare la prima del mazzo al livello dopo)
-        prova.Remove(1);
-        prova.Remove(5);
-        prova.Remove(9);
-        try {
-            prova.DeleteTwoCardsByColor(0);
-        } catch (EndSoloGame e) {
-            System.out.println("errore");
-        }
-        //rimane una carta nel mazzo livello 1 verde, in posizione 3, la prossima carta da rimuovere è quindi
-        //quella in posizione 0 nel mazzo livello 2 verde!
-        assertNull(prova.getMatrixDevelopment()[0][0][3]);
-        assertNull(prova.getMatrixDevelopment()[1][0][0]);
-        //prova.PrintId(); //nota, deve mancare una carta dal mazzo 5! (e tutto il mazzo uno)
-
-        prova.populate(0, 0, "src/main/resources/green_lvl1.json");
-        prova.populate(1, 0, "src/main/resources/green_lvl2.json");
-
-        //TERZO TEST, vediamo se effettivamente va tutto bene quando finisce la partita!
-        //
-
-        //questa volta eliminiamone alcune con il metodo che stiamo provando, e non con il remove!
-        //per rendere le cose più spicy ne eliminiamo una, così deve fare il jump tra livelli ogni volta
-        prova.Remove(1);
-        try {
-            //questa cosa in realtà è un micro test per altri casi, vedi fondo
-            prova.DeleteTwoCardsByColor(0);
-            prova.DeleteTwoCardsByColor(0);
-            prova.DeleteTwoCardsByColor(0);
-            prova.DeleteTwoCardsByColor(0);
-        } catch (EndSoloGame e) {
-            System.out.println("errore");
-        }
-        assertNotNull(prova.getMatrixDevelopment()[2][0][1]);
-        prova.Remove(37);
-        int tester = 42;
-        try {
-            prova.DeleteTwoCardsByColor(0);
-        } catch (EndSoloGame e) {
-            tester = 0;
-
-        }
-        assertEquals(0, tester);
-        assertNull(prova.getMatrixDevelopment()[2][0][2]);
-        assertNull(prova.getMatrixDevelopment()[2][0][3]);
-
-
-        prova.populate(0, 0, "src/main/resources/green_lvl1.json");
-        prova.populate(1, 0, "src/main/resources/green_lvl2.json");
-        prova.populate(2, 0, "src/main/resources/green_lvl3.json");
-        /*prova.PrintId();*/
-
-        //QUARTO TEST, vediamo se finisce comunque il game quando c'è esattamente una carta nei mazzi con livelli diversi
-        try {
-            //questa cosa in realtà è un micro test per altri casi, vedi fondo
-            prova.DeleteTwoCardsByColor(0);
-            prova.DeleteTwoCardsByColor(0);
-            prova.DeleteTwoCardsByColor(0);
-            prova.DeleteTwoCardsByColor(0);
-            prova.DeleteTwoCardsByColor(0);
-        } catch (EndSoloGame e) {
-            System.out.println("errore");
-        }
-        /*prova.PrintId();*/
-        try {
-            prova.DeleteTwoCardsByColor(0);
-        } catch (EndSoloGame e) {
-            tester = 10;
-        }
-        assertEquals(10, tester);
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                assertNull(prova.getMatrixDevelopment()[i][0][j]);
-            }
-        }
-        /*prova.PrintId();*/
-
-
-        //nota, casi itermedi sono testati automaticamente nella "costruzione" dei
-        //quattro tests. ad esempio eliminare due carte quando ho due carte nel livello 2 e basta viene testato
-        //automaticamente nella parte di try catch del quarto test!
-    }
+//        try {
+//            cardMarketTest.DeleteTwoCardsByColor(0);
+//        } catch (EndSoloGame e) {
+//            tester = 10;
+//        }
+//        assertEquals(10, tester);
+//        for (int i = 0; i < 3; i++) {
+//            for (int j = 0; j < 4; j++) {
+//                assertNull(cardMarketTest.getMatrixDevelopment()[i][0][j]);
+//            }
+//        }
+//        /*prova.PrintId();*/
+//
+//
+//        //nota, casi itermedi sono testati automaticamente nella "costruzione" dei
+//        //quattro tests. ad esempio eliminare due carte quando ho due carte nel livello 2 e basta viene testato
+//        //automaticamente nella parte di try catch del quarto test!
+//    }
 
 
 }
