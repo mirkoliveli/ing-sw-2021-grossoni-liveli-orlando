@@ -203,6 +203,15 @@ public class CardMarketController {
         catch (Exception e) { System.out.println(e); }
     }
 
+    public void legalSlots(boolean[] slots) {
+        if (slots[0]) { slot1.setDisable(false); }
+        else { slot1.setDisable(true); }
+        if (slots[1]) { slot2.setDisable(false); }
+        else { slot2.setDisable(true); }
+        if (slots[2]) { slot3.setDisable(false); }
+        else { slot3.setDisable(true); }
+    }
+
     public void confirmSlot(ActionEvent event) {
         if (slot == 0) { slotlabel.setText("You have to select a valid slot!"); }
         else {
