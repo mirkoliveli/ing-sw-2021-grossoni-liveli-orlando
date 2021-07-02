@@ -60,8 +60,7 @@ public class TurnController {
         temp = loader.load();
         ProductionController controller = loader.getController();
         controller.fillBaseProd();
-        controller.setProductionCards(LastGameStatus.activatableCards);
-        controller.setLeaders(LastGameStatus.leader1, LastGameStatus.leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played);
+        controller.setProductionCards(LastGameStatus.activatableCards, LastGameStatus.leader1, LastGameStatus.leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played);
         pane.getChildren().add(temp);
     }
 
@@ -123,7 +122,7 @@ public class TurnController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosecardslot.fxml"));
             AnchorPane temp = loader.load();
             CardMarketController controller = loader.getController();
-            controller.legalSlots(bool);
+            controller.legalSlots(bool, LastGameStatus.activatableCards);
             pane.getChildren().add(temp);
         }
         catch (Exception e) { System.out.println(e); }

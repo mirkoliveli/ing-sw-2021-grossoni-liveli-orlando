@@ -32,9 +32,9 @@ public class ProductionController {
     @FXML
     private CheckBox prod0, prod1, prod2, prod3, prod4, prod5;
     @FXML
-    private ImageView leader1, leader2;
-    @FXML
-    private ImageView card1, card2, card3;
+    private ImageView leader1, leader2, card1, card2, card3;
+    //@FXML
+    //private ImageView card1, card2, card3;
     @FXML
     private Label baselabel;
     @FXML
@@ -42,13 +42,7 @@ public class ProductionController {
     private final ArrayList<String> resources = new ArrayList<String>(Arrays.asList("Coin","Servant","Shield","Stone"));
     private boolean[] production = new boolean[6];
     private String[] res = new String[3];
-    // 0: costo shields; 1: costo servants; 2: costo stones; 3: costo coins
-    private Image[] leadercards = {
-            new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png"),
-            new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png"),
-            new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-63-1.png"),
-            new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-64-1.png")
-    };
+
 
     public void backToActionTurn(ActionEvent event) throws Exception {
         root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
@@ -84,20 +78,8 @@ public class ProductionController {
         else { production[5] = false; }
     }
 
-    public void setLeaders (int l1, int l2, boolean b1, boolean b2) {
-        if (b1 && l1 > 60) {
-            prod4.setVisible(true);
-            leaderproduction1.setVisible(true);
-            leader1.setImage(leadercards[l1-61]);
-        }
-        if (b2 && l2 > 60) {
-            prod5.setVisible(true);
-            leaderproduction2.setVisible(true);
-            leader2.setImage(leadercards[l2-61]);
-        }
-    }
 
-    public void setProductionCards(int[] activatable) {
+    public void setProductionCards(int[] activatable, int l1, int l2, boolean b1, boolean b2) {
         if (activatable[0] != 0) {
             Image firstcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + activatable[0] + "-1.png");
             card1.setImage(firstcard);
@@ -109,6 +91,24 @@ public class ProductionController {
         if (activatable[2] != 0) {
             Image thirdcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + activatable[2] + "-1.png");
             card3.setImage(thirdcard);
+        }
+        if (b1 && l1 > 60) {
+            prod4.setVisible(true);
+            leaderproduction1.setVisible(true);
+            Image first = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + l1 + "-1.png");
+
+            System.out.println(l1);
+
+            leader1.setImage(first);
+        }
+        if (b2 && l2 > 60) {
+            prod5.setVisible(true);
+            leaderproduction2.setVisible(true);
+            Image second = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + l2 + "-1.png");
+
+            System.out.println(l2);
+
+            leader2.setImage(second);
         }
     }
 

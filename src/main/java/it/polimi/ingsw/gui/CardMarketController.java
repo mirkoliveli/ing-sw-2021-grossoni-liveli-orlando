@@ -239,7 +239,10 @@ public class CardMarketController {
 
     }
 
-    public void legalSlots(boolean[] slots) {
+    public void legalSlots(boolean[] slots, int[] activatable) {
+        if (activatable[0] != 0) { card1.setImage(cards[activatable[0]-1]); }
+        if (activatable[1] != 0) { card2.setImage(cards[activatable[1]-1]); }
+        if (activatable[2] != 0) { card3.setImage(cards[activatable[2]-1]); }
         if (slots[0]) { slot1.setDisable(false); }
         else { slot1.setDisable(true); }
         if (slots[1]) { slot2.setDisable(false); }
