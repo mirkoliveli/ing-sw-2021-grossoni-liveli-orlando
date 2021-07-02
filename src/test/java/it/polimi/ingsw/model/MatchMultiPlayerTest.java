@@ -40,7 +40,7 @@ public class MatchMultiPlayerTest {
     @Test
     public void canIBuyThisCard() {
         MatchMultiPlayer match = new MatchMultiPlayer();
-        match.AddPlayer("gross");
+        match.AddPlayer("playername");
         try {
             boolean bool=match.availableSlotForCard(1, 1);
             assertTrue(bool);
@@ -54,5 +54,12 @@ public class MatchMultiPlayerTest {
 
     @Test
     public void availableSlotForCard() {
+        MatchMultiPlayer match = new MatchMultiPlayer();
+        match.AddPlayer("playername");
+        try {
+            assertEquals(true, match.availableSlotForCard(1,1));
+        }catch(CardNotFoundException e){
+    }
+
     }
 }

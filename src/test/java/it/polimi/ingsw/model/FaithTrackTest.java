@@ -12,14 +12,39 @@ public class FaithTrackTest {
 
     @Test
     public void increasePosition() {
+        FaithTrack test = new FaithTrack();
+        int n = 0;
+        while (n<10){
+            test.increasePosition();
+            n++;
+        }
+        assertEquals(10, test.getFaithMarker());
     }
 
     @Test
     public void checkPopeSpace() {
+        FaithTrack test = new FaithTrack();
+        test.Movement(4);
+        assertEquals(0, test.checkPopeSpace());
+        test.Movement(4);
+        assertEquals(1, test.checkPopeSpace());
+        test.Movement(8);
+        assertEquals(2, test.checkPopeSpace());
+        test.Movement(8);
+        assertEquals(3, test.checkPopeSpace());
     }
 
     @Test
     public void checkZone() {
+        FaithTrack test = new FaithTrack();
+        test.Movement(4);
+        assertEquals(false, test.checkZone(test.checkPopeSpace()));
+        test.Movement(4);
+        assertEquals(true, test.checkZone(test.checkPopeSpace()));
+        test.Movement(8);
+        assertEquals(true, test.checkZone(test.checkPopeSpace()));
+        test.Movement(8);
+        assertEquals(true, test.checkZone(test.checkPopeSpace()));
     }
 
     @Test
@@ -163,5 +188,6 @@ public class FaithTrackTest {
         test.CoolPrint();
         test.Movement(20);
         test.CoolPrint();
+        assertEquals (24,  test.getFaithMarker());
     }
 }
