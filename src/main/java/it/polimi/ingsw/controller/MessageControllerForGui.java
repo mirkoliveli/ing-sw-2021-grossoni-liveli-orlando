@@ -26,16 +26,18 @@ public class MessageControllerForGui extends Thread{
                     System.out.println("DISCONNECTED");
                     System.exit(1);
                 }
-            } while (!message.contains("BEGIN_TURN") && !message.contains("BEGIN_LAST_TURN"));
+            } while (!message.contains("BEGIN_TURN") && !message.contains("BEGIN_LAST_TURN") && !message.contains("GAME_ENDED"));
             System.out.println(ConnectionHandlerForGui.getGson().toJson(message));
-            sendUpdate(message);
             if(message.contains("BEGIN_LAST_TURN")){
+                try { message = ConnectionHandlerForGui.getMessage(); }
+                catch (Exception e) { System.out.println(e); }
                 LastGameStatus.setLastTurn(true);
             }
             else if(message.contains("GAME_ENDED")){
                 LastGameStatus.setGameEnd(true);
                 LastGameStatus.setLastMessage(message);
             }
+            if (!message.contains("GAME_ENDED")) { sendUpdate(message); }
             //DEBUG INIZIO
             //ActionMessage action=new ActionMessage(TypeOfAction.DEBUG_MODE);
             //ConnectionHandlerForGui.sendMessage(action);

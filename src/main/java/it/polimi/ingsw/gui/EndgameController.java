@@ -9,7 +9,7 @@ public class EndgameController {
     @FXML
     private Label winnerlabel;
     @FXML
-    private ImageView goldmedal; //da aggiungere se è il vincitore
+    private ImageView goldmedal;
     @FXML
     private Label bottomtext;
 

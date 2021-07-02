@@ -2,6 +2,7 @@ package it.polimi.ingsw.gui;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.LastMessage;
 import it.polimi.ingsw.messages.TypeOfAction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -168,6 +169,8 @@ public class TurnController {
         label.setText("Now it's your turn! Choose your action using the buttons below");
 
     }
+
+
 
     public void removePane() {
         pane.getChildren().remove(temp);
@@ -403,12 +406,29 @@ public class TurnController {
     }
 
     public void isMyTurnNow(ActionEvent event){
-        if(ConnectionHandlerForGui.IsItMyTurn()){
+        if(ConnectionHandlerForGui.IsItMyTurn() && !LastGameStatus.isGameEnd()){
             removePane();
         }
-        else{
-            //non è il mio turno!
+        if(LastGameStatus.isLastTurn()) {
+            label.setText("Warning: the game is going to finish soon! This is your last turn!");
+            LastGameStatus.setLastTurn(false);
         }
+        if(LastGameStatus.isGameEnd()) {
+            try {
+                System.out.println("Entra nel try");
+                ActionMessage lastAction = ConnectionHandlerForGui.getGson().fromJson(LastGameStatus.lastMessage, ActionMessage.class);
+                LastMessage finalMessage = ConnectionHandlerForGui.getGson().fromJson(lastAction.getActionAsMessage(), LastMessage.class);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/endgame.fxml"));
+                temp = loader.load();
+                EndgameController controller = loader.getController();
+                controller.loadscore(finalMessage.getPlayerVP(), finalMessage.getWinnerName(), finalMessage.doYouWin());
+                pane.getChildren().add(temp);
+                Thread.sleep(42069);
+            }
+            catch (Exception e) { System.out.println(e); }
+
+        }
+
     }
 
 }
