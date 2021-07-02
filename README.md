@@ -32,7 +32,7 @@ The final version includes:
 | Complete rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
 | Socket |[![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
 | CLI |[![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
-| GUI | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
+| GUI | [![YELLOW](http://placehold.it/15/ffdd00/ffdd00)]() |
 | Multiple games | [![RED](http://placehold.it/15/f03c15/f03c15)]()|
 | Local Single Player | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
 | Persistence | [![RED](http://placehold.it/15/f03c15/f03c15)]() |
@@ -83,6 +83,11 @@ From the directory where the jar file is located, launch the following command:
 java -jar ClientColoured.jar
 ````
 
+#### Gui.jar
+java --module-path /<YOURPATH>/javafx-sdk-16/lib --add-modules javafx.base,javafx.controls,javafx.fxml -jar Gui.jar
+you have to import javafx modules in the <YOURPATH>, then launch with the command above
+  
+  
 [comment]: <> (## Test cases)
 
 [comment]: <> (All tests in model and controller has a classes' coverage at 100%.)
