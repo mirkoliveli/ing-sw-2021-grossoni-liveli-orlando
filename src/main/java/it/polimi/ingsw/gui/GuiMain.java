@@ -25,7 +25,7 @@ public class GuiMain extends Application {
         //stage.setFullScreen(true);
 
         //modificare il contenuto di getResource per cambiare la schermata iniziale
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         Parent root2 = loader.load();
 
         Scene productionScene = new Scene(root2);

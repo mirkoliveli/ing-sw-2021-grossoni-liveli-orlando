@@ -104,7 +104,7 @@ public class LeaderChoiceController implements Initializable {
         }
         else{
             GettingStartedMessage mex=new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 2);
-            mex.setResources(ConnectionHandlerForGui.getResource(), 2);
+            mex.setResources(ConnectionHandlerForGui.getResource(), ConnectionHandlerForGui.getResource4player());
             ConnectionHandlerForGui.sendMessage(mex);
         }
 

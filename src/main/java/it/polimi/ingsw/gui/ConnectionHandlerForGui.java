@@ -14,7 +14,7 @@ public class ConnectionHandlerForGui {
     private static String username;
     private static Gson gson;
     private static int[] leaders;
-    private static int resource;
+    private static int resource, resource4player;
 
     private static boolean isItMyTurn;
     private static boolean isMyTurnEnded;
@@ -34,6 +34,14 @@ public class ConnectionHandlerForGui {
 
     public static void setIsMyTurnEnded(boolean isMyTurnEnded) {
         ConnectionHandlerForGui.isMyTurnEnded = isMyTurnEnded;
+    }
+
+    public static int getResource4player() {
+        return resource4player;
+    }
+
+    public static void setResource4player(int resource4player) {
+        ConnectionHandlerForGui.resource4player = resource4player;
     }
 
     public static boolean IsMyTurnEnded() {
@@ -159,6 +167,7 @@ public class ConnectionHandlerForGui {
      * @param resource
      */
     public static void getResourceFromString(String resource){
+        ConnectionHandlerForGui.setResource4player(0);
         switch(resource){
             case "Coin":
                 ConnectionHandlerForGui.resource=1;
@@ -174,5 +183,23 @@ public class ConnectionHandlerForGui {
                 break;
         }
     }
+
+    public static void get4PlayerResourceFromString(String resource){
+        switch(resource){
+            case "Coin":
+                ConnectionHandlerForGui.resource4player=1;
+                break;
+            case "Servant":
+                ConnectionHandlerForGui.resource4player=2;
+                break;
+            case "Shield":
+                ConnectionHandlerForGui.resource4player=3;
+                break;
+            case "Stone":
+                ConnectionHandlerForGui.resource4player=4;
+                break;
+        }
+    }
+
 
 }

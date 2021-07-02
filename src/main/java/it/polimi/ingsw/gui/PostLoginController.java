@@ -68,6 +68,7 @@ public class PostLoginController {
         }
         else {
             ConnectionHandlerForGui.getResourceFromString(choice.getValue());
+            if(invisiblechoice.getValue()!=null) ConnectionHandlerForGui.get4PlayerResourceFromString(invisiblechoice.getValue());
             ConnectionHandlerForGui.sendMessage(new Message(ConnectionHandlerForGui.getUsername()));
             ConnectionHandlerForGui.setLeaders(ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), GettingStartedMessage.class).getCardID());
         }
