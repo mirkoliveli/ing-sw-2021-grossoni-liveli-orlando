@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.AlreadyPlayedOrDiscardedLeader;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.utils.StaticMethods;
@@ -206,7 +207,7 @@ public class Player {
         boolean condition=false;
         for(int i=0;i < 3 ; i++){
             allCardsColor[i]=board.getSlot(i+1).get_colors();
-            if(allCardsColor[i][2]==leaderPointer.getColorProductionCard() && allCardsColor[i][2]!=null) condition=true;
+            if(allCardsColor[i][1]==leaderPointer.getColorProductionCard() && allCardsColor[i][1]!=null) condition=true;
         }
         return condition;
     }
