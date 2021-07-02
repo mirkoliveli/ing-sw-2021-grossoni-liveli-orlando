@@ -70,9 +70,13 @@ public class LeaderChoiceController implements Initializable {
                }
                 else{
                    controller.setWaiting();
-                   ConnectionHandlerForGui.setIsItMyTurn(true);
+                   ConnectionHandlerForGui.setIsItMyTurn(false);
                    ConnectionHandlerForGui.sendMessage("Still_connected");
                }
+
+                //start thread that handles in between turns comms
+                new MessageControllerForGui().start();
+
                stage.setScene(scene);
                stage.show();
 

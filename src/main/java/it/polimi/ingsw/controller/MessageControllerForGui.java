@@ -9,10 +9,10 @@ import java.io.IOException;
 
 public class MessageControllerForGui extends Thread{
 
-    private TurnController guiView;
 
-    public MessageControllerForGui(TurnController guiView){
-        this.guiView=guiView;
+
+    public MessageControllerForGui(){
+
     }
 
     public void run(){
@@ -26,6 +26,7 @@ public class MessageControllerForGui extends Thread{
                     System.exit(1);
                 }
             } while (!message.contains("BEGIN_TURN"));
+            System.out.println(ConnectionHandlerForGui.getGson().toJson(message));
             sendUpdate(message);
             ConnectionHandlerForGui.setIsItMyTurn(true);
             //notify in some way the gui?
@@ -53,9 +54,11 @@ public class MessageControllerForGui extends Thread{
      * @param message message sent by the server containing the update
      */
     public void sendUpdate(String message){
+        System.out.println("sto facendo update");
         ActionMessage serverMessage=ConnectionHandlerForGui.getGson().fromJson(message, ActionMessage.class);
         GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(serverMessage.getActionAsMessage(), GameStatusUpdate.class);
         LastGameStatus.update(status);
+        LastGameStatus.printEverything();
     }
 
 }
