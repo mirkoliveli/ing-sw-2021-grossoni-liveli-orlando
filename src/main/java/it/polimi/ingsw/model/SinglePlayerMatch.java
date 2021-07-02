@@ -87,18 +87,19 @@ public class SinglePlayerMatch {
 
     /**
      * method that returns and updated version of the game
+     *
      * @return GameStatusUpdate object
      */
-    public GameStatusUpdate gameUpdate(){
-        GameStatusUpdate game=new GameStatusUpdate(1);
-        PlayerUpdate[] player=new PlayerUpdate[1];
+    public GameStatusUpdate gameUpdate() {
+        GameStatusUpdate game = new GameStatusUpdate(1);
+        PlayerUpdate[] player = new PlayerUpdate[1];
         //setting the markets
         game.getMarketsStatus().setCardMarket(this.cardMarket.cardMarketStatus());
         game.getMarketsStatus().setMarketBoard(this.marketBoard.status());
         game.getMarketsStatus().setSlideMarble(this.marketBoard.getSlideMarble().getColore());
 
         //setting the player
-        player[0]=playerStatus();
+        player[0] = playerStatus();
         game.setPlayersStatus(player);
         game.setNextPlayer(1);
 
@@ -107,10 +108,11 @@ public class SinglePlayerMatch {
 
     /**
      * method used to update the player status, used only in the gameUpdate method
+     *
      * @return PlayerUpdate object of the player
      */
-    public PlayerUpdate playerStatus(){
-        PlayerUpdate temp=new PlayerUpdate(this.player.getName(), 1);
+    public PlayerUpdate playerStatus() {
+        PlayerUpdate temp = new PlayerUpdate(this.player.getName(), 1);
         temp.setPv(this.player.getVictoryPoints());
         temp.setDevelopMentSlots(this.player.getBoard().DevelopMentSlotsStatus());
         temp.setStorage(this.player.getBoard().getStorage().storageStatus());
@@ -135,7 +137,7 @@ public class SinglePlayerMatch {
      * The method expects a card that can be bought, and only handles the case where the card is not present in the market,
      * not the case where the card is an illegal buy
      *
-     * @param idCard   card checked
+     * @param idCard card checked
      * @return boolean true if the card can be bought, false otherwise
      * @throws CardNotFoundException if the card does not exist in the market
      */
@@ -162,7 +164,7 @@ public class SinglePlayerMatch {
     /**
      * checks if a slot of this player can store the card selected
      *
-     * @param idCard   id of the card selected
+     * @param idCard id of the card selected
      * @return true if the card can be stored, false otherwise
      * @throws CardNotFoundException the card selected does not exist in the market.
      */
@@ -180,9 +182,9 @@ public class SinglePlayerMatch {
     }
 
     public void lorenzoFaithTrackMove(int movement) throws EndSoloGame {
-       int tempForFaithTrack = this.lorenzoFaithTrack.Action(movement);
+        int tempForFaithTrack = this.lorenzoFaithTrack.Action(movement);
         System.out.println();
-       lorenzoFaithTrack.CoolPrint();
+        lorenzoFaithTrack.CoolPrint();
         System.out.println();
         if (tempForFaithTrack != 0) {
             if (this.player.getBoard().getFaithTrack().DoIActivateTheZone(tempForFaithTrack)) {

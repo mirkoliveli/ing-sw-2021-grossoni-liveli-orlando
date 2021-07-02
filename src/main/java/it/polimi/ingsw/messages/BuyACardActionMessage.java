@@ -4,21 +4,21 @@ public class BuyACardActionMessage {
     InBetweenActionExchanges action;
     String objectToSend;
 
-    public BuyACardActionMessage(InBetweenActionExchanges action, String Object){
-        this.action=action;
-        this.objectToSend=Object;
+    public BuyACardActionMessage(InBetweenActionExchanges action, String Object) {
+        this.action = action;
+        this.objectToSend = Object;
     }
 
     public InBetweenActionExchanges getAction() {
         return action;
     }
 
-    public String getObjectToSend() {
-        return objectToSend;
-    }
-
     public void setAction(InBetweenActionExchanges action) {
         this.action = action;
+    }
+
+    public String getObjectToSend() {
+        return objectToSend;
     }
 
     public void setObjectToSend(String objectToSend) {

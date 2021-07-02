@@ -8,7 +8,8 @@ import it.polimi.ingsw.model.exceptions.CardNotFoundException;
 import it.polimi.ingsw.model.exceptions.EndSoloGame;
 import it.polimi.ingsw.model.exceptions.IllegalCardException;
 
-import java.io.*;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 /**
  * class that defines the cardMarket section
@@ -74,8 +75,8 @@ public class CardMarket {
      * @author Riccardo Grossoni
      */
     public void populate(int lvl, int color, String Source) {
-        Gson gson=new Gson();
-        Reader reader=new InputStreamReader(DevelopmentCard[].class.getResourceAsStream(Source));
+        Gson gson = new Gson();
+        Reader reader = new InputStreamReader(DevelopmentCard[].class.getResourceAsStream(Source));
         this.matrixDevelopment[lvl][color] = gson.fromJson(reader, DevelopmentCard[].class);
 
 
@@ -212,7 +213,7 @@ public class CardMarket {
         } catch (CardNotFoundException e) {
             return null;            //volendo si può cambiare facendo lanciare a sua volta una eccezione
         }
-        copyCost= temp.getCost().clone();
+        copyCost = temp.getCost().clone();
         return copyCost;
     }
 
@@ -410,8 +411,8 @@ public class CardMarket {
                     card++;
                 }
                 if (card < 4) {
-                    if(matrixDevelopment[i][j][card]!=null)
-                    visibleMarket[i][j] = matrixDevelopment[i][j][card].getId();
+                    if (matrixDevelopment[i][j][card] != null)
+                        visibleMarket[i][j] = matrixDevelopment[i][j][card].getId();
                 } else {
                     visibleMarket[i][j] = 0;
                 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 
-
 public class FaithTrack {
 
     private final PopesFavorCard first;
@@ -44,6 +43,11 @@ public class FaithTrack {
 
     public int getFaithMarker() {
         return faithMarker;
+    }
+
+    //should not use if not for debug
+    public void setFaithMarker(int faithMarker) {
+        this.faithMarker = faithMarker;
     }
 
     public int getPopepoints() {
@@ -116,7 +120,6 @@ public class FaithTrack {
         }
     }
 
-
     /**
      * method that returns the actual victory points reached while the marker is moving
      *
@@ -188,7 +191,6 @@ public class FaithTrack {
         }
     }
 
-
     public int getOnlyTrackPoints() {
         return this.onlyTrackPoints;
     }
@@ -241,11 +243,6 @@ public class FaithTrack {
         return third;
     }
 
-    //should not use if not for debug
-    public void setFaithMarker(int faithMarker) {
-        this.faithMarker = faithMarker;
-    }
-
     //serve a prevedere se con la prossima azione (viene passato il movimento totale come parametro) viene attivata
     //qualche zona papale, viene usato un parametro vettore nel remoto caso vengano attivate più zone con un solo movimento
     //questo
@@ -275,8 +272,9 @@ public class FaithTrack {
 
     /**
      * method that moves the marker on the track, updates the score given by the track and checks if any popespace han been activated, returns the activated space
+     *
      * @param move movement made (faith points received)
-     * @return  vatican report to be activated, zero if none
+     * @return vatican report to be activated, zero if none
      */
     public int MultiPlayerMovement(int move) {
         int popespace;
@@ -357,7 +355,7 @@ public class FaithTrack {
         System.out.println("                P               P               P");
     }
 
-    public void singlePlayerMovement(int move){
+    public void singlePlayerMovement(int move) {
         Movement(move);
 
     }

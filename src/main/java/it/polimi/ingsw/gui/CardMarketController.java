@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gui;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.messages.ActionMessage;
 import it.polimi.ingsw.messages.BuyACardActionMessage;
@@ -46,7 +45,7 @@ public class CardMarketController {
     @FXML
     private ImageView card1, card2, card3;
     private int slot;
-    private Image[] cards = {
+    private final Image[] cards = {
             new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-1-1.png"),
             new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-2-1.png"),
             new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-3-1.png"),
@@ -99,7 +98,7 @@ public class CardMarketController {
 
     public void backToActionTurn(ActionEvent event) throws Exception {
         root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -109,38 +108,88 @@ public class CardMarketController {
 
     /**
      * this methods fills the available cards in the market using an array of card IDs in the correct order
+     *
      * @param available
      */
     public void fill(int[][] available) {
         cardsinmarket = available;
-        if (available[2][0] != 0) { img1.setImage(cards[available[2][0]-1]); } //green lv3
-        else { rad1.setDisable(true); }
-        if (available[2][2] != 0) { img2.setImage(cards[available[2][2]-1]); } //blue lv3
-        else { rad2.setDisable(true); }
-        if (available[2][3] != 0) { img3.setImage(cards[available[2][3]-1]); } //yellow lv3
-        else { rad3.setDisable(true); }
-        if (available[2][1] != 0) { img4.setImage(cards[available[2][1]-1]); } //purple lv3
-        else { rad4.setDisable(true); }
-        if (available[1][0] != 0) { img5.setImage(cards[available[1][0]-1]); } //green lv2
-        else { rad5.setDisable(true); }
-        if (available[1][2] != 0) { img6.setImage(cards[available[1][2]-1]); } //blue lv2
-        else { rad6.setDisable(true); }
-        if (available[1][3] != 0) { img7.setImage(cards[available[1][3]-1]); } //yellow lv2
-        else { rad7.setDisable(true); }
-        if (available[1][1] != 0) { img8.setImage(cards[available[1][1]-1]); } //purple lv2
-        else { rad8.setDisable(true); }
-        if (available[0][0] != 0) { img9.setImage(cards[available[0][0]-1]); } //green lv1
-        else { rad9.setDisable(true); }
-        if (available[0][2] != 0) { img10.setImage(cards[available[0][2]-1]); } //blue lv1
-        else { rad10.setDisable(true); }
-        if (available[0][3] != 0) { img11.setImage(cards[available[0][3]-1]); } //yellow lv1
-        else { rad11.setDisable(true); }
-        if (available[0][1] != 0) { img12.setImage(cards[available[0][1]-1]); } //purple lv1
-        else { rad12.setDisable(true); }
+        if (available[2][0] != 0) {
+            img1.setImage(cards[available[2][0] - 1]);
+        } //green lv3
+        else {
+            rad1.setDisable(true);
+        }
+        if (available[2][2] != 0) {
+            img2.setImage(cards[available[2][2] - 1]);
+        } //blue lv3
+        else {
+            rad2.setDisable(true);
+        }
+        if (available[2][3] != 0) {
+            img3.setImage(cards[available[2][3] - 1]);
+        } //yellow lv3
+        else {
+            rad3.setDisable(true);
+        }
+        if (available[2][1] != 0) {
+            img4.setImage(cards[available[2][1] - 1]);
+        } //purple lv3
+        else {
+            rad4.setDisable(true);
+        }
+        if (available[1][0] != 0) {
+            img5.setImage(cards[available[1][0] - 1]);
+        } //green lv2
+        else {
+            rad5.setDisable(true);
+        }
+        if (available[1][2] != 0) {
+            img6.setImage(cards[available[1][2] - 1]);
+        } //blue lv2
+        else {
+            rad6.setDisable(true);
+        }
+        if (available[1][3] != 0) {
+            img7.setImage(cards[available[1][3] - 1]);
+        } //yellow lv2
+        else {
+            rad7.setDisable(true);
+        }
+        if (available[1][1] != 0) {
+            img8.setImage(cards[available[1][1] - 1]);
+        } //purple lv2
+        else {
+            rad8.setDisable(true);
+        }
+        if (available[0][0] != 0) {
+            img9.setImage(cards[available[0][0] - 1]);
+        } //green lv1
+        else {
+            rad9.setDisable(true);
+        }
+        if (available[0][2] != 0) {
+            img10.setImage(cards[available[0][2] - 1]);
+        } //blue lv1
+        else {
+            rad10.setDisable(true);
+        }
+        if (available[0][3] != 0) {
+            img11.setImage(cards[available[0][3] - 1]);
+        } //yellow lv1
+        else {
+            rad11.setDisable(true);
+        }
+        if (available[0][1] != 0) {
+            img12.setImage(cards[available[0][1] - 1]);
+        } //purple lv1
+        else {
+            rad12.setDisable(true);
+        }
     }
 
     /**
      * used to add an animation to zoom cards in the market, so that their characteristics are clearer
+     *
      * @param img
      * @param radio
      */
@@ -158,64 +207,117 @@ public class CardMarketController {
 
 
     public void getChoice(ActionEvent event) {
-        if (scale!= null) {
+        if (scale != null) {
             scale.jumpTo(Duration.ZERO);
             scale.stop();
         }
-        if (rad1.isSelected()) { zoom(img1, rad1); cardchosx=2; cardchosy=0; }
-        if (rad2.isSelected()) { zoom(img2, rad2); cardchosx=2; cardchosy=2; }
-        if (rad3.isSelected()) { zoom(img3, rad3); cardchosx=2; cardchosy=3; }
-        if (rad4.isSelected()) { zoom(img4, rad4); cardchosx=2; cardchosy=1; }
-        if (rad5.isSelected()) { zoom(img5, rad5); cardchosx=1; cardchosy=0; }
-        if (rad6.isSelected()) { zoom(img6, rad6); cardchosx=1; cardchosy=2; }
-        if (rad7.isSelected()) { zoom(img7, rad7); cardchosx=1; cardchosy=3; }
-        if (rad8.isSelected()) { zoom(img8, rad8); cardchosx=1; cardchosy=1; }
-        if (rad9.isSelected()) { zoom(img9, rad9); cardchosx=0; cardchosy=0; }
-        if (rad10.isSelected()) { zoom(img10, rad10); cardchosx=0; cardchosy=2; }
-        if (rad11.isSelected()) { zoom(img11, rad11); cardchosx=0; cardchosy=3; }
-        if (rad12.isSelected()) { zoom(img12, rad12); cardchosx=0; cardchosy=1; }
+        if (rad1.isSelected()) {
+            zoom(img1, rad1);
+            cardchosx = 2;
+            cardchosy = 0;
+        }
+        if (rad2.isSelected()) {
+            zoom(img2, rad2);
+            cardchosx = 2;
+            cardchosy = 2;
+        }
+        if (rad3.isSelected()) {
+            zoom(img3, rad3);
+            cardchosx = 2;
+            cardchosy = 3;
+        }
+        if (rad4.isSelected()) {
+            zoom(img4, rad4);
+            cardchosx = 2;
+            cardchosy = 1;
+        }
+        if (rad5.isSelected()) {
+            zoom(img5, rad5);
+            cardchosx = 1;
+            cardchosy = 0;
+        }
+        if (rad6.isSelected()) {
+            zoom(img6, rad6);
+            cardchosx = 1;
+            cardchosy = 2;
+        }
+        if (rad7.isSelected()) {
+            zoom(img7, rad7);
+            cardchosx = 1;
+            cardchosy = 3;
+        }
+        if (rad8.isSelected()) {
+            zoom(img8, rad8);
+            cardchosx = 1;
+            cardchosy = 1;
+        }
+        if (rad9.isSelected()) {
+            zoom(img9, rad9);
+            cardchosx = 0;
+            cardchosy = 0;
+        }
+        if (rad10.isSelected()) {
+            zoom(img10, rad10);
+            cardchosx = 0;
+            cardchosy = 2;
+        }
+        if (rad11.isSelected()) {
+            zoom(img11, rad11);
+            cardchosx = 0;
+            cardchosy = 3;
+        }
+        if (rad12.isSelected()) {
+            zoom(img12, rad12);
+            cardchosx = 0;
+            cardchosy = 1;
+        }
     }
 
     public void setSlot(ActionEvent event) {
-        if (slot1.isSelected()) { slot = 1; }
-        if (slot2.isSelected()) { slot = 2; }
-        if (slot3.isSelected()) { slot = 3; }
+        if (slot1.isSelected()) {
+            slot = 1;
+        }
+        if (slot2.isSelected()) {
+            slot = 2;
+        }
+        if (slot3.isSelected()) {
+            slot = 3;
+        }
     }
 
     public void confirm(ActionEvent event) {
-        boolean actuallyDone=false;
+        boolean actuallyDone = false;
 
-        ActionMessage action=new ActionMessage(TypeOfAction.BUY_A_CARD);
+        ActionMessage action = new ActionMessage(TypeOfAction.BUY_A_CARD);
         action.BuyCard(cardsinmarket[cardchosx][cardchosy]);
         ConnectionHandlerForGui.sendMessage(ConnectionHandlerForGui.getGson().toJson(action));
-        try{
+        try {
             String messageFromServer = ConnectionHandlerForGui.getMessage();
             System.out.println(messageFromServer);
-            if(messageFromServer.contains("UNAVAILABLE_ACTION")){
+            if (messageFromServer.contains("UNAVAILABLE_ACTION")) {
                 System.out.println("cannot buy card");
                 //update necessary
 
 
-                messageFromServer=ConnectionHandlerForGui.getMessage();
-                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
+                messageFromServer = ConnectionHandlerForGui.getMessage();
+                GameStatusUpdate status = ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
                 LastGameStatus.update(status);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
                 root = loader.load();
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
 
-            }
-            else{
+            } else {
                 System.out.println("choose a slot");
-                BuyACardActionMessage nextChoice=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, BuyACardActionMessage.class);
+                BuyACardActionMessage nextChoice = ConnectionHandlerForGui.getGson().fromJson(messageFromServer, BuyACardActionMessage.class);
                 System.out.println("messaggio arrivato");
                 //seleziono lo slot in cui inserirla
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
                 root = loader.load();
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 TurnController controller = loader.getController();
                 controller.goToChooseSlot(ConnectionHandlerForGui.getGson().fromJson(nextChoice.getObjectToSend(), boolean[].class));
@@ -225,51 +327,53 @@ public class CardMarketController {
             }
 
 
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("disconnected, quitting...");
             System.exit(1);
         }
 
 
-
-
-
     }
 
     public void legalSlots(boolean[] slots, int[] activatable) {
-        if (activatable[0] != 0) { card1.setImage(cards[activatable[0]-1]); }
-        if (activatable[1] != 0) { card2.setImage(cards[activatable[1]-1]); }
-        if (activatable[2] != 0) { card3.setImage(cards[activatable[2]-1]); }
-        if (slots[0]) { slot1.setDisable(false); }
-        else { slot1.setDisable(true); }
-        if (slots[1]) { slot2.setDisable(false); }
-        else { slot2.setDisable(true); }
-        if (slots[2]) { slot3.setDisable(false); }
-        else { slot3.setDisable(true); }
+        if (activatable[0] != 0) {
+            card1.setImage(cards[activatable[0] - 1]);
+        }
+        if (activatable[1] != 0) {
+            card2.setImage(cards[activatable[1] - 1]);
+        }
+        if (activatable[2] != 0) {
+            card3.setImage(cards[activatable[2] - 1]);
+        }
+        slot1.setDisable(!slots[0]);
+        slot2.setDisable(!slots[1]);
+        slot3.setDisable(!slots[2]);
     }
 
     public void confirmSlot(ActionEvent event) {
-        if (slot == 0) { slotlabel.setText("You have to select a valid slot!"); }
-        else {
+        if (slot == 0) {
+            slotlabel.setText("You have to select a valid slot!");
+        } else {
             try {
 
                 ConnectionHandlerForGui.sendMessage(slot);
-                String messageFromServer=ConnectionHandlerForGui.getMessage();
-                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
+                String messageFromServer = ConnectionHandlerForGui.getMessage();
+                GameStatusUpdate status = ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
                 LastGameStatus.update(status);
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
                 root = loader.load();
                 TurnController controller = loader.getController();
                 controller.actionDone();
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
 
+            } catch (Exception e) {
+                System.out.println(e);
             }
-            catch (Exception e) { System.out.println(e); }
-            }
+        }
     }
 
     public void exitWindow(ActionEvent event) {

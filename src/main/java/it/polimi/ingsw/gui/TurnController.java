@@ -21,6 +21,10 @@ import java.io.IOException;
 
 public class TurnController {
 
+    Image coins = new Image("/img/punchboard/coin2.png");
+    Image servants = new Image("/img/punchboard/servant2.png");
+    Image shields = new Image("/img/punchboard/shield2.png");
+    Image stones = new Image("/img/punchboard/stone2.png");
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -51,10 +55,6 @@ public class TurnController {
     private double y;
     @FXML
     private ImageView bonus1, bonus2, bonus3;
-    Image coins = new Image("/img/punchboard/coin2.png");
-    Image servants = new Image("/img/punchboard/servant2.png");
-    Image shields = new Image("/img/punchboard/shield2.png");
-    Image stones = new Image("/img/punchboard/stone2.png");
 
     public void switchToProduction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/production.fxml"));
@@ -65,7 +65,7 @@ public class TurnController {
         pane.getChildren().add(temp);
     }
 
-    public void switchToMarketboard (ActionEvent event) throws Exception {
+    public void switchToMarketboard(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/marketboard.fxml"));
         temp = loader.load();
         MarketboardController controller = loader.getController();
@@ -114,8 +114,9 @@ public class TurnController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/waiting.fxml"));
             temp = loader.load();
             pane.getChildren().add(temp);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
     }
 
     public void goToChooseSlot(boolean[] bool) {
@@ -125,8 +126,9 @@ public class TurnController {
             CardMarketController controller = loader.getController();
             controller.legalSlots(bool, LastGameStatus.activatableCards);
             pane.getChildren().add(temp);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
     }
 
     public void goToChooseDepot(boolean[] bool, int[] resources) {
@@ -136,29 +138,31 @@ public class TurnController {
             MarketboardController controller = loader.getController();
             controller.setDepotChoice(bool, resources);
             pane.getChildren().add(temp);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
     }
 
     /**
      * sends message to the server requesting to end the turn, if the answer is positive the turn will end, the view for the actions will be blocked and MessageController thread will restart
      * if the answer is negative nothing will happen.
+     *
      * @param event
      */
     public void finishTurn(ActionEvent event) {
 
-        ActionMessage action=new ActionMessage(TypeOfAction.END_TURN);
+        ActionMessage action = new ActionMessage(TypeOfAction.END_TURN);
         action.EndTurn();
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         ConnectionHandlerForGui.sendMessage(gson.toJson(action));
-        try{
-        String message=ConnectionHandlerForGui.getMessage();
-        if(message.equals("Operation successful")){
-            setWaiting();
-            ConnectionHandlerForGui.setIsItMyTurn(false);
-            ConnectionHandlerForGui.setIsMyTurnEnded(true);
-        }
-        }catch (IOException e){
+        try {
+            String message = ConnectionHandlerForGui.getMessage();
+            if (message.equals("Operation successful")) {
+                setWaiting();
+                ConnectionHandlerForGui.setIsItMyTurn(false);
+                ConnectionHandlerForGui.setIsMyTurnEnded(true);
+            }
+        } catch (IOException e) {
             System.out.println("DISCONNECTED");
             System.exit(0);
         }
@@ -169,7 +173,6 @@ public class TurnController {
         label.setText("Now it's your turn! Choose your action using the buttons below");
 
     }
-
 
 
     public void removePane() {
@@ -188,8 +191,9 @@ public class TurnController {
 
             loadPopup(popup, "Leader Cards");
 
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
     }
 
     public void showStorage(ActionEvent event) {
@@ -200,8 +204,9 @@ public class TurnController {
             controller.setStorage(LastGameStatus.storageState);
             controller.setStrongbox(LastGameStatus.strongboxStatus);
             loadPopup(popup, "Storage and Strongbox");
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
     }
 
     public void exitWindow(ActionEvent event) {
@@ -216,8 +221,9 @@ public class TurnController {
             MarketboardController controller = popupLoader.getController();
             controller.fillMarbleColors(LastGameStatus.marketBoardStatus, LastGameStatus.sideMarbleStatus);
             loadPopup(popup, "Market Board");
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
     }
 
     public void showCardMarket(ActionEvent event) {
@@ -227,8 +233,9 @@ public class TurnController {
             CardMarketController cardmarketcontroller = popupLoader.getController();
             cardmarketcontroller.fill(LastGameStatus.cardMarketStatus);
             loadPopup(popup, "Card Market");
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
     }
 
     public void showBoard(ActionEvent event) {
@@ -238,8 +245,9 @@ public class TurnController {
             TurnController controller = popupLoader.getController();
             controller.setProductionCards(LastGameStatus.activatableCards);
             loadPopup(popup, "Your Board");
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
     }
 
     public void showFaithTrack(ActionEvent event) {
@@ -251,25 +259,34 @@ public class TurnController {
             controller.setPoints(LastGameStatus.victoryPoints);
             controller.setBonuses(LastGameStatus.popeCards);
             loadPopup(popup, "Your Faith Track");
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
 
     }
 
     public void setLeaders(Image img1, Image img2, boolean isplayed1, boolean isplayed2, boolean isdiscarded1, boolean isdiscarded2) {
         leadershown1.setImage(img1);
         leadershown2.setImage(img2);
-        if (isplayed1) { labelleader1.setText("Played"); }
-        if (isdiscarded1) { labelleader1.setText("Discarded"); }
-        if (isplayed2) { labelleader2.setText("Played"); }
-        if (isdiscarded2) { labelleader2.setText("Discarded"); }
+        if (isplayed1) {
+            labelleader1.setText("Played");
+        }
+        if (isdiscarded1) {
+            labelleader1.setText("Discarded");
+        }
+        if (isplayed2) {
+            labelleader2.setText("Played");
+        }
+        if (isdiscarded2) {
+            labelleader2.setText("Discarded");
+        }
     }
 
     public void setBoard(Image img) {
         board.setImage(img);
     }
 
-    public void loadPopup (AnchorPane pane, String title) {
+    public void loadPopup(AnchorPane pane, String title) {
         Scene popupScene = new Scene(pane);
         Stage popupStage = new Stage();
         popupStage.setScene(popupScene);
@@ -297,16 +314,28 @@ public class TurnController {
 
     public void setStorage(int[][] sto) {
         if (sto[0][0] != 0) {
-            if (sto[0][1] > 0) { setResourceInStorage(img1, sto[0][0]); }
+            if (sto[0][1] > 0) {
+                setResourceInStorage(img1, sto[0][0]);
+            }
         }
         if (sto[1][0] != 0) {
-            if (sto[1][1] > 0) { setResourceInStorage(img2, sto[1][0]); }
-            if (sto[1][1] > 1) { setResourceInStorage(img3, sto[1][0]); }
+            if (sto[1][1] > 0) {
+                setResourceInStorage(img2, sto[1][0]);
+            }
+            if (sto[1][1] > 1) {
+                setResourceInStorage(img3, sto[1][0]);
+            }
         }
         if (sto[2][0] != 0) {
-            if (sto[2][1] > 0) { setResourceInStorage(img4, sto[2][0]); }
-            if (sto[2][1] > 1) { setResourceInStorage(img5, sto[2][0]); }
-            if (sto[2][1] > 2) { setResourceInStorage(img6, sto[2][0]); }
+            if (sto[2][1] > 0) {
+                setResourceInStorage(img4, sto[2][0]);
+            }
+            if (sto[2][1] > 1) {
+                setResourceInStorage(img5, sto[2][0]);
+            }
+            if (sto[2][1] > 2) {
+                setResourceInStorage(img6, sto[2][0]);
+            }
         }
         if (sto[3][0] != -1 || sto[4][0] != -1) {
             coinslabel1.setVisible(true);
@@ -372,26 +401,44 @@ public class TurnController {
         stoneslabel.setText("x" + box[3]);
     }
 
-    public void increasePosition(int faithmarker){
+    public void increasePosition(int faithmarker) {
         while (faithmarker > 0) {
-            if (position == 9 || position == 10) { y+=27.3; cross.setY(y); }
-            else if (position == 2 || position == 3 || position == 16 || position == 17) { y-=27.3; cross.setY(y); }
-            else { x+=27.3; cross.setX(x); }
+            if (position == 9 || position == 10) {
+                y += 27.3;
+                cross.setY(y);
+            } else if (position == 2 || position == 3 || position == 16 || position == 17) {
+                y -= 27.3;
+                cross.setY(y);
+            } else {
+                x += 27.3;
+                cross.setX(x);
+            }
             position++;
             faithmarker--;
         }
     }
 
-    public void setPoints(int p) { points.setText(Integer.toString(p)); }
+    public void setPoints(int p) {
+        points.setText(Integer.toString(p));
+    }
 
     public void setBonuses(boolean[] bonus) {
         Image b1, b2, b3;
-        if (bonus[0]) { b1 = new Image("/img/punchboard/pope_favor1_front.png"); }
-        else { b1 = new Image("/img/punchboard/pope_favor1_back.png"); }
-        if (bonus[1]) { b2 = new Image("/img/punchboard/pope_favor2_front.png"); }
-        else { b2 = new Image("/img/punchboard/pope_favor2_back.png"); }
-        if (bonus[2]) { b3 = new Image("/img/punchboard/pope_favor3_front.png"); }
-        else { b3 = new Image("/img/punchboard/pope_favor3_back.png"); }
+        if (bonus[0]) {
+            b1 = new Image("/img/punchboard/pope_favor1_front.png");
+        } else {
+            b1 = new Image("/img/punchboard/pope_favor1_back.png");
+        }
+        if (bonus[1]) {
+            b2 = new Image("/img/punchboard/pope_favor2_front.png");
+        } else {
+            b2 = new Image("/img/punchboard/pope_favor2_back.png");
+        }
+        if (bonus[2]) {
+            b3 = new Image("/img/punchboard/pope_favor3_front.png");
+        } else {
+            b3 = new Image("/img/punchboard/pope_favor3_back.png");
+        }
         bonus1.setImage(b1);
         bonus2.setImage(b2);
         bonus3.setImage(b3);
@@ -405,15 +452,15 @@ public class TurnController {
         label.setText("You already performed your main action! You can swap depots, play/discard a leader or finish your turn");
     }
 
-    public void isMyTurnNow(ActionEvent event){
-        if(ConnectionHandlerForGui.IsItMyTurn() && !LastGameStatus.isGameEnd()){
+    public void isMyTurnNow(ActionEvent event) {
+        if (ConnectionHandlerForGui.IsItMyTurn() && !LastGameStatus.isGameEnd()) {
             removePane();
         }
-        if(LastGameStatus.isLastTurn()) {
+        if (LastGameStatus.isLastTurn()) {
             label.setText("Warning: the game is going to finish soon! This is your last turn!");
             LastGameStatus.setLastTurn(false);
         }
-        if(LastGameStatus.isGameEnd()) {
+        if (LastGameStatus.isGameEnd()) {
             try {
                 System.out.println("Entra nel try");
                 ActionMessage lastAction = ConnectionHandlerForGui.getGson().fromJson(LastGameStatus.lastMessage, ActionMessage.class);
@@ -424,8 +471,9 @@ public class TurnController {
                 controller.loadscore(finalMessage.getPlayerVP(), finalMessage.getWinnerName(), finalMessage.doYouWin());
                 pane.getChildren().add(temp);
                 Thread.sleep(42069);
+            } catch (Exception e) {
+                System.out.println(e);
             }
-            catch (Exception e) { System.out.println(e); }
 
         }
 

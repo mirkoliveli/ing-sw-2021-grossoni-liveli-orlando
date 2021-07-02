@@ -14,11 +14,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
 public class PostLoginController {
+    private final ArrayList<String> numberofplayers = new ArrayList<String>(Arrays.asList("1", "2", "3", "4"));
+    private final ArrayList<String> resources = new ArrayList<String>(Arrays.asList("Coin", "Servant", "Shield", "Stone"));
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -27,8 +30,6 @@ public class PostLoginController {
     private Label label;
     @FXML
     private ChoiceBox<String> choice, invisiblechoice;
-    private final ArrayList<String> numberofplayers = new ArrayList<String>(Arrays.asList("1","2","3","4"));
-    private final ArrayList<String> resources = new ArrayList<String>(Arrays.asList("Coin","Servant","Shield","Stone"));
 
     public void postlogin(int player, String username) {
 
@@ -39,50 +40,51 @@ public class PostLoginController {
                 ObservableList<String> list = FXCollections.observableArrayList(numberofplayers);
                 choice.setItems(list);
                 firstPlayer = true;
-            }
-            else {
+            } else {
                 // per ora una sola risorsa bonus, aggiungere la seconda per il giocatore 4
                 label.setText("Hello " + username + ", you are the player no. " + player + ". Select your bonus resources:");
                 ObservableList<String> list = FXCollections.observableArrayList(resources);
                 choice.setItems(list);
-                if (player ==4) {
+                if (player == 4) {
                     invisiblechoice.setVisible(true);
                     invisiblechoice.setItems(list);
                 }
-                firstPlayer=false;
+                firstPlayer = false;
             }
 
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
     }
 
     public void confirm(ActionEvent event) {
         try {
-        if (firstPlayer) {
-            String p = choice.getValue();
-            int players = Integer.parseInt(p);
-            FirstLoginMessage message=new FirstLoginMessage(ConnectionHandlerForGui.getUsername(), players);
+            if (firstPlayer) {
+                String p = choice.getValue();
+                int players = Integer.parseInt(p);
+                FirstLoginMessage message = new FirstLoginMessage(ConnectionHandlerForGui.getUsername(), players);
 
-            ConnectionHandlerForGui.sendMessage(message);
-            ConnectionHandlerForGui.setLeaders(ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), GettingStartedMessage.class).getCardID());
-        }
-        else {
-            ConnectionHandlerForGui.getResourceFromString(choice.getValue());
-            if(invisiblechoice.getValue()!=null) ConnectionHandlerForGui.get4PlayerResourceFromString(invisiblechoice.getValue());
-            ConnectionHandlerForGui.sendMessage(new Message(ConnectionHandlerForGui.getUsername()));
-            ConnectionHandlerForGui.setLeaders(ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), GettingStartedMessage.class).getCardID());
-        }
+                ConnectionHandlerForGui.sendMessage(message);
+                ConnectionHandlerForGui.setLeaders(ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), GettingStartedMessage.class).getCardID());
+            } else {
+                ConnectionHandlerForGui.getResourceFromString(choice.getValue());
+                if (invisiblechoice.getValue() != null)
+                    ConnectionHandlerForGui.get4PlayerResourceFromString(invisiblechoice.getValue());
+                ConnectionHandlerForGui.sendMessage(new Message(ConnectionHandlerForGui.getUsername()));
+                ConnectionHandlerForGui.setLeaders(ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), GettingStartedMessage.class).getCardID());
+            }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/leaderchoice.fxml"));
             root = loader.load();
             LeaderChoiceController controller = loader.getController();
             controller.fill();
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (Exception e) { e.printStackTrace(); }
 
     }
 

@@ -1,18 +1,15 @@
 package it.polimi.ingsw.gui;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.messages.ActionMessage;
 import it.polimi.ingsw.messages.ProductionActionMessage;
 import it.polimi.ingsw.messages.TypeOfAction;
-import it.polimi.ingsw.model.TypeOfResource;
 import it.polimi.ingsw.utils.StaticMethods;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,12 +21,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ResourceBundle;
 
 public class ProductionController {
+    private final ArrayList<String> resources = new ArrayList<String>(Arrays.asList("Coin", "Servant", "Shield", "Stone"));
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -43,14 +39,13 @@ public class ProductionController {
     private Label baselabel;
     @FXML
     private ChoiceBox<String> base1, base2, base3, leaderproduction1, leaderproduction2;
-    private final ArrayList<String> resources = new ArrayList<String>(Arrays.asList("Coin","Servant","Shield","Stone"));
-    private boolean[] production = new boolean[6];
-    private String[] res = new String[3];
+    private final boolean[] production = new boolean[6];
+    private final String[] res = new String[3];
 
 
     public void backToActionTurn(ActionEvent event) throws Exception {
         root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -63,23 +58,18 @@ public class ProductionController {
             base1.setVisible(true);
             base2.setVisible(true);
             base3.setVisible(true);
-        }
-        else {
+        } else {
             production[0] = false;
             baselabel.setVisible(false);
             base1.setVisible(false);
             base2.setVisible(false);
-            base3.setVisible(false); }
-        if (prod1.isSelected()) { production[1] = true; }
-        else { production[1] = false; }
-        if (prod2.isSelected()) { production[2] = true; }
-        else { production[2] = false; }
-        if (prod3.isSelected()) { production[3] = true; }
-        else { production[3] = false; }
-        if (prod4.isSelected()) { production[4] = true; }
-        else { production[4] = false; }
-        if (prod5.isSelected()) { production[5] = true; }
-        else { production[5] = false; }
+            base3.setVisible(false);
+        }
+        production[1] = prod1.isSelected();
+        production[2] = prod2.isSelected();
+        production[3] = prod3.isSelected();
+        production[4] = prod4.isSelected();
+        production[5] = prod5.isSelected();
     }
 
 
@@ -121,7 +111,7 @@ public class ProductionController {
 
     //metodo provvisorio
     public void printProduction(ActionEvent event) {
-        boolean actionDone=false;
+        boolean actionDone = false;
         /*
         if (production[0]) {
             res[0] = base1.getItems();
@@ -130,49 +120,49 @@ public class ProductionController {
         }
 
         */
-        if(StaticMethods.AreAnyTrue(production)){
-            ActionMessage action=new ActionMessage(TypeOfAction.ACTIVATE_PRODUCTION);
+        if (StaticMethods.AreAnyTrue(production)) {
+            ActionMessage action = new ActionMessage(TypeOfAction.ACTIVATE_PRODUCTION);
             ConnectionHandlerForGui.sendMessage(action);
             try {
                 String messageFromServer = ConnectionHandlerForGui.getMessage();
-                if(!messageFromServer.contains("UNAVAILABLE_ACTION")){
-                    ProductionActionMessage messageFS=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, ProductionActionMessage.class);
-                    boolean[] productionsAvailable=ConnectionHandlerForGui.getGson().fromJson(messageFS.getObjectToSend(), boolean[].class);
-                    int[] vectorSelections= {-1, -1, -1, -1, -1, -1, -1, -1};
-                    for(int i=1; i<4; i++){
-                        if(production[i] && productionsAvailable[i]) vectorSelections[i+1]=1;
+                if (!messageFromServer.contains("UNAVAILABLE_ACTION")) {
+                    ProductionActionMessage messageFS = ConnectionHandlerForGui.getGson().fromJson(messageFromServer, ProductionActionMessage.class);
+                    boolean[] productionsAvailable = ConnectionHandlerForGui.getGson().fromJson(messageFS.getObjectToSend(), boolean[].class);
+                    int[] vectorSelections = {-1, -1, -1, -1, -1, -1, -1, -1};
+                    for (int i = 1; i < 4; i++) {
+                        if (production[i] && productionsAvailable[i]) vectorSelections[i + 1] = 1;
                     }
-                    if(production[4] && productionsAvailable[4] && leaderproduction1.getValue()!=null){
-                        vectorSelections[5]=ConnectionHandlerForGui.fromStringToIntResource(leaderproduction1.getValue());
+                    if (production[4] && productionsAvailable[4] && leaderproduction1.getValue() != null) {
+                        vectorSelections[5] = ConnectionHandlerForGui.fromStringToIntResource(leaderproduction1.getValue());
                     }
-                    if(production[5] && productionsAvailable[5] && leaderproduction2.getValue()!=null){
-                        vectorSelections[6]=ConnectionHandlerForGui.fromStringToIntResource(leaderproduction2.getValue());
+                    if (production[5] && productionsAvailable[5] && leaderproduction2.getValue() != null) {
+                        vectorSelections[6] = ConnectionHandlerForGui.fromStringToIntResource(leaderproduction2.getValue());
                     }
-                    if(production[0] && productionsAvailable[0] && base1.getValue()!=null && base2.getValue()!=null && base3.getValue()!=null){
-                        vectorSelections[0]=ConnectionHandlerForGui.fromStringToIntResource(base1.getValue());
-                        vectorSelections[1]=ConnectionHandlerForGui.fromStringToIntResource(base2.getValue());
-                        vectorSelections[7]=ConnectionHandlerForGui.fromStringToIntResource(base3.getValue());
+                    if (production[0] && productionsAvailable[0] && base1.getValue() != null && base2.getValue() != null && base3.getValue() != null) {
+                        vectorSelections[0] = ConnectionHandlerForGui.fromStringToIntResource(base1.getValue());
+                        vectorSelections[1] = ConnectionHandlerForGui.fromStringToIntResource(base2.getValue());
+                        vectorSelections[7] = ConnectionHandlerForGui.fromStringToIntResource(base3.getValue());
                     }
                     ConnectionHandlerForGui.sendMessage(vectorSelections);
 
                     messageFromServer = ConnectionHandlerForGui.getMessage();
-                    if(messageFromServer.contains("UNAVAILABLE_ACTION")) System.out.println("impossibile produrre");
-                    if(messageFromServer.contains("ACTION_SUCCESS")){
-                        actionDone=true;
+                    if (messageFromServer.contains("UNAVAILABLE_ACTION")) System.out.println("impossibile produrre");
+                    if (messageFromServer.contains("ACTION_SUCCESS")) {
+                        actionDone = true;
                         System.out.println("produzione effettuata");
                     }
                 }
 
-                messageFromServer=ConnectionHandlerForGui.getMessage();
-                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
+                messageFromServer = ConnectionHandlerForGui.getMessage();
+                GameStatusUpdate status = ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
                 LastGameStatus.update(status);
-            }catch (IOException e){
+            } catch (IOException e) {
                 System.out.println("disconnected, quitting...");
                 System.exit(1);
             }
         }
 
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
             root = loader.load();
 
@@ -181,19 +171,15 @@ public class ProductionController {
                 controller.actionDone();
             }
 
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
 
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("error while loading new window");
         }
     }
-
-
-
-
 
 
 }

@@ -42,6 +42,7 @@ public class Strongbox {
 
     /**
      * returns the vector containing the resources, use carefully
+     *
      * @return
      */
     public int[] getContents() {
@@ -50,6 +51,7 @@ public class Strongbox {
 
     /**
      * returns the quantity of a specified resource
+     *
      * @param id number between 1 and 4 representing the resource
      * @return quantity of that resource
      */
@@ -60,6 +62,7 @@ public class Strongbox {
 
     /**
      * verifies that a payment can be done
+     *
      * @param cost payment that has to be made
      * @return true if the resources contained in the strongbox can pay the cost, false otherwise
      */
@@ -69,6 +72,7 @@ public class Strongbox {
 
     /**
      * method that pays a cost, it does nothing if the the cost can't be paid
+     *
      * @param cost vector containing the cost
      * @return true if the payment has been done, false otherwise
      */
@@ -87,6 +91,7 @@ public class Strongbox {
 
     /**
      * method used to store resources in the strongbox
+     *
      * @param gain resources acquired (usually from a production)
      */
     public void store(int[] gain) {
@@ -99,6 +104,7 @@ public class Strongbox {
 
     /**
      * creates a copy of the strongbox.contents vector
+     *
      * @return copy of the strongbox.contents vector
      */
     public int[] CreateCopy() {

@@ -49,13 +49,13 @@ public class GameState {
     /**
      * method that changes the player in turn, if a player is set as disconnected then the player is skipped and the method recalls itself
      */
-    public synchronized static void changeTurn(){
-        if(idOfPlayerInTurn==totalPlayersNumber) idOfPlayerInTurn=1;
-        else{
-            int i=idOfPlayerInTurn+1;
-            idOfPlayerInTurn=i;
+    public synchronized static void changeTurn() {
+        if (idOfPlayerInTurn == totalPlayersNumber) idOfPlayerInTurn = 1;
+        else {
+            int i = idOfPlayerInTurn + 1;
+            idOfPlayerInTurn = i;
         }
-        if(DisconnectedPlayers[idOfPlayerInTurn-1]) changeTurn();
+        if (DisconnectedPlayers[idOfPlayerInTurn - 1]) changeTurn();
     }
 
 
@@ -65,6 +65,7 @@ public class GameState {
 
     /**
      * deprecated method :)
+     *
      * @param idOfPlayerInTurn
      */
     private static void setIdOfPlayerInTurn(int idOfPlayerInTurn) {
@@ -85,7 +86,7 @@ public class GameState {
 
     public static void setTotalPlayersNumber(int totalPlayersNumber) {
         GameState.totalPlayersNumber = totalPlayersNumber;
-        DisconnectedPlayers=new boolean[totalPlayersNumber];
+        DisconnectedPlayers = new boolean[totalPlayersNumber];
     }
 
     public static int getWinnerId() {
@@ -185,39 +186,42 @@ public class GameState {
 
     /**
      * creates a boolean array stating which player has the right to a last turn.
-     * @param numOfPlayers number of players
+     *
+     * @param numOfPlayers       number of players
      * @param IDofWhoHasFinished ID of whom has reached first the end of a faithTrack or has acquired 7 development cards
      */
-    public static void setHasRightToLastTurn(int numOfPlayers, int IDofWhoHasFinished){
-        hasRightToLastTurn=new boolean[numOfPlayers];
-        for(int i=0; i< hasRightToLastTurn.length; i++){
-            if(i>=IDofWhoHasFinished && !DisconnectedPlayers[i]) hasRightToLastTurn[i]=true;
+    public static void setHasRightToLastTurn(int numOfPlayers, int IDofWhoHasFinished) {
+        hasRightToLastTurn = new boolean[numOfPlayers];
+        for (int i = 0; i < hasRightToLastTurn.length; i++) {
+            if (i >= IDofWhoHasFinished && !DisconnectedPlayers[i]) hasRightToLastTurn[i] = true;
         }
     }
 
     /**
      * returns the array stating which players can take another turn in the end game
+     *
      * @return boolean array (size= numOfPlayers
      */
     public static boolean[] getHasRightToLastTurn() {
         return hasRightToLastTurn;
     }
 
-    public static void setSpecificLastTurnPlayer(int idPlayer, boolean status){
-        if(hasRightToLastTurn!=null){
-            hasRightToLastTurn[idPlayer-1]=status;
+    public static void setSpecificLastTurnPlayer(int idPlayer, boolean status) {
+        if (hasRightToLastTurn != null) {
+            hasRightToLastTurn[idPlayer - 1] = status;
         }
     }
 
     /**
      * set a player status to disconnected
+     *
      * @param idPlayer player who disconnected
      */
-    public static void playerDisconnected(int idPlayer){
-        if(DisconnectedPlayers!=null){
+    public static void playerDisconnected(int idPlayer) {
+        if (DisconnectedPlayers != null) {
             try {
                 DisconnectedPlayers[idPlayer - 1] = true;
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 System.out.println("weird bug when disconnecting player");
             }
         }

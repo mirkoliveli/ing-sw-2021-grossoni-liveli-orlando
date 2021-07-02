@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.StagesQueue;
 import it.polimi.ingsw.controller.WaitingQueue;
 import it.polimi.ingsw.model.MatchMultiPlayer;
-import it.polimi.ingsw.utils.StaticMethods;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -20,6 +19,7 @@ public class Server {
 
     /**
      * Methot that open the server socket on the port number PORT
+     *
      * @param PORT,
      * @throws IOException
      */
@@ -29,6 +29,7 @@ public class Server {
 
     /**
      * The method that manage all the server logic
+     *
      * @throws IOException
      */
     public void execute() throws IOException {
@@ -95,7 +96,7 @@ public class Server {
         GameState.setPhase(1);
         System.out.println("\nuscito da login while\n");
 
-        while(!WaitingQueue.allFinished()){
+        while (!WaitingQueue.allFinished()) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -104,12 +105,10 @@ public class Server {
         }
 
 
-
         GameState.setPhase(2);
 
 
         //finisce la fase di login, inzio del game vero e proprio
-
 
 
     }

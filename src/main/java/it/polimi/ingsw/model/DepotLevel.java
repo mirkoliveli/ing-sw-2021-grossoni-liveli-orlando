@@ -48,6 +48,7 @@ public class DepotLevel {
 
     /**
      * method that changes the quantity of the depot, if it's set to zero the resource type is set to null.
+     *
      * @param quantity
      */
     public void setQuantity(int quantity) {
@@ -70,8 +71,9 @@ public class DepotLevel {
 
     /**
      * This methods adds q resources of the TypeOfResource ToR
+     *
      * @param ToR Typer of Resource to add
-     * @param q number of ToR to add
+     * @param q   number of ToR to add
      * @return true if the "add action" can be done, false otherwise
      */
     public boolean increaseQuantity(TypeOfResource ToR, int q) {
@@ -108,8 +110,9 @@ public class DepotLevel {
 
     /**
      * This methods removes q resources of the TypeOfResource ToR
+     *
      * @param ToR Typer of Resource to add
-     * @param q number of ToR to remove
+     * @param q   number of ToR to remove
      * @return true if the "decrease action" can be done, false otherwise
      */
     public boolean decreaseQuantity(TypeOfResource ToR, int q) {

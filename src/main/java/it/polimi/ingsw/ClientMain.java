@@ -1,9 +1,7 @@
 package it.polimi.ingsw;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.singlePlayer.controller.SinglePlayerHandler;
-import it.polimi.ingsw.gui.GuiMain;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -12,13 +10,12 @@ import java.util.Scanner;
 public class ClientMain {
 
 
-
     public static void main(String[] args) throws IOException {
 //        GuiMain.main(args);
         Scanner scn = new Scanner(System.in);
-        boolean selection=spOrMp(scn);
+        boolean selection = spOrMp(scn);
 
-        if(selection) {
+        if (selection) {
             //MULTIPLAYER
             System.out.println("--- MAESTRI DEL RINASCIMENTO ---\n          W E L C O M E\n");
             System.out.print("Please type in server's ip address: ");
@@ -48,10 +45,9 @@ public class ClientMain {
             System.out.println("game finished, exiting client");
 
             client.getConnection().close();
-        }
-        else{
+        } else {
             //SINGLEPLAYER
-            SinglePlayerHandler singlePlayerGame= new SinglePlayerHandler(welcomeToSp(scn), false);
+            SinglePlayerHandler singlePlayerGame = new SinglePlayerHandler(welcomeToSp(scn), false);
             singlePlayerGame.startMatch();
         }
 
@@ -60,40 +56,41 @@ public class ClientMain {
 
     /**
      * asks the client if he wants to play single player of multi player
+     *
      * @param scn System.in scanner
      * @return true if multiplayer, false otherwise
      */
-    public static boolean spOrMp(Scanner scn){
+    public static boolean spOrMp(Scanner scn) {
         System.out.println("hello! please type 1 if you want to play a singlePlayer game, 2 for a multiplayer game:");
         String selection;
         int value;
-        while(true){
-            selection=scn.nextLine();
-            try{
-                value=Integer.parseInt(selection);
-                if(value!=1 && value!=2){
+        while (true) {
+            selection = scn.nextLine();
+            try {
+                value = Integer.parseInt(selection);
+                if (value != 1 && value != 2) {
                     throw new NumberFormatException();
-                }
-                else{
+                } else {
                     break;
                 }
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("please insert a valid number!");
             }
         }
-        return value!=1;
+        return value != 1;
     }
 
     /**
      * welcoming message for single player
+     *
      * @param scn scanner for username input
      * @return name of the player, "player1" if the player presses enter directly (without typing anything)
      */
-    public static String welcomeToSp(Scanner scn){
+    public static String welcomeToSp(Scanner scn) {
         System.out.println("Hello and welcome to this game of MASTERS OF THE RENAISSANCE");
         System.out.println("please type your username:");
-        String username=scn.nextLine();
-        if(username.equals("")) username="player1";
+        String username = scn.nextLine();
+        if (username.equals("")) username = "player1";
         return username;
     }
 

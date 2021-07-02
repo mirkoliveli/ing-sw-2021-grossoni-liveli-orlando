@@ -20,19 +20,6 @@ public class ConnectionHandlerForGui {
     private static boolean isItMyTurn;
     private static boolean isMyTurnEnded;
 
-    /**
-     * generates connection with server and input and output streams
-     * @param connection Socket connection
-     * @throws IOException connection error
-     */
-    public static void setConnection(Socket connection) throws IOException {
-        ConnectionHandlerForGui.connection = connection;
-        inputFromServer=new InputStreamReader(connection.getInputStream());
-        bufferFromServer=new BufferedReader(inputFromServer);
-        outputToServer=new OutputStreamWriter(connection.getOutputStream());
-        gson=new Gson();
-    }
-
     public static void setIsMyTurnEnded(boolean isMyTurnEnded) {
         ConnectionHandlerForGui.isMyTurnEnded = isMyTurnEnded;
     }
@@ -49,20 +36,12 @@ public class ConnectionHandlerForGui {
         return isMyTurnEnded;
     }
 
-    public static void setLeaders(int[] leaders) {
-        ConnectionHandlerForGui.leaders = leaders;
-    }
-
     public static int[] getLeaders() {
         return leaders;
     }
 
-    public static void setIdOfPlayer(int idOfPlayer) {
-        ConnectionHandlerForGui.idOfPlayer = idOfPlayer;
-    }
-
-    public static void setUsername(String username) {
-        ConnectionHandlerForGui.username = username;
+    public static void setLeaders(int[] leaders) {
+        ConnectionHandlerForGui.leaders = leaders;
     }
 
     public static Gson getGson() {
@@ -73,12 +52,34 @@ public class ConnectionHandlerForGui {
         return username;
     }
 
+    public static void setUsername(String username) {
+        ConnectionHandlerForGui.username = username;
+    }
+
     public static Socket getConnection() {
         return connection;
     }
 
+    /**
+     * generates connection with server and input and output streams
+     *
+     * @param connection Socket connection
+     * @throws IOException connection error
+     */
+    public static void setConnection(Socket connection) throws IOException {
+        ConnectionHandlerForGui.connection = connection;
+        inputFromServer = new InputStreamReader(connection.getInputStream());
+        bufferFromServer = new BufferedReader(inputFromServer);
+        outputToServer = new OutputStreamWriter(connection.getOutputStream());
+        gson = new Gson();
+    }
+
     public static int getIdOfPlayer() {
         return idOfPlayer;
+    }
+
+    public static void setIdOfPlayer(int idOfPlayer) {
+        ConnectionHandlerForGui.idOfPlayer = idOfPlayer;
     }
 
     public static void setIsItMyTurn(boolean isItMyTurn) {
@@ -91,9 +92,10 @@ public class ConnectionHandlerForGui {
 
     /**
      * sends a message to the server, gets a string as input
+     *
      * @param message send a "raw" message to the server
      */
-    public static void sendMessage(String message){
+    public static void sendMessage(String message) {
 //        try {
 //            outputToServer.write(message, 0, message.length());
 //            outputToServer.flush();
@@ -105,16 +107,17 @@ public class ConnectionHandlerForGui {
         out.println(message);
     }
 
-    public static synchronized void resetWait(){
-        isItMyTurn=false;
-        isMyTurnEnded=false;
+    public static synchronized void resetWait() {
+        isItMyTurn = false;
+        isMyTurnEnded = false;
     }
 
     /**
      * sends a message to the server, gets an object as input
+     *
      * @param object message to send (converted to json before sending)
      */
-    public static void sendMessage(Object object){
+    public static void sendMessage(Object object) {
 
 //        try {
 //            String message = gson.toJson(object);
@@ -130,26 +133,29 @@ public class ConnectionHandlerForGui {
 
     /**
      * adaptation of the connection method used for the cli, need to avoid reading some useless messages
+     *
      * @return message string
      * @throws IOException connection error with the server
      */
-    public static String getMessage() throws IOException{
-        String message=bufferFromServer.readLine();
-        while (message.equals(null)){
+    public static String getMessage() throws IOException {
+        String message = bufferFromServer.readLine();
+        while (message.equals(null)) {
             try {
                 System.out.println("MESSAGE: Null\n");
                 Thread.sleep(1000);
-            } catch (Exception e) { System.out.println(e);}
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
-        while(message.equals("waiting other players...") || message.equals("Successful connection!") || message.equals("Everything was set up! Now please wait for the other players to finish!") ||
-        message.equals("The game Will start soon...")){
+        while (message.equals("waiting other players...") || message.equals("Successful connection!") || message.equals("Everything was set up! Now please wait for the other players to finish!") ||
+                message.equals("The game Will start soon...")) {
             System.out.println(message);
-            message=bufferFromServer.readLine();
+            message = bufferFromServer.readLine();
         }
-        if(message.equals("next")) {
+        if (message.equals("next")) {
             System.out.println(message);
             sendMessage("still connected");
-            message=bufferFromServer.readLine();
+            message = bufferFromServer.readLine();
             System.out.println(message);
         }
         return message;
@@ -165,45 +171,46 @@ public class ConnectionHandlerForGui {
 
     /**
      * used to get the real resource value from the output generated by the gui
+     *
      * @param resource
      */
-    public static void getResourceFromString(String resource){
+    public static void getResourceFromString(String resource) {
         ConnectionHandlerForGui.setResource4player(0);
-        switch(resource){
+        switch (resource) {
             case "Coin":
-                ConnectionHandlerForGui.resource=1;
+                ConnectionHandlerForGui.resource = 1;
                 break;
             case "Servant":
-                ConnectionHandlerForGui.resource=2;
+                ConnectionHandlerForGui.resource = 2;
                 break;
             case "Shield":
-                ConnectionHandlerForGui.resource=3;
+                ConnectionHandlerForGui.resource = 3;
                 break;
             case "Stone":
-                ConnectionHandlerForGui.resource=4;
+                ConnectionHandlerForGui.resource = 4;
                 break;
         }
     }
 
-    public static void get4PlayerResourceFromString(String resource){
-        switch(resource){
+    public static void get4PlayerResourceFromString(String resource) {
+        switch (resource) {
             case "Coin":
-                ConnectionHandlerForGui.resource4player=1;
+                ConnectionHandlerForGui.resource4player = 1;
                 break;
             case "Servant":
-                ConnectionHandlerForGui.resource4player=2;
+                ConnectionHandlerForGui.resource4player = 2;
                 break;
             case "Shield":
-                ConnectionHandlerForGui.resource4player=3;
+                ConnectionHandlerForGui.resource4player = 3;
                 break;
             case "Stone":
-                ConnectionHandlerForGui.resource4player=4;
+                ConnectionHandlerForGui.resource4player = 4;
                 break;
         }
     }
 
-    public static int fromStringToIntResource(String resource){
-        switch(resource){
+    public static int fromStringToIntResource(String resource) {
+        switch (resource) {
             case "Coin":
                 return 1;
             case "Servant":

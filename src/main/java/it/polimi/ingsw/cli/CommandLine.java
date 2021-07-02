@@ -12,7 +12,9 @@ import it.polimi.ingsw.model.TypeOfResource;
 import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.utils.StaticMethods;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.model.MarbleColor.*;
@@ -20,8 +22,8 @@ import static it.polimi.ingsw.model.TypeOfResource.*;
 
 public class CommandLine {
 
-    public static final String pathForDevCards="/devCards.json";
-    static LeaderDeck leaderCards=new LeaderDeck("aa");
+    public static final String pathForDevCards = "/devCards.json";
+    static LeaderDeck leaderCards = new LeaderDeck("aa");
     static DevelopmentCard[] developmentCards;
 
     /**
@@ -31,7 +33,7 @@ public class CommandLine {
      */
     public static void developmentPopulate(String path) {
         Gson gson = new Gson();
-        Reader reader =new InputStreamReader(DevelopmentCard[].class.getResourceAsStream(pathForDevCards));
+        Reader reader = new InputStreamReader(DevelopmentCard[].class.getResourceAsStream(pathForDevCards));
         developmentCards = gson.fromJson(reader, DevelopmentCard[].class);
 
 
@@ -117,16 +119,16 @@ public class CommandLine {
      */
     public static synchronized void printResourcesArray(int[] array) {
         //if (array[0] != 0) {
-            System.out.println(array[0] + "x \u001B[33mcoins\u001B[0m");
+        System.out.println(array[0] + "x \u001B[33mcoins\u001B[0m");
         //}
         //if (array[1] != 0) {
-            System.out.println(array[1] + "x \u001B[35mservants\u001B[0m");
+        System.out.println(array[1] + "x \u001B[35mservants\u001B[0m");
         //}
         //if (array[2] != 0) {
-            System.out.println(array[2] + "x \u001B[36mshields\u001B[0m");
+        System.out.println(array[2] + "x \u001B[36mshields\u001B[0m");
         //}
-       // if (array[3] != 0) {
-            System.out.println(array[3] + "x \u001B[37mstones\u001B[0m");
+        // if (array[3] != 0) {
+        System.out.println(array[3] + "x \u001B[37mstones\u001B[0m");
         //}
     }
 
@@ -161,6 +163,7 @@ public class CommandLine {
 
     /**
      * prints a status of the faithtrack
+     *
      * @param board player board
      */
     public static void CoolPrint(PlayerUpdate board) {
@@ -177,6 +180,7 @@ public class CommandLine {
 
     /**
      * should be used for printing only the active player board
+     *
      * @param board player board
      */
     public static synchronized void printActivePlayerPersonalBoard(PlayerUpdate board) {
@@ -185,9 +189,8 @@ public class CommandLine {
         for (int i = 0; i < 3; i++) {
             if (developmentBoard[i] != 0) {
                 printDevelopmentCard(developmentBoard[i]);
-            }
-            else{
-                System.out.println("slot "+ (i+1) + ":");
+            } else {
+                System.out.println("slot " + (i + 1) + ":");
                 System.out.println("empty");
             }
         }
@@ -209,10 +212,11 @@ public class CommandLine {
 
     /**
      * prints a status of a player storage
+     *
      * @param board player status object
      */
     public static void printStorageStatus(PlayerUpdate board) {
-        int j=0;
+        int j = 0;
         System.out.println("Available resources in storage:\n");
         for (int i = 0; i < 5; i++) {
             if (i < 3) {
@@ -245,14 +249,13 @@ public class CommandLine {
             }
         }
     }
+
     /**
-     * @deprecated
-     * startingLeaders is invoked at the beginning of a game to help a user choose his initial leaders
-     *
      * @param l1
      * @param l2
      * @param l3
      * @param l4
+     * @deprecated startingLeaders is invoked at the beginning of a game to help a user choose his initial leaders
      */
     public static synchronized void startingLeaders(int l1, int l2, int l3, int l4) {
         Scanner scanner = new Scanner(System.in);
@@ -297,7 +300,7 @@ public class CommandLine {
      *
      * @param marketCards game update contains the market cards vector id
      */
-    public static synchronized void cardDetails(int[][] marketCards)  {
+    public static synchronized void cardDetails(int[][] marketCards) {
         Scanner scanner = new Scanner(System.in);
         String userInput;
         int cardId = 0;
@@ -793,11 +796,11 @@ public class CommandLine {
 
     /**
      * method that prints the state of the marble market.
-     * @param tray view of the market grid
-     * @param slide view of the slide marble
      *
+     * @param tray  view of the market grid
+     * @param slide view of the slide marble
      */
-    public static void marbleMarketStatus(MarbleColor[][] tray, MarbleColor slide){
+    public static void marbleMarketStatus(MarbleColor[][] tray, MarbleColor slide) {
         System.out.println("Welcome to the marble market!\nThis is the current market tray:\n");
         System.out.println(tray[0][0] + " | " + tray[0][1] + " | " + tray[0][2] + " | " + tray[0][3]);
         System.out.println("---------------------------------");
@@ -852,8 +855,9 @@ public class CommandLine {
     /**
      * overload for actual usage (implements connections)
      * <br>
-     *     this method handles all the turn actions a player can make, and is in constant communication with the server by sending actions and receiving gameUpdates.
-     * @param inputJson when the method is called a first ActionMessage containing the Status of the game is sent, the GameStatusUpdate object is contained as a JSON string inside this parameter
+     * this method handles all the turn actions a player can make, and is in constant communication with the server by sending actions and receiving gameUpdates.
+     *
+     * @param inputJson        when the method is called a first ActionMessage containing the Status of the game is sent, the GameStatusUpdate object is contained as a JSON string inside this parameter
      * @param serverConnection connection with the server
      */
     public static synchronized void turnMgmt(String inputJson, Client serverConnection) {
@@ -883,32 +887,32 @@ public class CommandLine {
                     actionMarbleMarket(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble(), serverConnection, status);
                     try {
                         System.out.println(serverConnection.messageFromServer());
-                    }catch(IOException e){
+                    } catch (IOException e) {
                         System.out.println("disconnected");
                     }
                     break;
                 case 1:
                     try {
                         printCardMarket(status.getMarketsStatus().getCardMarket(), serverConnection, status);
-                    }catch(IOException e){
+                    } catch (IOException e) {
                         System.out.println("disconnected from server!");
                     }
-                    if(ViewState.isMainActionCompleted()) actionChosen=true;
+                    if (ViewState.isMainActionCompleted()) actionChosen = true;
                     break;
                 case 2:
                     ProductionActionStarter(status, serverConnection);
-                    if(ViewState.isMainActionCompleted()) actionChosen=true;
+                    if (ViewState.isMainActionCompleted()) actionChosen = true;
                     break;
                 case 3:
-                    swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage(), serverConnection);
+                    swapDepots(status.getPlayersStatus()[status.getNextPlayer() - 1].getStorage(), serverConnection);
                     break;
                 case 4:
                     PlayOrDiscardLeaders(status.getNextPlayer(), status, serverConnection);
                     break;
                 case 5:
-                    int i=0;
-                    while(i<status.getPlayersStatus().length){
-                        printPersonalBoard(status.getSpecificPlayerStatus(i+1));
+                    int i = 0;
+                    while (i < status.getPlayersStatus().length) {
+                        printPersonalBoard(status.getSpecificPlayerStatus(i + 1));
                         i++;
                     }
                     ViewState.setAction_aborted(true);
@@ -917,7 +921,7 @@ public class CommandLine {
                     marbleMarketStatus(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble());
                     ViewState.setAction_aborted(true);
                     break;
-                    //used as debug :), the numbers contain a little easter egg
+                //used as debug :), the numbers contain a little easter egg
                 case 21063:
                     totallyNormalAndNotSuspiciousAtAllMethod(serverConnection);
                     break;
@@ -926,11 +930,11 @@ public class CommandLine {
                     ViewState.setAction_aborted(true);
                     break;
             }
-            if(!ViewState.isAction_aborted()){
+            if (!ViewState.isAction_aborted()) {
                 try {
                     inputJson = serverConnection.messageFromServer();
-                    status=gson.fromJson(inputJson, GameStatusUpdate.class);
-                }catch(IOException e){
+                    status = gson.fromJson(inputJson, GameStatusUpdate.class);
+                } catch (IOException e) {
                     System.out.println("disconnected gestisci poi");
                 }
             }
@@ -947,25 +951,26 @@ public class CommandLine {
             }
             switch (numberChosen) {
                 case 0:
-                    swapDepots(status.getPlayersStatus()[status.getNextPlayer()-1].getStorage(), serverConnection);
+                    swapDepots(status.getPlayersStatus()[status.getNextPlayer() - 1].getStorage(), serverConnection);
                     break;
                 case 1:
                     PlayOrDiscardLeaders(status.getNextPlayer(), status, serverConnection);
                     break;
                 case 2:
                     EndTurn(serverConnection);
-                    if(ViewState.isTurn_ended()){
-                    actionChosen = true;}
+                    if (ViewState.isTurn_ended()) {
+                        actionChosen = true;
+                    }
                     break;
                 case 3:
-                    int i=0;
-                    while(i<status.getPlayersStatus().length){
-                        printPersonalBoard(status.getSpecificPlayerStatus(i+1));
+                    int i = 0;
+                    while (i < status.getPlayersStatus().length) {
+                        printPersonalBoard(status.getSpecificPlayerStatus(i + 1));
                         i++;
                     }
                     ViewState.setAction_aborted(true);
                     break;
-                    //little easter egg
+                //little easter egg
                 case 97532044:
                     instantFinish(serverConnection);
                     break;
@@ -976,11 +981,11 @@ public class CommandLine {
                     break;
             }
             //nota che se l'azione viene abortita con questo passaggio si va in deadlock, modificare una volta terminato il testing preliminare
-            if(!ViewState.isAction_aborted()){
+            if (!ViewState.isAction_aborted()) {
                 try {
                     inputJson = serverConnection.messageFromServer();
-                    status=gson.fromJson(inputJson, GameStatusUpdate.class);
-                }catch(IOException e){
+                    status = gson.fromJson(inputJson, GameStatusUpdate.class);
+                } catch (IOException e) {
                     System.out.println("disconnected gestisci poi");
                 }
             }
@@ -991,8 +996,9 @@ public class CommandLine {
     /**
      * handles the request to swap levels made from the client. the action has no effect on the turn status so nothing is affected in
      * either client and server
+     *
      * @param storage status of your storage
-     * @param client handles all the connection with server stuff
+     * @param client  handles all the connection with server stuff
      */
     public static synchronized void swapDepots(int[][] storage, Client client) {
         Scanner scanner = new Scanner(System.in);
@@ -1006,7 +1012,7 @@ public class CommandLine {
         for (int i = 0; i < 3; i++) {
             j = i + 1;
             System.out.println("Depot with capacity " + j + ": ");
-            switch (storage[i][0]-1) {
+            switch (storage[i][0] - 1) {
                 case 0:
                     System.out.println(storage[i][1] + "x \u001B[33mcoins\u001B[0m");
                     break;
@@ -1030,18 +1036,18 @@ public class CommandLine {
             try {
                 depot1 = Integer.parseInt(userInput);
             } catch (NumberFormatException e) {
-                depot1=100;
+                depot1 = 100;
             }
             System.out.println("\nChoose the second depot to swap! Number:");
             userInput = scanner.nextLine();
             try {
                 depot2 = Integer.parseInt(userInput);
             } catch (NumberFormatException e) {
-                depot2=100;
+                depot2 = 100;
             }
             if (depot1 == 0 && depot2 == 0) {
                 depotsSwapped = true;
-                changedMyMind =true;
+                changedMyMind = true;
             } else if (depot1 < 1 || depot1 > 3 || depot2 < 1 || depot2 > 3) {
                 System.out.println("\n\u001B[31mWarning: you can only choose depots between 1 and 3!\u001B[0m");
             } else if (depot1 == depot2) {
@@ -1052,21 +1058,21 @@ public class CommandLine {
             }
         }
 
-        if(!changedMyMind){
-            Gson gson= new Gson();
-            ActionMessage action= new ActionMessage(TypeOfAction.SWAP_DEPOTS);
+        if (!changedMyMind) {
+            Gson gson = new Gson();
+            ActionMessage action = new ActionMessage(TypeOfAction.SWAP_DEPOTS);
             action.SwapDepotsMessage(depot1, depot2);
             client.messageToServer(gson.toJson(action));
-            try{
-            if(client.messageFromServer().equals("Operation successful")) System.out.println("Levels swapped successfully!");
-            else  {
-                System.out.println("Request cannot be completed, you cannot swap this levels!");
-            }
-            }catch(IOException e){
+            try {
+                if (client.messageFromServer().equals("Operation successful"))
+                    System.out.println("Levels swapped successfully!");
+                else {
+                    System.out.println("Request cannot be completed, you cannot swap this levels!");
+                }
+            } catch (IOException e) {
                 System.out.println("disconnected during turn phase while swapping resources");
             }
-        }
-        else{
+        } else {
             ViewState.setAction_aborted(true);
         }
     }
@@ -1074,8 +1080,9 @@ public class CommandLine {
 
     /**
      * method that is used if the client selects the action of acquiring resources from the market
-     * @param tray view of the state of the marble market
-     * @param slide view of the state of the slide_marble in the marble market
+     *
+     * @param tray   view of the state of the marble market
+     * @param slide  view of the state of the slide_marble in the marble market
      * @param client connection to the server is handled via this object
      */
     public static synchronized void actionMarbleMarket(MarbleColor[][] tray, MarbleColor slide, Client client, GameStatusUpdate status) {
@@ -1151,156 +1158,158 @@ public class CommandLine {
 
     /**
      * method used inside printMarbleMarket to send the message to the server and to handle additional communication necessities that may surge
-     * @param client contains the connection with the server
-     * @param line int between 1 and 3 (or 4 depending on the boolean rowColumn) that indicates which part of the marble market was selected
+     *
+     * @param client    contains the connection with the server
+     * @param line      int between 1 and 3 (or 4 depending on the boolean rowColumn) that indicates which part of the marble market was selected
      * @param rowColumn switcher for selecting a row or a column of the marble market
      */
-    public static void handleMarket(Client client, int line, boolean rowColumn, GameStatusUpdate status){
+    public static void handleMarket(Client client, int line, boolean rowColumn, GameStatusUpdate status) {
         String inputFromC;
         int ans;
         Scanner scanner = new Scanner(System.in);
-        ActionMessage message=new ActionMessage(TypeOfAction.GO_TO_MARKET);
+        ActionMessage message = new ActionMessage(TypeOfAction.GO_TO_MARKET);
         message.MarbleMarketAction(line, rowColumn);
 
-        Gson gson=new Gson();
+        Gson gson = new Gson();
 
         client.messageToServer(gson.toJson(message));
         String answerFromServer;
-        try{
-            answerFromServer= client.messageFromServer();
+        try {
+            answerFromServer = client.messageFromServer();
             //manca parte in cui viene richiesto il leader (se si è in possesso di un leader white ball
-            if(!answerFromServer.contains("resourceStillToBeStored") && answerFromServer.contains("true")){
+            if (!answerFromServer.contains("resourceStillToBeStored") && answerFromServer.contains("true")) {
                 System.out.println("You can receive additional resources from the market thanks to your leaders!");
                 client.messageToServer(gson.toJson(printLeadersAndChoose(gson.fromJson(answerFromServer, boolean[].class), status.getNextPlayer(), status)));
-                answerFromServer= client.messageFromServer();
+                answerFromServer = client.messageFromServer();
             }
             //handles the case where the client needs to choose the level to store the resources
-            while(answerFromServer.contains("resourceStillToBeStored")){
-                chooseDepotMessage subMessage=gson.fromJson(answerFromServer, chooseDepotMessage.class);
+            while (answerFromServer.contains("resourceStillToBeStored")) {
+                chooseDepotMessage subMessage = gson.fromJson(answerFromServer, chooseDepotMessage.class);
                 printDepotChoice(subMessage.getDepotStateOfEmptyness(), subMessage.getResourceStillToBeStored());
                 System.out.println("Select 0 if you wish to discard the resources, otherwise select the level where you wish them to be stored: ");
                 do {
                     inputFromC = scanner.nextLine();
-                    ans=checkForDepotChoice(inputFromC, subMessage.getDepotStateOfEmptyness());
-                }while(ans<0);
+                    ans = checkForDepotChoice(inputFromC, subMessage.getDepotStateOfEmptyness());
+                } while (ans < 0);
                 client.messageToServer(String.valueOf(ans));
-                answerFromServer= client.messageFromServer();
+                answerFromServer = client.messageFromServer();
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("error during marbleMarketAction");
         }
     }
 
     /**
      * prints the leaders usable in the action and asks the client which one they want to activate
+     *
      * @param whichToPrint boolean vector stating which leaders are usable
-     * @param Player id of player
-     * @param status GameStatus, used to get the Leaders IDs
+     * @param Player       id of player
+     * @param status       GameStatus, used to get the Leaders IDs
      * @return choice of the client (0-1-2) or -1 if some errors occurred
      */
-    public static int printLeadersAndChoose (boolean[] whichToPrint, int Player, GameStatusUpdate status){
+    public static int printLeadersAndChoose(boolean[] whichToPrint, int Player, GameStatusUpdate status) {
         String inputFromC;
-        int ans=-1;
+        int ans = -1;
         Scanner scanner = new Scanner(System.in);
         System.out.println("These leaders are the ones you can use:");
-        int usable=0;
-        for(int i=0; i<2; i++){
-            if(whichToPrint[i] && i==0){
-                printLeader(status.getPlayersStatus()[Player-1].getFirstLeader());
+        int usable = 0;
+        for (int i = 0; i < 2; i++) {
+            if (whichToPrint[i] && i == 0) {
+                printLeader(status.getPlayersStatus()[Player - 1].getFirstLeader());
                 usable++;
             }
-            if(whichToPrint[i] && i==1){
-                printLeader(status.getPlayersStatus()[Player-1].getSecondLeader());
+            if (whichToPrint[i] && i == 1) {
+                printLeader(status.getPlayersStatus()[Player - 1].getSecondLeader());
                 usable++;
             }
         }
-        if(usable==1){
+        if (usable == 1) {
             System.out.println("Choose if you want to use this leader effect by selecting 1 or ignore it by selecting 0");
             do {
                 inputFromC = scanner.nextLine();
                 try {
                     ans = Integer.parseInt(inputFromC);
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     System.out.println("You must insert a number!");
-                    ans=-1;
+                    ans = -1;
                 }
-                if(ans!=0 && ans!=1) System.out.println("not a valid selection, please retry!");
-            }while(ans!=0 && ans!=1);
-        }
-        else if(usable==2){
+                if (ans != 0 && ans != 1) System.out.println("not a valid selection, please retry!");
+            } while (ans != 0 && ans != 1);
+        } else if (usable == 2) {
             System.out.println("Choose if you want to use this leader effect by selecting 1 or 2 (depending on which you want to activate or ignore it by selecting 0");
             do {
                 inputFromC = scanner.nextLine();
                 try {
                     ans = Integer.parseInt(inputFromC);
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     System.out.println("You must insert a number!");
-                    ans=-1;
+                    ans = -1;
                 }
-                if(ans!=0 && ans!=1 && ans!=2) System.out.println("not a valid selection, please retry!");
-            }while(ans!=0 && ans!=1 && ans!=2);
+                if (ans != 0 && ans != 1 && ans != 2) System.out.println("not a valid selection, please retry!");
+            } while (ans != 0 && ans != 1 && ans != 2);
         }
         return ans;
     }
 
     /**
      * method that prints the state of the storage before the selection of a level to store a new type of resource
-     * @param emptyDepots boolean vector sent by the server generated in Storage.emptyStatus()
+     *
+     * @param emptyDepots      boolean vector sent by the server generated in Storage.emptyStatus()
      * @param resourceToManage vector containing the type of resource that needs to be handled and the quantity of it
      */
-    public static void printDepotChoice(boolean[] emptyDepots, int[] resourceToManage){
-        System.out.println("Since the resource " + StaticMethods.IntToTypeOfResource(resourceToManage[0]+1) + " was not stored in any storage level and you still have some empty levels you can choose where to store the resource, or discard it");
-        System.out.println(resourceToManage[1] + " " + StaticMethods.IntToTypeOfResource(resourceToManage[0]+1) + " still need to be stored");
+    public static void printDepotChoice(boolean[] emptyDepots, int[] resourceToManage) {
+        System.out.println("Since the resource " + StaticMethods.IntToTypeOfResource(resourceToManage[0] + 1) + " was not stored in any storage level and you still have some empty levels you can choose where to store the resource, or discard it");
+        System.out.println(resourceToManage[1] + " " + StaticMethods.IntToTypeOfResource(resourceToManage[0] + 1) + " still need to be stored");
         System.out.println("your depots are: ");
-        for (int i=0; i<3; i++) {
-         if(emptyDepots[i]) System.out.println("level " + (i+1)+ " is empty");
-         else{System.out.println("level " + (i+1)+ " is occupied");}
+        for (int i = 0; i < 3; i++) {
+            if (emptyDepots[i]) System.out.println("level " + (i + 1) + " is empty");
+            else {
+                System.out.println("level " + (i + 1) + " is occupied");
+            }
         }
     }
 
     /**
      * method that handles the request to select a level or discard the resources after a marble market action. this is a twin method to the ClientHandler.handleNotStoredResources() method
-     * @param string selection made by the client
+     *
+     * @param string      selection made by the client
      * @param emptyStatus status of the storage, this boolean is created in the Storage.emptyStatus() method
      * @return 0 if the client wants to discard the resources, 1-3 for the level selected (if valid) -1 if the input is invalid, whichever the case would be (not a valid level or not a valid input)
      */
-    public static int checkForDepotChoice(String string, boolean[] emptyStatus){
+    public static int checkForDepotChoice(String string, boolean[] emptyStatus) {
         int inNum;
         try {
             inNum = Integer.parseInt(string);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println("Please insert a valid number!");
-            inNum=420;
+            inNum = 420;
         }
-        switch(inNum){
+        switch (inNum) {
             case 0:
                 return 0;
 
             case 1:
-                if(emptyStatus[inNum-1]) {
+                if (emptyStatus[inNum - 1]) {
                     System.out.println("the resource will be stored here!");
                     return 1;
-                }
-                else{
+                } else {
                     System.out.println("you can't select this level because another resource is already stored! please retry");
                     return -1;
                 }
             case 2:
-                if(emptyStatus[inNum-1]) {
+                if (emptyStatus[inNum - 1]) {
                     System.out.println("the resource will be stored here!");
                     return 2;
-                }
-                else{
+                } else {
                     System.out.println("you can't select this level because another resource is already stored! please retry");
                     return -1;
                 }
 
             case 3:
-                if(emptyStatus[inNum-1]) {
+                if (emptyStatus[inNum - 1]) {
                     System.out.println("the resource will be stored here!");
                     return 3;
-                }
-                else{
+                } else {
                     System.out.println("you can't select this level because another resource is already stored! please retry");
                     return -1;
                 }
@@ -1313,22 +1322,22 @@ public class CommandLine {
 
     /**
      * method that sends a request to end the turn and wait for an answer from the server
+     *
      * @param connection handles connection with the server
      */
-    public static void EndTurn(Client connection){
-        ActionMessage action=new ActionMessage(TypeOfAction.END_TURN);
+    public static void EndTurn(Client connection) {
+        ActionMessage action = new ActionMessage(TypeOfAction.END_TURN);
         action.EndTurn();
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         connection.messageToServer(gson.toJson(action));
-        try{
-            if(connection.messageFromServer().contains("successful")) {
+        try {
+            if (connection.messageFromServer().contains("successful")) {
                 System.out.println("Your turn is now completed");
                 ViewState.setTurn_ended(true);
-            }
-            else{
+            } else {
                 System.out.println("you can't end your turn now!");
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("errore di disconnessione da gestire");
         }
     }
@@ -1336,48 +1345,49 @@ public class CommandLine {
     /**
      * method that handles the action playOrDiscardLeader. The selection is made for only one leader, so the client needs to repeat the action if they want to play both leaders (or any combination with discarding them)
      * during the same turn
+     *
      * @param player id of the player taking is turn
      * @param status game status used to show and find the leaders
      * @param client connection with the server
      */
-    public static void PlayOrDiscardLeaders(int player, GameStatusUpdate status, Client client){
-        Gson gson=new Gson();
+    public static void PlayOrDiscardLeaders(int player, GameStatusUpdate status, Client client) {
+        Gson gson = new Gson();
         printPlayerLeaders(player, status);
         String inputFromClient;
         int value;
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println("\nSelect which leader you want to either play or discard (digit 1 or 2): ");
-        do{
-            inputFromClient=scanner.nextLine();
+        do {
+            inputFromClient = scanner.nextLine();
             try {
                 value = Integer.parseInt(inputFromClient);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("You must insert a valid number!");
-                value=0;
+                value = 0;
             }
-            if(value!=1 && value!=2) System.out.println("not a valid Leader, please retry!");
-        }while(value!=1 && value!=2);
+            if (value != 1 && value != 2) System.out.println("not a valid Leader, please retry!");
+        } while (value != 1 && value != 2);
         System.out.println("nice! Now select 1 of you want to play it or 2 if you want to discard it:");
-        int temp=value;
-        do{
-            inputFromClient=scanner.nextLine();
+        int temp = value;
+        do {
+            inputFromClient = scanner.nextLine();
             try {
                 value = Integer.parseInt(inputFromClient);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("You must insert a valid number!");
-                value=0;
+                value = 0;
             }
-            if(value!=1 && value!=2) System.out.println("not a valid selection, please retry!");
-        }while(value!=1 && value!=2);
-        ActionMessage message=new ActionMessage(TypeOfAction.PLAY_OR_DISCARD_LEADER);
+            if (value != 1 && value != 2) System.out.println("not a valid selection, please retry!");
+        } while (value != 1 && value != 2);
+        ActionMessage message = new ActionMessage(TypeOfAction.PLAY_OR_DISCARD_LEADER);
         message.PlayOrDiscardLeaders(temp, value);
         client.messageToServer(gson.toJson(message));
 
-        try{
-            inputFromClient= client.messageFromServer();
-            int answerFromServer=Integer.parseInt(inputFromClient);
+        try {
+            inputFromClient = client.messageFromServer();
+            int answerFromServer = Integer.parseInt(inputFromClient);
             printAnswerForPlayLeaderAction(answerFromServer);
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("disconnected from server");
         }
 
@@ -1385,24 +1395,28 @@ public class CommandLine {
 
     /**
      * method that prints the leaders of a player and states if they have already obtained them or not (doesn't check if discarded or not obtained)
+     *
      * @param player player being checked
      * @param status GameState of the match
      */
-    public static void printPlayerLeaders(int player, GameStatusUpdate status){
-        printLeader(status.getPlayersStatus()[player-1].getFirstLeader());
-        if(status.getPlayersStatus()[player-1].isFirstLeaderPlayed()) System.out.println("This leader have been played");
+    public static void printPlayerLeaders(int player, GameStatusUpdate status) {
+        printLeader(status.getPlayersStatus()[player - 1].getFirstLeader());
+        if (status.getPlayersStatus()[player - 1].isFirstLeaderPlayed())
+            System.out.println("This leader have been played");
         else System.out.println("this leader has not been played");
-        printLeader(status.getPlayersStatus()[player-1].getSecondLeader());
-        if(status.getPlayersStatus()[player-1].isSecondLeaderPlayed()) System.out.println("This leader have been played");
+        printLeader(status.getPlayersStatus()[player - 1].getSecondLeader());
+        if (status.getPlayersStatus()[player - 1].isSecondLeaderPlayed())
+            System.out.println("This leader have been played");
         else System.out.println("this leader has not been played");
     }
 
     /**
      * method that prints the result of the playOrDiscardLeader action
+     *
      * @param answerFromServer answer recived from the server
      */
-    public static void printAnswerForPlayLeaderAction(int answerFromServer){
-        switch(answerFromServer){
+    public static void printAnswerForPlayLeaderAction(int answerFromServer) {
+        switch (answerFromServer) {
             case 0:
                 System.out.println("leader played correctly!");
                 break;
@@ -1423,15 +1437,16 @@ public class CommandLine {
 
     /**
      * started method for the BUY_A_CARD action, it prints the status of the market, then it can show details of a card, try to by a card (by calling the right methods) or quit the action
-     * @param marketCards market of the cards (only top cards are displayed)
+     *
+     * @param marketCards      market of the cards (only top cards are displayed)
      * @param serverConnection connection with the server, it's given to the methods that try to buy a card
-     * @param status gameStatus, used to print the status of market or slots in the "buy a card" related methods
+     * @param status           gameStatus, used to print the status of market or slots in the "buy a card" related methods
      * @throws IOException disconnection with server occurred
      */
     public static synchronized void printCardMarket(int[][] marketCards, Client serverConnection, GameStatusUpdate status) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String userInput;
-        int cardId=0;
+        int cardId = 0;
         boolean cardBought = false;
         printSmallMarketVersion(marketCards);
         while (!cardBought) {
@@ -1440,7 +1455,7 @@ public class CommandLine {
             if (userInput.equalsIgnoreCase("details")) {
                 cardDetails(marketCards);
             } else if (userInput.equalsIgnoreCase("quit")) {
-                cardBought=true;
+                cardBought = true;
                 ViewState.setAction_aborted(true);
             } else {
                 try {
@@ -1448,11 +1463,10 @@ public class CommandLine {
                 } catch (NumberFormatException e) {
                     System.out.println("Not a number! please retry!");
                 }
-                if(checkValidCardSelection(marketCards, cardId)){
-                    cardBought=true;
+                if (checkValidCardSelection(marketCards, cardId)) {
+                    cardBought = true;
                     buyCardServerInteraction(cardId, serverConnection, status);
-                }
-                else{
+                } else {
                     System.out.println("not a valid card selection! please retry!");
                 }
             }
@@ -1461,14 +1475,15 @@ public class CommandLine {
 
     /**
      * method that checks if a selected card by the user is a valid card inside the market
+     *
      * @param marketcards market
-     * @param selection chosen card's id
+     * @param selection   chosen card's id
      * @return true if the id is present in the market, false otherwise
      */
-    public static boolean checkValidCardSelection(int[][] marketcards, int selection){
-        for(int i=0; i<3; i++){
-            for(int j=0; j<4; j++){
-                if(selection==marketcards[i][j]) return true;
+    public static boolean checkValidCardSelection(int[][] marketcards, int selection) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (selection == marketcards[i][j]) return true;
             }
         }
         return false;
@@ -1476,9 +1491,10 @@ public class CommandLine {
 
     /**
      * prints a shallow version of the market (only id and cost)
+     *
      * @param marketCards market
      */
-    public static void printSmallMarketVersion(int[][] marketCards){
+    public static void printSmallMarketVersion(int[][] marketCards) {
         System.out.println("Welcome to the card market!\nThese are the available cards:\n");
         int cardId = 0;
         for (int i = 0; i < 3; i++) {
@@ -1494,13 +1510,14 @@ public class CommandLine {
 
     /**
      * method that calls sends the first message and then handles all the in-Between exchange of messages to the right method (handleInBetweenActionBuyACard).
-     * @param cardId id of the selected card
+     *
+     * @param cardId           id of the selected card
      * @param serverConnection connection with the server
-     * @param status gameStatus, used by some methods down the sequence of calls
+     * @param status           gameStatus, used by some methods down the sequence of calls
      */
-    public static void buyCardServerInteraction(int cardId, Client serverConnection, GameStatusUpdate status){
-        Gson gson=new Gson();
-        ActionMessage message=new ActionMessage(TypeOfAction.BUY_A_CARD);
+    public static void buyCardServerInteraction(int cardId, Client serverConnection, GameStatusUpdate status) {
+        Gson gson = new Gson();
+        ActionMessage message = new ActionMessage(TypeOfAction.BUY_A_CARD);
         message.BuyCard(cardId);
         serverConnection.messageToServer(gson.toJson(message));
 
@@ -1512,75 +1529,76 @@ public class CommandLine {
     /**
      * after the first message is sent (containing the selected card) this method handles whether the action can continue or not. It does all the setups for the current turn and select which method should be called next,
      * whether the action is aborted by the server or not
+     *
      * @param client connection with server
      * @param status gameStatus that is used by some method called in the body of this method
      */
-    public static void handleInBetweenActionBuyACard(Client client, GameStatusUpdate status){
-        Gson gson=new Gson();
+    public static void handleInBetweenActionBuyACard(Client client, GameStatusUpdate status) {
+        Gson gson = new Gson();
         int answerToSend;
-        try{
-            String message= client.messageFromServer();
-            BuyACardActionMessage nextObj= gson.fromJson(message, BuyACardActionMessage.class);
-            switch (nextObj.getAction()){
+        try {
+            String message = client.messageFromServer();
+            BuyACardActionMessage nextObj = gson.fromJson(message, BuyACardActionMessage.class);
+            switch (nextObj.getAction()) {
                 case CHOOSE_A_DEPOT:
                     printTopOfSlots(status, gson.fromJson(nextObj.getObjectToSend(), boolean[].class));
-                    answerToSend=chooseADepotAction(gson.fromJson(nextObj.getObjectToSend(), boolean[].class));
+                    answerToSend = chooseADepotAction(gson.fromJson(nextObj.getObjectToSend(), boolean[].class));
                     client.messageToServer(gson.toJson(answerToSend));
                     ViewState.setMainActionCompleted(true);
                     break;
                 case UNAVAILABLE_ACTION:
                     System.out.println("action cannot be completed!");
                     ViewState.setAction_aborted(true);
-                    try{
+                    try {
                         client.messageFromServer();
-                    }catch(IOException e){
+                    } catch (IOException e) {
                         System.out.println("disconnected");
                     }
                     break;
             }
 
 
-
-
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("disconnected from server!");
         }
     }
 
     /**
      * method that prints the status of all the slots of the current active player
+     *
      * @param status gameStatus
      */
-    public static void printTopOfSlots(GameStatusUpdate status){
+    public static void printTopOfSlots(GameStatusUpdate status) {
         developmentPopulate("src/main/resources/devCards.json");
-        int idPlayer=status.getNextPlayer();
-        int[] idOfCardsInSlot=status.getSpecificPlayerStatus(idPlayer).getActivableCards();
+        int idPlayer = status.getNextPlayer();
+        int[] idOfCardsInSlot = status.getSpecificPlayerStatus(idPlayer).getActivableCards();
         System.out.println("this is the status of your developmentCards slots:");
-        for(int i=0; i<3; i++){
-        System.out.println("slot " + (i+1) + ":");
-        if(idOfCardsInSlot[i]==0) System.out.println("empty");
-        else{
-            printDevelopmentCard(idOfCardsInSlot[i]);
-        }
+        for (int i = 0; i < 3; i++) {
+            System.out.println("slot " + (i + 1) + ":");
+            if (idOfCardsInSlot[i] == 0) System.out.println("empty");
+            else {
+                printDevelopmentCard(idOfCardsInSlot[i]);
+            }
         }
     }
 
     /**
      * override of the printTopOfSlots<br>
      * prints all the slots available to store a card of a specified level, and prints the top card (if there's any) of the slot.
-     * @param status gameStatus used to print the cards.
+     *
+     * @param status         gameStatus used to print the cards.
      * @param onlyPrintThese boolean[] sent by the server stating which slot should be printed
      */
-    public static void printTopOfSlots(GameStatusUpdate status, boolean[] onlyPrintThese){
+    public static void printTopOfSlots(GameStatusUpdate status, boolean[] onlyPrintThese) {
         developmentPopulate("src/main/resources/devCards.json");
-        int idPlayer=status.getNextPlayer();
-        int[] idOfCardsInSlot=status.getSpecificPlayerStatus(idPlayer).getActivableCards();
+        int idPlayer = status.getNextPlayer();
+        int[] idOfCardsInSlot = status.getSpecificPlayerStatus(idPlayer).getActivableCards();
         System.out.println("these are the developmentCards slots where you can place the card:");
-        for(int i=0; i<3; i++){
-            if(onlyPrintThese[i]){
-                System.out.println("slot " + (i+1) + ":");
-                if(idOfCardsInSlot[i]==0) System.out.println("empty");
-                else{
+        for (int i = 0; i < 3; i++) {
+            if (onlyPrintThese[i]) {
+                System.out.println("slot " + (i + 1) + ":");
+                if (idOfCardsInSlot[i] == 0) System.out.println("empty");
+                else {
                     printDevelopmentCard(idOfCardsInSlot[i]);
                 }
             }
@@ -1589,27 +1607,28 @@ public class CommandLine {
 
     /**
      * if the server communicates a CHOOSE_A_DEPOT message this method is invoked. this method request a selection from the client stating which slot they select.
+     *
      * @param valid check sent by the controller to check which slot can be used
      * @return the selected slot
      */
-    public static int chooseADepotAction(boolean[] valid){
-        Scanner scanner=new Scanner(System.in);
+    public static int chooseADepotAction(boolean[] valid) {
+        Scanner scanner = new Scanner(System.in);
         String answer;
-        int depotChosen=0;
+        int depotChosen = 0;
         System.out.println("please choose a slot:");
         do {
             try {
                 answer = scanner.nextLine();
                 depotChosen = Integer.parseInt(answer);
-                if(depotChosen==1 && !valid[0]) throw new NumberFormatException();
-                else if(depotChosen==2 && !valid[1]) throw new NumberFormatException();
-                else if(depotChosen==3 && !valid[2]) throw new NumberFormatException();
-                else if(depotChosen!=1 && depotChosen !=2 && depotChosen!=3) throw new NumberFormatException();
+                if (depotChosen == 1 && !valid[0]) throw new NumberFormatException();
+                else if (depotChosen == 2 && !valid[1]) throw new NumberFormatException();
+                else if (depotChosen == 3 && !valid[2]) throw new NumberFormatException();
+                else if (depotChosen != 1 && depotChosen != 2 && depotChosen != 3) throw new NumberFormatException();
             } catch (NumberFormatException e) {
-                depotChosen=0;
+                depotChosen = 0;
                 System.out.println("Please insert a valid number. Retry:");
             }
-        }while(depotChosen<1);
+        } while (depotChosen < 1);
         return depotChosen;
     }
 
@@ -1619,29 +1638,38 @@ public class CommandLine {
      * 1: storage<br>
      * 2: whiteball<br>
      * 3: production<br>
+     *
      * @param status game status used to get the leaders' ids
-     * @param type type of leader, as explained in the part before
+     * @param type   type of leader, as explained in the part before
      */
-    public static void printSpecificLeaders(GameStatusUpdate status, int type){
-        int idPlayer=status.getNextPlayer();
-            switch (type) {
-                case 0:
-                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<53) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
-                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<53) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
-                    break;
-                case 1:
-                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<57 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>52) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
-                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<57 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>52) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
-                    break;
-                case 2:
-                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<61 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>57) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
-                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<61 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>57) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
-                    break;
-                case 3:
-                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>60) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
-                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>60) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
-                    break;
-            }
+    public static void printSpecificLeaders(GameStatusUpdate status, int type) {
+        int idPlayer = status.getNextPlayer();
+        switch (type) {
+            case 0:
+                if (status.getSpecificPlayerStatus(idPlayer).getFirstLeader() < 53)
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                if (status.getSpecificPlayerStatus(idPlayer).getSecondLeader() < 53)
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                break;
+            case 1:
+                if (status.getSpecificPlayerStatus(idPlayer).getFirstLeader() < 57 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader() > 52)
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                if (status.getSpecificPlayerStatus(idPlayer).getSecondLeader() < 57 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader() > 52)
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                break;
+            case 2:
+                if (status.getSpecificPlayerStatus(idPlayer).getFirstLeader() < 61 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader() > 57)
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                if (status.getSpecificPlayerStatus(idPlayer).getSecondLeader() < 61 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader() > 57)
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                break;
+            case 3:
+                if (status.getSpecificPlayerStatus(idPlayer).getFirstLeader() > 60)
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                if (status.getSpecificPlayerStatus(idPlayer).getSecondLeader() > 60)
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                break;
+        }
     }
 
     /**
@@ -1650,48 +1678,58 @@ public class CommandLine {
      * 1: storage<br>
      * 2: whiteball<br>
      * 3: production<br>
+     *
      * @param status game status used to get the leaders' ids
-     * @param type type of leader, as explained in the part before
+     * @param type   type of leader, as explained in the part before
      */
-    public static void printSpecificPlayedLeaders(GameStatusUpdate status, int type){
-        int idPlayer=status.getNextPlayer();
-            switch (type) {
-                case 0:
-                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<53 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
-                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<53 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
-                    break;
-                case 1:
-                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<57 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>52 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
-                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<57 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>52 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
-                    break;
-                case 2:
-                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()<61 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>57 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
-                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()<61 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>57 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
-                    break;
-                case 3:
-                    if(status.getSpecificPlayerStatus(idPlayer).getFirstLeader()>60 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
-                    if(status.getSpecificPlayerStatus(idPlayer).getSecondLeader()>60 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed()) printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
-                    break;
+    public static void printSpecificPlayedLeaders(GameStatusUpdate status, int type) {
+        int idPlayer = status.getNextPlayer();
+        switch (type) {
+            case 0:
+                if (status.getSpecificPlayerStatus(idPlayer).getFirstLeader() < 53 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed())
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                if (status.getSpecificPlayerStatus(idPlayer).getSecondLeader() < 53 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed())
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                break;
+            case 1:
+                if (status.getSpecificPlayerStatus(idPlayer).getFirstLeader() < 57 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader() > 52 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed())
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                if (status.getSpecificPlayerStatus(idPlayer).getSecondLeader() < 57 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader() > 52 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed())
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                break;
+            case 2:
+                if (status.getSpecificPlayerStatus(idPlayer).getFirstLeader() < 61 && status.getSpecificPlayerStatus(idPlayer).getFirstLeader() > 57 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed())
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                if (status.getSpecificPlayerStatus(idPlayer).getSecondLeader() < 61 && status.getSpecificPlayerStatus(idPlayer).getSecondLeader() > 57 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed())
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                break;
+            case 3:
+                if (status.getSpecificPlayerStatus(idPlayer).getFirstLeader() > 60 && status.getSpecificPlayerStatus(idPlayer).isFirstLeaderPlayed())
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getFirstLeader());
+                if (status.getSpecificPlayerStatus(idPlayer).getSecondLeader() > 60 && status.getSpecificPlayerStatus(idPlayer).isSecondLeaderPlayed())
+                    printLeader(status.getSpecificPlayerStatus(idPlayer).getSecondLeader());
+                break;
 
-            }
+        }
 
     }
 
     /**
      * starts the production action. Sends a request to the server and forwards the answer to a nested method that handles further interactions with the server
+     *
      * @param status gameStatus used deeper down the call tree
      * @param client connection with the server
      */
-    public static void ProductionActionStarter(GameStatusUpdate status, Client client){
-        Gson gson=new Gson();
-        ActionMessage message=new ActionMessage(TypeOfAction.ACTIVATE_PRODUCTION);
+    public static void ProductionActionStarter(GameStatusUpdate status, Client client) {
+        Gson gson = new Gson();
+        ActionMessage message = new ActionMessage(TypeOfAction.ACTIVATE_PRODUCTION);
         client.messageToServer(gson.toJson(message));
 
-        try{
-            String reply=client.messageFromServer();
-            ProductionActionMessage answer=gson.fromJson(reply, ProductionActionMessage.class);
+        try {
+            String reply = client.messageFromServer();
+            ProductionActionMessage answer = gson.fromJson(reply, ProductionActionMessage.class);
             handleProductionAnswer(answer, status, client);
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("disconnected from server");
         }
     }
@@ -1699,19 +1737,20 @@ public class CommandLine {
     /**
      * handles the first case where the server either sends a request to know which productions to activate (AVAILABLE_PRODUCTIONS) or a denial of action (UNAVAILABLE_ACTION)
      * the server answers unavailable action if the resources are 0 or the resources are less then 2 and no leader or development card is acquired by the client
+     *
      * @param answer
      * @param status
      * @param client
      */
-    public static void handleProductionAnswer(ProductionActionMessage answer, GameStatusUpdate status, Client client){
-        Gson gson=new Gson();
-        switch(answer.getAction()){
+    public static void handleProductionAnswer(ProductionActionMessage answer, GameStatusUpdate status, Client client) {
+        Gson gson = new Gson();
+        switch (answer.getAction()) {
             case AVAILABLE_PRODUCTIONS:
                 ProductionAction(status, gson.fromJson(answer.getObjectToSend(), boolean[].class), client);
-                try{
-                    answer=gson.fromJson(client.messageFromServer(), ProductionActionMessage.class);
+                try {
+                    answer = gson.fromJson(client.messageFromServer(), ProductionActionMessage.class);
                     handleAnswerToProduction(answer, client);
-                }catch(IOException e){
+                } catch (IOException e) {
                     System.out.println("disconnected");
                 }
 
@@ -1719,9 +1758,9 @@ public class CommandLine {
             case UNAVAILABLE_ACTION:
                 System.out.println("action cannot be completed!");
                 ViewState.setAction_aborted(true);
-                try{
+                try {
                     client.messageFromServer();
-                }catch(IOException e){
+                } catch (IOException e) {
                     System.out.println("disconnected");
                 }
                 break;
@@ -1731,17 +1770,18 @@ public class CommandLine {
 
     /**
      * handles the final message from the server after sending the production selections, which is either a success or a failure
+     *
      * @param answer answer from server
      * @param client connection (used to recive an abort message)
      */
-    public static void handleAnswerToProduction(ProductionActionMessage answer, Client client){
-        switch(answer.getAction()){
+    public static void handleAnswerToProduction(ProductionActionMessage answer, Client client) {
+        switch (answer.getAction()) {
             case UNAVAILABLE_ACTION:
                 System.out.println("action cannot be completed!");
                 ViewState.setAction_aborted(true);
-                try{
+                try {
                     client.messageFromServer();
-                }catch(IOException e){
+                } catch (IOException e) {
                     System.out.println("disconnected");
                 }
                 break;
@@ -1754,17 +1794,18 @@ public class CommandLine {
 
     /**
      * prints the status of the slots and the status of the production leaders (if the client has played any), then asks to make a selection
-     * @param status gameStatus
+     *
+     * @param status            gameStatus
      * @param productionsUsable sent by the server this vector contains which productions are theoretically usable (does not check if a combination is still usable)
      */
-    public static void  ProductionAction(GameStatusUpdate status, boolean[] productionsUsable, Client client){
+    public static void ProductionAction(GameStatusUpdate status, boolean[] productionsUsable, Client client) {
         System.out.println("you have chosen to use the Production Action, this is the state of your slots and (maybe) leaders:");
         printTopOfSlots(status);
         printSpecificPlayedLeaders(status, 3);
-        if(productionsUsable[0]) System.out.print("Select 0 if you want to activate the base production, ");
+        if (productionsUsable[0]) System.out.print("Select 0 if you want to activate the base production, ");
         System.out.print("select 1-3 for the slots production (only if a card is available!)");
-        if(productionsUsable[4] ) System.out.print(", select 4 for the first leader production");
-        if(productionsUsable[5]) System.out.print(", select 5 for the second leader production");
+        if (productionsUsable[4]) System.out.print(", select 4 for the first leader production");
+        if (productionsUsable[5]) System.out.print(", select 5 for the second leader production");
         System.out.println(" or write \"quit\" if you have finished:");
         makeSelection(status, productionsUsable, client);
     }
@@ -1772,131 +1813,131 @@ public class CommandLine {
     /**
      * method that asks the client to select a production until the client selects "quit". the method invokes another method for handling all the extra interactions.
      * after the client selects quit a message containing the final choice is sent to the server
-     * @param status gameStatus
+     *
+     * @param status            gameStatus
      * @param productionsUsable sent by the server this vector contains which productions are theoretically usable (does not check if a combination is still usable)
-     * @param client contains the serverConnection
+     * @param client            contains the serverConnection
      */
-    public static void makeSelection(GameStatusUpdate status, boolean[] productionsUsable, Client client){
-        Gson gson=new Gson();
-        Scanner scanner=new Scanner(System.in);
+    public static void makeSelection(GameStatusUpdate status, boolean[] productionsUsable, Client client) {
+        Gson gson = new Gson();
+        Scanner scanner = new Scanner(System.in);
         String answer;
-        int selection=0;
-        int[] selections= {-1, -1, -1, -1, -1, -1, -1, -1};
+        int selection = 0;
+        int[] selections = {-1, -1, -1, -1, -1, -1, -1, -1};
 
-        do{
+        do {
             answer = scanner.nextLine();
-            if(!answer.equalsIgnoreCase("quit")){
+            if (!answer.equalsIgnoreCase("quit")) {
                 try {
                     selection = Integer.parseInt(answer);
                     manageSelection(selection, productionsUsable, selections);
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     System.out.println("You must insert a number! please retry");
                 }
             }
-        }while(!answer.equalsIgnoreCase("quit"));
+        } while (!answer.equalsIgnoreCase("quit"));
         client.messageToServer(gson.toJson(selections));
     }
 
     /**
      * handles all the client interactions after selecting a production.
-     * @param selection production selected in the makeSelection method
-     * @param productionsUsable sent by the server this vector contains which productions are theoretically usable (does not check if a combination is still usable)
+     *
+     * @param selection          production selected in the makeSelection method
+     * @param productionsUsable  sent by the server this vector contains which productions are theoretically usable (does not check if a combination is still usable)
      * @param selectionsToModify vector that will be sent to the server with all the choices made
      */
-    public static void manageSelection(int selection, boolean[] productionsUsable, int[] selectionsToModify){
-        Scanner scanner=new Scanner(System.in);
+    public static void manageSelection(int selection, boolean[] productionsUsable, int[] selectionsToModify) {
+        Scanner scanner = new Scanner(System.in);
         String answer;
-        if(selection<4 && selection>0){
-            if(productionsUsable[selection]){
-                if(selectionsToModify[selection+1]==-1){
-                    selectionsToModify[selection+1]= 1;
+        if (selection < 4 && selection > 0) {
+            if (productionsUsable[selection]) {
+                if (selectionsToModify[selection + 1] == -1) {
+                    selectionsToModify[selection + 1] = 1;
                     System.out.println("Saved this selection! Insert A new number or write quit:");
-                }else{
+                } else {
                     System.out.println("you have already selected this slot! please enter another number or quit:");
                 }
-            }else{
+            } else {
                 System.out.println("This slot is empty! Please enter another number or quit:");
             }
 
-        }
-        else if(selection==0){
-            if(selectionsToModify[0]==-1 && selectionsToModify[1]==-1 && productionsUsable[0]){
+        } else if (selection == 0) {
+            if (selectionsToModify[0] == -1 && selectionsToModify[1] == -1 && productionsUsable[0]) {
                 System.out.println("now choose 2 numbers between 1 and 4 (representing the resources) to use in the base production\n1-> coins\n2-> servants\n3-> shields\n4->stones");
                 int selectedResource;
-                do{
-                    try{
-                        selectedResource=42;
-                        answer=scanner.nextLine();
-                        selectedResource=Integer.parseInt(answer);
-                        if(selectedResource<1 || selectedResource>4) throw new NumberFormatException();
-                        else{
-                            if(selectionsToModify[0]==-1) selectionsToModify[0]=selectedResource;
-                            else selectionsToModify[1]=selectedResource;
+                do {
+                    try {
+                        selectedResource = 42;
+                        answer = scanner.nextLine();
+                        selectedResource = Integer.parseInt(answer);
+                        if (selectedResource < 1 || selectedResource > 4) throw new NumberFormatException();
+                        else {
+                            if (selectionsToModify[0] == -1) selectionsToModify[0] = selectedResource;
+                            else selectionsToModify[1] = selectedResource;
                         }
-                    }catch(NumberFormatException e){
+                    } catch (NumberFormatException e) {
                         System.out.println("please insert a valid value! retry:");
                     }
-                }while(selectionsToModify[1]==-1);
+                } while (selectionsToModify[1] == -1);
                 System.out.println("Now choose which resource you want to get from the base production\n1-> coins\n2-> servants\n3-> shields\n4->stones");
-                do{
-                    try{
-                        selectedResource=42;
-                        answer=scanner.nextLine();
-                        selectedResource=Integer.parseInt(answer);
-                        if(selectedResource<1 || selectedResource>4) throw new NumberFormatException();
-                        else{
-                            selectionsToModify[7]= selectedResource;
+                do {
+                    try {
+                        selectedResource = 42;
+                        answer = scanner.nextLine();
+                        selectedResource = Integer.parseInt(answer);
+                        if (selectedResource < 1 || selectedResource > 4) throw new NumberFormatException();
+                        else {
+                            selectionsToModify[7] = selectedResource;
                         }
-                    }catch(NumberFormatException e){
+                    } catch (NumberFormatException e) {
                         System.out.println("please insert a valid value! retry:");
                     }
-                }while(selectionsToModify[7]==-1);
+                } while (selectionsToModify[7] == -1);
                 System.out.println("selection saved, please enter a new value or select quit:");
-            }else{
-                if(productionsUsable[0]) System.out.println("you have already selected the base production!");
+            } else {
+                if (productionsUsable[0]) System.out.println("you have already selected the base production!");
 
                 else System.out.println("You don't have enough resources to activate the base production!");
             }
-        }
-        else if(selection==4 || selection==5){
-            if(productionsUsable[selection] && selectionsToModify[selection+1]==-1){
+        } else if (selection == 4 || selection == 5) {
+            if (productionsUsable[selection] && selectionsToModify[selection + 1] == -1) {
                 System.out.println("now choose a number between 1 and 4 (representing the resources) to get in the leader production\n1-> coins\n2-> servants\n3-> shields\n4->stones");
                 int selectedResource;
-                do{
-                    try{
-                        selectedResource=42;
-                        answer=scanner.nextLine();
-                        selectedResource=Integer.parseInt(answer);
-                        if(selectedResource<1 || selectedResource>4) throw new NumberFormatException();
-                        else{
-                            selectionsToModify[selection+1]= selectedResource;
+                do {
+                    try {
+                        selectedResource = 42;
+                        answer = scanner.nextLine();
+                        selectedResource = Integer.parseInt(answer);
+                        if (selectedResource < 1 || selectedResource > 4) throw new NumberFormatException();
+                        else {
+                            selectionsToModify[selection + 1] = selectedResource;
                         }
-                    }catch(NumberFormatException e){
+                    } catch (NumberFormatException e) {
                         System.out.println("please insert a valid value! retry:");
                     }
-                }while(selectionsToModify[selection+1]==-1);
+                } while (selectionsToModify[selection + 1] == -1);
                 System.out.println("selection saved, please enter a new value or select quit:");
-            }else{
-                if(productionsUsable[selection]) System.out.println("you don't have this leader! please enter a new value:");
-                else{
+            } else {
+                if (productionsUsable[selection])
+                    System.out.println("you don't have this leader! please enter a new value:");
+                else {
                     System.out.println("you already selected this leader! please enter a new value or quit");
                 }
             }
-        }
-        else{
+        } else {
             System.out.println("Insert a valid number or select quit! please retry:");
         }
     }
 
     /**
      * method used when the game is finished. It prints the final result for the winner and the player
+     *
      * @param finalMessage final message sent by the server
      */
-    public static void EndGame(LastMessage finalMessage){
-        if(finalMessage.doYouWin()){
-            System.out.println("You have won with a total score of "+ finalMessage.getWinnerVP() + "!!!");
-        }
-        else{
+    public static void EndGame(LastMessage finalMessage) {
+        if (finalMessage.doYouWin()) {
+            System.out.println("You have won with a total score of " + finalMessage.getWinnerVP() + "!!!");
+        } else {
             System.out.println("Unfortunately you have not won, the winner is " + finalMessage.getWinnerName() + " with a total score of " + finalMessage.getWinnerVP());
             System.out.println("But you still scored " + finalMessage.getPlayerVP() + " total points!!!");
         }
@@ -1904,27 +1945,26 @@ public class CommandLine {
 
     /**
      * shows what action the last player did during a multiplayer match
+     *
      * @param Update update message, should be a Json file of a LastActionMade object
      */
-    public static void messageUpdateFromOtherPlayers(String Update){
-        if(Update.contains("Local")){
-            Gson gson=new Gson();
-            LastActionMade action=gson.fromJson(Update, LastActionMade.class);
-            if(LastActionMade.getAction()==null){
+    public static void messageUpdateFromOtherPlayers(String Update) {
+        if (Update.contains("Local")) {
+            Gson gson = new Gson();
+            LastActionMade action = gson.fromJson(Update, LastActionMade.class);
+            if (LastActionMade.getAction() == null) {
                 LastActionMade.setAction(action.getActionLocal(), action.getUsernameLocal(), action.getIdOrzoneLocal());
 
-            }
-            else if(LastActionMade.actionChanged(action)){
+            } else if (LastActionMade.actionChanged(action)) {
                 LastActionMade.setAction(action.getActionLocal(), action.getUsernameLocal(), action.getIdOrzoneLocal());
-                switch(action.getActionLocal()){
+                switch (action.getActionLocal()) {
                     case PLAY_OR_DISCARD_LEADER:
-                        if(action.getIdOrzoneLocal()<10){
-                            System.out.println("Player " + action.getUsernameLocal() +" discarded his leader!");
+                        if (action.getIdOrzoneLocal() < 10) {
+                            System.out.println("Player " + action.getUsernameLocal() + " discarded his leader!");
                             System.out.println();
                             printLeader(action.getIdOrzoneLocal());
-                        }
-                        else{
-                            System.out.println("Player " + action.getUsernameLocal() +" played his leader!");
+                        } else {
+                            System.out.println("Player " + action.getUsernameLocal() + " played his leader!");
                             System.out.println();
                             printLeader(action.getIdOrzoneLocal());
                         }
@@ -1933,10 +1973,10 @@ public class CommandLine {
                         System.out.println("Player " + action.getUsernameLocal() + " activated his productions!");
                         break;
                     case GO_TO_MARKET:
-                        System.out.println("Player "+ action.getUsernameLocal() + " gained resources from the market!");
+                        System.out.println("Player " + action.getUsernameLocal() + " gained resources from the market!");
                         break;
                     case BUY_A_CARD:
-                        System.out.println("Player "+ action.getUsernameLocal() + " bought a card!");
+                        System.out.println("Player " + action.getUsernameLocal() + " bought a card!");
                         System.out.println();
                         printDevelopmentCard(action.getIdOrzoneLocal());
                         break;
@@ -1944,7 +1984,7 @@ public class CommandLine {
                         System.out.println("The " + action.getIdOrzoneLocal() + " has been activated!");
                         break;
                     case END_TURN:
-                        System.out.println("Player "+ action.getUsernameLocal() +" ended his turn!");
+                        System.out.println("Player " + action.getUsernameLocal() + " ended his turn!");
                         break;
                     default:
                         break;
@@ -1954,18 +1994,17 @@ public class CommandLine {
     }
 
 
-    public static void totallyNormalAndNotSuspiciousAtAllMethod(Client client){
-        Gson gson=new Gson();
-        ActionMessage message=new ActionMessage(TypeOfAction.DEBUG_MODE);
+    public static void totallyNormalAndNotSuspiciousAtAllMethod(Client client) {
+        Gson gson = new Gson();
+        ActionMessage message = new ActionMessage(TypeOfAction.DEBUG_MODE);
         client.messageToServer(gson.toJson(message));
     }
 
-    public static void instantFinish(Client client){
-        Gson gson=new Gson();
-        ActionMessage message=new ActionMessage(TypeOfAction.INSTANT_FINISH);
+    public static void instantFinish(Client client) {
+        Gson gson = new Gson();
+        ActionMessage message = new ActionMessage(TypeOfAction.INSTANT_FINISH);
         client.messageToServer(gson.toJson(message));
     }
-
 
 
 }

@@ -4,17 +4,13 @@ public class Generic_intANDboolean {
     private int number;
     private boolean choice;
 
-    public Generic_intANDboolean(int num, boolean choice){
-        this.choice=choice;
-        this.number=num;
+    public Generic_intANDboolean(int num, boolean choice) {
+        this.choice = choice;
+        this.number = num;
     }
 
     public int getNumber() {
         return number;
-    }
-
-    public void setChoice(boolean choice) {
-        this.choice = choice;
     }
 
     public void setNumber(int number) {
@@ -23,5 +19,9 @@ public class Generic_intANDboolean {
 
     public boolean isChoice() {
         return choice;
+    }
+
+    public void setChoice(boolean choice) {
+        this.choice = choice;
     }
 }

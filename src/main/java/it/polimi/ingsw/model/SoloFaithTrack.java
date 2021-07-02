@@ -12,6 +12,9 @@ public class SoloFaithTrack extends FaithTrack {
         return enemy;
     }
 
+    public void setEnemy(int enemy) {
+        this.enemy = enemy;
+    }
 
     public void moveEnemy(int move) {
         enemy += move;
@@ -38,10 +41,6 @@ public class SoloFaithTrack extends FaithTrack {
             return 3;
         }
         return 0;
-    }
-
-    public void setEnemy(int enemy) {
-        this.enemy = enemy;
     }
 
     public void CoolPrint() {

@@ -32,8 +32,9 @@ public class MatchMultiPlayer {
 
     /**
      * handles the moves in the faith track while ensuring that the pope spaces are activated
+     *
      * @param move how much the marker will move
-     * @param id id of the player who made the move
+     * @param id   id of the player who made the move
      * @throws GameIsEnding in case the marker reaches 24
      */
     public void MoveInFaithTrack(int move, int id) throws GameIsEnding {
@@ -49,26 +50,27 @@ public class MatchMultiPlayer {
 
     /**
      * handles movement when a player discard resources (movement is made in parallel)
-     * @param discardedRes quantity of discarded resources
-     * @param idOfNotMovingPlayer  only player who does not get movement
+     *
+     * @param discardedRes        quantity of discarded resources
+     * @param idOfNotMovingPlayer only player who does not get movement
      * @return states all the players that have finished
      */
-    public boolean[] parallelMovementInFaithTrack(int discardedRes, int idOfNotMovingPlayer){
-        boolean[] result=null;
-        int zone=0;
-        int temp=-1;
-        for(int i=0; i<players.size(); i++){
-            if(players.get(i).getId()!=idOfNotMovingPlayer){
-                temp=players.get(i).getBoard().getFaithTrack().MultiPlayerMovement(discardedRes);
-                if(temp>zone) zone=temp;
+    public boolean[] parallelMovementInFaithTrack(int discardedRes, int idOfNotMovingPlayer) {
+        boolean[] result = null;
+        int zone = 0;
+        int temp = -1;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getId() != idOfNotMovingPlayer) {
+                temp = players.get(i).getBoard().getFaithTrack().MultiPlayerMovement(discardedRes);
+                if (temp > zone) zone = temp;
             }
         }
-        if(zone>0){
+        if (zone > 0) {
             VaticanReport(zone);
-            if(zone==3){
-                result=new boolean[players.size()];
-                for(int i=0; i<players.size(); i++){
-                    if(players.get(i).getBoard().getFaithTrack().getFaithMarker()==24) result[i]=true;
+            if (zone == 3) {
+                result = new boolean[players.size()];
+                for (int i = 0; i < players.size(); i++) {
+                    if (players.get(i).getBoard().getFaithTrack().getFaithMarker() == 24) result[i] = true;
                 }
             }
         }
@@ -78,6 +80,7 @@ public class MatchMultiPlayer {
 
     /**
      * method manages the vatican report action. it's all handled automatically.
+     *
      * @param zone zone that is being checked
      */
     public void VaticanReport(int zone) {
@@ -179,48 +182,52 @@ public class MatchMultiPlayer {
 
     /**
      * updates all players victoryPoints
+     *
      * @param checkForResources true if resources should be counted for the victory points (only usefule in the endGame scenario), false otherrwise
      */
-    public void UpdatesAllPlayersVictoryPoints(boolean checkForResources){
-        for(int i=0; i<players.size(); i++){
+    public void UpdatesAllPlayersVictoryPoints(boolean checkForResources) {
+        for (int i = 0; i < players.size(); i++) {
             players.get(i).updateVictoryPoints(checkForResources);
         }
     }
 
     /**
      * method that checks if someone has reached an endGame condition and returns the player id (if someone did it)
+     *
      * @return id of player who reached the end game condition or 0 if nobody did it yet
      */
-    public int whoHasFinished(){
-        for(int i=0; i< players.size(); i++){
-            if(players.get(i).hasPlayerFinished()) return i+1;
+    public int whoHasFinished() {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).hasPlayerFinished()) return i + 1;
         }
         return 0;
     }
 
     /**
      * method that checks if any player has reached an endGame condition (faithmarker ==24 or number of development cards==7)
+     *
      * @return true if someone finished, false otherwise
      */
-    public boolean hasSomeoneFinished(){
-        for(int i=0; i< players.size(); i++){
-            if(players.get(i).hasPlayerFinished()) return true;
+    public boolean hasSomeoneFinished() {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).hasPlayerFinished()) return true;
         }
         return false;
     }
 
     /**
      * method that updates all the victory points then return the id of the player with max points
+     *
      * @return
      */
-    public int whoHasWon(){
+    public int whoHasWon() {
         UpdatesAllPlayersVictoryPoints(true);
-        int idOfMaxVP=-1;
-        int maxPoints=-1;
-        for(int i=0; i< players.size(); i++){
-            if(players.get(i).getVictoryPoints()>maxPoints){
-                maxPoints=players.get(i).getVictoryPoints();
-                idOfMaxVP=i+1;
+        int idOfMaxVP = -1;
+        int maxPoints = -1;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getVictoryPoints() > maxPoints) {
+                maxPoints = players.get(i).getVictoryPoints();
+                idOfMaxVP = i + 1;
             }
         }
         return idOfMaxVP;

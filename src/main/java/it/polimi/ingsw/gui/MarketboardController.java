@@ -26,15 +26,15 @@ import java.io.IOException;
 
 public class MarketboardController extends AnchorPane {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     Color red = new Color(1.0, 0.0, 0.0, 1.0); //FAITH POINTS
     Color yellow = new Color(1.0, 1.0, 0.0, 1.0); //COINS
     Color white = new Color(1.0, 1.0, 1.0, 1.0); //NULL
     Color blue = new Color(0.0, 1.0, 1.0, 1.0); //SHIELDS
     Color grey = new Color(0.5, 0.5, 0.5, 1.0); //STONES
     Color purple = new Color(1.0, 0.0, 1.0, 1.0); //SERVANTS
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
     @FXML
     private Circle c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13;
     @FXML
@@ -56,10 +56,9 @@ public class MarketboardController extends AnchorPane {
     private int depot;
 
 
-
     public void backToActionTurn(ActionEvent event) throws Exception {
         root = FXMLLoader.load(getClass().getResource("/fxml/turnaction.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -78,7 +77,9 @@ public class MarketboardController extends AnchorPane {
         c10.setFill(intToColor(colors[2][1]));
         c11.setFill(intToColor(colors[2][2]));
         c12.setFill(intToColor(colors[2][3]));
-        if (c13 != null) { c13.setFill(intToColor(slide)); }
+        if (c13 != null) {
+            c13.setFill(intToColor(slide));
+        }
     }
 
     public Color intToColor(int n) {
@@ -100,13 +101,34 @@ public class MarketboardController extends AnchorPane {
 
 
     public void getChoice(ActionEvent event) {
-        if (row1.isSelected()) { line=1; rowcolumn=false; }
-        if (row2.isSelected()) { line=2; rowcolumn=false; }
-        if (row3.isSelected()) { line=3; rowcolumn=false; }
-        if (column1.isSelected()) { line=1; rowcolumn=true; }
-        if (column2.isSelected()) { line=2; rowcolumn=true; }
-        if (column3.isSelected()) { line=3; rowcolumn=true; }
-        if (column4.isSelected()) { line=4; rowcolumn=true; }
+        if (row1.isSelected()) {
+            line = 1;
+            rowcolumn = false;
+        }
+        if (row2.isSelected()) {
+            line = 2;
+            rowcolumn = false;
+        }
+        if (row3.isSelected()) {
+            line = 3;
+            rowcolumn = false;
+        }
+        if (column1.isSelected()) {
+            line = 1;
+            rowcolumn = true;
+        }
+        if (column2.isSelected()) {
+            line = 2;
+            rowcolumn = true;
+        }
+        if (column3.isSelected()) {
+            line = 3;
+            rowcolumn = true;
+        }
+        if (column4.isSelected()) {
+            line = 4;
+            rowcolumn = true;
+        }
     }
 
     public void exitWindow(ActionEvent event) {
@@ -115,28 +137,36 @@ public class MarketboardController extends AnchorPane {
     }
 
     public void setDepot(ActionEvent event) {
-        if (depot1.isSelected()) { depot=1; }
-        if (depot2.isSelected()) { depot=2; }
-        if (depot3.isSelected()) { depot=3; }
-        if (depotdisc.isSelected()) { depot=4; }
+        if (depot1.isSelected()) {
+            depot = 1;
+        }
+        if (depot2.isSelected()) {
+            depot = 2;
+        }
+        if (depot3.isSelected()) {
+            depot = 3;
+        }
+        if (depotdisc.isSelected()) {
+            depot = 4;
+        }
     }
 
 
     public void confirm(ActionEvent event) throws Exception {
-        boolean stopSending=false;
-        ActionMessage action=new ActionMessage(TypeOfAction.GO_TO_MARKET);
+        boolean stopSending = false;
+        ActionMessage action = new ActionMessage(TypeOfAction.GO_TO_MARKET);
         action.MarbleMarketAction(line, rowcolumn);
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         ConnectionHandlerForGui.sendMessage(gson.toJson(action));
         String answerFromServer = ConnectionHandlerForGui.getMessage();
         try {
-            if(!answerFromServer.contains("resourceStillToBeStored") && answerFromServer.contains("true")) {
+            if (!answerFromServer.contains("resourceStillToBeStored") && answerFromServer.contains("true")) {
                 System.out.println("You can receive additional resources from the market thanks to your leaders!");
-                if(leaderbonus1.isSelected()) ConnectionHandlerForGui.sendMessage(1);
-                if(leaderbonus2.isSelected() && !leaderbonus1.isSelected()) ConnectionHandlerForGui.sendMessage(2);
-                answerFromServer=ConnectionHandlerForGui.getMessage();
+                if (leaderbonus1.isSelected()) ConnectionHandlerForGui.sendMessage(1);
+                if (leaderbonus2.isSelected() && !leaderbonus1.isSelected()) ConnectionHandlerForGui.sendMessage(2);
+                answerFromServer = ConnectionHandlerForGui.getMessage();
             }
-            while(answerFromServer.contains("resourceStillToBeStored")) {
+            while (answerFromServer.contains("resourceStillToBeStored")) {
                 System.out.println("setting storage atumatically");
                 chooseDepotMessage subMessage = gson.fromJson(answerFromServer, chooseDepotMessage.class);
                 boolean[] possibleChoices = subMessage.getDepotStateOfEmptyness().clone();
@@ -154,8 +184,8 @@ public class MarketboardController extends AnchorPane {
 
             System.out.println("azione finita");
             ConnectionHandlerForGui.getMessage();
-            answerFromServer=ConnectionHandlerForGui.getMessage();
-            GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(answerFromServer, GameStatusUpdate.class);
+            answerFromServer = ConnectionHandlerForGui.getMessage();
+            GameStatusUpdate status = ConnectionHandlerForGui.getGson().fromJson(answerFromServer, GameStatusUpdate.class);
             LastGameStatus.update(status);
 
 
@@ -176,21 +206,19 @@ public class MarketboardController extends AnchorPane {
             root = loader.load();
 
 
-                TurnController controller = loader.getController();
-                controller.actionDone();
+            TurnController controller = loader.getController();
+            controller.actionDone();
 
 
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
 
 
-
-
-
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e) { System.out.println(e); }
 
         //try {
         //    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
@@ -206,56 +234,55 @@ public class MarketboardController extends AnchorPane {
     }
 
     public void setBonus(int l1, int l2, boolean b1, boolean b2) {
-        if (l1 > 56 && l1 < 61 && b1) { leaderbonus1.setDisable(false); }
-        if (l2 > 56 && l2 < 61 && b2) { leaderbonus2.setDisable(false); }
+        if (l1 > 56 && l1 < 61 && b1) {
+            leaderbonus1.setDisable(false);
+        }
+        if (l2 > 56 && l2 < 61 && b2) {
+            leaderbonus2.setDisable(false);
+        }
     }
 
     public void setDepotChoice(boolean[] depots, int[] toStore) {
         resource.setText(toStore[1] + "x " + StaticMethods.IntToTypeOfResource(toStore[0]));
-        if (depots[0]) { depot1.setDisable(false); }
-        else { depot1.setDisable(true); }
-        if (depots[1]) { depot2.setDisable(false); }
-        else { depot2.setDisable(true); }
-        if (depots[2]) { depot3.setDisable(false); }
-        else { depot3.setDisable(true); }
+        depot1.setDisable(!depots[0]);
+        depot2.setDisable(!depots[1]);
+        depot3.setDisable(!depots[2]);
     }
-
 
 
     public void confirmDepot(ActionEvent event) {
         System.out.println("sout prima di sendmessage");
         ConnectionHandlerForGui.sendMessage(depot);
         System.out.println("sout dopo message");
-        try{
+        try {
             System.out.println("sout nel blocco try");
-            String answerFromServer=ConnectionHandlerForGui.getMessage();
-            System.out.println("messaggio arrivato dopo depot placement: "+ answerFromServer);
-            if(answerFromServer.contains("resourceStillToBeStored")){
-                chooseDepotMessage subMessage=ConnectionHandlerForGui.getGson().fromJson(answerFromServer, chooseDepotMessage.class);
+            String answerFromServer = ConnectionHandlerForGui.getMessage();
+            System.out.println("messaggio arrivato dopo depot placement: " + answerFromServer);
+            if (answerFromServer.contains("resourceStillToBeStored")) {
+                chooseDepotMessage subMessage = ConnectionHandlerForGui.getGson().fromJson(answerFromServer, chooseDepotMessage.class);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
                 root = loader.load();
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 TurnController controller = loader.getController();
                 controller.goToChooseDepot(subMessage.getDepotStateOfEmptyness(), subMessage.getResourceStillToBeStored());
                 stage.setScene(scene);
                 stage.show();
-            }
-            else{
+            } else {
                 ConnectionHandlerForGui.getMessage();
-                answerFromServer=ConnectionHandlerForGui.getMessage();
-                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(answerFromServer, GameStatusUpdate.class);
+                answerFromServer = ConnectionHandlerForGui.getMessage();
+                GameStatusUpdate status = ConnectionHandlerForGui.getGson().fromJson(answerFromServer, GameStatusUpdate.class);
                 LastGameStatus.update(status);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
                 root = loader.load();
                 TurnController controller = loader.getController();
                 controller.actionDone();
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("disconnected, quitting");
             System.exit(1);
         }

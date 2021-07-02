@@ -6,11 +6,11 @@ public class LastMessage {
     private final int playerVP;
     private final boolean youWin;
 
-    public LastMessage(String winnerName, int winnerVP, int playerVP, boolean youWin){
-        this.playerVP=playerVP;
-        this.winnerName=winnerName;
-        this.winnerVP=winnerVP;
-        this.youWin=youWin;
+    public LastMessage(String winnerName, int winnerVP, int playerVP, boolean youWin) {
+        this.playerVP = playerVP;
+        this.winnerName = winnerName;
+        this.winnerVP = winnerVP;
+        this.youWin = youWin;
     }
 
     public int getPlayerVP() {

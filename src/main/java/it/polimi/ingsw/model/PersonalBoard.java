@@ -51,16 +51,17 @@ public class PersonalBoard {
 
     /**
      * Method that count the number of development card on personal board
+     *
      * @return totCards, represent the the number of development card on personal board
      */
     public int countTotalCards() {
         int totCards = 0;
-        if(developmentSlot1.get_top()!=null)
-        totCards = developmentSlot1.get_top().getLevel() + totCards;
-        if(developmentSlot2.get_top()!=null)
-        totCards = developmentSlot2.get_top().getLevel() + totCards;
-        if(developmentSlot3.get_top()!=null)
-        totCards = developmentSlot3.get_top().getLevel() + totCards;
+        if (developmentSlot1.get_top() != null)
+            totCards = developmentSlot1.get_top().getLevel() + totCards;
+        if (developmentSlot2.get_top() != null)
+            totCards = developmentSlot2.get_top().getLevel() + totCards;
+        if (developmentSlot3.get_top() != null)
+            totCards = developmentSlot3.get_top().getLevel() + totCards;
         return totCards;
     }
 
@@ -88,20 +89,20 @@ public class PersonalBoard {
 
         if (productions[0]) {
             for (i = 0; i < 4; i++) {
-                if(developmentSlot1.get_top()!=null)
-                costs[i] = costs[i] + developmentSlot1.get_top().getCost()[i];
+                if (developmentSlot1.get_top() != null)
+                    costs[i] = costs[i] + developmentSlot1.get_top().getCost()[i];
             }
         }
         if (productions[1]) {
             for (i = 0; i < 4; i++) {
-                if(developmentSlot2.get_top()!=null)
-                costs[i] = costs[i] + developmentSlot2.get_top().getCost()[i];
+                if (developmentSlot2.get_top() != null)
+                    costs[i] = costs[i] + developmentSlot2.get_top().getCost()[i];
             }
         }
         if (productions[2]) {
             for (i = 0; i < 4; i++) {
-                if(developmentSlot3.get_top()!=null)
-                costs[i] = costs[i] + developmentSlot3.get_top().getCost()[i];
+                if (developmentSlot3.get_top() != null)
+                    costs[i] = costs[i] + developmentSlot3.get_top().getCost()[i];
             }
         }
         if (productions[3]) {
@@ -202,7 +203,7 @@ public class PersonalBoard {
      * Updates the board victory points but ignores the resources, this method is used during the game, where having more than 5 resources can change very fast during a turn, so it's useless to keep track of that value
      * at the end of the game the setBoardVictoryPoints should be used instead
      */
-    public void setBoardVictoryPointsIgnoreResources(){
+    public void setBoardVictoryPointsIgnoreResources() {
         int boardVictoryPoints;
         boardVictoryPoints = developmentSlot1.getSlotPV() + developmentSlot2.getSlotPV() + developmentSlot3.getSlotPV() + faithTrack.TotalVictoryPointsFaithTrack();
         this.boardVictoryPoints = boardVictoryPoints;
@@ -223,6 +224,7 @@ public class PersonalBoard {
 
     /**
      * method used by the PlayerUpdate class to generate a status of the DevelopmentCard Slots. Check the PlayerUpdate class to understand how the matrix is used in the view
+     *
      * @return
      */
     public int[][] DevelopMentSlotsStatus() {
@@ -245,20 +247,22 @@ public class PersonalBoard {
 
     /**
      * returns an array stating which level of a development card can be placed on the slots
+     *
      * @return return an int[3], if the slot is full the int[i] will be 0, otherwise it's the next level placeable
      */
-    public int[] getNextPlaceableLevelOnSlots(){
-        int[] level=new int[3];
-        for(int i=1; i<4; i++){
-            level[i-1]=1;
-            if(getSlot(i).get_top()!=null) level[i-1]=getSlot(i).get_top().getLevel()+1;
-            if(level[i-1]==4) level[i-1]=0;
+    public int[] getNextPlaceableLevelOnSlots() {
+        int[] level = new int[3];
+        for (int i = 1; i < 4; i++) {
+            level[i - 1] = 1;
+            if (getSlot(i).get_top() != null) level[i - 1] = getSlot(i).get_top().getLevel() + 1;
+            if (level[i - 1] == 4) level[i - 1] = 0;
         }
         return level;
     }
 
     /**
      * get a total number of resources that the player has, used to get the victory points
+     *
      * @return total number of resources the player has (only the number)
      */
     public int countOfResources() {
@@ -269,14 +273,15 @@ public class PersonalBoard {
 
     /**
      * returns a boolean vector containing the slots where a card of a certain level can be placed
+     *
      * @param level level of the card willing to be placed
      * @return boolean vector containing as "true" the slots where the card is placeable
      */
-    public boolean[] whereCanIPlaceTheCard(int level){
-        boolean[] placeable=new boolean[3];
-        int[] availableLevels=getNextPlaceableLevelOnSlots();
-        for(int i=0; i<3; i++){
-            if(level==availableLevels[i]) placeable[i]=true;
+    public boolean[] whereCanIPlaceTheCard(int level) {
+        boolean[] placeable = new boolean[3];
+        int[] availableLevels = getNextPlaceableLevelOnSlots();
+        for (int i = 0; i < 3; i++) {
+            if (level == availableLevels[i]) placeable[i] = true;
         }
 
         return placeable;
@@ -284,12 +289,13 @@ public class PersonalBoard {
 
     /**
      * Counts the total number of cards in the 3 slots
+     *
      * @return total number of cards in the 3 slots
      */
-    public int numberOfDevelopmentCards(){
-        int tot=0;
-        for(int i=1; i<4; i++){
-            tot+= getSlot(i).numberOfCardsInSlot();
+    public int numberOfDevelopmentCards() {
+        int tot = 0;
+        for (int i = 1; i < 4; i++) {
+            tot += getSlot(i).numberOfCardsInSlot();
         }
         return tot;
     }

@@ -19,8 +19,7 @@ public class EndgameController {
             Image medal = new Image("/img/extra/goldmedal.png");
             goldmedal.setImage(medal);
             bottomtext.setText("Congratulations! You won the game with " + points + " points!");
-        }
-        else {
+        } else {
             bottomtext.setText("You didn't win the game, but you still scored " + points + " points!");
         }
     }

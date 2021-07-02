@@ -15,6 +15,7 @@ public class StaticMethods {
 
     /**
      * method that generates the same result as a .clone() method
+     *
      * @param original original array
      * @return copy
      */
@@ -28,7 +29,8 @@ public class StaticMethods {
 
     /**
      * method that generates a GameStatusUpdate in a json file.
-     * @param match match from witch a GameStatusUpdate is generated
+     *
+     * @param match    match from witch a GameStatusUpdate is generated
      * @param filePath path of the file that will be generated
      * @throws IOException if the file cannot be created
      */
@@ -59,7 +61,8 @@ public class StaticMethods {
 
     /**
      * given a match class and the id of the player in turn returns a string containing a JSON object GameStatusUpdate
-     * @param match match from witch a GameStatusUpdate is generated
+     *
+     * @param match  match from witch a GameStatusUpdate is generated
      * @param player player taking is turn
      * @return JSON object GameStatusUpdate as string
      */
@@ -83,7 +86,7 @@ public class StaticMethods {
         }
         gameState.setPlayersStatus(temp);
 
-        String result=gson.toJson(gameState);
+        String result = gson.toJson(gameState);
         return result;
     }
 
@@ -143,69 +146,75 @@ public class StaticMethods {
 
     /**
      * method that values if the second array is bigger than the first(for it to be bigger all his instances must be greater than the other)
-     * @param cost first array
+     *
+     * @param cost       first array
      * @param maxPayment second array, the one that is valued
      * @return false if any maxPayment[i] is smaller than cost[i], true otherwise
      */
-    public static boolean isItAffordable(int[] cost, int[] maxPayment){
-        for(int i=0; i<4; i++){
-            if(cost[i]>maxPayment[i]) return false;
+    public static boolean isItAffordable(int[] cost, int[] maxPayment) {
+        for (int i = 0; i < 4; i++) {
+            if (cost[i] > maxPayment[i]) return false;
         }
         return true;
     }
 
     /**
      * method that checks if any entry on this boolean vector is true
+     *
      * @param toBeChecked boolean vector to be checked
      * @return false if all entries on the vector are false, true otherwise
      */
-    public static boolean AreAnyTrue(boolean[] toBeChecked){
-        for(int i=0; i<toBeChecked.length; i++){
-            if(toBeChecked[i]) return true;
+    public static boolean AreAnyTrue(boolean[] toBeChecked) {
+        for (int i = 0; i < toBeChecked.length; i++) {
+            if (toBeChecked[i]) return true;
         }
         return false;
     }
 
     /**
      * method that checks if a number corresponds to a resource
+     *
      * @param n number checked
      * @return true if num between 1 and 4, false otherwise
      */
-    public static boolean numBetween1and4(int n){
-        return (n>0 && n<5);
+    public static boolean numBetween1and4(int n) {
+        return (n > 0 && n < 5);
     }
 
     /**
      * adds the arrayToAdd_isTemp to array1, ignoring if the arrayToAdd_isTemp is longer. Will throw a NullPointerException if the arrayToAdd_isTemp is shorter than array1
-     * @param array1 array where the second one is added to (this DOES INCREASE)
+     *
+     * @param array1            array where the second one is added to (this DOES INCREASE)
      * @param arrayToAdd_isTemp array which is added to the first one (this DOES NOT INCREASE)
      */
-    public static void sumArray(int[] array1, int[] arrayToAdd_isTemp){
-        for(int i=0; i<array1.length; i++){
-            array1[i]+=arrayToAdd_isTemp[i];
+    public static void sumArray(int[] array1, int[] arrayToAdd_isTemp) {
+        for (int i = 0; i < array1.length; i++) {
+            array1[i] += arrayToAdd_isTemp[i];
         }
     }
 
     /**
      * checks if a boolean vector is all true
+     *
      * @param toBeChecked vector checked
      * @return true if the vector does not contain any false, true otherwise
      */
-    public static boolean areAllTrue(boolean[] toBeChecked){
-        for(int i=0; i<toBeChecked.length; i++){
-            if(!toBeChecked[i]) return false;
+    public static boolean areAllTrue(boolean[] toBeChecked) {
+        for (int i = 0; i < toBeChecked.length; i++) {
+            if (!toBeChecked[i]) return false;
         }
         return true;
     }
 
     /**
      * controls that the client wants to take the production action
+     *
      * @param array array to be checked
      * @return true if at least one selection is changed, false otherwise
      */
-    public static boolean productionNotAborted(int[] array){
-        for(int i =0; i< array.length; i++){
-            if(array[i]!=-1) return true;
+    public static boolean productionNotAborted(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != -1) return true;
         }
         return false;
     }

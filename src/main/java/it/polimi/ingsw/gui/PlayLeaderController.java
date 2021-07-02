@@ -35,10 +35,22 @@ public class PlayLeaderController {
     private int idl1, idl2, chosen;
 
     public void getChoice(ActionEvent event) {
-        if (play1.isSelected()) { playordiscard=1; chosen=1; }
-        if (discard1.isSelected()) { playordiscard=2; chosen=1; }
-        if (play2.isSelected()) { playordiscard=1; chosen=2; }
-        if (discard2.isSelected()) { playordiscard=2; chosen=2; }
+        if (play1.isSelected()) {
+            playordiscard = 1;
+            chosen = 1;
+        }
+        if (discard1.isSelected()) {
+            playordiscard = 2;
+            chosen = 1;
+        }
+        if (play2.isSelected()) {
+            playordiscard = 1;
+            chosen = 2;
+        }
+        if (discard2.isSelected()) {
+            playordiscard = 2;
+            chosen = 2;
+        }
     }
 
     public void backToActionTurn(ActionEvent event) throws Exception {
@@ -51,30 +63,31 @@ public class PlayLeaderController {
             controller.actionDone();
         }
 
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
     public void confirm(ActionEvent event) {
-        if (chosen == 0) { label.setText("You have to choose an action to perform!"); }
-        else {
+        if (chosen == 0) {
+            label.setText("You have to choose an action to perform!");
+        } else {
 
-            ActionMessage action=new ActionMessage(TypeOfAction.PLAY_OR_DISCARD_LEADER);
+            ActionMessage action = new ActionMessage(TypeOfAction.PLAY_OR_DISCARD_LEADER);
             action.PlayOrDiscardLeaders(chosen, playordiscard);
-            Gson gson=new Gson();
+            Gson gson = new Gson();
             ConnectionHandlerForGui.sendMessage(gson.toJson(action));
-            try{
+            try {
                 //stampa risultato azione (è un int)
 
-                String messageFromServer=ConnectionHandlerForGui.getMessage();
+                String messageFromServer = ConnectionHandlerForGui.getMessage();
                 System.out.println("result of the play/discard: " + messageFromServer);
-                if(messageFromServer.equals("1")) LastGameStatus.setALeaderToDiscarded(chosen);
-                messageFromServer=ConnectionHandlerForGui.getMessage();
-                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
+                if (messageFromServer.equals("1")) LastGameStatus.setALeaderToDiscarded(chosen);
+                messageFromServer = ConnectionHandlerForGui.getMessage();
+                GameStatusUpdate status = ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
                 LastGameStatus.update(status);
-            }catch (IOException e){
+            } catch (IOException e) {
                 System.out.println("disconnected, quitting game...");
                 System.exit(1);
             }
@@ -89,12 +102,13 @@ public class PlayLeaderController {
                     controller.actionDone();
                 }
 
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+            } catch (Exception e) {
+                System.out.println(e);
             }
-            catch (Exception e) { System.out.println(e); }
         }
 
     }
@@ -109,14 +123,18 @@ public class PlayLeaderController {
         if (played1 || discarded1) {
             play1.setDisable(true);
             discard1.setDisable(true);
+        } else {
+            leader1.setImage(image1);
         }
-        else { leader1.setImage(image1); }
         if (played2 || discarded2) {
             play2.setDisable(true);
             discard2.setDisable(true);
+        } else {
+            leader2.setImage(image2);
         }
-        else { leader2.setImage(image2); }
     }
 
-    public void setExtra(boolean b) { extra = b; }
+    public void setExtra(boolean b) {
+        extra = b;
+    }
 }

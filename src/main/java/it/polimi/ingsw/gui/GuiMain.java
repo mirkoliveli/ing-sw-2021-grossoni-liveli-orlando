@@ -32,6 +32,5 @@ public class GuiMain extends Application {
         stage.show();
 
 
-
     }
 }

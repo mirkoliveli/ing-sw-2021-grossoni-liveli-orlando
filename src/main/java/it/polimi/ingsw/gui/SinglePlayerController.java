@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 public class SinglePlayerController {
     @FXML
     private ImageView action;
-    private Image[] tokens = {
+    private final Image[] tokens = {
             new Image("/img/punchboard/cerchio2.png"),
             new Image("/img/punchboard/cerchio3.png"),
             new Image("/img/punchboard/cerchio1.png"),
@@ -20,6 +20,7 @@ public class SinglePlayerController {
 
     /**
      * this method receives a number between 0 and 5 and sets the corresponding action token in the lorenzoaction.fxml
+     *
      * @param token
      */
     /*
@@ -30,7 +31,9 @@ public class SinglePlayerController {
         4: moveCrossAndShuffle
         5: twoSpaceMovement
      */
-    public void setAction(int token) { action.setImage(tokens[token]); }
+    public void setAction(int token) {
+        action.setImage(tokens[token]);
+    }
 
     public void confirm(ActionEvent event) {
         //viene lanciato cliccando il bottone continue, da gestire

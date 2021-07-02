@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.util.Arrays;
-
 /**
  * In each slot, the max number of DevelopmentCard is 3
  * The slot is managed as an array where the cards are overlapped based on their level
@@ -24,23 +22,23 @@ public class DevelopmentCardSlot {
     }
 
     /**
-     *     Method that returns the list of colours appeared in the slot
+     * Method that returns the list of colours appeared in the slot
      */
     public Color[] get_colors() {
         Color[] ColorAppeared = new Color[3];
         for (int i = 0; i < 3; i++) {
-            if(vectorSlot[i]!=null)
-            ColorAppeared[i] = vectorSlot[i].getColor();
+            if (vectorSlot[i] != null)
+                ColorAppeared[i] = vectorSlot[i].getColor();
         }
 
         return ColorAppeared;
     }
 
 
-
     /**
      * Method that returns the colour of the level 2 DevelopmentCard
      * This method could be used to activate Leaders effect
+     *
      * @return the colour of the level 2 DevelopmentCard
      */
     public Color get_secondLevelColor() {
@@ -50,6 +48,7 @@ public class DevelopmentCardSlot {
 
     /**
      * method that returns the "active" card on the slot, returns null if the slot is empty
+     *
      * @return null if slot is empty, the card otherwise
      */
     public DevelopmentCard get_top() {
@@ -70,6 +69,7 @@ public class DevelopmentCardSlot {
 
     /**
      * method that places the card on the slot, returns true if the operation is done correctly, false otherwise
+     *
      * @param CardToPlace card "acquired"
      * @return true if operation is done successfully, false otherwise
      */
@@ -114,6 +114,7 @@ public class DevelopmentCardSlot {
 
     /**
      * method that returns the level of the top card, if the slot is empty returns zero.
+     *
      * @return an integer between 0-3 that represent the last level occupied
      */
     public int levelOfTop() {
@@ -128,12 +129,13 @@ public class DevelopmentCardSlot {
 
     /**
      * counts the number of cards in the slot
+     *
      * @return number of cards in the slot
      */
-    public int numberOfCardsInSlot(){
-        int countCards=0;
-        for(int i=0; i<3; i++){
-            if(getCard(i)!=null) countCards++;
+    public int numberOfCardsInSlot() {
+        int countCards = 0;
+        for (int i = 0; i < 3; i++) {
+            if (getCard(i) != null) countCards++;
         }
         return countCards;
     }

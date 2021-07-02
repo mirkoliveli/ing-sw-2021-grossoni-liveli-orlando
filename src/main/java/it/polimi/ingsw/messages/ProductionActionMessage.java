@@ -7,21 +7,21 @@ public class ProductionActionMessage {
     InBetweenActionExchanges action;
     String objectToSend;
 
-    public ProductionActionMessage(InBetweenActionExchanges action, String Object){
-        this.action=action;
-        this.objectToSend=Object;
+    public ProductionActionMessage(InBetweenActionExchanges action, String Object) {
+        this.action = action;
+        this.objectToSend = Object;
     }
 
     public InBetweenActionExchanges getAction() {
         return action;
     }
 
-    public String getObjectToSend() {
-        return objectToSend;
-    }
-
     public void setAction(InBetweenActionExchanges action) {
         this.action = action;
+    }
+
+    public String getObjectToSend() {
+        return objectToSend;
     }
 
     public void setObjectToSend(String objectToSend) {

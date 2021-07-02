@@ -10,12 +10,12 @@ public class ViewState {
         return action_aborted;
     }
 
-    public static boolean isTurn_ended() {
-        return turn_ended;
-    }
-
     public static void setAction_aborted(boolean action_aborted) {
         ViewState.action_aborted = action_aborted;
+    }
+
+    public static boolean isTurn_ended() {
+        return turn_ended;
     }
 
     public static void setTurn_ended(boolean turn_ended) {
@@ -30,10 +30,10 @@ public class ViewState {
         ViewState.mainActionCompleted = mainActionCompleted;
     }
 
-    public static void resetTurn(){
-        turn_ended=false;
-        action_aborted=false;
-        mainActionCompleted=false;
+    public static void resetTurn() {
+        turn_ended = false;
+        action_aborted = false;
+        mainActionCompleted = false;
     }
 
 }

@@ -1,17 +1,17 @@
 package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.messages.LoginMessage;
-import it.polimi.ingsw.networking.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.net.Socket;
@@ -34,7 +34,6 @@ public class LoginController {
     private AnchorPane mainpane;
 
 
-
     public void login(ActionEvent event) throws Exception {
         String username = user.getText();
         String ipaddress = ip.getText(); //da gestire
@@ -49,11 +48,11 @@ public class LoginController {
             int player;
             ConnectionHandlerForGui.setConnection(new Socket(ipaddress, Integer.parseInt(chosenport)));
             ConnectionHandlerForGui.setUsername(username);
-            LoginMessage message=ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), LoginMessage.class);
+            LoginMessage message = ConnectionHandlerForGui.getGson().fromJson(ConnectionHandlerForGui.getMessage(), LoginMessage.class);
             //get the info if the player is the first or not
-            if(message.getNumOfPlayersInRoom()==0) player=1;
-            else{
-                player=message.getNumOfPlayersInRoom()+1;
+            if (message.getNumOfPlayersInRoom() == 0) player = 1;
+            else {
+                player = message.getNumOfPlayersInRoom() + 1;
             }
             ConnectionHandlerForGui.setIdOfPlayer(player);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/post-login.fxml"));
@@ -61,16 +60,16 @@ public class LoginController {
             PostLoginController controller = loader.getController();
 
             controller.postlogin(player, username);
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
 
+        } catch (NumberFormatException e) {
+            title.setText("Your port number should be a number!");
         }
-        catch (NumberFormatException e) { title.setText("Your port number should be a number!"); }
 
     }
-
 
 
     public void logout(ActionEvent event) {
@@ -85,7 +84,6 @@ public class LoginController {
             stage.close();
         }
     }
-
 
 
 }

@@ -41,6 +41,7 @@ public class Client {
 
     /**
      * method that handles all the events and settings before the game actually starts (login, selecting starting resources and leader etc)
+     *
      * @throws IOException connection with the server failed
      */
     public void StartingConnection() throws IOException {
@@ -113,10 +114,10 @@ public class Client {
                 }
                 try {
                     value = input.nextInt();
-                }catch (InputMismatchException e){
+                } catch (InputMismatchException e) {
                     System.out.println("Please insert a number!");
                     input.nextLine();
-                    value=-2345;
+                    value = -2345;
                 }
                 //System.out.println(value);
                 if (value == 2 || value == 3 || value == 4) break;
@@ -199,6 +200,7 @@ public class Client {
 
     /**
      * method used when players need to wait the room's filling before continuing to play, needs to be synced with the server
+     *
      * @throws IOException
      */
     public void waitingPhase() throws IOException {
@@ -221,6 +223,7 @@ public class Client {
 
     /**
      * receives a message from the server (string)
+     *
      * @return String message
      * @throws IOException connection with server lost
      */
@@ -235,6 +238,7 @@ public class Client {
 
     /**
      * sends a string message to the server
+     *
      * @param message message sent
      */
     public void messageToServer(String message) {
@@ -257,7 +261,7 @@ public class Client {
             //da sostituire con metodo serio
             System.out.println("4 cards will be shown in order, please refer to the 4 numbers on the bottom of the list when making the decision");
             System.out.println();
-            for(int i=0; i<4; i++){
+            for (int i = 0; i < 4; i++) {
                 CommandLine.printLeader(messageFServer.getCardID()[i]);
                 System.out.println();
             }
@@ -267,16 +271,17 @@ public class Client {
             int id2 = 0;
             //scelta carte
             do {
-                if (id1 != 0 || id2 != 0) System.out.println("not a valid ID! please retry (re-enter both numbers): \n");
+                if (id1 != 0 || id2 != 0)
+                    System.out.println("not a valid ID! please retry (re-enter both numbers): \n");
                 input.reset();
                 try {
                     id1 = input.nextInt();
                     id2 = input.nextInt();
-                }catch (InputMismatchException e){
+                } catch (InputMismatchException e) {
                     System.out.println("please insert a valid number!");
                     input.nextLine();
-                    id1=0;
-                    id2=0;
+                    id1 = 0;
+                    id2 = 0;
                 }
             } while (id1 == id2 ||
                     (id1 != messageFServer.getCardID()[0] && id1 != messageFServer.getCardID()[1] && id1 != messageFServer.getCardID()[2] && id1 != messageFServer.getCardID()[3]) ||
@@ -344,6 +349,7 @@ public class Client {
 
     /**
      * receives regular updates from the server, until all the players have finished selecting the starting resources
+     *
      * @throws IOException
      */
     public void waitingForGameToStart() throws IOException {
@@ -355,10 +361,10 @@ public class Client {
                 System.out.println("connection lost!");
                 throw e;
             }
-            if (message.charAt(0) != 'E' && message.charAt(0)!='Y') {
+            if (message.charAt(0) != 'E' && message.charAt(0) != 'Y') {
                 System.out.println(message);
             }
-        } while (message.charAt(0) != 'E' && message.charAt(0)!='Y');
+        } while (message.charAt(0) != 'E' && message.charAt(0) != 'Y');
 
         System.out.println(message);
 
@@ -370,9 +376,9 @@ public class Client {
     /**
      * method that handles the start of the game
      */
-    public void GameStarted(){
+    public void GameStarted() {
         Gson gson = new Gson();
-        String message="";
+        String message = "";
         do {
             try {
                 message = messageFromServer();
@@ -381,18 +387,18 @@ public class Client {
             }
             if (message.contains("action")) {
 
-                ActionMessage starter=gson.fromJson(message, ActionMessage.class);
+                ActionMessage starter = gson.fromJson(message, ActionMessage.class);
 
                 //start of normal turn
-                if(starter.getAction()!=TypeOfAction.GAME_ENDED && starter.getAction()!=TypeOfAction.GAME_UPDATE && starter.getAction()!=TypeOfAction.BEGIN_LAST_TURN && starter.getAction()!=TypeOfAction.ACTION){
+                if (starter.getAction() != TypeOfAction.GAME_ENDED && starter.getAction() != TypeOfAction.GAME_UPDATE && starter.getAction() != TypeOfAction.BEGIN_LAST_TURN && starter.getAction() != TypeOfAction.ACTION) {
                     CommandLine.turnMgmt(starter.getActionAsMessage(), this);
                 }
                 //start of last turn
-                else if(starter.getAction()==TypeOfAction.BEGIN_LAST_TURN){
+                else if (starter.getAction() == TypeOfAction.BEGIN_LAST_TURN) {
                     System.out.println("Someone has finished the game, soon will commence your last turn!");
                     try {
                         message = messageFromServer();
-                        ActionMessage lastTurn=gson.fromJson(message, ActionMessage.class);
+                        ActionMessage lastTurn = gson.fromJson(message, ActionMessage.class);
                         CommandLine.turnMgmt(lastTurn.getActionAsMessage(), this);
                     } catch (IOException e) {
                         System.out.println("connection lost!");
@@ -400,18 +406,17 @@ public class Client {
                     }
                 }
                 //start of end game
-                else if(starter.getAction()==TypeOfAction.GAME_ENDED){
-                    LastMessage finalMessage=gson.fromJson(starter.getActionAsMessage(), LastMessage.class);
+                else if (starter.getAction() == TypeOfAction.GAME_ENDED) {
+                    LastMessage finalMessage = gson.fromJson(starter.getActionAsMessage(), LastMessage.class);
                     CommandLine.EndGame(finalMessage);
-                    message="GAME_ENDED";
+                    message = "GAME_ENDED";
                 }
                 //game update message
-                else if(starter.getAction()==TypeOfAction.ACTION){
+                else if (starter.getAction() == TypeOfAction.ACTION) {
                     CommandLine.messageUpdateFromOtherPlayers(starter.getActionAsMessage());
                 }
 
-            }
-            else{
+            } else {
                 System.out.println("some problems with the server");
             }
         } while (!message.equals("GAME_ENDED"));

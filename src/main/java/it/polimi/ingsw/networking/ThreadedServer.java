@@ -19,13 +19,13 @@ import java.net.Socket;
  */
 public class ThreadedServer extends Thread {
 
-    protected Socket clientSocket;
-    protected int idPlayer;
     private final MatchMultiPlayer match;
     private final OutputStreamWriter streamToClient;
     private final BufferedWriter bufferToClient;
     private final InputStreamReader inputFromClient;
-    private BufferedReader inFromClient;
+    protected Socket clientSocket;
+    protected int idPlayer;
+    private final BufferedReader inFromClient;
 
     public ThreadedServer(Socket clientSocket, MatchMultiPlayer match) throws IOException {
         this.clientSocket = clientSocket;
@@ -85,13 +85,13 @@ public class ThreadedServer extends Thread {
 
         settingUpGame();
 
-        ClientHandler clientHandler=new ClientHandler(this);
+        ClientHandler clientHandler = new ClientHandler(this);
 
-        while(!GameState.isTurnPhase()) sleeping(1000);
+        while (!GameState.isTurnPhase()) sleeping(1000);
 
         try {
             clientHandler.TurnPhase();
-        }catch(IOException e){
+        } catch (IOException e) {
             playerDisconnection();
             return;
         }
@@ -182,6 +182,7 @@ public class ThreadedServer extends Thread {
 
     /**
      * Sends a String message to the client.
+     *
      * @param message message sent
      */
     public void messageToClient(String message) {
@@ -198,10 +199,10 @@ public class ThreadedServer extends Thread {
      * @throws IOException if client disconnected or there's an error while receiving the message and IOEexceptions is thrown
      */
     public String messageFromClient() throws IOException {
-        Timer time=new Timer(clientSocket);
+        Timer time = new Timer(clientSocket);
         time.start();
-        String result=inFromClient.readLine();
-        if(result==null) throw new IOException();
+        String result = inFromClient.readLine();
+        if (result == null) throw new IOException();
         time.interrupt();
         return result;
     }
@@ -209,6 +210,7 @@ public class ThreadedServer extends Thread {
 
     /**
      * small method used to avoid using the try catch for calling the sleep method.
+     *
      * @param millseconds
      */
     public void sleeping(int millseconds) {
@@ -251,7 +253,7 @@ public class ThreadedServer extends Thread {
      */
     public void GettingStartedPhaseManager() {
         Gson gson = new Gson();
-        GettingStartedMessage mexToClient=new GettingStartedMessage(match, idPlayer);
+        GettingStartedMessage mexToClient = new GettingStartedMessage(match, idPlayer);
         messageToClient(mexToClient.getMessageAsString());
         try {
             //get answer
@@ -299,7 +301,7 @@ public class ThreadedServer extends Thread {
 
         } catch (IOException e) {
 
-            int[] temp= mexToClient.getCardID();
+            int[] temp = mexToClient.getCardID();
             System.out.println("client disconnected during getting started phase, leader set automatically");
             match.getPlayers().get(idPlayer - 1).setLeaderCard1(match.getLeaderDeck(), temp[0]);
             match.getPlayers().get(idPlayer - 1).setLeaderCard2(match.getLeaderDeck(), temp[1]);
@@ -314,30 +316,30 @@ public class ThreadedServer extends Thread {
      * while waiting for the game to start, after the game is started sends a message stating which player is starting. In case the message is sent to the starting player it's specified that
      * he is starting his turn shortly. The messages sent by the server are meant to be used for printing as they are and for the view to identify which message need to be sent back as ack.
      */
-    public void settingUpGame(){
-        while(!GameState.isTurnPhase()){
+    public void settingUpGame() {
+        while (!GameState.isTurnPhase()) {
             sleeping(1000);
             messageToClient("The game Will start soon...");
         }
-        if(idPlayer!=GameState.getIdOfPlayerInTurn())
-        messageToClient("Everything was set up correctly, the first player taking his turn is: " +match.getPlayers().get(GameState.getIdOfPlayerInTurn()-1).getName());
-        else{
+        if (idPlayer != GameState.getIdOfPlayerInTurn())
+            messageToClient("Everything was set up correctly, the first player taking his turn is: " + match.getPlayers().get(GameState.getIdOfPlayerInTurn() - 1).getName());
+        else {
             messageToClient("You are the first player! the game will proceed and start your turn!");
         }
         try {
             System.out.println(messageFromClient());
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("client " + idPlayer + " disconnected");
         }
     }
 
-    public void playerDisconnection(){
-        System.out.println("client "+ idPlayer +" disconnected");
+    public void playerDisconnection() {
+        System.out.println("client " + idPlayer + " disconnected");
         GameState.playerDisconnected(idPlayer);
-        if(GameState.getHasRightToLastTurn()!=null){
-            if(GameState.getHasRightToLastTurn()[idPlayer-1]) {
+        if (GameState.getHasRightToLastTurn() != null) {
+            if (GameState.getHasRightToLastTurn()[idPlayer - 1]) {
                 GameState.setSpecificLastTurnPlayer(idPlayer, false);
-                if(!StaticMethods.AreAnyTrue(GameState.getHasRightToLastTurn()))
+                if (!StaticMethods.AreAnyTrue(GameState.getHasRightToLastTurn()))
                     GameState.setPhase(4);
             }
         }

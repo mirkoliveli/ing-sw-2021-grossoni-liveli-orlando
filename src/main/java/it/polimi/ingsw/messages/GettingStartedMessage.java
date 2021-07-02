@@ -11,7 +11,7 @@ public class GettingStartedMessage {
     /**
      * from server to client this message is sent
      *
-     * @param match match, used to generate the starting leaders
+     * @param match    match, used to generate the starting leaders
      * @param idPlayer id of the player, to recognize the starting position
      */
     public GettingStartedMessage(MatchMultiPlayer match, int idPlayer) {
@@ -48,7 +48,8 @@ public class GettingStartedMessage {
 
     /**
      * vector containing the  bonus starting resources
-     * @param resource first resource (only for player 2, 3 and 4)
+     *
+     * @param resource  first resource (only for player 2, 3 and 4)
      * @param resource2 second resource (only for player 4)
      */
     public void setResources(int resource, int resource2) {

@@ -2,22 +2,19 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.gui.ConnectionHandlerForGui;
 import it.polimi.ingsw.gui.LastGameStatus;
-import it.polimi.ingsw.gui.TurnController;
 import it.polimi.ingsw.messages.ActionMessage;
-import it.polimi.ingsw.messages.TypeOfAction;
 
 import java.io.IOException;
 
-public class MessageControllerForGui extends Thread{
+public class MessageControllerForGui extends Thread {
 
 
-
-    public MessageControllerForGui(){
+    public MessageControllerForGui() {
 
     }
 
-    public void run(){
-        String message="";
+    public void run() {
+        String message = "";
         while (true) {
             do {
                 try {
@@ -28,16 +25,20 @@ public class MessageControllerForGui extends Thread{
                 }
             } while (!message.contains("BEGIN_TURN") && !message.contains("BEGIN_LAST_TURN") && !message.contains("GAME_ENDED"));
             System.out.println(ConnectionHandlerForGui.getGson().toJson(message));
-            if(message.contains("BEGIN_LAST_TURN")){
-                try { message = ConnectionHandlerForGui.getMessage(); }
-                catch (Exception e) { System.out.println(e); }
+            if (message.contains("BEGIN_LAST_TURN")) {
+                try {
+                    message = ConnectionHandlerForGui.getMessage();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
                 LastGameStatus.setLastTurn(true);
-            }
-            else if(message.contains("GAME_ENDED")){
+            } else if (message.contains("GAME_ENDED")) {
                 LastGameStatus.setGameEnd(true);
                 LastGameStatus.setLastMessage(message);
             }
-            if (!message.contains("GAME_ENDED")) { sendUpdate(message); }
+            if (!message.contains("GAME_ENDED")) {
+                sendUpdate(message);
+            }
             //DEBUG INIZIO
             //ActionMessage action=new ActionMessage(TypeOfAction.DEBUG_MODE);
             //ConnectionHandlerForGui.sendMessage(action);
@@ -60,13 +61,14 @@ public class MessageControllerForGui extends Thread{
 
     /**
      * makes the thread sleep while waiting the turn to end
+     *
      * @param milliseconds time between checks
      */
-    public void sleeping(int milliseconds){
-        while(!ConnectionHandlerForGui.IsMyTurnEnded()){
-            try{
+    public void sleeping(int milliseconds) {
+        while (!ConnectionHandlerForGui.IsMyTurnEnded()) {
+            try {
                 Thread.sleep(milliseconds);
-            }catch(InterruptedException e){
+            } catch (InterruptedException e) {
                 System.out.println("wtf");
             }
         }
@@ -74,12 +76,13 @@ public class MessageControllerForGui extends Thread{
 
     /**
      * creates the StatusUpdate and Updates the static class that the gui uses to check for changes
+     *
      * @param message message sent by the server containing the update
      */
-    public void sendUpdate(String message){
+    public void sendUpdate(String message) {
         System.out.println("sto facendo update");
-        ActionMessage serverMessage=ConnectionHandlerForGui.getGson().fromJson(message, ActionMessage.class);
-        GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(serverMessage.getActionAsMessage(), GameStatusUpdate.class);
+        ActionMessage serverMessage = ConnectionHandlerForGui.getGson().fromJson(message, ActionMessage.class);
+        GameStatusUpdate status = ConnectionHandlerForGui.getGson().fromJson(serverMessage.getActionAsMessage(), GameStatusUpdate.class);
         LastGameStatus.update(status);
         LastGameStatus.printEverything();
     }

@@ -19,6 +19,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LeaderChoiceController implements Initializable {
+    @FXML
+    ImageView img1, img2, img3, img4;
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -26,19 +28,51 @@ public class LeaderChoiceController implements Initializable {
     private Label title;
     @FXML
     private ChoiceBox<String> firstleader, secondleader;
-    private String[] leaders = {"Leader 1", "Leader 2", "Leader 3", "Leader 4"};
-    @FXML
-    ImageView img1, img2, img3, img4;
+    private final String[] leaders = {"Leader 1", "Leader 2", "Leader 3", "Leader 4"};
 
+    /**
+     * sends the getting started message to the server
+     *
+     * @param choice1
+     * @param choice2
+     */
+    public static void serverMessage(String choice1, String choice2) {
+        getLeaderId(choice1);
+        int[] leaders = {ConnectionHandlerForGui.getLeaders()[getLeaderId(choice1) - 1], ConnectionHandlerForGui.getLeaders()[getLeaderId(choice2) - 1]};
+        ConnectionHandlerForGui.setLeaders(leaders);
+        if (ConnectionHandlerForGui.getIdOfPlayer() == 1) {
+            GettingStartedMessage mex = new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 0);
+            ConnectionHandlerForGui.sendMessage(mex);
+        } else if (ConnectionHandlerForGui.getIdOfPlayer() == 2 || ConnectionHandlerForGui.getIdOfPlayer() == 3) {
+            GettingStartedMessage mex = new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 1);
+            mex.setResources(ConnectionHandlerForGui.getResource(), -1);
+            ConnectionHandlerForGui.sendMessage(mex);
+        } else {
+            GettingStartedMessage mex = new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 2);
+            mex.setResources(ConnectionHandlerForGui.getResource(), ConnectionHandlerForGui.getResource4player());
+            ConnectionHandlerForGui.sendMessage(mex);
+        }
+
+    }
+
+    /**
+     * parse the selected leader
+     *
+     * @param choice selected via gui
+     * @return 1-4, stating which leader was selected
+     */
+    public static int getLeaderId(String choice) {
+        return Integer.parseInt(choice.substring(7));
+    }
 
     public void fill() {
-        String source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[0] + "-1.png";
+        String source = "/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + ConnectionHandlerForGui.getLeaders()[0] + "-1.png";
         Image test1 = new Image(source);
-        source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[1] + "-1.png";
+        source = "/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + ConnectionHandlerForGui.getLeaders()[1] + "-1.png";
         Image test2 = new Image(source);
-        source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[2] + "-1.png";
+        source = "/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + ConnectionHandlerForGui.getLeaders()[2] + "-1.png";
         Image test3 = new Image(source);
-        source="/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-"+ ConnectionHandlerForGui.getLeaders()[3] + "-1.png";
+        source = "/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + ConnectionHandlerForGui.getLeaders()[3] + "-1.png";
         Image test4 = new Image(source);
         img1.setImage(test1);
         img2.setImage(test2);
@@ -49,81 +83,45 @@ public class LeaderChoiceController implements Initializable {
     public void confirm(ActionEvent event) {
         String choice1 = firstleader.getValue();
         String choice2 = secondleader.getValue();
-        if (choice1 == null || choice2 == null) { title.setText("You have to choose your leaders first!"); }
-        else if (choice1.equals(choice2)) { title.setText("You have to choose different leaders!"); }
-        else {
+        if (choice1 == null || choice2 == null) {
+            title.setText("You have to choose your leaders first!");
+        } else if (choice1.equals(choice2)) {
+            title.setText("You have to choose different leaders!");
+        } else {
             try {
                 // server connection
                 serverMessage(choice1, choice2);
-                String messageFromServer=ConnectionHandlerForGui.getMessage();
+                String messageFromServer = ConnectionHandlerForGui.getMessage();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
                 root = loader.load();
                 TurnController controller = loader.getController();
 
-               stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-               scene = new Scene(root);
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
 
-               if(messageFromServer.charAt(0)=='E'){
-                   controller.setWaiting();
-                   ConnectionHandlerForGui.setIsItMyTurn(false);
-                   ConnectionHandlerForGui.sendMessage("Still_connected");
-               }
-                else{
-                   controller.setWaiting();
-                   ConnectionHandlerForGui.setIsItMyTurn(false);
-                   ConnectionHandlerForGui.sendMessage("Still_connected");
-               }
+                if (messageFromServer.charAt(0) == 'E') {
+                    controller.setWaiting();
+                    ConnectionHandlerForGui.setIsItMyTurn(false);
+                    ConnectionHandlerForGui.sendMessage("Still_connected");
+                } else {
+                    controller.setWaiting();
+                    ConnectionHandlerForGui.setIsItMyTurn(false);
+                    ConnectionHandlerForGui.sendMessage("Still_connected");
+                }
 
                 //start thread that handles in between turns comms
                 new MessageControllerForGui().start();
 
-               stage.setScene(scene);
-               stage.show();
+                stage.setScene(scene);
+                stage.show();
 
 
-
+            } catch (Exception e) {
+                System.out.println(e);
             }
-            catch (Exception e) { System.out.println(e); }
         }
 
     }
-
-    /**
-     * sends the getting started message to the server
-     * @param choice1
-     * @param choice2
-     */
-    public static void serverMessage(String choice1, String choice2){
-        getLeaderId(choice1);
-        int[] leaders={ConnectionHandlerForGui.getLeaders()[getLeaderId(choice1)-1], ConnectionHandlerForGui.getLeaders()[getLeaderId(choice2)-1]};
-        ConnectionHandlerForGui.setLeaders(leaders);
-        if(ConnectionHandlerForGui.getIdOfPlayer()==1){
-            GettingStartedMessage mex=new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 0);
-            ConnectionHandlerForGui.sendMessage(mex);
-        }
-        else if(ConnectionHandlerForGui.getIdOfPlayer()==2 || ConnectionHandlerForGui.getIdOfPlayer()==3){
-            GettingStartedMessage mex=new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 1);
-            mex.setResources(ConnectionHandlerForGui.getResource(), -1);
-            ConnectionHandlerForGui.sendMessage(mex);
-        }
-        else{
-            GettingStartedMessage mex=new GettingStartedMessage(ConnectionHandlerForGui.getLeaders()[0], ConnectionHandlerForGui.getLeaders()[1], 2);
-            mex.setResources(ConnectionHandlerForGui.getResource(), ConnectionHandlerForGui.getResource4player());
-            ConnectionHandlerForGui.sendMessage(mex);
-        }
-
-    }
-
-    /**
-     * parse the selected leader
-     * @param choice selected via gui
-     * @return 1-4, stating which leader was selected
-     */
-    public static int getLeaderId(String choice){
-        return Integer.parseInt(choice.substring(7));
-    }
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
