@@ -84,6 +84,7 @@ java -jar ClientColoured.jar
 ````
 
 #### Gui.jar
+Requirements: Javafx16
 From the directory where the jar file is located, launch the following command:
 ```
 java --module-path /<YOURPATH>/javafx-sdk-16/lib --add-modules javafx.base,javafx.controls,javafx.fxml -jar Gui.jar
