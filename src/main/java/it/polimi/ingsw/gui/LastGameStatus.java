@@ -8,6 +8,8 @@ public class LastGameStatus {
     public static int leader2;
     public static boolean leader1Played;
     public static boolean leader2Played;
+    public static boolean leader1Discarded= false;
+    public static boolean leader2Discarded= false;
     public static int[] strongboxStatus;
     public static int[][] marketBoardStatus;
     public static int sideMarbleStatus;
@@ -24,6 +26,18 @@ public class LastGameStatus {
         LastGameStatus.idPlayer=status.getNextPlayer()-1;
     }
 
+    public static void setLeader1Discarded(boolean leader1Discarded) {
+        LastGameStatus.leader1Discarded = leader1Discarded;
+    }
+
+    public static void setLeader2Discarded(boolean leader2Discarded) {
+        LastGameStatus.leader2Discarded = leader2Discarded;
+    }
+
+    public static void setALeaderToDiscarded( int leader){
+        if(leader==1) setLeader1Discarded(true);
+        if(leader==2) setLeader2Discarded(true);
+    }
 
     public static void update(GameStatusUpdate status){
         setIdPlayer(status);
