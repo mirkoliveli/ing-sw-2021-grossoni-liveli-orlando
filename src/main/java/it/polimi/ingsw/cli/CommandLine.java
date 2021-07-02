@@ -870,7 +870,7 @@ public class CommandLine {
         boolean actionChosen = false;
         while (!actionChosen) {
             ViewState.setAction_aborted(false);
-            System.out.println("\nIt's your turn! Choose an action:\n[0]: Take resources from the market\n[1]: Buy one development card\n[2]: Activate the production\nElse, you can (before or after your action):\n[3]: Swap resources between your depots\n[4]: Play or discard a leader card\n[5]: Visualize all the player boards");
+            System.out.println("\nIt's your turn! Choose an action:\n[0]: Take resources from the market\n[1]: Buy one development card\n[2]: Activate the production\nElse, you can (before or after your action):\n[3]: Swap resources between your depots\n[4]: Play or discard a leader card\n[5]: Visualize all the player boards\n[6]: Visualize marketBoard");
             userInput = scanner.nextLine();
             try {
                 numberChosen = Integer.parseInt(userInput);
@@ -911,6 +911,10 @@ public class CommandLine {
                         printPersonalBoard(status.getSpecificPlayerStatus(i+1));
                         i++;
                     }
+                    ViewState.setAction_aborted(true);
+                    break;
+                case 6:
+                    marbleMarketStatus(status.getMarketsStatus().getMarketBoard(), status.getMarketsStatus().getSlideMarble());
                     ViewState.setAction_aborted(true);
                     break;
                     //used as debug :), the numbers contain a little easter egg
