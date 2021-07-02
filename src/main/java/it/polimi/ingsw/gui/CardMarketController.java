@@ -109,18 +109,18 @@ public class CardMarketController {
      */
     public void fill(int[][] available) {
         cardsinmarket = available;
-        img1.setImage(cards[available[2][0]-1]); //green lv3
-        img2.setImage(cards[available[2][2]-1]); //blue lv3
-        img3.setImage(cards[available[2][3]-1]); //yellow lv3
-        img4.setImage(cards[available[2][1]-1]); //purple lv3
-        img5.setImage(cards[available[1][0]-1]); //green lv2
-        img6.setImage(cards[available[1][2]-1]); //blue lv2
-        img7.setImage(cards[available[1][3]-1]); //yellow lv2
-        img8.setImage(cards[available[1][1]-1]); //purple lv2
-        img9.setImage(cards[available[0][0]-1]); //green lv1
-        img10.setImage(cards[available[0][2]-1]); //blue lv1
-        img11.setImage(cards[available[0][3]-1]); //yellow lv1
-        img12.setImage(cards[available[0][1]-1]); //purple lv1
+        if (available[2][0] != 0) { img1.setImage(cards[available[2][0]-1]); } //green lv3
+        if (available[2][2] != 0) { img2.setImage(cards[available[2][2]-1]); } //blue lv3
+        if (available[2][3] != 0) { img3.setImage(cards[available[2][3]-1]); } //yellow lv3
+        if (available[2][1] != 0) { img4.setImage(cards[available[2][1]-1]); } //purple lv3
+        if (available[1][0] != 0) { img5.setImage(cards[available[1][0]-1]); } //green lv2
+        if (available[1][2] != 0) { img6.setImage(cards[available[1][2]-1]); } //blue lv2
+        if (available[1][3] != 0) { img7.setImage(cards[available[1][3]-1]); } //yellow lv2
+        if (available[1][1] != 0) { img8.setImage(cards[available[1][1]-1]); } //purple lv2
+        if (available[0][0] != 0) { img9.setImage(cards[available[0][0]-1]); } //green lv1
+        if (available[0][2] != 0) { img10.setImage(cards[available[0][2]-1]); } //blue lv1
+        if (available[0][3] != 0) { img11.setImage(cards[available[0][3]-1]); } //yellow lv1
+        if (available[0][1] != 0) { img12.setImage(cards[available[0][1]-1]); } //purple lv1
     }
 
     /**

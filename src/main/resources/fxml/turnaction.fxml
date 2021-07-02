@@ -45,7 +45,10 @@
                   <MenuItem mnemonicParsing="false" onAction="#showBoard" text="Your Board" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" onAction="#isMyTurnNow" text="CheckTurn" />
+            <Menu mnemonicParsing="false" text="Check">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#isMyTurnNow" text="Turn" />
+               </items></Menu>
         </menus>
       </MenuBar>
    </top>
