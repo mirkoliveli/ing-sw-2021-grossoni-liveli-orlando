@@ -16,6 +16,7 @@ public class ConnectionHandlerForGui {
     private static int[] leaders;
     private static int resource, resource4player;
 
+
     private static boolean isItMyTurn;
     private static boolean isMyTurnEnded;
 

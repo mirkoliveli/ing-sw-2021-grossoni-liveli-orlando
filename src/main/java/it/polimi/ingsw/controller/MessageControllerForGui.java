@@ -26,22 +26,28 @@ public class MessageControllerForGui extends Thread{
                     System.out.println("DISCONNECTED");
                     System.exit(1);
                 }
-            } while (!message.contains("BEGIN_TURN"));
+            } while (!message.contains("BEGIN_TURN") || !message.contains("BEGIN_LAST_TURN"));
             System.out.println(ConnectionHandlerForGui.getGson().toJson(message));
             sendUpdate(message);
-
-            //DEBUG INIZIO
-            ActionMessage action=new ActionMessage(TypeOfAction.DEBUG_MODE);
-            ConnectionHandlerForGui.sendMessage(action);
-            try{
-                message = ConnectionHandlerForGui.getMessage();
-                System.out.println(ConnectionHandlerForGui.getGson().toJson(message));
-                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(message, GameStatusUpdate.class);
-                LastGameStatus.update(status);
-            }catch (IOException e){
-                System.out.println("disconnected");
-                System.exit(1);
+            if(message.contains("BEGIN_LAST_TURN")){
+                LastGameStatus.setLastTurn(true);
             }
+            else if(message.contains("GAME_ENDED")){
+                LastGameStatus.setGameEnd(true);
+                LastGameStatus.setLastMessage(message);
+            }
+            //DEBUG INIZIO
+            //ActionMessage action=new ActionMessage(TypeOfAction.DEBUG_MODE);
+            //ConnectionHandlerForGui.sendMessage(action);
+            //try{
+            //    message = ConnectionHandlerForGui.getMessage();
+            //    System.out.println(ConnectionHandlerForGui.getGson().toJson(message));
+            //    GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(message, GameStatusUpdate.class);
+            //    LastGameStatus.update(status);
+            //}catch (IOException e){
+            //    System.out.println("disconnected");
+            //    System.exit(1);
+            //}
             //DEBUG FINE
             ConnectionHandlerForGui.setIsItMyTurn(true);
             //notify in some way the gui?

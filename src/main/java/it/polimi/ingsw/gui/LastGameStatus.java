@@ -21,6 +21,10 @@ public class LastGameStatus {
     public static int[][] slotsStatus;
     public static int[] activatableCards;
     public static int idPlayer;
+    public static boolean lastTurn=false;
+    public static boolean gameEnd=false;
+    public static String lastMessage;
+
 
     public static void setIdPlayer(GameStatusUpdate status){
         LastGameStatus.idPlayer=status.getNextPlayer()-1;
@@ -28,6 +32,30 @@ public class LastGameStatus {
 
     public static void setLeader1Discarded(boolean leader1Discarded) {
         LastGameStatus.leader1Discarded = leader1Discarded;
+    }
+
+    public static void setLastMessage(String lastMessage) {
+        LastGameStatus.lastMessage = lastMessage;
+    }
+
+    public static String getLastMessage() {
+        return lastMessage;
+    }
+
+    public static void setGameEnd(boolean gameEnd) {
+        LastGameStatus.gameEnd = gameEnd;
+    }
+
+    public static void setLastTurn(boolean lastTurn) {
+        LastGameStatus.lastTurn = lastTurn;
+    }
+
+    public static boolean isLastTurn() {
+        return lastTurn;
+    }
+
+    public static boolean isGameEnd() {
+        return gameEnd;
     }
 
     public static void setLeader2Discarded(boolean leader2Discarded) {
