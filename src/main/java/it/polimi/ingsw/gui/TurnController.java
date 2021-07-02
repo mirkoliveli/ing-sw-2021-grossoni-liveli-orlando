@@ -130,7 +130,7 @@ public class TurnController {
 
     public void goToChooseDepot(boolean[] bool, int[] resources) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosecardslot.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosedepot.fxml"));
             AnchorPane temp = loader.load();
             MarketboardController controller = loader.getController();
             controller.setDepotChoice(bool, resources);

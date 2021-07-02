@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gui;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.messages.ActionMessage;
 import it.polimi.ingsw.messages.TypeOfAction;
 import it.polimi.ingsw.messages.chooseDepotMessage;
@@ -19,6 +20,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 
 public class MarketboardController extends AnchorPane {
@@ -127,8 +130,12 @@ public class MarketboardController extends AnchorPane {
         ConnectionHandlerForGui.sendMessage(gson.toJson(action));
         String answerFromServer = ConnectionHandlerForGui.getMessage();
         try {
-
+            if(!answerFromServer.contains("resourceStillToBeStored") && answerFromServer.contains("true")) {
+                //gestione leaders
+                System.out.println("You can receive additional resources from the market thanks to your leaders!");
+            }
             while(answerFromServer.contains("resourceStillToBeStored")){
+                //gestione depot
                 chooseDepotMessage subMessage=gson.fromJson(answerFromServer, chooseDepotMessage.class);
 
 
@@ -165,17 +172,17 @@ public class MarketboardController extends AnchorPane {
         }
         catch (Exception e) { System.out.println(e); }
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
-            root = loader.load();
-            TurnController controller = loader.getController();
-            controller.actionDone();
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }
-        catch (Exception e) { System.out.println(e); }
+        //try {
+        //    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+        //    root = loader.load();
+        //    TurnController controller = loader.getController();
+        //    controller.actionDone();
+        //    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        //    scene = new Scene(root);
+        //    stage.setScene(scene);
+        //    stage.show();
+        //}
+        //catch (Exception e) { System.out.println(e); }
     }
 
     public void setBonus(int l1, int l2, boolean b1, boolean b2) {
@@ -194,9 +201,38 @@ public class MarketboardController extends AnchorPane {
     }
 
     public void confirmDepot(ActionEvent event) {
-        if (depot!=0) {
-
-            //comunica slot
+        ConnectionHandlerForGui.sendMessage(depot);
+        try{
+            ConnectionHandlerForGui.getMessage();
+            String answerFromServer=ConnectionHandlerForGui.getMessage();
+            System.out.println("messaggio arrivato dopo depot placement: "+ answerFromServer);
+            if(answerFromServer.contains("resourceStillToBeStored")){
+                chooseDepotMessage subMessage=ConnectionHandlerForGui.getGson().fromJson(answerFromServer, chooseDepotMessage.class);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+                root = loader.load();
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                TurnController controller = loader.getController();
+                controller.goToChooseDepot(subMessage.getDepotStateOfEmptyness(), subMessage.getResourceStillToBeStored());
+                stage.setScene(scene);
+                stage.show();
+            }
+            else{
+                answerFromServer=ConnectionHandlerForGui.getMessage();
+                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(answerFromServer, GameStatusUpdate.class);
+                LastGameStatus.update(status);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
+                root = loader.load();
+                TurnController controller = loader.getController();
+                controller.actionDone();
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+        }catch (IOException e){
+            System.out.println("disconnected, quitting");
+            System.exit(1);
         }
     }
 
