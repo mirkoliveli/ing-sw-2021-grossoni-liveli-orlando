@@ -22,8 +22,8 @@
          </font>
       </Label>
       <Button layoutX="763.0" layoutY="570.0" mnemonicParsing="false" onAction="#printProduction" text="Confirm" />
-      <ImageView fx:id="leader1" fitHeight="163.0" fitWidth="108.0" layoutX="687.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fx:id="leader2" fitHeight="163.0" fitWidth="108.0" layoutX="687.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fx:id="leader1" fitHeight="163.0" fitWidth="108.0" layoutX="687.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="leader2" fitHeight="163.0" fitWidth="108.0" layoutX="687.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true" />
       <CheckBox fx:id="prod4" layoutX="676.0" layoutY="244.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="136.0" text="Production Leader 1" visible="false" />
       <CheckBox fx:id="prod5" layoutX="676.0" layoutY="495.0" mnemonicParsing="false" onAction="#selectProd" prefHeight="35.0" prefWidth="135.0" text="Production Leader 2" visible="false" />
       <ImageView fitHeight="437.0" fitWidth="611.0" layoutX="21.0" layoutY="69.0">

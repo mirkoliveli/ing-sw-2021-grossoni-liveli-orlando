@@ -96,18 +96,12 @@ public class ProductionController {
             prod4.setVisible(true);
             leaderproduction1.setVisible(true);
             Image first = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + l1 + "-1.png");
-
-            System.out.println(l1);
-
             leader1.setImage(first);
         }
         if (b2 && l2 > 60) {
             prod5.setVisible(true);
             leaderproduction2.setVisible(true);
             Image second = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + l2 + "-1.png");
-
-            System.out.println(l2);
-
             leader2.setImage(second);
         }
     }
