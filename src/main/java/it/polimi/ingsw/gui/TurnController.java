@@ -61,7 +61,7 @@ public class TurnController {
         ProductionController controller = loader.getController();
         controller.fillBaseProd();
         controller.setProductionCards(LastGameStatus.activatableCards);
-        controller.setLeaders(LastGameStatus.leader1, LastGameStatus.leader2);
+        controller.setLeaders(LastGameStatus.leader1, LastGameStatus.leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played);
         pane.getChildren().add(temp);
     }
 
@@ -70,6 +70,7 @@ public class TurnController {
         temp = loader.load();
         MarketboardController controller = loader.getController();
         controller.fillMarbleColors(LastGameStatus.marketBoardStatus, LastGameStatus.sideMarbleStatus);
+        controller.setBonus(LastGameStatus.leader1, LastGameStatus.leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played);
         pane.getChildren().add(temp);
 
     }
@@ -153,7 +154,7 @@ public class TurnController {
             Image leader1 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + LastGameStatus.leader1 + "-1.png");
             Image leader2 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + LastGameStatus.leader2 + "-1.png");
             TurnController controller = popupLoader.getController();
-            controller.setLeaders(leader1, leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played);
+            controller.setLeaders(leader1, leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played, LastGameStatus.leader1Discarded, LastGameStatus.leader2Discarded);
 
             loadPopup(popup, "Leader Cards");
 
@@ -204,7 +205,7 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menuboard.fxml"));
             AnchorPane popup = popupLoader.load();
-            TurnController controller = popupLoader.load();
+            TurnController controller = popupLoader.getController();
             controller.setProductionCards(LastGameStatus.activatableCards);
             loadPopup(popup, "Your Board");
         }
@@ -225,11 +226,13 @@ public class TurnController {
 
     }
 
-    public void setLeaders(Image img1, Image img2, boolean isplayed1, boolean isplayed2) {
+    public void setLeaders(Image img1, Image img2, boolean isplayed1, boolean isplayed2, boolean isdiscarded1, boolean isdiscarded2) {
         leadershown1.setImage(img1);
         leadershown2.setImage(img2);
-        if (isplayed1) { labelleader1.setText("Played/Discarded"); }
-        if (isplayed2) { labelleader2.setText("Played/Discarded"); }
+        if (isplayed1) { labelleader1.setText("Played"); }
+        if (isdiscarded1) { labelleader1.setText("Discarded"); }
+        if (isplayed2) { labelleader2.setText("Played"); }
+        if (isdiscarded2) { labelleader2.setText("Discarded"); }
     }
 
     public void setBoard(Image img) {

@@ -84,12 +84,12 @@ public class ProductionController {
         else { production[5] = false; }
     }
 
-    public void setLeaders (int l1, int l2) {
-        if (LastGameStatus.leader1Played || l1 > 60) {
+    public void setLeaders (int l1, int l2, boolean b1, boolean b2) {
+        if (b1 && l1 > 60) {
             prod4.setVisible(true);
             leader1.setImage(leadercards[l1-61]);
         }
-        if (LastGameStatus.leader2Played || l2 > 60) {
+        if (b2 && l2 > 60) {
             prod5.setVisible(true);
             leader2.setImage(leadercards[l2-61]);
         }

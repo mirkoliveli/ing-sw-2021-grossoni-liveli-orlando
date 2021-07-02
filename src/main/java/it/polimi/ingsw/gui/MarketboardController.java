@@ -152,6 +152,7 @@ public class MarketboardController extends AnchorPane {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosedepot.fxml"));
                 AnchorPane temp = loader.load();
                 // settare immagini depot e stato
+                // da aggiungere eventuali bonus white ball
                 pane.getChildren().add(temp);
 
 
@@ -190,9 +191,9 @@ public class MarketboardController extends AnchorPane {
         catch (Exception e) { System.out.println(e); }
     }
 
-    public void setBonus(boolean b1, boolean b2) {
-        if (b1) { leaderbonus1.setDisable(false); }
-        if (b2) { leaderbonus2.setDisable(false); }
+    public void setBonus(int l1, int l2, boolean b1, boolean b2) {
+        if (l1 > 56 && l1 < 61 && b1) { leaderbonus1.setDisable(false); }
+        if (l2 > 56 && l2 < 61 && b2) { leaderbonus2.setDisable(false); }
     }
 
     public void confirmDepot(ActionEvent event) {
