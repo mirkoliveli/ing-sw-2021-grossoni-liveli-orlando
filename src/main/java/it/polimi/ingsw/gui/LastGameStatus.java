@@ -39,6 +39,7 @@ public class LastGameStatus {
         LastGameStatus.storageState=status.getPlayersStatus()[idPlayer].getStorage().clone();
         LastGameStatus.slotsStatus=status.getPlayersStatus()[idPlayer].getDevelopMentSlots().clone();
         LastGameStatus.cardMarketStatus=status.getMarketsStatus().getCardMarket();
+
     }
 
     /**

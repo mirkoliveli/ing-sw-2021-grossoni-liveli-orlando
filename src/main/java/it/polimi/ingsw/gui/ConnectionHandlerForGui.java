@@ -96,6 +96,11 @@ public class ConnectionHandlerForGui {
         out.println(message);
     }
 
+    public static synchronized void resetWait(){
+        isItMyTurn=false;
+        isMyTurnEnded=false;
+    }
+
     /**
      * sends a message to the server, gets an object as input
      * @param object message to send (converted to json before sending)

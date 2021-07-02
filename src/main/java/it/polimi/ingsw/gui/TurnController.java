@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 
 
 public class TurnController {
@@ -154,16 +155,29 @@ public class TurnController {
         catch (Exception e) { System.out.println(e); }
     }
 
+    /**
+     * sends message to the server requesting to end the turn, if the answer is positive the turn will end, the view for the actions will be blocked and MessageController thread will restart
+     * if the answer is negative nothing will happen.
+     * @param event
+     */
     public void finishTurn(ActionEvent event) {
 
         ActionMessage action=new ActionMessage(TypeOfAction.END_TURN);
         action.EndTurn();
         Gson gson=new Gson();
         ConnectionHandlerForGui.sendMessage(gson.toJson(action));
-
-        setWaiting();
-
+        try{
+        String message=ConnectionHandlerForGui.getMessage();
+        if(message.equals("Operation successful")){
+            setWaiting();
+            ConnectionHandlerForGui.setIsItMyTurn(false);
+            ConnectionHandlerForGui.setIsMyTurnEnded(true);
         }
+        }catch (IOException e){
+            System.out.println("DISCONNECTED");
+            System.exit(0);
+        }
+    }
 
     public void removePane() {
         pane.getChildren().remove(temp);
@@ -320,6 +334,15 @@ public class TurnController {
         prodbutton.setDisable(true);
         finishbutton.setVisible(true);
         label.setText("You already performed your main action! You can swap depots, play/discard a leader or finish your turn");
+    }
+
+    public void isMyTurnNow(ActionEvent event){
+        if(ConnectionHandlerForGui.IsItMyTurn()){
+            removePane();
+        }
+        else{
+            //non è il mio turno!
+        }
     }
 
 }

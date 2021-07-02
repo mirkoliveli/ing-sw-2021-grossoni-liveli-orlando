@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui;
 
+import it.polimi.ingsw.controller.MessageControllerForGui;
 import it.polimi.ingsw.messages.GettingStartedMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,12 +69,14 @@ public class LeaderChoiceController implements Initializable {
                    ConnectionHandlerForGui.sendMessage("Still_connected");
                }
                 else{
-                    ConnectionHandlerForGui.setIsItMyTurn(true);
+                   controller.setWaiting();
+                   ConnectionHandlerForGui.setIsItMyTurn(true);
                    ConnectionHandlerForGui.sendMessage("Still_connected");
                }
-
                stage.setScene(scene);
                stage.show();
+
+
 
             }
             catch (Exception e) { System.out.println(e); }
