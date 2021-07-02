@@ -38,7 +38,7 @@ public class TurnController {
     @FXML
     private Button finishbutton, cmbutton, marketbutton, prodbutton;
     @FXML
-    private Label coinslabel, servantslabel, shieldslabel, stoneslabel;
+    private Label coinslabel, servantslabel, shieldslabel, stoneslabel, coinslabel1, servantslabel1, shieldslabel1, stoneslabel1, storageleader;
     @FXML
     private ImageView card1, card2, card3, img1, img2, img3, img4, img5, img6;
     @FXML
@@ -304,6 +304,42 @@ public class TurnController {
             if (sto[2][1] > 0) { setResourceInStorage(img4, sto[2][0]); }
             if (sto[2][1] > 1) { setResourceInStorage(img5, sto[2][0]); }
             if (sto[2][1] > 2) { setResourceInStorage(img6, sto[2][0]); }
+        }
+        if (sto[3][0] != -1 || sto[4][0] != -1) {
+            coinslabel1.setVisible(true);
+            servantslabel1.setVisible(true);
+            shieldslabel1.setVisible(true);
+            stoneslabel1.setVisible(true);
+            storageleader.setVisible(true);
+            switch (sto[3][0]) {
+                case 1:
+                    coinslabel1.setText("x" + sto[3][1]);
+                    break;
+                case 2:
+                    servantslabel1.setText("x" + sto[3][1]);
+                    break;
+                case 3:
+                    shieldslabel1.setText("x" + sto[3][1]);
+                    break;
+                case 4:
+                    stoneslabel1.setText("x" + sto[3][1]);
+                    break;
+            }
+            switch (sto[4][0]) {
+                case 1:
+                    coinslabel1.setText("x" + sto[4][1]);
+                    break;
+                case 2:
+                    servantslabel1.setText("x" + sto[4][1]);
+                    break;
+                case 3:
+                    shieldslabel1.setText("x" + sto[4][1]);
+                    break;
+                case 4:
+                    stoneslabel1.setText("x" + sto[4][1]);
+                    break;
+            }
+
         }
     }
 

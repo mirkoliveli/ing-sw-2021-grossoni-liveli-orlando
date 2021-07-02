@@ -113,5 +113,10 @@
       <Label fx:id="shieldslabel" layoutX="340.0" layoutY="450.0" prefHeight="17.0" prefWidth="73.0" text="x0" />
       <Label fx:id="stoneslabel" layoutX="481.0" layoutY="450.0" prefHeight="17.0" prefWidth="81.0" text="x0" />
       <Button layoutX="278.0" layoutY="503.0" mnemonicParsing="false" onAction="#exitWindow" text="Close" />
+      <Label fx:id="storageleader" layoutX="51.0" layoutY="495.0" text="Leaders:" visible="false" />
+      <Label fx:id="coinslabel1" layoutX="102.0" layoutY="495.0" prefHeight="17.0" prefWidth="58.0" text="x0" visible="false" />
+      <Label fx:id="servantslabel1" layoutX="228.0" layoutY="495.0" prefHeight="17.0" prefWidth="58.0" text="x0" visible="false" />
+      <Label fx:id="shieldslabel1" layoutX="337.0" layoutY="495.0" prefHeight="17.0" prefWidth="73.0" text="x0" visible="false" />
+      <Label fx:id="stoneslabel1" layoutX="478.0" layoutY="495.0" prefHeight="17.0" prefWidth="81.0" text="x0" visible="false" />
    </children>
 </AnchorPane>

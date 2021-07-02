@@ -220,10 +220,14 @@ public class MarketboardController extends AnchorPane {
         else { depot3.setDisable(true); }
     }
 
+
+
     public void confirmDepot(ActionEvent event) {
+        System.out.println("sout prima di sendmessage");
         ConnectionHandlerForGui.sendMessage(depot);
+        System.out.println("sout dopo message");
         try{
-            ConnectionHandlerForGui.getMessage();
+            System.out.println("sout nel blocco try");
             String answerFromServer=ConnectionHandlerForGui.getMessage();
             System.out.println("messaggio arrivato dopo depot placement: "+ answerFromServer);
             if(answerFromServer.contains("resourceStillToBeStored")){
@@ -238,6 +242,7 @@ public class MarketboardController extends AnchorPane {
                 stage.show();
             }
             else{
+                ConnectionHandlerForGui.getMessage();
                 answerFromServer=ConnectionHandlerForGui.getMessage();
                 GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(answerFromServer, GameStatusUpdate.class);
                 LastGameStatus.update(status);

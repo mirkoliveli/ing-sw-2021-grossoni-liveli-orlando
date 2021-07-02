@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane prefHeight="621.0" prefWidth="850.0" style="-fx-background-color: #e5fafa;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.MarketboardController">
+<AnchorPane fx:id="pane" prefHeight="621.0" prefWidth="850.0" style="-fx-background-color: #e5fafa;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.gui.MarketboardController">
    <children>
       <AnchorPane layoutX="317.0" layoutY="169.0" prefHeight="211.0" prefWidth="268.0" style="-fx-background-color: #3d4c70;" />
       <Circle fx:id="c1" layoutX="355.0" layoutY="211.0" radius="32.0" strokeType="INSIDE" />
