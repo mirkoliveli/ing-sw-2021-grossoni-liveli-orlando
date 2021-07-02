@@ -80,7 +80,7 @@ public class CardMarketTest {
      */
     @Test
     public void buyCardTest() {
-        CardMarket prova = new CardMarket();
+        CardMarket prova = new CardMarket(" ");
         DevelopmentCard Comprata = new DevelopmentCard();
         int checker = 0;
         try {
@@ -126,7 +126,7 @@ public class CardMarketTest {
      */
     @Test
     public void deleteTwoByColorTest() {
-        CardMarket prova = new CardMarket();
+        CardMarket prova = new CardMarket(" ");
 
         //PRIMO TEST, se ci sono almeno due carte nel mazzo (non livello 3)
         prova.Remove(1); //simula l'acquisto di una carta
@@ -162,8 +162,8 @@ public class CardMarketTest {
         assertNull(prova.getMatrixDevelopment()[1][0][0]);
         //prova.PrintId(); //nota, deve mancare una carta dal mazzo 5! (e tutto il mazzo uno)
 
-        prova.populate(0, 0, "src/main/resources/green_lvl1.json");
-        prova.populate(1, 0, "src/main/resources/green_lvl2.json");
+        prova.populate(0, 0, "/green_lvl1.json");
+        prova.populate(1, 0, "/green_lvl2.json");
 
         //TERZO TEST, vediamo se effettivamente va tutto bene quando finisce la partita!
         //
@@ -194,9 +194,9 @@ public class CardMarketTest {
         assertNull(prova.getMatrixDevelopment()[2][0][3]);
 
 
-        prova.populate(0, 0, "src/main/resources/green_lvl1.json");
-        prova.populate(1, 0, "src/main/resources/green_lvl2.json");
-        prova.populate(2, 0, "src/main/resources/green_lvl3.json");
+        prova.populate(0, 0, "/green_lvl1.json");
+        prova.populate(1, 0, "/green_lvl2.json");
+        prova.populate(2, 0, "/green_lvl3.json");
         /*prova.PrintId();*/
 
         //QUARTO TEST, vediamo se finisce comunque il game quando c'è esattamente una carta nei mazzi con livelli diversi
