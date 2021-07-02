@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gui;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.messages.ActionMessage;
 import it.polimi.ingsw.messages.TypeOfAction;
 import it.polimi.ingsw.networking.Client;
@@ -87,7 +88,17 @@ public class SwapDepotsController implements Initializable {
             action.SwapDepotsMessage(Integer.parseInt(choice1), Integer.parseInt(choice2));
             Gson gson=new Gson();
             ConnectionHandlerForGui.sendMessage(gson.toJson(action));
-
+            try{
+                String messageFromServer=ConnectionHandlerForGui.getMessage();
+                System.out.println("messageFromServer during swap action: " + messageFromServer);
+                messageFromServer=ConnectionHandlerForGui.getMessage();
+                System.out.println(messageFromServer);
+                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
+                LastGameStatus.update(status);
+            }catch (IOException e){
+                System.out.println("disconnected, quitting");
+                System.exit(1);
+            }
 
 
             try {

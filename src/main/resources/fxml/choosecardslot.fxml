@@ -23,18 +23,18 @@
             <ImageView fx:id="card3" fitHeight="163.0" fitWidth="108.0" layoutX="511.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
-      <Label fx:id="slotlabel" alignment="CENTER" layoutY="16.0" prefHeight="40.0" prefWidth="850.0" text="Choose where you would like to place the card you just bought">
+      <Label fx:id="slotlabel" alignment="CENTER" layoutY="16.0" prefHeight="40.0" prefWidth="850.0" text="Choose a legal slot where you would like to place the card you just bought">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <RadioButton fx:id="slot1" layoutX="367.0" layoutY="562.0" mnemonicParsing="false" onAction="#setSlot" text="RadioButton">
+      <RadioButton fx:id="slot1" layoutX="376.0" layoutY="562.0" mnemonicParsing="false" onAction="#setSlot" text="Choose">
          <toggleGroup>
             <ToggleGroup fx:id="choice" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="slot2" layoutX="487.0" layoutY="562.0" mnemonicParsing="false" onAction="#setSlot" text="RadioButton" toggleGroup="$choice" />
-      <RadioButton fx:id="slot3" layoutX="604.0" layoutY="562.0" mnemonicParsing="false" onAction="#setSlot" text="RadioButton" toggleGroup="$choice" />
+      <RadioButton fx:id="slot2" layoutX="501.0" layoutY="562.0" mnemonicParsing="false" onAction="#setSlot" text="Choose" toggleGroup="$choice" />
+      <RadioButton fx:id="slot3" layoutX="625.0" layoutY="562.0" mnemonicParsing="false" onAction="#setSlot" text="Choose" toggleGroup="$choice" />
       <Button layoutX="767.0" layoutY="579.0" mnemonicParsing="false" onAction="#confirmSlot" text="Confirm" />
    </children>
 </AnchorPane>

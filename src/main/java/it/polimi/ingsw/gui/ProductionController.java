@@ -38,7 +38,7 @@ public class ProductionController {
     @FXML
     private Label baselabel;
     @FXML
-    private ChoiceBox<String> base1, base2, base3;
+    private ChoiceBox<String> base1, base2, base3, leaderproduction1, leaderproduction2;
     private final ArrayList<String> resources = new ArrayList<String>(Arrays.asList("Coin","Servant","Shield","Stone"));
     private boolean[] production = new boolean[6];
     private String[] res = new String[3];
@@ -84,14 +84,16 @@ public class ProductionController {
         else { production[5] = false; }
     }
 
-    public void setLeaders (int l1, int l2) {
-        if (LastGameStatus.leader1Played || l1 > 60) {
+    public void setLeaders (int l1, int l2, boolean b1, boolean b2) {
+        if (b1 && l1 > 60) {
             prod4.setVisible(true);
-            leader1.setImage(leadercards[l1]);
+            leaderproduction1.setVisible(true);
+            leader1.setImage(leadercards[l1-61]);
         }
-        if (LastGameStatus.leader2Played || l2 > 60) {
+        if (b2 && l2 > 60) {
             prod5.setVisible(true);
-            leader2.setImage(leadercards[l2]);
+            leaderproduction2.setVisible(true);
+            leader2.setImage(leadercards[l2-61]);
         }
     }
 
@@ -115,6 +117,8 @@ public class ProductionController {
         base1.setItems(list);
         base2.setItems(list);
         base3.setItems(list);
+        leaderproduction1.setItems(list);
+        leaderproduction2.setItems(list);
     }
 
     //metodo provvisorio

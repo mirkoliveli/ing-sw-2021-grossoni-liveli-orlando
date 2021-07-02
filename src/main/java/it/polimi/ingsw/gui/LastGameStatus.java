@@ -8,6 +8,8 @@ public class LastGameStatus {
     public static int leader2;
     public static boolean leader1Played;
     public static boolean leader2Played;
+    public static boolean leader1Discarded= false;
+    public static boolean leader2Discarded= false;
     public static int[] strongboxStatus;
     public static int[][] marketBoardStatus;
     public static int sideMarbleStatus;
@@ -24,9 +26,21 @@ public class LastGameStatus {
         LastGameStatus.idPlayer=status.getNextPlayer()-1;
     }
 
+    public static void setLeader1Discarded(boolean leader1Discarded) {
+        LastGameStatus.leader1Discarded = leader1Discarded;
+    }
+
+    public static void setLeader2Discarded(boolean leader2Discarded) {
+        LastGameStatus.leader2Discarded = leader2Discarded;
+    }
+
+    public static void setALeaderToDiscarded( int leader){
+        if(leader==1) setLeader1Discarded(true);
+        if(leader==2) setLeader2Discarded(true);
+    }
 
     public static void update(GameStatusUpdate status){
-
+        setIdPlayer(status);
         LastGameStatus.leader2Played= status.getPlayersStatus()[idPlayer].isSecondLeaderPlayed();
         LastGameStatus.leader1Played= status.getPlayersStatus()[idPlayer].isFirstLeaderPlayed();
         LastGameStatus.leader1=status.getPlayersStatus()[idPlayer].getFirstLeader();
@@ -40,7 +54,7 @@ public class LastGameStatus {
         LastGameStatus.storageState=status.getPlayersStatus()[idPlayer].getStorage().clone();
         LastGameStatus.slotsStatus=status.getPlayersStatus()[idPlayer].getDevelopMentSlots().clone();
         LastGameStatus.cardMarketStatus=status.getMarketsStatus().getCardMarket();
-        LastGameStatus.activatableCards=status.getSpecificPlayerStatus(idPlayer).getActivableCards().clone();
+        LastGameStatus.activatableCards=status.getSpecificPlayerStatus(idPlayer+1).getActivableCards().clone();
     }
 
     /**
@@ -56,6 +70,25 @@ public class LastGameStatus {
             }
         }
         return marketBoard;
+    }
+
+    public static void printEverything(){
+        System.out.println("in print everything");
+
+
+        System.out.println("leader1: " +leader1 + " è giocato? " + leader1Played);
+        System.out.println("leader2: " +leader2 + " è giocato? " + leader2Played);
+        System.out.println("status strongbox: " + ConnectionHandlerForGui.getGson().toJson(strongboxStatus));
+        System.out.println("marketboard status: " + ConnectionHandlerForGui.getGson().toJson(marketBoardStatus));
+        System.out.println("sideMarble: " + sideMarbleStatus);
+        System.out.println("faithtrack progress: " + faithMarkerStatus);
+        System.out.println("popeCards: " + ConnectionHandlerForGui.getGson().toJson(popeCards));
+        System.out.println("victoryPoints: " + victoryPoints);
+        System.out.println("cardMarketStatus: " + ConnectionHandlerForGui.getGson().toJson(cardMarketStatus));
+        System.out.println("storageStatus: " + ConnectionHandlerForGui.getGson().toJson(storageState));
+        System.out.println("slotStatus: " + ConnectionHandlerForGui.getGson().toJson(slotsStatus));
+        System.out.println("Activatable cards: " + ConnectionHandlerForGui.getGson().toJson(activatableCards));
+        System.out.println("idPlayer: " + idPlayer);
     }
 
     /**

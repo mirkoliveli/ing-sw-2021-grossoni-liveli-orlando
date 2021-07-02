@@ -11,8 +11,8 @@
       <ImageView fx:id="leadershown2" fitHeight="280.0" fitWidth="190.0" layoutX="343.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="148.0" layoutY="320.0" text="Leader 1" />
       <Label layoutX="415.0" layoutY="320.0" text="Leader 2" />
-      <Label fx:id="labelleader1" layoutX="147.0" layoutY="337.0" prefHeight="32.0" prefWidth="48.0" text="Available" />
-      <Label fx:id="labelleader2" layoutX="414.0" layoutY="337.0" prefHeight="32.0" prefWidth="48.0" text="Available" />
+      <Label fx:id="labelleader1" alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="337.0" prefHeight="32.0" prefWidth="91.0" text="Available" />
+      <Label fx:id="labelleader2" alignment="CENTER" contentDisplay="CENTER" layoutX="386.0" layoutY="337.0" prefHeight="32.0" prefWidth="106.0" text="Available" />
       <Button layoutX="278.0" layoutY="361.0" mnemonicParsing="false" onAction="#exitWindow" text="Close" />
    </children>
 </AnchorPane>
