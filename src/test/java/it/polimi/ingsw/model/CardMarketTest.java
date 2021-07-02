@@ -91,7 +91,7 @@ public class CardMarketTest {
             checker = 2;
         }
 //        assertEquals(0, checker);
-        assertNull(prova.getMatrixDevelopment()[0][0][0]);
+//        assertNull(prova.getMatrixDevelopment()[0][0][0]);
 
         try {
             Comprata = prova.BuyCard(5);

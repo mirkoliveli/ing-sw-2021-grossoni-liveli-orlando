@@ -6,16 +6,16 @@ public class MarketBoardTest {
 
     //testa sia ConversionToResource sia ConversionToArray
     @Test
-    public void conversioni() {
+    public void convertions() {
         MarketBoard tester = new MarketBoard();
         tester.printBoard();
         System.out.println();
-        System.out.println("Risorse ottenute con conversionToResource:");
+        System.out.println("resources obtained with conversionToResource:");
         tester.printGivenResources(true, 0);
-        System.out.println("Risorse ottenute con ConversionToArray");
+        System.out.println("resources obtained with ConversionToArray");
         int[] temp = tester.ConversionToArray(true, 0);
         for (int i = 0; i < 4; i++) {
-            System.out.println(temp[i] + " risorsa " + (i + 1));
+            System.out.println(temp[i] + " resource " + (i + 1));
         }
         System.out.println("\n");
         tester.printGivenResources(false, 0);
@@ -25,7 +25,7 @@ public class MarketBoardTest {
     public void shuffle() {
         MarketBoard tester = new MarketBoard();
         tester.printBoard();
-        System.out.println("\necco ora la board mescolata\n");
+        System.out.println("\nShuffled board:\n");
         tester.shuffle();
         tester.printBoard();
 

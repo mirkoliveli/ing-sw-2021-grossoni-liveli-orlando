@@ -1,6 +1,6 @@
 # Masters Of Renaissance Board Game
 
-![latest release](https://img.shields.io/github/v/release/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=green)
+![latest release](https://img.shields.io/badge/release-v1.1-green)
 
 <img src="http://www.craniocreations.it/wp-content/uploads/2019/06/Masters-of-Renaissance_box3D_ombra.png" width=192px height=192 px align="right" />
 
@@ -20,6 +20,7 @@ The final version includes:
 * working game implementation, which has to be rules compliant;
 * source code of the implementation;
 * source code of unity tests.
+* javadoc of the entire code.
 ## Find out more
 
 
@@ -102,6 +103,5 @@ java -jar Client.jar
 **draw.io** - UML diagrams
 
 **Intellij IDEA Ultimate** - main IDE 
-
 
 
