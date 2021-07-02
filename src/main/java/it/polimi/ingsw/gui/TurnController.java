@@ -36,14 +36,6 @@ public class TurnController {
     private ImageView board;
     @FXML
     private AnchorPane pane; //850x621
-    @FXML
-    private Circle c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12;
-    Color red = new Color(1.0, 0.0, 0.0, 1.0); //FAITH POINTS
-    Color yellow = new Color(1.0, 1.0, 0.0, 1.0); //COINS
-    Color white = new Color(1.0, 1.0, 1.0, 1.0); //NULL
-    Color blue = new Color(0.0, 1.0, 1.0, 1.0); //SHIELDS
-    Color grey = new Color(0.5, 0.5, 0.5, 1.0); //STONES
-    Color purple = new Color(1.0, 0.0, 1.0, 1.0); //SERVANTS
     private AnchorPane temp;
     private AnchorPane popup;
     @FXML
@@ -70,10 +62,8 @@ public class TurnController {
     public void switchToMarketboard (ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/marketboard.fxml"));
         temp = loader.load();
-        // provvisorio, colors dovrebbe contenere i colori delle biglie di marble market in fila
-        Color[] colors = {red, blue, yellow, purple, red, blue, yellow, purple, red, blue, yellow, grey, grey};
         MarketboardController controller = loader.getController();
-        controller.fillMarbleColors(colors);
+        controller.fillMarbleColors(LastGameStatus.marketBoardStatus, LastGameStatus.sideMarbleStatus);
         pane.getChildren().add(temp);
 
     }
@@ -187,12 +177,8 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menumarketboard.fxml"));
             AnchorPane popup = popupLoader.load();
-
-            // provvisorio, colors dovrebbe contenere i colori delle biglie di marble market in fila
-            Color[] colors = {red, blue, yellow, purple, red, blue, yellow, purple, red, blue, yellow, grey, grey};
             MarketboardController controller = popupLoader.getController();
-            controller.fillMarbleColors(colors);
-
+            controller.fillMarbleColors(LastGameStatus.marketBoardStatus, LastGameStatus.sideMarbleStatus);
             loadPopup(popup, "Market Board");
         }
         catch (Exception e) { System.out.println(e); }
@@ -270,21 +256,6 @@ public class TurnController {
         }
     }
 
-    public void fillMarbleColors(Color[] colors) {
-        c1.setFill(colors[0]);
-        c2.setFill(colors[1]);
-        c3.setFill(colors[2]);
-        c4.setFill(colors[3]);
-        c5.setFill(colors[4]);
-        c6.setFill(colors[5]);
-        c7.setFill(colors[6]);
-        c8.setFill(colors[7]);
-        c9.setFill(colors[8]);
-        c10.setFill(colors[9]);
-        c11.setFill(colors[10]);
-        c12.setFill(colors[11]);
-    }
-
     public void setStorage(int[][] sto) {
         if (sto[0][0] != 0) {
             if (sto[0][1] > 0) { setResourceInStorage(img1, sto[0][0]); }
@@ -325,8 +296,6 @@ public class TurnController {
         shieldslabel.setText("x" + box[2]);
         stoneslabel.setText("x" + box[3]);
     }
-
-
 
     public void actionDone() {
         cmbutton.setDisable(true);

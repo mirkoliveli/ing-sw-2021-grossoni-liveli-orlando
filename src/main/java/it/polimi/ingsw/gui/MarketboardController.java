@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -36,8 +35,6 @@ public class MarketboardController extends AnchorPane {
     private Circle c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13;
     @FXML
     private RadioButton row1, row2, row3, column1, column2, column3, column4;
-    @FXML
-    private AnchorPane background;
     @FXML
     private AnchorPane pane; //850x621
     @FXML
@@ -64,46 +61,40 @@ public class MarketboardController extends AnchorPane {
         stage.show();
     }
 
-
-
-
-
-    //metodo da modificare
-    public void fill() {
-        background.setStyle("-fx-background-color: #000000");
-        c1.setFill(red);
-        c2.setFill(blue);
-        c3.setFill(yellow);
-        c4.setFill(grey);
-        c5.setFill(white);
-        c6.setFill(white);
-        c7.setFill(white);
-        c8.setFill(white);
-        c9.setFill(purple);
-        c10.setFill(purple);
-        c11.setFill(red);
-        c12.setFill(red);
-        c13.setFill(grey);
+    public void fillMarbleColors(int[][] colors, int slide) {
+        c1.setFill(intToColor(colors[0][0]));
+        c2.setFill(intToColor(colors[0][1]));
+        c3.setFill(intToColor(colors[0][2]));
+        c4.setFill(intToColor(colors[0][3]));
+        c5.setFill(intToColor(colors[1][0]));
+        c6.setFill(intToColor(colors[1][1]));
+        c7.setFill(intToColor(colors[1][2]));
+        c8.setFill(intToColor(colors[1][3]));
+        c9.setFill(intToColor(colors[2][0]));
+        c10.setFill(intToColor(colors[2][1]));
+        c11.setFill(intToColor(colors[2][2]));
+        c12.setFill(intToColor(colors[2][3]));
+        if (c13 != null) { c13.setFill(intToColor(slide)); }
     }
 
-    public void fillMarbleColors(Color[] colors) {
-        c1.setFill(colors[0]);
-        c2.setFill(colors[1]);
-        c3.setFill(colors[2]);
-        c4.setFill(colors[3]);
-        c5.setFill(colors[4]);
-        c6.setFill(colors[5]);
-        c7.setFill(colors[6]);
-        c8.setFill(colors[7]);
-        c9.setFill(colors[8]);
-        c10.setFill(colors[9]);
-        c11.setFill(colors[10]);
-        c12.setFill(colors[11]);
-        if (c13 != null) { c13.setFill(colors[12]); }
+    public Color intToColor(int n) {
+        switch (n) {
+            case 0:
+                return yellow;
+            case 1:
+                return purple;
+            case 2:
+                return blue;
+            case 3:
+                return grey;
+            case 4:
+                return red;
+            default:
+                return white;
+        }
     }
 
 
-    //per ora stampa la scelta e basta, da modificare
     public void getChoice(ActionEvent event) {
         if (row1.isSelected()) { line=1; rowcolumn=false; }
         if (row2.isSelected()) { line=2; rowcolumn=false; }
