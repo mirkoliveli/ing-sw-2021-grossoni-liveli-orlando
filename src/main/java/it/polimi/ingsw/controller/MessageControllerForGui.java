@@ -4,6 +4,7 @@ import it.polimi.ingsw.gui.ConnectionHandlerForGui;
 import it.polimi.ingsw.gui.LastGameStatus;
 import it.polimi.ingsw.gui.TurnController;
 import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.TypeOfAction;
 
 import java.io.IOException;
 
@@ -28,6 +29,20 @@ public class MessageControllerForGui extends Thread{
             } while (!message.contains("BEGIN_TURN"));
             System.out.println(ConnectionHandlerForGui.getGson().toJson(message));
             sendUpdate(message);
+
+            //DEBUG INIZIO
+            ActionMessage action=new ActionMessage(TypeOfAction.DEBUG_MODE);
+            ConnectionHandlerForGui.sendMessage(action);
+            try{
+                message = ConnectionHandlerForGui.getMessage();
+                System.out.println(ConnectionHandlerForGui.getGson().toJson(message));
+                GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(message, GameStatusUpdate.class);
+                LastGameStatus.update(status);
+            }catch (IOException e){
+                System.out.println("disconnected");
+                System.exit(1);
+            }
+            //DEBUG FINE
             ConnectionHandlerForGui.setIsItMyTurn(true);
             //notify in some way the gui?
             sleeping(3000);

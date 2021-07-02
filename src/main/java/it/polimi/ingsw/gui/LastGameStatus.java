@@ -105,7 +105,7 @@ public class LastGameStatus {
     public static int convertMarble(MarbleColor ball){
         switch(ball){
             case red:
-                 return 4;
+                return 4;
             case blue:
                 return 2;
             case grey:

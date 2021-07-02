@@ -1,7 +1,9 @@
 package it.polimi.ingsw.gui;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.controller.GameStatusUpdate;
 import it.polimi.ingsw.messages.ActionMessage;
+import it.polimi.ingsw.messages.BuyACardActionMessage;
 import it.polimi.ingsw.messages.TypeOfAction;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -19,6 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class CardMarketController {
     private Stage stage;
@@ -179,12 +183,43 @@ public class CardMarketController {
     }
 
     public void confirm(ActionEvent event) {
-
+        boolean actuallyDone=false;
 
         ActionMessage action=new ActionMessage(TypeOfAction.BUY_A_CARD);
         action.BuyCard(cardsinmarket[cardchosx][cardchosy]);
-        Gson gson=new Gson();
-        ConnectionHandlerForGui.sendMessage(gson.toJson(action));
+        ConnectionHandlerForGui.sendMessage(ConnectionHandlerForGui.getGson().toJson(action));
+        try{
+            String messageFromServer = ConnectionHandlerForGui.getMessage();
+            System.out.println(messageFromServer);
+            if(messageFromServer.contains("UNAVAILABLE_ACTION")){
+                System.out.println("cannot buy card");
+                //update necessary
+                actuallyDone=false;
+
+                //azione viene abortita
+
+            }
+            else{
+                System.out.println("choose a slot");
+                BuyACardActionMessage nextChoice=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, BuyACardActionMessage.class);
+                System.out.println("messaggio arrivato");
+                //seleziono lo slot in cui inserirla
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choosecardslot.fxml"));
+                AnchorPane temp = loader.load();
+                CardMarketController controller = loader.getController();
+                controller.legalSlots(ConnectionHandlerForGui.getGson().fromJson(nextChoice.getObjectToSend(), boolean[].class));
+                pane.getChildren().add(temp);
+                actuallyDone=true;
+            }
+
+            messageFromServer=ConnectionHandlerForGui.getMessage();
+            GameStatusUpdate status=ConnectionHandlerForGui.getGson().fromJson(messageFromServer, GameStatusUpdate.class);
+            LastGameStatus.update(status);
+        }catch (IOException e){
+            System.out.println("disconnected, quitting...");
+            System.exit(1);
+        }
+
 
 
 
@@ -193,7 +228,7 @@ public class CardMarketController {
             root = loader.load();
 
             TurnController controller = loader.getController();
-            controller.actionDone();
+            if(actuallyDone) controller.actionDone();
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
