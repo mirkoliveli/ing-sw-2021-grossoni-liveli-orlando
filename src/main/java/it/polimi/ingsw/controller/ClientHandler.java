@@ -284,7 +284,7 @@ public class ClientHandler extends Thread {
             gains[selections[5]-1]++;
             gains[4]++;
         }
-        //selection [6] contiene selezione sul leader 1, ossia la risorsa che si vuole ottenere
+        //selection [6] contiene selezione sul leader 2, ossia la risorsa che si vuole ottenere
         if(selections[6]>0 && productionIsUsable[5] && StaticMethods.numBetween1and4(selections[6])){
             cost[StaticMethods.TypeOfResourceToInt(match.getPlayers().get(idPlayer-1).getLeaderCard2().getPower())]++;
             gains[selections[6]-1]++;

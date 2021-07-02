@@ -201,5 +201,20 @@ public class ConnectionHandlerForGui {
         }
     }
 
+    public static int fromStringToIntResource(String resource){
+        switch(resource){
+            case "Coin":
+                return 1;
+            case "Servant":
+                return 2;
+            case "Shield":
+                return 3;
+            case "Stone":
+                return 4;
+            default:
+                return 0;
+        }
+    }
+
 
 }
