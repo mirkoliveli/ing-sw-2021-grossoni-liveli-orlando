@@ -88,7 +88,6 @@
       <ImageView fx:id="img5" fitHeight="113.0" fitWidth="93.0" layoutX="381.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="img4" fitHeight="113.0" fitWidth="93.0" layoutX="288.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="img6" fitHeight="113.0" fitWidth="93.0" layoutX="474.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="665.0" layoutY="76.0" mnemonicParsing="false" onAction="#fill" text="Fill" />
       <Label fx:id="title" alignment="CENTER" layoutX="125.0" layoutY="31.0" prefHeight="30.0" prefWidth="600.0" text="Select the depots you want to swap:" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="20.0" />

@@ -41,14 +41,38 @@ public class SwapDepotsController implements Initializable {
 
 
 
-    public void fill(ActionEvent event) {
-        img1.setImage(coins);
-        img2.setImage(shields);
-        img3.setImage(shields);
-        img4.setImage(stones);
-        img5.setImage(stones);
-        img6.setImage(servants);
+    public void setStorage(int[][] sto) {
+        if (sto[0][0] != 0) {
+            if (sto[0][1] > 0) { setResourceInStorage(img1, sto[0][0]); }
+        }
+        if (sto[1][0] != 0) {
+            if (sto[1][1] > 0) { setResourceInStorage(img2, sto[1][0]); }
+            if (sto[1][1] > 1) { setResourceInStorage(img3, sto[1][0]); }
+        }
+        if (sto[2][0] != 0) {
+            if (sto[2][1] > 0) { setResourceInStorage(img4, sto[2][0]); }
+            if (sto[2][1] > 1) { setResourceInStorage(img5, sto[2][0]); }
+            if (sto[2][1] > 2) { setResourceInStorage(img6, sto[2][0]); }
+        }
+    }
 
+    public void setResourceInStorage(ImageView place, int type) {
+        switch (type) {
+            case 1:
+                place.setImage(coins);
+                break;
+            case 2:
+                place.setImage(servants);
+                break;
+            case 3:
+                place.setImage(shields);
+                break;
+            case 4:
+                place.setImage(stones);
+                break;
+            default:
+                break;
+        }
     }
 
     public void confirm(ActionEvent event) {
