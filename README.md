@@ -64,12 +64,24 @@ Run:
 ```
 java -jar Server.jar
 ```
+The server will be open on port 1234
+###Client
 
-#### Client
+The Linux version presents a coloured text
+The Windows version presents only white.
+Both versions work correctly.
 
-Run:
+
+#### Client-Linux
+From the directory where the jar file is located, launch the following command:
 ```
-java -jar Client.jar
+java -jar ClientLinux.jar
+````
+
+#### Client-Windows
+From the directory where the jar file is located, launch the following command:
+```
+java -jar ClientWindows.jar
 ````
 
 [comment]: <> (## Test cases)
