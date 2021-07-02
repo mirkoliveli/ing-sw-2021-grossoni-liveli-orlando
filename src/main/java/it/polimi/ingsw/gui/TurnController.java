@@ -58,31 +58,16 @@ public class TurnController {
     Image stones = new Image("/img/punchboard/stone2.png");
 
     public void switchToProduction(ActionEvent event) throws Exception {
-        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/production.fxml"));
-        root = loader.load();
-        Image image = new Image("img/board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
-        ProductionController sceneController = loader.getController();
-        sceneController.setImage(image);
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/production.fxml"));
-        // lanciare setProductionCards e eventualmente setLeaders in base alle carte possedute
         temp = loader.load();
         ProductionController controller = loader.getController();
         controller.fillBaseProd();
+        controller.setProductionCards(LastGameStatus.activatableCards);
+        controller.setLeaders(LastGameStatus.leader1, LastGameStatus.leader2);
         pane.getChildren().add(temp);
     }
 
     public void switchToMarketboard (ActionEvent event) throws Exception {
-        /*root = FXMLLoader.load(getClass().getResource("/fxml/marketboard.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/marketboard.fxml"));
         temp = loader.load();
         // provvisorio, colors dovrebbe contenere i colori delle biglie di marble market in fila
@@ -94,13 +79,6 @@ public class TurnController {
     }
 
     public void switchToSwapDepots(ActionEvent event) throws Exception {
-
-        /*root = FXMLLoader.load(getClass().getResource("/fxml/swapdepots.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/swapdepots.fxml"));
         temp = loader.load();
         if (finishbutton.isVisible()) {
@@ -117,8 +95,7 @@ public class TurnController {
         temp = loader.load();
         PlayLeaderController controller = loader.getController();
 
-        // provvisorio, setLeaders viene lanciato con gli ID dei leader del giocatore attivo
-        controller.setLeaders(51, 53, true, false);
+        controller.setLeaders(LastGameStatus.leader1, LastGameStatus.leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played);
 
         if (finishbutton.isVisible()) {
             controller.setExtra(true);
@@ -127,20 +104,10 @@ public class TurnController {
     }
 
     public void switchToCardMarket(ActionEvent event) throws Exception {
-        /*root = FXMLLoader.load(getClass().getResource("/fxml/cardmarket.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/cardmarket.fxml"));
         temp = loader.load();
-
-        // provvisorio, cards dovrebbe contenere le carte nel mercato in base allo stato della partita
-        int[] cards = {33, 35, 36, 34, 17, 19, 20, 18, 1, 3, 4, 2};
-
         CardMarketController cardmarketcontroller = loader.getController();
-        cardmarketcontroller.fill(cards);
+        cardmarketcontroller.fill(LastGameStatus.cardMarketStatus);
 
         pane.getChildren().add(temp);
 
@@ -183,28 +150,18 @@ public class TurnController {
         pane.getChildren().remove(temp);
     }
 
-    //non funziona il setter delle immagini leader (nullPointerException sulle due imageview)
     public void showleaders(ActionEvent event) {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menuleaders.fxml"));
             AnchorPane popup = popupLoader.load();
 
-            // provvisorio, leader1 e leader2 saranno i leader posseduti dal giocatore attivo
-            Image leader1 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png");
-            Image leader2 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png");
+            Image leader1 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + LastGameStatus.leader1 + "-1.png");
+            Image leader2 = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + LastGameStatus.leader2 + "-1.png");
             TurnController controller = popupLoader.getController();
-            controller.setLeaders(leader1, leader2);
+            controller.setLeaders(leader1, leader2, LastGameStatus.leader1Played, LastGameStatus.leader2Played);
 
             loadPopup(popup, "Leader Cards");
 
-            /*Scene popupScene = new Scene(popup);
-            Stage popupStage = new Stage();
-            popupStage.setScene(popupScene);
-            Image icon = new Image("/img/punchboard/retro cerchi.png");
-            popupStage.getIcons().add(icon);
-            popupStage.setTitle("Leader Cards");
-            popupStage.setResizable(false);
-            popupStage.show();*/
         }
         catch (Exception e) { System.out.println(e); }
     }
@@ -244,12 +201,8 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menucardmarket.fxml"));
             AnchorPane popup = popupLoader.load();
-
-            // provvisorio, cards dovrebbe contenere le carte nel mercato in base allo stato della partita
-            int[] cards = {33, 35, 36, 34, 17, 19, 20, 18, 1, 3, 4, 2};
-
             CardMarketController cardmarketcontroller = popupLoader.getController();
-            cardmarketcontroller.fill(cards);
+            cardmarketcontroller.fill(LastGameStatus.cardMarketStatus);
             loadPopup(popup, "Card Market");
         }
         catch (Exception e) { System.out.println(e); }
@@ -259,7 +212,7 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menuboard.fxml"));
             AnchorPane popup = popupLoader.load();
-            // lanciare setProductionCards in base alle carte possedute
+            setProductionCards(LastGameStatus.activatableCards);
             loadPopup(popup, "Your Board");
         }
         catch (Exception e) { System.out.println(e); }
@@ -269,16 +222,21 @@ public class TurnController {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/menufaithtrack.fxml"));
             AnchorPane popup = popupLoader.load();
-            // manca il metodo per settare i punti vittoria
+            FaithTrackController controller = popupLoader.load();
+            controller.increasePosition(LastGameStatus.faithMarkerStatus);
+            controller.setPoints(LastGameStatus.victoryPoints);
+            controller.setBonuses(LastGameStatus.popeCards);
             loadPopup(popup, "Your Faith Track");
         }
         catch (Exception e) { System.out.println(e); }
 
     }
 
-    public void setLeaders(Image img1, Image img2) {
+    public void setLeaders(Image img1, Image img2, boolean isplayed1, boolean isplayed2) {
         leadershown1.setImage(img1);
         leadershown2.setImage(img2);
+        if (isplayed1) { labelleader1.setText("Played/Discarded"); }
+        if (isplayed2) { labelleader2.setText("Played/Discarded"); }
     }
 
     public void setBoard(Image img) {
@@ -296,17 +254,17 @@ public class TurnController {
         popupStage.show();
     }
 
-    public void setProductionCards(int c1, int c2, int c3) {
-        if (c1 != 0) {
-            Image firstcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c1 + "-1.png");
+    public void setProductionCards(int[] activatable) {
+        if (activatable[0] != 0) {
+            Image firstcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + activatable[0] + "-1.png");
             card1.setImage(firstcard);
         }
-        if (c2 != 0) {
-            Image secondcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c2 + "-1.png");
+        if (activatable[1] != 0) {
+            Image secondcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + activatable[1] + "-1.png");
             card2.setImage(secondcard);
         }
-        if (c3 != 0) {
-            Image thirdcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c3 + "-1.png");
+        if (activatable[2] != 0) {
+            Image thirdcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + activatable[2] + "-1.png");
             card3.setImage(thirdcard);
         }
     }

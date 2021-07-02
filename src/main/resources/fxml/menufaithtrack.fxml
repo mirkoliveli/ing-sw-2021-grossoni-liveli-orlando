@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -20,7 +19,6 @@
             <Image url="@../img/extra/redcross.png" />
          </image>
       </ImageView>
-      <Button layoutX="462.0" layoutY="138.0" mnemonicParsing="false" onAction="#increasePosition" prefHeight="17.0" prefWidth="110.0" text="IncreasePosition" />
       <ImageView fx:id="bonus1" fitHeight="40.0" fitWidth="40.0" layoutX="151.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="bonus2" fitHeight="40.0" fitWidth="36.0" layoutX="290.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="bonus3" fitHeight="42.0" fitWidth="40.0" layoutX="452.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" />

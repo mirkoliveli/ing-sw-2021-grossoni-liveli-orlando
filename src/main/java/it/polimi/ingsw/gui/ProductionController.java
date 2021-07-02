@@ -84,30 +84,28 @@ public class ProductionController {
         else { production[5] = false; }
     }
 
-
-    public void setLeaders(int l1) {
-        prod4.setVisible(true);
-        leader1.setImage(leadercards[l1]);
-    }
-
     public void setLeaders (int l1, int l2) {
-        prod4.setVisible(true);
-        prod5.setVisible(true);
-        leader1.setImage(leadercards[l1]);
-        leader2.setImage(leadercards[l2]);
+        if (LastGameStatus.leader1Played || l1 > 60) {
+            prod4.setVisible(true);
+            leader1.setImage(leadercards[l1]);
+        }
+        if (LastGameStatus.leader2Played || l2 > 60) {
+            prod5.setVisible(true);
+            leader2.setImage(leadercards[l2]);
+        }
     }
 
-    public void setProductionCards(int c1, int c2, int c3) {
-        if (c1 != 0) {
-            Image firstcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c1 + "-1.png");
+    public void setProductionCards(int[] activatable) {
+        if (activatable[0] != 0) {
+            Image firstcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + activatable[0] + "-1.png");
             card1.setImage(firstcard);
         }
-        if (c2 != 0) {
-            Image secondcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c2 + "-1.png");
+        if (activatable[1] != 0) {
+            Image secondcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + activatable[1] + "-1.png");
             card2.setImage(secondcard);
         }
-        if (c3 != 0) {
-            Image thirdcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + c3 + "-1.png");
+        if (activatable[2] != 0) {
+            Image thirdcard = new Image("/img/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-" + activatable[2] + "-1.png");
             card3.setImage(thirdcard);
         }
     }

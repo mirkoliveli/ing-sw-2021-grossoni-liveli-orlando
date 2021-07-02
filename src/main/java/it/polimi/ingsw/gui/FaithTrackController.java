@@ -22,33 +22,33 @@ public class FaithTrackController implements Initializable {
     @FXML
     private ImageView bonus1, bonus2, bonus3;
 
-    public void increasePosition(ActionEvent event){
-        if (position == 9 || position == 10) { y+=27.3; cross.setY(y); }
-        else if (position == 2 || position == 3 || position == 16 || position == 17) { y-=27.3; cross.setY(y); }
-        else { x+=27.3; cross.setX(x); }
-        position++;
+    public void increasePosition(int faithmarker){
+        while (faithmarker > 0) {
+            if (position == 9 || position == 10) { y+=27.3; cross.setY(y); }
+            else if (position == 2 || position == 3 || position == 16 || position == 17) { y-=27.3; cross.setY(y); }
+            else { x+=27.3; cross.setX(x); }
+            position++;
+            faithmarker--;
+        }
     }
 
     public void setPoints(int p) { points.setText(Integer.toString(p)); }
 
-    public void assignBonus(int b) {
-        switch (b) {
-            case 1:
-                Image b1 = new Image("/img/punchboard/pope_favor1_front.png");
-                bonus1.setImage(b1);
-                break;
-            case 2:
-                Image b2 = new Image("/img/punchboard/pope_favor2_front.png");
-                bonus2.setImage(b2);
-                break;
-            case 3:
-                Image b3 = new Image("/img/punchboard/pope_favor3_front.png");
-                bonus3.setImage(b3);
-                break;
-            default:
-                System.out.println("Something's wrong :/");
+    public void setBonuses(boolean[] bonus) {
+        if (bonus[0]) {
+            Image b1 = new Image("/img/punchboard/pope_favor1_front.png");
+            bonus1.setImage(b1);
+        }
+        if (bonus[1]) {
+            Image b2 = new Image("/img/punchboard/pope_favor2_front.png");
+            bonus2.setImage(b2);
+        }
+        if (bonus[2]) {
+            Image b3 = new Image("/img/punchboard/pope_favor3_front.png");
+            bonus3.setImage(b3);
         }
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

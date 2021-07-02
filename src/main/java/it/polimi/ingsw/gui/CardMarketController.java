@@ -35,8 +35,8 @@ public class CardMarketController {
     private RadioButton slot1, slot2, slot3;
     @FXML
     private Label slotlabel;
-    private int[] cardsinmarket;
-    private int cardchosen;
+    private int[][] cardsinmarket;
+    private int cardchosx, cardchosy;
 
     // vanno caricate card1, card2 e card3 in base alle carte possedute sulla board
     @FXML
@@ -100,14 +100,6 @@ public class CardMarketController {
         stage.setScene(scene);
         stage.show();
 
-
-        /*
-        // non funziona, a runtime controller è null
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/turnaction.fxml"));
-        TurnController controller = loader.getController();
-        controller.removePane();
-        */
-
     }
 
 
@@ -115,20 +107,20 @@ public class CardMarketController {
      * this methods fills the available cards in the market using an array of card IDs in the correct order
      * @param available
      */
-    public void fill(int[] available) {
+    public void fill(int[][] available) {
         cardsinmarket = available;
-        img1.setImage(cards[available[0]-1]);
-        img2.setImage(cards[available[1]-1]);
-        img3.setImage(cards[available[2]-1]);
-        img4.setImage(cards[available[3]-1]);
-        img5.setImage(cards[available[4]-1]);
-        img6.setImage(cards[available[5]-1]);
-        img7.setImage(cards[available[6]-1]);
-        img8.setImage(cards[available[7]-1]);
-        img9.setImage(cards[available[8]-1]);
-        img10.setImage(cards[available[9]-1]);
-        img11.setImage(cards[available[10]-1]);
-        img12.setImage(cards[available[11]-1]);
+        img1.setImage(cards[available[2][0]-1]); //green lv3
+        img2.setImage(cards[available[2][2]-1]); //blue lv3
+        img3.setImage(cards[available[2][3]-1]); //yellow lv3
+        img4.setImage(cards[available[2][1]-1]); //purple lv3
+        img5.setImage(cards[available[1][0]-1]); //green lv2
+        img6.setImage(cards[available[1][2]-1]); //blue lv2
+        img7.setImage(cards[available[1][3]-1]); //yellow lv2
+        img8.setImage(cards[available[1][1]-1]); //purple lv2
+        img9.setImage(cards[available[0][0]-1]); //green lv1
+        img10.setImage(cards[available[0][2]-1]); //blue lv1
+        img11.setImage(cards[available[0][3]-1]); //yellow lv1
+        img12.setImage(cards[available[0][1]-1]); //purple lv1
     }
 
     /**
@@ -154,18 +146,18 @@ public class CardMarketController {
             scale.jumpTo(Duration.ZERO);
             scale.stop();
         }
-        if (rad1.isSelected()) { zoom(img1, rad1); cardchosen=0; }
-        if (rad2.isSelected()) { zoom(img2, rad2); cardchosen=1; }
-        if (rad3.isSelected()) { zoom(img3, rad3); cardchosen=2; }
-        if (rad4.isSelected()) { zoom(img4, rad4); cardchosen=3; }
-        if (rad5.isSelected()) { zoom(img5, rad5); cardchosen=4; }
-        if (rad6.isSelected()) { zoom(img6, rad6); cardchosen=5; }
-        if (rad7.isSelected()) { zoom(img7, rad7); cardchosen=6; }
-        if (rad8.isSelected()) { zoom(img8, rad8); cardchosen=7; }
-        if (rad9.isSelected()) { zoom(img9, rad9); cardchosen=8; }
-        if (rad10.isSelected()) { zoom(img10, rad10); cardchosen=9; }
-        if (rad11.isSelected()) { zoom(img11, rad11); cardchosen=10; }
-        if (rad12.isSelected()) { zoom(img12, rad12); cardchosen=11; }
+        if (rad1.isSelected()) { zoom(img1, rad1); cardchosx=2; cardchosy=0; }
+        if (rad2.isSelected()) { zoom(img2, rad2); cardchosx=2; cardchosy=2; }
+        if (rad3.isSelected()) { zoom(img3, rad3); cardchosx=2; cardchosy=3; }
+        if (rad4.isSelected()) { zoom(img4, rad4); cardchosx=2; cardchosy=1; }
+        if (rad5.isSelected()) { zoom(img5, rad5); cardchosx=1; cardchosy=0; }
+        if (rad6.isSelected()) { zoom(img6, rad6); cardchosx=1; cardchosy=2; }
+        if (rad7.isSelected()) { zoom(img7, rad7); cardchosx=1; cardchosy=3; }
+        if (rad8.isSelected()) { zoom(img8, rad8); cardchosx=1; cardchosy=1; }
+        if (rad9.isSelected()) { zoom(img9, rad9); cardchosx=0; cardchosy=0; }
+        if (rad10.isSelected()) { zoom(img10, rad10); cardchosx=0; cardchosy=2; }
+        if (rad11.isSelected()) { zoom(img11, rad11); cardchosx=0; cardchosy=3; }
+        if (rad12.isSelected()) { zoom(img12, rad12); cardchosx=0; cardchosy=1; }
     }
 
     public void setSlot(ActionEvent event) {
@@ -178,7 +170,7 @@ public class CardMarketController {
 
 
         ActionMessage action=new ActionMessage(TypeOfAction.BUY_A_CARD);
-        action.BuyCard(cardsinmarket[cardchosen]);
+        action.BuyCard(cardsinmarket[cardchosx][cardchosy]);
         Gson gson=new Gson();
         ConnectionHandlerForGui.sendMessage(gson.toJson(action));
 

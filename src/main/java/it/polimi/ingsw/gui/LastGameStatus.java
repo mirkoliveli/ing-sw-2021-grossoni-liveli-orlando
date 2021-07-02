@@ -17,6 +17,7 @@ public class LastGameStatus {
     public static int[][] cardMarketStatus;
     public static int[][] storageState;
     public static int[][] slotsStatus;
+    public static int[] activatableCards;
     public static int idPlayer;
 
     public static void setIdPlayer(GameStatusUpdate status){
@@ -39,7 +40,7 @@ public class LastGameStatus {
         LastGameStatus.storageState=status.getPlayersStatus()[idPlayer].getStorage().clone();
         LastGameStatus.slotsStatus=status.getPlayersStatus()[idPlayer].getDevelopMentSlots().clone();
         LastGameStatus.cardMarketStatus=status.getMarketsStatus().getCardMarket();
-
+        LastGameStatus.activatableCards=status.getSpecificPlayerStatus(idPlayer).getActivableCards().clone();
     }
 
     /**
