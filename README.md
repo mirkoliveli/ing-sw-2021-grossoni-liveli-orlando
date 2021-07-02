@@ -97,8 +97,6 @@ java -jar ClientColoured.jar
 
 [comment]: <> (| Controller | Controller | 50/54 &#40;92%&#41;)
 
-[comment]: <> (| Controller | GodSelectionController | 42/47 &#40;89%&#41;)
-
 [comment]: <> (| Controller | TurnControllerTest | 100/140 &#40;71%&#41;)
 
 [comment]: <> (| Model | Global Package | 667/710 &#40;93%&#41;)
