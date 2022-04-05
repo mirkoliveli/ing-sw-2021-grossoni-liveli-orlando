@@ -4,7 +4,7 @@
 
 <img src="http://www.craniocreations.it/wp-content/uploads/2019/06/Masters-of-Renaissance_box3D_ombra.png" width=192px height=192 px align="right" />
 
-Masters Of Renaissance Board Game is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at Politecnico di Milano (2020/2021).
+Masters Of Renaissance Board Game is the final test of **"Software Engineering"**, course of **"Computer Science Engineering"** held at [Politecnico di Milano](https://www.polimi.it/) (2020/2021).
 
 **Teacher** Pierluigi San Pietro
 
