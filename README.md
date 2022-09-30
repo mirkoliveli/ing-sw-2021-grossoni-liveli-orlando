@@ -21,31 +21,29 @@ The final version includes:
 * source code of the implementation;
 * source code of unity tests.
 * javadoc of the entire code.
-## Find out more
-
 
 
 ## Implemented Functionalities
 | Functionality | Status |
 |:-----------------------|:------------------------------------:|
-| Basic rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
-| Complete rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
-| Socket |[![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
-| CLI |[![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
-| GUI | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
-| Multiple games | [![RED](http://placehold.it/15/f03c15/f03c15)]()|
-| Local Single Player | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
-| Persistence | [![RED](http://placehold.it/15/f03c15/f03c15)]() |
-| Cheats Functions | [![GREEN](http://placehold.it/15/44bb44/44bb44)]() |
+| Basic rules | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
+| Complete rules | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
+| Socket |[![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
+| CLI |[![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
+| GUI | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
+| Multiple games | [![RED](https://img.shields.io/badge/%20%20%20-%20-red)]()|
+| Local Single Player | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
+| Persistence | [![RED](https://img.shields.io/badge/%20%20%20-%20-red)]() |
+| Cheats Functions | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
 
 #### Legend
-[![RED](http://placehold.it/15/f03c15/f03c15)]() Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)]() Implementing&nbsp;&nbsp;&nbsp;&nbsp;[![GREEN](http://placehold.it/15/44bb44/44bb44)]() Implemented
+[![RED](https://img.shields.io/badge/%20%20%20-%20-red)]() Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;[![YELLOW](https://img.shields.io/badge/%20%20%20-%20-yellow)]() Implementing&nbsp;&nbsp;&nbsp;&nbsp;[![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() Implemented
 
 
 <!--
 [![RED](http://placehold.it/15/f03c15/f03c15)](#)
-[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)
-[![GREEN](http://placehold.it/15/44bb44/44bb44)](#)
+[![YELLOW](https://img.shields.io/badge/%20%20%20-%20-yellow)](#)
+[![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)](#)
 -->
 
 ### Build instructions
