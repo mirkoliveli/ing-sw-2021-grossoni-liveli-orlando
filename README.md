@@ -25,20 +25,21 @@ The final version includes:
 
 
 ## Implemented Functionalities
-| Functionality | Status |
-|:-----------------------|:------------------------------------:|
-| Basic rules | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
-| Complete rules | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
-| Socket |[![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
-| CLI |[![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
-| GUI | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
-| Multiple games | [![RED](https://img.shields.io/badge/%20%20%20-%20-red)]()|
-| Local Single Player | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
-| Persistence | [![RED](https://img.shields.io/badge/%20%20%20-%20-red)]() |
-| Cheats Functions | [![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() |
+| Functionality |                                 Status                                  |
+|:-----------------------|:-----------------------------------------------------------------------:|
+| Basic rules |                                   🟩                                    |
+| Complete rules |                                   🟩                                    |
+| Socket |                                   🟩                                    |
+| CLI |                                   🟩                                    |
+| GUI |                                    🟩                                     |
+| Multiple games |                                   🟥                                    |
+| Local Single Player | 🟩 |
+| Persistence |                                   🟥                                    |
+| Cheats Functions | 🟩 |
 
 #### Legend
-[![RED](https://img.shields.io/badge/%20%20%20-%20-red)]() Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;[![YELLOW](https://img.shields.io/badge/%20%20%20-%20-yellow)]() Implementing&nbsp;&nbsp;&nbsp;&nbsp;[![GREEN](https://img.shields.io/badge/%20%20%20%20-%20%20%20-green)]() Implemented
+🟥 Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;🟨 Implementing&nbsp;&nbsp;&nbsp;&nbsp;🟩 Implemented
+
 
 
 <!--
@@ -124,3 +125,4 @@ you have to import javafx modules in 'YOURPATH' , then launch with the command a
 **Intellij IDEA Ultimate** - main IDE 
 
 
+[RED]: https://img.shields.io/badge/%20%20%20-%20-red
